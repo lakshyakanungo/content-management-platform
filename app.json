@@ -1,5 +1,5 @@
 {
-  "name": "wheel",
+  "name": "scribble",
   "scripts": {
     "postdeploy": "bundle exec rake db:migrate"
   },
