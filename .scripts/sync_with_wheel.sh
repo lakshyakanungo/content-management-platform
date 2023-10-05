@@ -1,5 +1,5 @@
 # For executing this script, run the following from your terminal:
-# curl -s -L "https://raw.githubusercontent.com/bigbinary/wheel/master/.scripts/sync_with_wheel.sh" | bash
+# curl -s -L "https://raw.githubusercontent.com/bigbinary/scribble/master/.scripts/sync_with_scribble.sh" | bash
 yarn remove babel-eslint 2> /dev/null
 yarn add -D @babel/eslint-parser
 yarn add -D prettier
@@ -15,7 +15,7 @@ eslint-plugin-jam3 \
 eslint-plugin-unused-imports \
 prettier-plugin-tailwindcss
 
-raw_base_url="https://raw.githubusercontent.com/bigbinary/wheel/main"
+raw_base_url="https://raw.githubusercontent.com/bigbinary/scribble/main"
 declare -a configs=(
   ".eslintrc.js"
   ".eslintignore"

@@ -6,9 +6,9 @@ default: &default
 
 development:
   <<: *default
-  database: wheel_development
+  database: scribble_development
 
 test:
   <<: *default
   user: postgres
-  database: wheel_test<%= ENV['CIRCLE_NODE_INDEX'] %>
+  database: scribble_test<%= ENV['CIRCLE_NODE_INDEX'] %>
