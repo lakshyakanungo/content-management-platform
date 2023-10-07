@@ -1,18 +1,45 @@
 import React, { useState } from "react";
 
+import Columns from "@bigbinary/neeto-molecules/Columns";
 import Header from "@bigbinary/neeto-molecules/Header";
+import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import SubHeader from "@bigbinary/neeto-molecules/SubHeader";
 import { Delete } from "neetoicons";
-import { Button } from "neetoui";
+import { Dropdown, Button } from "neetoui";
 
 import EmptyState from "components/commons/EmptyState";
 import Container from "neetomolecules/Container";
 
-const ArticlePage = ({ isMenuOpen, setIsMenuOpen }) => {
-  const [articles, setArticles] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+import {
+  ARTICLES_TABLE_ROW_DATA,
+  ARTICLES_TABLE_COLUMN_DATA,
+} from "./constants";
+import Table from "./Table";
 
-  setArticles;
+const ArticlePage = ({ isMenuOpen, setIsMenuOpen }) => {
+  const [loading, setLoading] = useState(false);
+  const [articles, setArticles] = useState(ARTICLES_TABLE_ROW_DATA);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedArticleIds, setSelectedArticleIds] = useState([]);
+  const [columns, setColumns] = useState(ARTICLES_TABLE_COLUMN_DATA);
+
+  const { Menu, MenuItem } = Dropdown;
+
+  const fetchArticles = async () => {
+    try {
+      setLoading(true);
+      setArticles;
+      // API call
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   return (
     <Container>
@@ -21,7 +48,7 @@ const ArticlePage = ({ isMenuOpen, setIsMenuOpen }) => {
         actionBlock={
           <Button
             icon="ri-add-line"
-            label="Add new note"
+            label="Add article"
             size="small"
             // onClick={() => setShowNewNotePane(true)}
           />
@@ -37,7 +64,7 @@ const ArticlePage = ({ isMenuOpen, setIsMenuOpen }) => {
       />
       {articles.length ? (
         <>
-          <SubHeader
+          {/* <SubHeader
             rightActionBlock={
               <Button
                 // disabled={!selectedNoteIds.length}
@@ -47,13 +74,75 @@ const ArticlePage = ({ isMenuOpen, setIsMenuOpen }) => {
                 // onClick={() => setShowDeleteAlert(true)}
               />
             }
-          />
-          {/* <Table
-            fetchNotes={fetchNotes}
-            notes={notes}
-            selectedNoteIds={selectedNoteIds}
-            setSelectedNoteIds={setSelectedNoteIds}
           /> */}
+          <SubHeader
+            leftActionBlock={
+              <div>
+                {selectedArticleIds.length ? (
+                  <div className="flex gap-x-3 items-center	">
+                    <span>
+                      <b>{selectedArticleIds.length} articles</b> selected of{" "}
+                      {articles.length}
+                    </span>
+                    <Dropdown
+                      buttonSize="medium"
+                      buttonStyle="secondary"
+                      label="Change category"
+                    >
+                      <Menu>
+                        <MenuItem.Button>Category 1</MenuItem.Button>
+                        <MenuItem.Button>Category 2</MenuItem.Button>
+                        <MenuItem.Button>Category 3</MenuItem.Button>
+                        <MenuItem.Button>Category 4</MenuItem.Button>
+                      </Menu>
+                    </Dropdown>
+                    <Dropdown
+                      buttonSize="medium"
+                      buttonStyle="secondary"
+                      label="Change status"
+                    >
+                      <Menu>
+                        <MenuItem.Button>Draft</MenuItem.Button>
+                        <MenuItem.Button>Publish</MenuItem.Button>
+                      </Menu>
+                    </Dropdown>
+                    <Button
+                      // disabled={!selectedNoteIds.length}
+                      icon={Delete}
+                      label="Delete"
+                      size="medium"
+                      style="danger"
+                      // onClick={() => setShowDeleteAlert(true)}
+                    />
+                  </div>
+                ) : (
+                  <div>{articles.length} articles</div>
+                )}
+              </div>
+            }
+            rightActionBlock={
+              !selectedArticleIds.length && (
+                <Columns
+                  buttonStyle="secondary"
+                  checkboxProps={{}}
+                  columnData={ARTICLES_TABLE_COLUMN_DATA}
+                  fixedColumns={["title", "iconButton"]}
+                  label="Columns"
+                  // localStorageKey="TABLE_HIDDEN_COLUMNS"
+                  noColumnMessage="No columns found"
+                  onChange={setColumns}
+                  // searchProps={{ placeholder: "Search columns" }}
+                />
+              )
+            }
+          />
+          <Table
+            articles={articles}
+            columnData={columns}
+            fetchArticles={fetchArticles}
+            selectedArticleIds={selectedArticleIds}
+            setSelectedArticleIds={setSelectedArticleIds}
+          />
         </>
       ) : (
         <EmptyState
