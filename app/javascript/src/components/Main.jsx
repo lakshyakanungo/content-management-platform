@@ -1,5 +1,15 @@
 import React from "react";
 
-const Main = () => <p>Hello from Main</p>;
+import { Route, Switch, BrowserRouter } from "react-router-dom";
+
+import Dashboard from "./Dashboard";
+
+const Main = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route component={Dashboard} path="/" />
+    </Switch>
+  </BrowserRouter>
+);
 
 export default Main;
