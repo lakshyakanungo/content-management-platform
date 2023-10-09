@@ -4,8 +4,18 @@ import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
 import { Search, Plus } from "neetoicons";
 
-const Menu = ({ isMenuOpen }) => {
+const Menu = ({
+  isMenuOpen,
+  showAddCategoryModal,
+  setShowAddCategoryModal,
+}) => {
   const { Block, SubTitle } = MenuBar;
+
+  // const handlePlus =
+
+  // useEffect(() => {
+  //   handlePlus();
+  // }, [setShowAddCategoryModal]);
 
   return (
     <MenuBar showMenu={isMenuOpen} title="Articles">
@@ -20,7 +30,7 @@ const Menu = ({ isMenuOpen }) => {
           },
           {
             icon: Plus,
-            onClick: () => {},
+            onClick: () => setShowAddCategoryModal(!showAddCategoryModal),
           },
         ]}
       >

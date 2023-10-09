@@ -1,8 +1,11 @@
 import React from "react";
 
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+
+import Sidebar from "components/commons/MySidebar";
 
 import Articles from "./Articles";
+import Create from "./Articles/Create";
 
 // import {
 //   DASHBOARD_ROUTES,
@@ -12,15 +15,16 @@ import Articles from "./Articles";
 
 const Dashboard = () => (
   <div className="flex h-screen w-full">
-    {/* <MySidebar /> */}
-    {/* <Switch> */}
-    {/* {DASHBOARD_ROUTES.map(({ path, component }) => (
+    <Sidebar />
+    <Switch>
+      {/* {DASHBOARD_ROUTES.map(({ path, component }) => (
         <Route exact component={component} key={path} path={path} />
       ))}
       <Redirect from={DASHBOARD_PATH} to={NOTES_PATH} /> */}
-    <Route component={Articles} to="/" />
-    {/* <Articles /> */}
-    {/* </Switch> */}
+      <Route exact component={Create} to="/article/new" />
+      <Route exact component={Articles} to="/" />
+      {/* <Articles /> */}
+    </Switch>
   </div>
 );
 
