@@ -1,5 +1,15 @@
 import React from "react";
 
-const Settings = () => <div>Settings</div>;
+import General from "./General";
+import Menu from "./Menu";
+
+const Settings = () => (
+  <div className="w-full flex flex-row">
+    <Menu />
+    <General />
+    {/* <Redirection /> */}
+    {/* <ArticlePage isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} /> */}
+  </div>
+);
 
 export default Settings;

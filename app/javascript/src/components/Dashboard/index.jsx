@@ -6,7 +6,7 @@ import Sidebar from "components/commons/MySidebar";
 
 import Articles from "./Articles";
 import Create from "./Articles/Create";
-
+import Settings from "./Settings";
 // import {
 //   DASHBOARD_ROUTES,
 //   NOTES_PATH,
@@ -21,6 +21,7 @@ const Dashboard = () => (
         <Route exact component={component} key={path} path={path} />
       ))}
       <Redirect from={DASHBOARD_PATH} to={NOTES_PATH} /> */}
+      <Route component={Settings} to="/settings" />{" "}
       <Route exact component={Create} to="/article/new" />
       <Route exact component={Articles} to="/" />
       {/* <Articles /> */}
