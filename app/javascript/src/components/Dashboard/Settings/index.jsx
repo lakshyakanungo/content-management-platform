@@ -1,13 +1,14 @@
 import React from "react";
 
-import General from "./General";
 import Menu from "./Menu";
+import Security from "./Security";
 
 const Settings = () => (
   <div className="w-full flex flex-row">
     <Menu />
-    <General />
+    {/* <General /> */}
     {/* <Redirection /> */}
+    <Security />
     {/* <ArticlePage isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} /> */}
   </div>
 );
