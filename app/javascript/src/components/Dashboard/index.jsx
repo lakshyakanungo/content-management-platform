@@ -5,8 +5,6 @@ import { Route, Switch } from "react-router-dom";
 import Sidebar from "components/commons/MySidebar";
 
 import Articles from "./Articles";
-import Create from "./Articles/Create";
-
 // import {
 //   DASHBOARD_ROUTES,
 //   NOTES_PATH,
@@ -21,8 +19,9 @@ const Dashboard = () => (
         <Route exact component={component} key={path} path={path} />
       ))}
       <Redirect from={DASHBOARD_PATH} to={NOTES_PATH} /> */}
-      <Route exact component={Create} to="/article/new" />
-      <Route exact component={Articles} to="/" />
+      {/* <Route component={Settings} to="/settings" /> */}
+      {/* <Route exact component={Create} to="/article/new" /> */}
+      <Route exact component={Articles} to="/articles" />
       {/* <Articles /> */}
     </Switch>
   </div>
