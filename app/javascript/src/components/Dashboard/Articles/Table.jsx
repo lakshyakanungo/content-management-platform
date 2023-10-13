@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classnames from "classnames";
 import { Table as NeetoUITable } from "neetoui";
@@ -14,21 +14,27 @@ const Table = ({
 }) => {
   // const [showEditNote, setShowEditNote] = useState(false);
   // const [selectedNote, setSelectedNote] = useState({});
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
 
   const buildRowClassName = (_, index) =>
     classnames({
       "neeto-ui-bg-gray-100": index % 2,
     });
 
+  // console.log(selectedArticleIds);
+
   return (
     <>
       <div className="notes-table-height w-full">
         <NeetoUITable
           allowRowClick
+          preserveTableStateInQuery
           rowSelection
           bordered={false}
           columnData={columnData}
-          defaultPageSize={6}
+          currentPageNumber={currentPageNumber}
+          defaultPageSize={10}
+          handlePageChange={page => setCurrentPageNumber(page)}
           rowClassName={buildRowClassName}
           rowData={articles}
           selectedRowKeys={selectedArticleIds}
