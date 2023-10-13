@@ -1,8 +1,9 @@
 {
   "[ruby]": {
     "editor.autoClosingBrackets": "beforeWhitespace",
+    "editor.semanticHighlighting.enabled": true,
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rebornix.ruby"
+    "editor.defaultFormatter": "Shopify.ruby-lsp"
   },
   "files.trimTrailingWhitespace": true,
   "files.trimFinalNewlines": true,
@@ -17,5 +18,5 @@
       "rails": true // requires rubocop-rails gem for RuboCop >= 0.72.0
     }
   },
-  "ruby.format": "rubocop",
+  "ruby.format": "rubocop"
 }
