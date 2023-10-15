@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-import Menu from "./Menu";
-import Security from "./Security";
+import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
+import queryString from "query-string";
 
-const Settings = () => (
-  <div className="w-full flex flex-row">
-    <Menu />
-    {/* <General /> */}
-    {/* <Redirection /> */}
-    <Security />
-    {/* <ArticlePage isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} /> */}
-  </div>
-);
+import { SETTINGS_NAVLINKS } from "./navLinks";
+import { getActiveNavLink } from "./utils";
+
+const Settings = ({ history, location }) => {
+  const { tab } = queryString.parse(location.search);
+  const [activeNavlink, setActiveNavlink] = useState(
+    () => getActiveNavLink(tab) || SETTINGS_NAVLINKS[0]
+  );
+
+  useEffect(() => history.push(activeNavlink?.path), [activeNavlink]);
+
+  if (location.state?.resetTab) {
+    location.state.resetTab = null;
+    setActiveNavlink(() => getActiveNavLink(tab));
+  }
+
+  return (
+    <>
+      <MenuBar showMenu title="Settings">
+        {SETTINGS_NAVLINKS.map(navlink => (
+          <MenuBar.Item
+            active={tab === navlink.key}
+            description={navlink.description}
+            key={navlink.key}
+            label={navlink.label}
+            onClick={() => setActiveNavlink(navlink)}
+          />
+        ))}
+      </MenuBar>
+      <activeNavlink.component />
+    </>
+  );
+};
 
 export default Settings;
