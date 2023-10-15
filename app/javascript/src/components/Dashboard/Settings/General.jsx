@@ -8,6 +8,7 @@ import Layout from "./Layout";
 
 const General = () => (
   <Layout
+    className="mx-auto"
     description="Configure general attributes of knowledge base"
     header="General Settings"
   >

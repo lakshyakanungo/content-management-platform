@@ -25,4 +25,10 @@ module.exports = [
     enforce: "pre",
     use: ["source-map-loader"],
   },
+  {
+    test: /\.m?js/,
+    resolve: {
+      fullySpecified: false,
+    },
+  },
 ];

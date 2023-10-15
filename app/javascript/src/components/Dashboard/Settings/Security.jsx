@@ -37,6 +37,7 @@ const Security = () => {
 
   return (
     <Layout
+      className="mx-24"
       description="Configure security related settings for your site."
       header="Security"
     >

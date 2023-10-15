@@ -38,6 +38,8 @@ gem "bootsnap", ">= 1.9.4", require: false
 # Background jobs
 gem "sidekiq", "<8"
 
+gem "acts_as_list"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"
@@ -87,4 +89,5 @@ group :test do
 
   # Check semaphore config - this gem only relevant in semaphoreCI
   gem "ffi", github: "ffi/ffi", submodules: true
+
 end

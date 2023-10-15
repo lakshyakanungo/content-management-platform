@@ -1,28 +1,22 @@
 import React from "react";
 
-import { Route, Switch } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 import Sidebar from "components/commons/MySidebar";
-
-import Articles from "./Articles";
-// import {
-//   DASHBOARD_ROUTES,
-//   NOTES_PATH,
-//   DASHBOARD_PATH,
-// } from "components/routeConstants";
+import {
+  DASHBOARD_ROUTES,
+  ARTICLES_PATH,
+  DASHBOARD_PATH,
+} from "components/routeConstants";
 
 const Dashboard = () => (
   <div className="flex h-screen w-full">
     <Sidebar />
     <Switch>
-      {/* {DASHBOARD_ROUTES.map(({ path, component }) => (
+      {DASHBOARD_ROUTES.map(({ path, component }) => (
         <Route exact component={component} key={path} path={path} />
       ))}
-      <Redirect from={DASHBOARD_PATH} to={NOTES_PATH} /> */}
-      {/* <Route component={Settings} to="/settings" /> */}
-      {/* <Route exact component={Create} to="/article/new" /> */}
-      <Route exact component={Articles} to="/articles" />
-      {/* <Articles /> */}
+      <Redirect from={DASHBOARD_PATH} to={ARTICLES_PATH} />
     </Switch>
   </div>
 );

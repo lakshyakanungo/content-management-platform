@@ -16,6 +16,7 @@ const Redirection = () => {
 
   return (
     <Layout
+      className="mx-24"
       description="Create and configure redirection rules to send users from old links to new links. All redirections are performed with 301 status codes to be SEO friendly."
       header="Redirections"
     >
