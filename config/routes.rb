@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :categories, only: [:index, :create]
+  resources :categories, only: [:index, :create, :update, :destroy]
 
   root "home#index"
   get "*path", to: "home#index", via: :all

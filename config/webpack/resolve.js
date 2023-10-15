@@ -10,11 +10,13 @@ module.exports = {
     components: absolutePath("src/components"),
     constants: absolutePath("src/constants"),
     contexts: absolutePath("src/contexts"),
+    hooks: absolutePath("src/hooks"),
     reducers: absolutePath("src/reducers"),
     neetoui: "@bigbinary/neetoui",
     neetoicons: "@bigbinary/neeto-icons",
     neetomolecules: "@bigbinary/neeto-molecules",
     utils: absolutePath("src/utils"),
+    images: "app/assets/images",
   },
   extensions: [
     ".ts",
