@@ -2,22 +2,23 @@ import { useRef } from "react";
 
 import { useDrag, useDrop } from "react-dnd";
 
-const useDragAndDrop = ({ index, moveListItem }) => {
+const useDragAndDrop = ({ index, category, moveListItem, handleMove }) => {
   // console.log("index: ", index, " is moving??");
   // useDrag - the list item is draggable
   const [{ isDragging }, dragRef] = useDrag({
     type: "item",
-    item: { index },
+    item: { index, position: category.position },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
-    end: (item, monitor) => {
-      // console.log("index: ", index);
+    end: item => {
+      // console.log("being dragged: ", item.position - 1);
+      // console.log("index for drag: ", item.index);
       // console.log(item);
-      // console.log(monitor.didDrop());
-      // console.log(monitor.getDropResult());
-      item;
-      monitor;
+
+      if (item.index !== item.position - 1) {
+        handleMove({ category, finalPosition: item.index + 1 });
+      }
     },
   });
 
@@ -38,10 +39,16 @@ const useDragAndDrop = ({ index, moveListItem }) => {
       // if dragging up, continue only when hover is bigger than middle Y
       if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return;
 
+      // console.log("hover index: ", item.index);
       moveListItem(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
   });
+
+  // console.log(index);
+  // // console.log(dropRef.current);
+  // // console.log(dragRef.current);
+  // console.log("spec : ", spec);
 
   spec;
   // Join the 2 refs together into one (both draggable and can be dropped on)

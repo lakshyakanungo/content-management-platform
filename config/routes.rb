@@ -12,7 +12,11 @@ Rails.application.routes.draw do
       get "search"
     end
   end
-  resources :categories, only: [:index, :create, :update, :destroy]
+  resources :categories, only: [:index, :create, :update, :destroy] do
+    member do
+      get :reorder
+    end
+  end
   resource :open_graph, only: [:show, :update]
   resources :redirections, only: [:index, :create, :update, :destroy]
 end

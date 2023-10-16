@@ -23,9 +23,14 @@ class CategoriesController < ApplicationController
     category.destroy!
   end
 
+  def reorder
+    category = Category.find(params[:id])
+    category.insert_at(category_params[:position])
+  end
+
   private
 
     def category_params
-      params.require(:category).permit(:name)
+      params.require(:category).permit(:name, :position)
     end
 end
