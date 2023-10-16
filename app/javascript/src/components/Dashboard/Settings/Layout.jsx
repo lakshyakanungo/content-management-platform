@@ -11,7 +11,7 @@ const Layout = ({
 }) => {
   const containerClassName = classNames(
     className,
-    " flex flex-col gap-4 mt-24"
+    " flex flex-col gap-4 my-24"
   );
 
   return (

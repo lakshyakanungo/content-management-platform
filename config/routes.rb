@@ -14,7 +14,12 @@ Rails.application.routes.draw do
   end
   resources :categories, only: [:index, :create, :update, :destroy]
   resource :open_graph, only: [:show, :update]
+  resources :redirections, only: [:index, :create, :update, :destroy]
 end
+
+  Redirection.all.each do |redirection|
+    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301), only_path: false
+  end
 
   root "home#index"
   get "*path", to: "home#index", via: :all

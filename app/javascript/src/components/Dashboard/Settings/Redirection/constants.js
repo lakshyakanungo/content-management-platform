@@ -1,12 +1,3 @@
-export const INITIAL_REDIRECTIONS = [
-  {
-    id: "1",
-    from: "https://spinkart.scribbl.com/welcome",
-    to: "https://spinkart.scribbl.com",
-  },
-  {
-    id: "2",
-    from: "https://spinkart.scribbl.com/help",
-    to: "https://spinkart.scribbl.com",
-  },
-];
+export const TRUNCATE_LENGTH = 33;
+
+export const APP_BASE_URL = "https://spinkart.scribbl.com";

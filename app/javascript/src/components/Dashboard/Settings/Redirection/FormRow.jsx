@@ -1,42 +1,53 @@
 import React from "react";
 
-import { Button } from "@bigbinary/neetoui";
-import {
-  Form as FormikForm,
-  Input as FormikInput,
-} from "@bigbinary/neetoui/formik";
+import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { Check, Close } from "neetoicons";
-import * as yup from "yup";
 
-const FormRow = ({ data, setRedirections, onCollapse }) => {
-  const handleSubmit = (values, { resetForm }) => {
-    // console.log(values);
-    setRedirections(prev => [
-      ...prev,
-      {
-        from: values.fromUrl,
-        to: values.toUrl,
-      },
-    ]);
+import redirectionsApi from "apis/redirections";
+
+import {
+  FORM_VALIDATION_SCHEMA,
+  buildFormInitialValues,
+  formatToUrl,
+} from "./utils";
+
+const FormRow = ({ isEdit = false, data, onCollapse, fetchRedirections }) => {
+  const handleSubmit = async ({ fromUrl, toUrl }) => {
+    const payload = { from: fromUrl, to: formatToUrl(toUrl) };
+
+    try {
+      if (isEdit) {
+        await redirectionsApi.update({
+          id: data.id,
+          payload,
+        });
+      } else {
+        await redirectionsApi.create(payload);
+      }
+      fetchRedirections();
+      onCollapse();
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
+  const handleReset = resetForm => {
     resetForm();
     onCollapse();
   };
 
   return (
-    <FormikForm
+    <Form
       formikProps={{
-        initialValues: data,
-        validationSchema: yup.object().shape({
-          fromUrl: yup.string().required("From path URL must be valid"),
-          toUrl: yup.string().required("To path URL must be valid"),
-        }),
+        initialValues: buildFormInitialValues({ isEdit, data }),
+        validationSchema: FORM_VALIDATION_SCHEMA,
         onSubmit: handleSubmit,
       }}
     >
-      {({ dirty }) => (
+      {({ resetForm }) => (
         // console.log(props);
         <div className="neeto-ui-bg-white grid grid-cols-12 justify-between p-2 gap-2 items-start">
-          <FormikInput
+          <Input
             // label="Site title"
             className="col-span-5"
             name="fromUrl"
@@ -44,24 +55,25 @@ const FormRow = ({ data, setRedirections, onCollapse }) => {
             //   className: "neeto-ui-text-gray-700 neeto-ui-text-sm",
             // }}
           />
-          <FormikInput className="col-span-5" name="toUrl" />
+          <Input className="col-span-5" name="toUrl" />
           <Button
             className="neeto-ui-text-success-500"
-            disabled={!dirty}
+            // disabled={dirty}
             icon={Check}
             style="link"
             type="submit"
           />
           <Button
             className="neeto-ui-text-error-500"
-            disabled={!dirty}
+            // disabled={dirty}
             icon={Close}
             style="text"
             type="reset"
+            onClick={() => handleReset(resetForm)}
           />
         </div>
       )}
-    </FormikForm>
+    </Form>
   );
 };
 
