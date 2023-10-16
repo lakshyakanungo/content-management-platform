@@ -1,9 +1,23 @@
 import React, { useCallback } from "react";
 
+import categoriesApi from "apis/categories";
+
 import ListItem from "./ListItem";
 
 const List = ({ categories, setCategories, fetchCategories }) => {
   // const [categories, setCategories] = useState(categories);
+
+  const handleMove = async ({ category, finalPosition }) => {
+    try {
+      await categoriesApi.reorder({
+        id: category.id,
+        payload: { position: finalPosition },
+      });
+      fetchCategories();
+    } catch (error) {
+      logger.log(error);
+    }
+  };
 
   const moveCategoryListItem = useCallback(
     (dragIndex, hoverIndex) => {
@@ -28,6 +42,7 @@ const List = ({ categories, setCategories, fetchCategories }) => {
         <ListItem
           category={category}
           fetchCategories={fetchCategories}
+          handleMove={handleMove}
           index={index}
           key={category.id}
           moveListItem={moveCategoryListItem}

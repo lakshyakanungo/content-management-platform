@@ -8,9 +8,21 @@ import Edit from "./Form/Edit";
 
 // import MenuSquare from "images/MenuSquare";
 
-const ListItem = ({ text, index, moveListItem, category, fetchCategories }) => {
+const ListItem = ({
+  text,
+  index,
+  moveListItem,
+  category,
+  fetchCategories,
+  handleMove,
+}) => {
   // console.log(category);
-  const [isDragging, dragDropRef] = useDragAndDrop({ index, moveListItem });
+  const [isDragging, dragDropRef] = useDragAndDrop({
+    index,
+    category,
+    moveListItem,
+    handleMove,
+  });
 
   // Make items being dragged transparent, so it's easier to see where we drop them
   const opacity = isDragging ? 0 : 1;
