@@ -1,18 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Plus } from "neetoicons";
-import { Button } from "neetoui";
+import { Button, Spinner } from "neetoui";
 
-import { INITIAL_REDIRECTIONS } from "./constants";
+import redirectionsApi from "apis/redirections";
+
 import FormRow from "./FormRow";
 import Row from "./Row";
 
 import Layout from "../Layout";
 
 const Redirection = () => {
-  const [redirections, setRedirections] = useState(INITIAL_REDIRECTIONS);
+  const [redirections, setRedirections] = useState([]);
   const [showNewRedirection, setShowNewRedirection] = useState(false);
   const [editingRow, setEditingRow] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchRedirections = async () => {
+    try {
+      setLoading(true);
+      const {
+        data: { redirections },
+      } = await redirectionsApi.fetch();
+      setRedirections(redirections);
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRedirections();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <Layout
@@ -24,20 +52,23 @@ const Redirection = () => {
         <div className="grid grid-cols-12 gap-2 justify-between neeto-ui-text-gray-600 neeto-ui-font-semibold neeto-ui-text-xs">
           <span className="col-span-5">FROM</span>
           <span className="col-span-5">TO</span>
-          <span className="" />
+          <span />
         </div>
         <div>
           {redirections.map(redirection =>
             editingRow === redirection.id ? (
               <FormRow
+                isEdit
                 data={redirection}
+                fetchRedirections={fetchRedirections}
                 key={redirection.id}
-                setRedirections={setRedirections}
-                // setShowNewRedirection={setShowNewRedirection}
-                onCollapse={() => {}}
+                onCollapse={() => {
+                  setEditingRow("");
+                }}
               />
             ) : (
               <Row
+                fetchRedirections={fetchRedirections}
                 key={redirection.id}
                 redirection={redirection}
                 setEditingRow={setEditingRow}
@@ -47,12 +78,8 @@ const Redirection = () => {
         </div>
         {showNewRedirection && (
           <FormRow
-            setRedirections={setRedirections}
-            data={{
-              fromUrl: "",
-              toUrl: "",
-            }}
-            onCollapse={() => setShowNewRedirection(true)}
+            fetchRedirections={fetchRedirections}
+            onCollapse={() => setShowNewRedirection(false)}
           />
         )}
         <div>
