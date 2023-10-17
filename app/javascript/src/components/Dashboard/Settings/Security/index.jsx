@@ -1,16 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Spinner, Switch } from "@bigbinary/neetoui";
 
+import siteSettingsApi from "apis/siteSettings";
+
+import ChangePassword from "./ChangePassword";
 import Form from "./Form";
 
 import Layout from "../Layout";
 
 const Security = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
+  const [showChangePasswordForm, setShowChangePasswordForm] = useState(true);
 
-  setLoading;
+  const fetchSiteSettings = async () => {
+    try {
+      setLoading(true);
+      const { data } = await siteSettingsApi.show();
+      const {
+        is_password_protected: isPasswordProtected,
+        has_password: hasPassword,
+      } = data;
+      // console.log(data);
+      setIsPasswordRequired(isPasswordProtected);
+      setShowChangePasswordForm(hasPassword);
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateSecurity = async value => {
+    // console.log(value);
+    try {
+      await siteSettingsApi.update({ is_password_protected: value });
+      fetchSiteSettings();
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSiteSettings();
+  }, []);
 
   if (loading) {
     return (
@@ -30,10 +64,17 @@ const Security = () => {
         <span>Password protect your site</span>
         <Switch
           checked={isPasswordRequired}
-          onChange={() => setIsPasswordRequired(!isPasswordRequired)}
+          onChange={() => updateSecurity(!isPasswordRequired)}
         />
       </div>
-      {isPasswordRequired && <Form />}
+      {isPasswordRequired &&
+        (showChangePasswordForm ? (
+          <ChangePassword
+            setShowChangePasswordForm={setShowChangePasswordForm}
+          />
+        ) : (
+          <Form fetchSiteSettings={fetchSiteSettings} />
+        ))}
     </Layout>
   );
 };

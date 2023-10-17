@@ -3,6 +3,8 @@ import React, { useState, useRef } from "react";
 import { Check, Close, Eye } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 
+import siteSettingsApi from "apis/siteSettings";
+
 import { INITIAL_VALUES } from "./constants";
 import {
   buildValidationClassName,
@@ -10,7 +12,7 @@ import {
   validateForm,
 } from "./utils";
 
-const Form = () => {
+const Form = ({ fetchSiteSettings }) => {
   const [hasMinError, setHasMinError] = useState(true);
   const [hasMatchError, setHasMatchError] = useState(true);
 
@@ -18,12 +20,23 @@ const Form = () => {
 
   // console.log("hasMinError : ", hasMinError);
   // console.log("hasMatchError : ", hasMatchError);
+
+  const handleSubmit = async ({ password }) => {
+    try {
+      await siteSettingsApi.update({ password });
+      fetchSiteSettings();
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
   return (
     <NeetoForm
       formikProps={{
         initialValues: INITIAL_VALUES,
         validate: values =>
           validateForm({ values, setHasMinError, setHasMatchError }),
+        onSubmit: handleSubmit,
       }}
     >
       <Input
@@ -44,6 +57,7 @@ const Form = () => {
         <span>Include at least 1 letter and 1 number</span>
       </div>
       <Button
+        className="mr-2"
         disabled={hasMinError || hasMatchError}
         label="Save changes"
         type="submit"
