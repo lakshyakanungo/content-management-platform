@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_15_140759) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_115459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -24,7 +24,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_140759) do
     t.string "status", default: "Draft", null: false
     t.datetime "last_published_at"
     t.uuid "category_id"
+    t.uuid "user_id"
     t.index ["category_id"], name: "index_articles_on_category_id"
+    t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -32,12 +34,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_140759) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
   create_table "open_graphs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_open_graphs_on_user_id"
   end
 
   create_table "redirections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -45,7 +51,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_140759) do
     t.string "to", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_redirections_on_user_id"
+  end
+
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "articles", "categories"
+  add_foreign_key "articles", "users"
+  add_foreign_key "categories", "users"
+  add_foreign_key "open_graphs", "users"
+  add_foreign_key "redirections", "users"
 end
