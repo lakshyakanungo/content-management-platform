@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
   resource :open_graph, only: [:show, :update]
   resources :redirections, only: [:index, :create, :update, :destroy]
+  resource :site_settings, only: [:show, :update]
 end
 
   Redirection.all.each do |redirection|
