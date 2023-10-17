@@ -40,6 +40,8 @@ gem "sidekiq", "<8"
 
 gem "acts_as_list"
 
+gem "bcrypt", "~> 3.1.13"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"

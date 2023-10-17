@@ -1,21 +1,23 @@
 # frozen_string_literal: true
 
 class RedirectionsController < ApplicationController
+  before_action :load_redirection!, only: [:destroy, :update]
+
   def index
-    redirections = Redirection.all.order(:created_at)
+    redirections = current_user.redirections.all.order(:created_at)
     render status: :ok, json: { redirections: }
   end
 
   def create
-    Redirection.create!(redirection_params)
+    current_user.redirections.create!(redirection_params)
   end
 
   def destroy
-    load_redirection!.destroy!
+    @redirection.destroy!
   end
 
   def update
-    load_redirection!.update!(redirection_params)
+    @redirection.update!(redirection_params)
   end
 
   private
@@ -25,6 +27,6 @@ class RedirectionsController < ApplicationController
     end
 
     def load_redirection!
-      Redirection.find(params[:id])
+      @redirection = current_user.redirections.find(params[:id])
     end
 end

@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    puts "Printing", article_params
+    # puts "Printing", article_params
     @article.update!(article_params)
   end
 
@@ -56,7 +56,7 @@ class ArticlesController < ApplicationController
   end
 
   def update_multiple
-    puts "updating multiple...", article_params
+    # puts "updating multiple...", article_params
     @articles.update!(article_params)
   end
 
@@ -67,12 +67,12 @@ class ArticlesController < ApplicationController
     end
 
     def load_article!
-      @article = Article.find(params[:id])
+      @article = current_user.articles.find(params[:id])
     end
 
     def load_multiple_articles!
       # puts "params", params
-      @articles = Article.where(id: params[:ids])
+      @articles = current_user.articles.where(id: params[:ids])
       # puts "checking", @articles
     end
 end

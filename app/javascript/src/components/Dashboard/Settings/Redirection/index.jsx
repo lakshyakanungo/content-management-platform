@@ -22,6 +22,7 @@ const Redirection = () => {
       const {
         data: { redirections },
       } = await redirectionsApi.fetch();
+      // console.log(redirections);
       setRedirections(redirections);
     } catch (error) {
       logger.log(error);

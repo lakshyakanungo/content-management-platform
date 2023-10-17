@@ -5,6 +5,7 @@ class Article < ApplicationRecord
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
 
   enum :status, { Draft: "Draft", Published: "Published" }, default: :Draft
+  belongs_to :user
   belongs_to :category
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: VALID_TITLE_REGEX }
