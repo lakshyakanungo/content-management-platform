@@ -6,6 +6,8 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import AddCategory from "./AddCategory";
+import Create from "./Create";
+import Edit from "./Edit";
 import Menu from "./Menu";
 import ArticlePage from "./Page";
 
@@ -25,9 +27,13 @@ const Articles = () => {
   const [activeMenuState, setActiveMenuState] = useState("All");
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  const [showCreateArticle, setShowCreateArticle] = useState(false);
+  const [showEditArticle, setShowEditArticle] = useState(false);
+
   // console.log(selectedCategories, "Selected categories");
   const coz_husky = articles;
   coz_husky;
+  setShowEditArticle;
   //delete upper two lines later.
 
   const handleMenuStateChange = state => {
@@ -102,33 +108,45 @@ const Articles = () => {
 
   return (
     <div className="w-full flex flex-row">
-      <Menu
-        activeMenuState={activeMenuState}
-        categories={categories}
-        handleMenuStateChange={handleMenuStateChange}
-        isMenuOpen={isMenuOpen}
-        selectedCategories={selectedCategories}
-        setSelectedCategories={setSelectedCategories}
-        setShowAddCategoryModal={setShowAddCategoryModal}
-        showAddCategoryModal={showAddCategoryModal}
-      />
-      <ArticlePage
-        articles={displayArticles}
-        articlesLoading={articlesLoading}
-        categories={categories}
-        fetchArticles={fetchArticles}
-        isMenuOpen={isMenuOpen}
-        selectedCategories={selectedCategories}
-        setArticles={setArticles}
-        setDisplayArticles={setDisplayArticles}
-        setIsMenuOpen={setIsMenuOpen}
-        setSelectedCategories={setSelectedCategories}
-      />
-      <AddCategory
-        handleAddCategory={handleAddCategory}
-        setShowAddCategoryModal={setShowAddCategoryModal}
-        showAddCategoryModal={showAddCategoryModal}
-      />
+      {showCreateArticle && (
+        <Create
+          categories={categories}
+          setShowCreateArticle={setShowCreateArticle}
+        />
+      )}
+      {showEditArticle && <Edit />}
+      {!showCreateArticle && !showEditArticle && (
+        <>
+          <Menu
+            activeMenuState={activeMenuState}
+            categories={categories}
+            handleMenuStateChange={handleMenuStateChange}
+            isMenuOpen={isMenuOpen}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            setShowAddCategoryModal={setShowAddCategoryModal}
+            showAddCategoryModal={showAddCategoryModal}
+          />
+          <ArticlePage
+            articles={displayArticles}
+            articlesLoading={articlesLoading}
+            categories={categories}
+            fetchArticles={fetchArticles}
+            isMenuOpen={isMenuOpen}
+            selectedCategories={selectedCategories}
+            setArticles={setArticles}
+            setDisplayArticles={setDisplayArticles}
+            setIsMenuOpen={setIsMenuOpen}
+            setSelectedCategories={setSelectedCategories}
+            setShowCreateArticle={setShowCreateArticle}
+          />
+          <AddCategory
+            handleAddCategory={handleAddCategory}
+            setShowAddCategoryModal={setShowAddCategoryModal}
+            showAddCategoryModal={showAddCategoryModal}
+          />
+        </>
+      )}
     </div>
   );
 };

@@ -42,8 +42,13 @@ class ArticlesController < ApplicationController
     render status: :ok, json: { articles: @search_results }
   end
 
+  def create
+    Article.create!(article_params)
+  end
+
   def update
     # puts "Printing", article_params
+    # TODO: See if to allow all permitted article params here or we can filter those also here
     @article.update!(article_params)
   end
 
@@ -63,7 +68,7 @@ class ArticlesController < ApplicationController
   private
 
     def article_params
-      params.require(:article).permit(:status, :category_id)
+      params.require(:article).permit(:status, :category_id, :title, :body)
     end
 
     def load_article!

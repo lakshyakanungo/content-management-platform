@@ -24,6 +24,7 @@ const ArticlePage = ({
   loading,
   selectedCategories,
   setSelectedCategories,
+  setShowCreateArticle,
 }) => {
   // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -124,7 +125,7 @@ const ArticlePage = ({
             icon="ri-add-line"
             label="Add article"
             size="small"
-            // onClick={() => setShowNewNotePane(true)}
+            onClick={() => setShowCreateArticle(true)}
           />
         }
         menuBarToggle={() => {

@@ -7,6 +7,11 @@ const search = ({ searchTerm, selectedCategoriesIds }) =>
     params: { title: searchTerm, category_id: selectedCategoriesIds },
   });
 
+const create = ({ payload }) =>
+  axios.post("/articles", {
+    article: payload,
+  });
+
 const update = ({ id, payload }) => {
   axios.put(`/articles/${id}`, {
     article: payload,
@@ -33,6 +38,7 @@ const updateMultiple = ({ ids, payload }) => {
 const articlesApi = {
   fetch,
   search,
+  create,
   update,
   deleteArticle,
   deleteMultiple,
