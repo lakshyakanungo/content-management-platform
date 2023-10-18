@@ -6,6 +6,8 @@ import Header from "@bigbinary/neeto-molecules/Header";
 import { ActionDropdown, Button, Select } from "@bigbinary/neetoui";
 import { Check } from "neetoicons";
 
+import articlesApi from "apis/articles";
+
 import { EDITOR_INITIAL_HTML } from "./constants";
 import { extractTitle } from "./utils";
 
@@ -14,6 +16,7 @@ const Create = ({ categories, setShowCreateArticle }) => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showError, setShowError] = useState(false);
 
+  // console.log(showError);
   // console.log(selectedCategoryId);
 
   // const STATUS_OPTIONS = ["Save as draft", "Publish"];
@@ -28,111 +31,28 @@ const Create = ({ categories, setShowCreateArticle }) => {
 
   const handleCreate = async () => {
     try {
+      const data = parseData();
       // await articlesApi.create({ title, status, body, categoryId });
+      await articlesApi.create({ payload: data });
+      setShowCreateArticle(false);
     } catch (error) {
       logger.log(error);
     }
   };
 
-  const handleTryClick = () => {
+  const parseData = () => {
     const body = editorRef.current.editor.getHTML();
     const jsonOfContent = editorRef.current.editor.getJSON();
     const title = extractTitle(jsonOfContent);
     const status = STATUS_OPTIONS[selectedOptionIndex].value;
-    // console.log(`${htmlOfEditorContent}`);
-    // console.log(body);
-    // console.log(jsonOfContent);
-    // console.log(title, "<--title");
-    // return htmlOfEditorContent;
 
     if (selectedCategoryId === "") {
       setShowError(true);
-      // return;
+      throw new Error("select category");
+    } else {
+      return { title, status, body, category_id: selectedCategoryId };
     }
-
-    return { title, status, body, category_id: selectedCategoryId };
   };
-  handleTryClick;
-
-  /*
-  const obj = [
-    {
-      type: "heading",
-      attrs: {
-        level: 1,
-      },
-      content: [
-        {
-          type: "text",
-          marks: [
-            {
-              type: "textStyle",
-              attrs: {
-                backgroundColor: "",
-                color: "rgb(73, 84, 92)",
-              },
-            },
-          ],
-          text: "Add title here.",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          marks: [
-            {
-              type: "textStyle",
-              attrs: {
-                backgroundColor: "",
-                color: "rgb(104, 115, 125)",
-              },
-            },
-          ],
-          text: "Add description here.",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          marks: [
-            {
-              type: "textStyle",
-              attrs: {
-                backgroundColor: null,
-                color: "rgb(104, 115, 125)",
-              },
-            },
-          ],
-          text: "asdAS",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          marks: [
-            {
-              type: "textStyle",
-              attrs: {
-                backgroundColor: null,
-                color: "rgb(104, 115, 125)",
-              },
-            },
-          ],
-          text: "ASD",
-        },
-      ],
-    },
-  ];
-  */
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -193,7 +113,7 @@ const Create = ({ categories, setShowCreateArticle }) => {
               placeholder="Search category"
               onChange={category => setSelectedCategoryId(category.id)}
             />
-            {showError && selectedCategoryId && (
+            {showError && !selectedCategoryId && (
               <span className="neeto-ui-text-error-800 neeto-ui-text-xs neeto-ui-font-normal">
                 Article category is a required field
               </span>
