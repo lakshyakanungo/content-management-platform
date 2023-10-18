@@ -1,19 +1,57 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 
 // import Container from "@bigbinary/neeto-molecules/Container";
 import { Editor } from "@bigbinary/neeto-editor";
 import Header from "@bigbinary/neeto-molecules/Header";
 import { ActionDropdown, Button, Select } from "@bigbinary/neetoui";
+import { Check } from "neetoicons";
 
-const Create = () => {
+import articlesApi from "apis/articles";
+
+import { EDITOR_INITIAL_HTML } from "./constants";
+import { extractTitle } from "./utils";
+
+const Create = ({ categories, setShowCreateArticle }) => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
+  const [showError, setShowError] = useState(false);
+
+  // console.log(showError);
+  // console.log(selectedCategoryId);
+
+  // const STATUS_OPTIONS = ["Save as draft", "Publish"];
+  const STATUS_OPTIONS = [
+    { label: "Save as draft", value: "Draft" },
+    { label: "Publish", value: "Published" },
+  ];
+
   const { Menu, MenuItem } = ActionDropdown;
 
   const editorRef = useRef(null);
 
-  const handleClick = () => {
-    const htmlOfEditorContent = editorRef.current.editor.getHTML;
-    // console.log(`${htmlOfEditorContent}`);
-    logger.log(htmlOfEditorContent);
+  const handleCreate = async () => {
+    try {
+      const data = parseData();
+      // await articlesApi.create({ title, status, body, categoryId });
+      await articlesApi.create({ payload: data });
+      setShowCreateArticle(false);
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
+  const parseData = () => {
+    const body = editorRef.current.editor.getHTML();
+    const jsonOfContent = editorRef.current.editor.getJSON();
+    const title = extractTitle(jsonOfContent);
+    const status = STATUS_OPTIONS[selectedOptionIndex].value;
+
+    if (selectedCategoryId === "") {
+      setShowError(true);
+      throw new Error("select category");
+    } else {
+      return { title, status, body, category_id: selectedCategoryId };
+    }
   };
 
   return (
@@ -22,56 +60,73 @@ const Create = () => {
         className="px-4"
         actionBlock={
           <>
-            <Button label="Cancel" style="secondary" type="button" />
+            <Button
+              label="Cancel"
+              style="secondary"
+              type="button"
+              onClick={() => setShowCreateArticle(false)}
+            />
             <ActionDropdown
-              // appendTo={() => document.body}
-              // buttonStyle="text"
-              // icon={() => <MenuHorizontal size={20} />}
-              // strategy="fixed"
-              label="Publish"
+              label={STATUS_OPTIONS[selectedOptionIndex].label}
+              value={STATUS_OPTIONS[selectedOptionIndex].value}
+              onClick={handleCreate}
             >
-              <Menu>
-                <MenuItem.Button>Publish</MenuItem.Button>
-                <MenuItem.Button>Save as Draft</MenuItem.Button>
+              <Menu className="flex flex-col">
+                {STATUS_OPTIONS.map((option, index) => (
+                  <MenuItem.Button
+                    key={option.value}
+                    prefix={
+                      <Check
+                        size={20}
+                        color={
+                          selectedOptionIndex === index ? "#252C32" : "inherit"
+                        }
+                      />
+                    }
+                    onClick={() => {
+                      setSelectedOptionIndex(index);
+                    }}
+                  >
+                    <span
+                      className={
+                        selectedOptionIndex === index
+                          ? "neeto-ui-text-gray-800"
+                          : "neeto-ui-text-gray-700"
+                      }
+                    >
+                      {option.label}
+                    </span>
+                  </MenuItem.Button>
+                ))}
               </Menu>
             </ActionDropdown>
           </>
         }
         title={
-          <div className="w-72">
+          <div className="flex gap-2 items-center">
             <Select
               isSearchable
-              className="w-full neeto-ui-text-gray-500 neeto-ui-font-normal"
+              className="w-72 neeto-ui-text-gray-500 neeto-ui-font-normal"
+              name="selectedCategory"
+              optionRemapping={{ label: "name", value: "id" }}
+              options={categories}
               placeholder="Search category"
-              options={[
-                {
-                  label: "Category 1",
-                  value: "value 1",
-                },
-                {
-                  label: "Category 2",
-                  value: "value 2",
-                },
-                {
-                  label: "Category 3",
-                  value: "value 3",
-                },
-                {
-                  label: "Category 4",
-                  value: "value 4",
-                },
-              ]}
-              // className=""
+              onChange={category => setSelectedCategoryId(category.id)}
             />
+            {showError && !selectedCategoryId && (
+              <span className="neeto-ui-text-error-800 neeto-ui-text-xs neeto-ui-font-normal">
+                Article category is a required field
+              </span>
+            )}
           </div>
         }
       />
       <Editor
         autoFocus
         showImageInMention
-        // className="flex-grow --neeto-ui-rounded-none"
-        contentClassName="px-8 "
+        contentClassName="px-40 "
         heightStrategy="flexible"
+        initialValue={EDITOR_INITIAL_HTML}
         ref={editorRef}
         rows={25}
         addons={[
@@ -82,10 +137,6 @@ const Create = () => {
           "redo",
           "text-color",
         ]}
-        initialValue={`<div>
-        <h1 style="color:#49545C">Add title here.</h1>
-        <p>Add description</p>
-        </div>`}
         mentions={[
           {
             name: "Oliver Smith",
@@ -99,7 +150,10 @@ const Create = () => {
           },
         ]}
       />
-      <Button className="w-20" onClick={handleClick}>
+      <Button
+        className="w-20"
+        // onClick={handlTryClick}
+      >
         Get Html
       </Button>
     </div>
