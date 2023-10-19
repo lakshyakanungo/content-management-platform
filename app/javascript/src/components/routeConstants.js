@@ -5,11 +5,15 @@
 import Articles from "components/Dashboard/Articles";
 import Settings from "components/Dashboard/Settings";
 
+import EUI from "./EUI";
+
 export const DASHBOARD_PATH = "/";
 export const ARTICLES_PATH = "/articles";
 export const CHANGE_PASSWORD_PATH = "/settings?tab=password";
 export const PROFILE_PATH = "/settings?tab=profile";
 export const SETTINGS_PATH = "/settings";
+
+export const EUI_PATH = "/eui";
 // export const LOGIN_PATH = "/login";
 // export const SIGNUP_PATH = "/signup";
 // export const RESET_PASSWORD_PATH = "/my/password/new";
@@ -39,5 +43,12 @@ export const DASHBOARD_ROUTES = [
   {
     path: SETTINGS_PATH,
     component: Settings,
+  },
+];
+
+export const EUI_ROUTES = [
+  {
+    path: EUI_PATH,
+    component: EUI,
   },
 ];

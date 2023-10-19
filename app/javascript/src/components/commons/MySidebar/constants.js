@@ -8,8 +8,8 @@ export const LOGOUT_PATH = "/logout";
 
 export const SIDENAV_LINKS = [
   {
-    label: "Notes",
-    to: "/notes",
+    label: "Articles",
+    to: "/articles",
     icon: Notes,
   },
   {

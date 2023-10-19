@@ -2,6 +2,8 @@ import axios from "axios";
 
 const fetch = () => axios.get("/articles");
 
+const fetchByCategory = () => axios.get("/articles/grouped");
+
 const search = ({ searchTerm, selectedCategoriesIds }) =>
   axios.get("/articles/search", {
     params: { title: searchTerm, category_id: selectedCategoriesIds },
@@ -37,6 +39,7 @@ const updateMultiple = ({ ids, payload }) => {
 
 const articlesApi = {
   fetch,
+  fetchByCategory,
   search,
   create,
   update,
