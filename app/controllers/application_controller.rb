@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include ApiResponders
+  include ApiRescuable
+
   before_action :add_default_user
 
   def add_default_user

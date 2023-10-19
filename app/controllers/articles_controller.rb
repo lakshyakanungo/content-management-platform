@@ -74,6 +74,7 @@ class ArticlesController < ApplicationController
   def update_multiple
     # puts "updating multiple...", article_params
     @articles.update!(article_params)
+    respond_with_success("Updated successfully")
   end
 
   private
