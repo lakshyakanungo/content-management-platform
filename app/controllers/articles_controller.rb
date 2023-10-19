@@ -20,6 +20,17 @@ class ArticlesController < ApplicationController
     # # render
   end
 
+  def grouped
+    grouped_articles = current_user.articles
+      # .where(status: "Published")
+      .joins(:category).select(
+        "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
+        "categories.name as category_name")
+      .group_by(&:category_name).to_a
+
+    render status: :ok, json: { grouped_articles: }
+  end
+
   def search
     puts "Parmassss", params
     query = params[:title].downcase

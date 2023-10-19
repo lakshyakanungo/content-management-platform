@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 
+import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
-import { setAuthHeaders } from "apis/axios";
+import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import {
   // AUTH_ROUTES,
   // PRIVATE_ROUTES,
   DASHBOARD_PATH,
+  EUI_PATH,
   // LOGIN_PATH,
 } from "components/routeConstants";
 
 import Dashboard from "./Dashboard";
+import EUI from "./EUI";
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
@@ -19,16 +23,21 @@ const Main = () => {
   useEffect(() => {
     /*eslint no-undef: "off"*/
     initializeLogger();
+    registerIntercepts();
     setAuthHeaders(setLoading);
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
   }
 
   return (
     <BrowserRouter>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <Switch>
         {/* {AUTH_ROUTES.map(route => (
           <Route
@@ -48,6 +57,7 @@ const Main = () => {
             redirectRoute={LOGIN_PATH}
           />
         ))} */}
+        <Route component={EUI} path={EUI_PATH} />
         <Route component={Dashboard} path={DASHBOARD_PATH} />
       </Switch>
     </BrowserRouter>

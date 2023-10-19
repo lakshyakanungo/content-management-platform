@@ -16,7 +16,6 @@ module.exports = {
     neetoicons: "@bigbinary/neeto-icons",
     neetomolecules: "@bigbinary/neeto-molecules",
     utils: absolutePath("src/utils"),
-    images: "app/assets/images",
   },
   extensions: [
     ".ts",

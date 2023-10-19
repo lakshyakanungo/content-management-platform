@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post "destroy_multiple"
       post "update_multiple"
       get "search"
+      get "grouped"
     end
   end
   resources :categories, only: [:index, :create, :update, :destroy] do
