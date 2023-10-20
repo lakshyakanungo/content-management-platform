@@ -23,7 +23,7 @@ const Form = ({ fetchSiteSettings }) => {
 
   const handleSubmit = async ({ password }) => {
     try {
-      await siteSettingsApi.update({ password });
+      await siteSettingsApi.update({ password, is_password_protected: true });
       fetchSiteSettings();
     } catch (error) {
       logger.log(error);

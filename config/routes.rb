@@ -18,9 +18,10 @@ Rails.application.routes.draw do
       get :reorder
     end
   end
-  resource :open_graph, only: [:show, :update]
   resources :redirections, only: [:index, :create, :update, :destroy]
-  resource :site_settings, only: [:show, :update]
+  resource :site_settings, only: [:show, :update] do
+    post "authenticate"
+  end
 end
 
   Redirection.all.each do |redirection|

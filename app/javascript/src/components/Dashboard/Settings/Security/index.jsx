@@ -17,14 +17,11 @@ const Security = () => {
   const fetchSiteSettings = async () => {
     try {
       setLoading(true);
-      const { data } = await siteSettingsApi.show();
-      const {
-        is_password_protected: isPasswordProtected,
-        has_password: hasPassword,
-      } = data;
+      const { data } = await siteSettingsApi.fetch();
+      const { is_password_protected: isPasswordProtected } = data;
       // console.log(data);
       setIsPasswordRequired(isPasswordProtected);
-      setShowChangePasswordForm(hasPassword);
+      setShowChangePasswordForm(isPasswordProtected);
     } catch (error) {
       logger.log(error);
     } finally {
@@ -35,11 +32,18 @@ const Security = () => {
   const updateSecurity = async value => {
     // console.log(value);
     try {
-      await siteSettingsApi.update({ is_password_protected: value });
+      await siteSettingsApi.update({
+        is_password_protected: value,
+      });
       fetchSiteSettings();
     } catch (error) {
       logger.log(error);
     }
+  };
+
+  const handleToggle = () => {
+    if (isPasswordRequired) updateSecurity(!isPasswordRequired);
+    else setIsPasswordRequired(true);
   };
 
   useEffect(() => {
@@ -62,10 +66,7 @@ const Security = () => {
     >
       <div className="flex justify-between">
         <span>Password protect your site</span>
-        <Switch
-          checked={isPasswordRequired}
-          onChange={() => updateSecurity(!isPasswordRequired)}
-        />
+        <Switch checked={isPasswordRequired} onChange={handleToggle} />
       </div>
       {isPasswordRequired &&
         (showChangePasswordForm ? (

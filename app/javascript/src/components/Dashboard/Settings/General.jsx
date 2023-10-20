@@ -4,7 +4,7 @@ import { Button, Spinner } from "@bigbinary/neetoui";
 import { Form, Input as FormikInput } from "@bigbinary/neetoui/formik";
 import * as yup from "yup";
 
-import openGraphsApi from "apis/openGraph";
+import siteSettingsApi from "apis/siteSettings";
 
 import Layout from "./Layout";
 
@@ -16,10 +16,9 @@ const General = () => {
     try {
       setLoading(true);
       const {
-        data: {
-          open_graph: { title },
-        },
-      } = await openGraphsApi.fetch();
+        data: { title },
+      } = await siteSettingsApi.fetch();
+      // console.log(data);
       setSiteName(title);
     } catch (error) {
       logger.log(error);
@@ -30,7 +29,7 @@ const General = () => {
 
   const handleSubmit = async values => {
     try {
-      await openGraphsApi.update({ title: values.siteName });
+      await siteSettingsApi.update({ title: values.siteName });
       fetchSiteName();
     } catch (error) {
       logger.log(error);
