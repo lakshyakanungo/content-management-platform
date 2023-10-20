@@ -6,7 +6,6 @@ class User < ApplicationRecord
   has_many :articles
   has_many :categories
   has_many :redirections
-  has_one :open_graph
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }
 end
