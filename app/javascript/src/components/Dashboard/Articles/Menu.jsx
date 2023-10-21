@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
-import { Search, Plus } from "neetoicons";
+import { Search as SearchIcon, Plus } from "neetoicons";
+
+import categoriesApi from "apis/categories";
 
 const ArticlesStates = ["All", "Draft", "Published"];
 
@@ -16,7 +18,10 @@ const Menu = ({
   selectedCategories,
   setSelectedCategories,
 }) => {
-  const { Block, SubTitle } = MenuBar;
+  const [categoriesDisplayed, setCategoriesDisplayed] = useState(categories);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+  const { Block, SubTitle, Search } = MenuBar;
 
   const handleCategoryClick = category => {
     if (selectedCategories.includes(category)) {
@@ -27,6 +32,37 @@ const Menu = ({
       setSelectedCategories(prev => [...prev, category]);
     }
   };
+
+  const fetchSearchResults = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.search(searchTerm);
+      // console.log(categories);
+      setCategoriesDisplayed(categories);
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
+  const handleKeyDown = event => {
+    // console.log(event);
+    if (event.code === "Escape") {
+      handleCollapse();
+    }
+  };
+
+  const handleCollapse = () => {
+    setIsSearchCollapsed(true);
+    setSearchTerm("");
+    setCategoriesDisplayed(categories);
+  };
+
+  useEffect(() => {
+    // if (searchTerm !== "") {
+    fetchSearchResults();
+    // }
+  }, [searchTerm]);
 
   return (
     <MenuBar showMenu={isMenuOpen} title="Articles">
@@ -45,8 +81,10 @@ const Menu = ({
       <SubTitle
         iconProps={[
           {
-            icon: Search,
-            onClick: () => {},
+            icon: SearchIcon,
+            onClick: () => {
+              setIsSearchCollapsed(!isSearchCollapsed);
+            },
           },
           {
             icon: Plus,
@@ -63,7 +101,15 @@ const Menu = ({
           Categories
         </Typography>
       </SubTitle>
-      {categories.map(category => (
+      <Search
+        isCollapsed={isSearchCollapsed}
+        placeholder="Search category"
+        value={searchTerm}
+        onChange={event => setSearchTerm(event.target.value)}
+        onCollapse={handleCollapse}
+        onKeyDown={handleKeyDown}
+      />
+      {categoriesDisplayed.map(category => (
         <Block
           // count={}
           active={selectedCategories.includes(category)}

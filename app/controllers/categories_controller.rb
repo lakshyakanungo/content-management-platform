@@ -9,6 +9,13 @@ class CategoriesController < ApplicationController
     render status: :ok, json: { categories: }
   end
 
+  def search
+    # TODO: See if search is implemented on params because not able to downcase strong params
+    query = params[:name].downcase
+    search_results = current_user.categories.where("lower(name) LIKE ?", "%#{query}%")
+    render status: :ok, json: { categories: search_results }
+  end
+
   def create
     # puts category_params
     # Category.create!(name: category_params[:name], user_id: current_user.id)

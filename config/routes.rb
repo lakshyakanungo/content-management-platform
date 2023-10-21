@@ -5,25 +5,28 @@ Rails.application.routes.draw do
   draw :api
 
   constraints(lambda { |req| req.format == :json }) do
-  resources :articles, only: [:index, :create, :update, :destroy] do
-    collection do
-      post "destroy_multiple"
-      post "update_multiple"
-      get "search"
-      get "grouped"
+    resources :articles, only: [:index, :create, :update, :destroy] do
+      collection do
+        post "destroy_multiple"
+        post "update_multiple"
+        get "search"
+        get "grouped"
+      end
     end
-  end
-  resources :categories, only: [:index, :create, :update, :destroy] do
-    member do
-      get :reorder
+    resources :categories, only: [:index, :create, :update, :destroy] do
+      member do
+        get :reorder
+      end
+      collection do
+        get "search"
+      end
     end
-  end
-  resources :redirections, only: [:index, :create, :update, :destroy]
-  resource :site_settings, only: [:show, :update] do
-    post "authenticate"
-  end
-end
+    resources :redirections, only: [:index, :create, :update, :destroy]
+    resource :site_settings, only: [:show, :update] do
+      post "authenticate"
+    end
 
+  end
   Redirection.all.each do |redirection|
     get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301), only_path: false
   end
