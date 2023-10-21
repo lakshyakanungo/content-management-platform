@@ -2,7 +2,7 @@ import React from "react";
 
 import { Route, Redirect, Switch } from "react-router-dom";
 
-import Sidebar from "components/commons/MySidebar";
+import Sidebar from "components/commons/Sidebar";
 import {
   DASHBOARD_ROUTES,
   ARTICLES_PATH,
