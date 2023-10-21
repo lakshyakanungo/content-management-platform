@@ -30,6 +30,8 @@ const Articles = () => {
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [showEditArticle, setShowEditArticle] = useState(false);
 
+  const [clickedArticle, setClickedArticle] = useState({});
+
   // console.log(selectedCategories, "Selected categories");
   const coz_husky = articles;
   coz_husky;
@@ -107,14 +109,20 @@ const Articles = () => {
   }
 
   return (
-    <div className="w-full flex flex-row">
+    <div className="flex-grow flex flex-row">
       {showCreateArticle && (
         <Create
           categories={categories}
           setShowCreateArticle={setShowCreateArticle}
         />
       )}
-      {showEditArticle && <Edit />}
+      {showEditArticle && (
+        <Edit
+          article={clickedArticle}
+          categories={categories}
+          setShowEditArticle={setShowEditArticle}
+        />
+      )}
       {!showCreateArticle && !showEditArticle && (
         <>
           <Menu
@@ -135,10 +143,12 @@ const Articles = () => {
             isMenuOpen={isMenuOpen}
             selectedCategories={selectedCategories}
             setArticles={setArticles}
+            setClickedArticle={setClickedArticle}
             setDisplayArticles={setDisplayArticles}
             setIsMenuOpen={setIsMenuOpen}
             setSelectedCategories={setSelectedCategories}
             setShowCreateArticle={setShowCreateArticle}
+            setShowEditArticle={setShowEditArticle}
           />
           <AddCategory
             handleAddCategory={handleAddCategory}

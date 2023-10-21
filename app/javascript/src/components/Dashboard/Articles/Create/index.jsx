@@ -150,12 +150,12 @@ const Create = ({ categories, setShowCreateArticle }) => {
           },
         ]}
       />
-      <Button
+      {/* <Button
         className="w-20"
         // onClick={handlTryClick}
       >
         Get Html
-      </Button>
+      </Button> */}
     </div>
   );
 };

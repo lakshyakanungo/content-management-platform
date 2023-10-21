@@ -10,7 +10,6 @@ import Container from "neetomolecules/Container";
 
 import SubHeader from "./SubHeader";
 
-import { buildArticlesColumnData } from "../constants";
 import Table from "../Table";
 
 const ArticlePage = ({
@@ -25,6 +24,9 @@ const ArticlePage = ({
   selectedCategories,
   setSelectedCategories,
   setShowCreateArticle,
+  //
+  setShowEditArticle,
+  setClickedArticle,
 }) => {
   // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -103,13 +105,12 @@ const ArticlePage = ({
     }
   };
 
-  const [columns, setColumns] = useState(
-    buildArticlesColumnData({ handleStatusChange, handleDelete })
-  );
+  const [allowedColumns, setAllowedColumns] = useState([]);
 
   useEffect(() => {
-    // if (!(searchTerm === "" && selectedCategories.length === 0))
-    fetchSearchResults();
+    if (!(searchTerm === "" && selectedCategories.length === 0)) {
+      fetchSearchResults();
+    }
   }, [searchTerm, selectedCategories]);
 
   if (loading) {
@@ -117,7 +118,7 @@ const ArticlePage = ({
   }
 
   return (
-    <Container>
+    <Container className="">
       <Header
         title="All articles"
         actionBlock={
@@ -140,25 +141,34 @@ const ArticlePage = ({
       <SubHeader
         articles={articles}
         categories={categories}
-        handeStatusChange={handleStatusChange}
         handleBulkCategoryChange={handleBulkCategoryChange}
         handleBulkDelete={handleBulkDelete}
         handleBulkStatusChange={handleBulkStatusChange}
         handleDelete={handleDelete}
+        handleStatusChange={handleStatusChange}
         selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
-        setColumns={setColumns}
+        // setColumns={setColumns}
+        // columns={columns}
+        setAllowedColumns={setAllowedColumns}
+        setClickedArticle={setClickedArticle}
         setSelectedCategories={setSelectedCategories}
+        // allowedColumns={allowedColumns}
+        setShowEditArticle={setShowEditArticle}
       />
       {articles.length ? (
         <Table
           articles={articles}
-          columnData={columns}
-          fetchArticles={fetchArticles}
+          columnData={allowedColumns}
+          // fetchArticles={fetchArticles}
           selectedArticleIds={selectedArticleIds}
           setSelectedArticleIds={setSelectedArticleIds}
+          //
+          // setShowEditArticle={setShowEditArticle}
+          // setClickedArticle={setClickedArticle}
         />
       ) : (
+        // <>Table was here</>
         <EmptyState
           primaryAction={() => {}}
           primaryActionLabel="Add article"

@@ -29,7 +29,7 @@ const Main = () => {
 
   if (loading) {
     return (
-      <div className="h-screen">
+      <div className="h-screen w-screen max-w-screen">
         <PageLoader />
       </div>
     );

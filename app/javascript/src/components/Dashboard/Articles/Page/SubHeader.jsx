@@ -1,30 +1,44 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import Columns from "@bigbinary/neeto-molecules/Columns";
 import NeetoSubHeader from "@bigbinary/neeto-molecules/SubHeader";
 import { Delete } from "neetoicons";
 import { Dropdown, Button, Tag } from "neetoui";
 
-import {
-  // ARTICLES_TABLE_ROW_DATA,
-  ARTICLES_TABLE_COLUMN_DATA,
-} from "../constants";
+import { buildArticlesColumnData } from "../constants";
 
 const SubHeader = ({
   selectedArticleIds,
   articles,
   categories,
-  setColumns,
-  // handleDelete,
-  // handleStatusChange,
+  handleDelete,
+  handleStatusChange,
   handleBulkCategoryChange,
   handleBulkStatusChange,
   handleBulkDelete,
   selectedCategories,
   setSelectedCategories,
+  setAllowedColumns,
+  // allowedColumns,
+  setClickedArticle,
+  setShowEditArticle,
 }) => {
+  const columns = useMemo(
+    () =>
+      buildArticlesColumnData({
+        handleStatusChange,
+        handleDelete,
+        setClickedArticle,
+        setShowEditArticle,
+      }),
+    []
+  );
+
+  // console.log(columns, "columns");
+
   const { Menu, MenuItem } = Dropdown;
 
+  // console.log(allowedColumns, "allowed ");
   const handleTagClose = category => {
     // console.log("working");
     // console.log(selectedCategories);
@@ -121,12 +135,14 @@ const SubHeader = ({
           <Columns
             buttonStyle="secondary"
             // checkboxProps={{}}
-            columnData={ARTICLES_TABLE_COLUMN_DATA}
+            // columnData={ARTICLES_TABLE_COLUMN_DATA}
+            columnData={columns}
             fixedColumns={["title", "iconButton"]}
             label="Columns"
-            // localStorageKey="TABLE_HIDDEN_COLUMNS"
+            localStorageKey="TABLE_HIDDEN_COLUMNS"
             noColumnMessage="No columns found"
-            onChange={setColumns}
+            onChange={cols => setAllowedColumns(cols)}
+            // onChange={e => console.log(e)}
             // searchProps={{ placeholder: "Search columns" }}
           />
         )
