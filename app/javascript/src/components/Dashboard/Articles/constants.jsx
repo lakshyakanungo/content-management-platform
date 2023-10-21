@@ -1,7 +1,8 @@
 import React from "react";
 
 import { MenuHorizontal } from "neetoicons";
-import { Dropdown as NeetoDropdown } from "neetoui";
+import { Dropdown as NeetoDropdown, Button } from "neetoui";
+
 // import { useTranslation } from "react-i18next";
 
 const renderDropdown = ({ record, handleStatusChange, handleDelete }) => {
@@ -11,64 +12,102 @@ const renderDropdown = ({ record, handleStatusChange, handleDelete }) => {
 
   // const { t } = useTranslation();
   return (
-    <div className="flex justify-end	">
-      <NeetoDropdown
-        appendTo={() => document.body}
-        buttonStyle="text"
-        icon={() => <MenuHorizontal size={20} />}
-        strategy="fixed"
-      >
-        <Menu>
-          {status === "Draft" ? (
-            <MenuItem.Button
-              onClick={() => handleStatusChange({ id, status: "Published" })}
-            >
-              Publish
-            </MenuItem.Button>
-          ) : (
-            <MenuItem.Button
-              onClick={() => handleStatusChange({ id, status: "Draft" })}
-            >
-              Unpublish
-            </MenuItem.Button>
-          )}
-          <Divider />
-          <MenuItem.Button style="danger" onClick={() => handleDelete(id)}>
-            Delete
+    // <div className="flex justify-end	">
+    <NeetoDropdown
+      appendTo={() => document.body}
+      buttonStyle="text"
+      icon={() => <MenuHorizontal size={20} />}
+      strategy="fixed"
+    >
+      <Menu>
+        {status === "Draft" ? (
+          <MenuItem.Button
+            onClick={() => handleStatusChange({ id, status: "Published" })}
+          >
+            Publish
           </MenuItem.Button>
-        </Menu>
-      </NeetoDropdown>
-    </div>
+        ) : (
+          <MenuItem.Button
+            onClick={() => handleStatusChange({ id, status: "Draft" })}
+          >
+            Unpublish
+          </MenuItem.Button>
+        )}
+        <Divider />
+        <MenuItem.Button style="danger" onClick={() => handleDelete(id)}>
+          Delete
+        </MenuItem.Button>
+      </Menu>
+    </NeetoDropdown>
+    // </div>
   );
 };
+
+const renderTitle = ({ record, setClickedArticle, setShowEditArticle }) => {
+  const handleClick = () => {
+    setClickedArticle(record);
+    setShowEditArticle(true);
+  };
+
+  return (
+    <Button style="link" onClick={handleClick}>
+      {record.title}
+    </Button>
+  );
+};
+
 export const buildArticlesColumnData = ({
   handleStatusChange,
   handleDelete,
+  setClickedArticle,
+  setShowEditArticle,
 }) => [
   {
     title: "Title",
     dataIndex: "title",
     key: "title",
+    render: (_, record) =>
+      renderTitle({ record, setClickedArticle, setShowEditArticle }),
+    ellipsis: {
+      showTitle: false,
+    },
+    width: "10%",
   },
   {
     title: "Category",
     dataIndex: "category_name",
     key: "category",
+    ellipsis: {
+      showTitle: false,
+    },
+    width: "10%",
   },
   {
     title: "Author",
     dataIndex: "author",
     key: "author",
+    ellipsis: {
+      showTitle: false,
+    },
+    width: "10%",
   },
   {
     title: "Last Published At",
     dataIndex: "last_published_at",
     key: "lastPublishedAt",
+    ellipsis: {
+      showTitle: false,
+    },
+    width: "20%",
   },
   {
     title: "Status",
     dataIndex: "status",
     key: "status",
+    ellipsis: {
+      showTitle: false,
+    },
+    width: "10%",
   },
   {
     title: "",
@@ -76,6 +115,67 @@ export const buildArticlesColumnData = ({
     key: "iconButton",
     render: (_, record) =>
       renderDropdown({ record, handleStatusChange, handleDelete }),
+
+    fixed: "right",
+    width: "10%",
+  },
+];
+
+export const ARTICLES_TABLE_COLUMN_DATA = [
+  {
+    title: "Title",
+    dataIndex: "title",
+    key: "title",
+    ellipsis: {
+      showTitle: false,
+    },
+    // width: 75,
+  },
+  {
+    title: "Category",
+    dataIndex: "category_name",
+    key: "category",
+    ellipsis: {
+      showTitle: false,
+    },
+    // width: 75,
+  },
+  {
+    title: "Author",
+    dataIndex: "author",
+    key: "author",
+    ellipsis: {
+      showTitle: false,
+    },
+    // width: 75,
+  },
+  {
+    title: "Last Published At",
+    dataIndex: "last_published_at",
+    key: "lastPublishedAt",
+    ellipsis: {
+      showTitle: false,
+    },
+    // width: 75,
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    ellipsis: {
+      showTitle: false,
+    },
+    // width: 75,
+  },
+  {
+    title: "",
+    dataIndex: "icon_button",
+    key: "iconButton",
+    ellipsis: {
+      showTitle: false,
+    },
+    // width: 75,
+    // render: () => <div>hi</div>,
   },
 ];
 
@@ -167,38 +267,5 @@ export const ARTICLES_TABLE_ROW_DATA = [
     author: "Oliver Smith",
     lastPublishedAt: "Jul 13, 2022, 11:13 AM",
     status: "Draft",
-  },
-];
-
-export const ARTICLES_TABLE_COLUMN_DATA = [
-  {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "Category",
-    dataIndex: "category_name",
-    key: "category",
-  },
-  {
-    title: "Author",
-    dataIndex: "author",
-    key: "author",
-  },
-  {
-    title: "Last Published At",
-    dataIndex: "last_published_at",
-    key: "lastPublishedAt",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-  },
-  {
-    title: "",
-    dataIndex: "iconButton",
-    key: "iconButton",
   },
 ];
