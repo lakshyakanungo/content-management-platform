@@ -2,6 +2,11 @@ import axios from "axios";
 
 const fetch = () => axios.get("/categories");
 
+const search = searchTerm =>
+  axios.get("/categories/search", {
+    params: { name: searchTerm },
+  });
+
 const create = payload =>
   axios.post("/categories", {
     category: payload,
@@ -21,6 +26,7 @@ const destroy = id => axios.delete(`/categories/${id}`);
 
 const categoriesApi = {
   fetch,
+  search,
   create,
   update,
   destroy,

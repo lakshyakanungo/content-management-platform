@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import TableWrapper from "@bigbinary/neeto-molecules/TableWrapper";
 import classnames from "classnames";
 import { Table as NeetoUITable } from "neetoui";
 
@@ -26,7 +27,8 @@ const Table = ({
   // console.log("column data", columnData);
 
   return (
-    <div className="notes-table-height flex-shrink flex">
+    // <div className="notes-table-height flex-shrink flex">
+    <TableWrapper>
       <NeetoUITable
         allowRowClick
         preserveTableStateInQuery
@@ -49,7 +51,8 @@ const Table = ({
         // setShowEditArticle(true);
         // }}
       />
-    </div>
+      {/* </div> */}
+    </TableWrapper>
   );
 };
 
