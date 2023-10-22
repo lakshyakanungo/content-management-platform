@@ -4,15 +4,17 @@ import categoriesApi from "apis/categories";
 import useDragAndDrop from "hooks/useDragAndDrop";
 
 import Dropdown from "./Dropdown";
-import Edit from "./Form/Edit";
+import Delete from "./Modals/Delete";
+import Edit from "./Modals/Edit";
 
 import MenuSquare from "/Users/bigbinary/Desktop/new-dev/Scribble/app/assets/images/MenuSquare";
-// import MenuSquare from "app/assets/images/MenuSqaure.svg";
+
 const ListItem = ({
   text,
   index,
   moveListItem,
   category,
+  categories,
   fetchCategories,
   handleMove,
 }) => {
@@ -28,7 +30,8 @@ const ListItem = ({
   const opacity = isDragging ? 0 : 1;
   opacity;
 
-  const [showEditCategoryModal, setShowEditCategoryModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleEdit = async ({ category: name }) => {
     try {
@@ -37,20 +40,15 @@ const ListItem = ({
         payload: { name },
       });
       fetchCategories();
-      setShowEditCategoryModal(false);
+      setShowEditModal(false);
     } catch (error) {
       logger.log(error);
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      await categoriesApi.destroy(category.id);
-      fetchCategories();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const categoryMoveOptions = categories.filter(
+    item => item.id !== category.id
+  );
 
   return (
     <li className="group flex flex-row items-center" ref={dragDropRef}>
@@ -69,15 +67,24 @@ const ListItem = ({
           </div>
         </div>
         <Dropdown
-          handleDelete={handleDelete}
-          setShowEditCategoryModal={setShowEditCategoryModal}
+          setShowDeleteModal={setShowDeleteModal}
+          setShowEditModal={setShowEditModal}
         />
-        {showEditCategoryModal && (
+        {showEditModal && (
           <Edit
             category={category}
             handleEdit={handleEdit}
-            setShowEditCategoryModal={setShowEditCategoryModal}
-            showEditCategoryModal={showEditCategoryModal}
+            setShowEditModal={setShowEditModal}
+            showEditModal={showEditModal}
+          />
+        )}
+        {showDeleteModal && (
+          <Delete
+            category={category}
+            categoryMoveOptions={categoryMoveOptions}
+            fetchCategories={fetchCategories}
+            setShowDeleteModal={setShowDeleteModal}
+            showDeleteModal={showDeleteModal}
           />
         )}
       </div>

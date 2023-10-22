@@ -8,8 +8,8 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import categoriesApi from "apis/categories";
 
-import AddCategoryModal from "./Form/Create";
 import List from "./List";
+import AddCategoryModal from "./Modals/Create";
 
 import Layout from "../Layout";
 

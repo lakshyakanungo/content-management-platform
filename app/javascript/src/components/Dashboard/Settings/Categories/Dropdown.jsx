@@ -3,7 +3,7 @@ import React from "react";
 import { Dropdown as NeetoDropdown } from "@bigbinary/neetoui";
 import { MenuVertical } from "neetoicons";
 
-const Dropdown = ({ setShowEditCategoryModal, handleDelete }) => {
+const Dropdown = ({ setShowEditModal, setShowDeleteModal }) => {
   const { Menu, MenuItem, Divider } = NeetoDropdown;
 
   return (
@@ -13,14 +13,14 @@ const Dropdown = ({ setShowEditCategoryModal, handleDelete }) => {
       icon={MenuVertical}
     >
       <Menu>
-        <MenuItem.Button onClick={() => setShowEditCategoryModal(true)}>
+        <MenuItem.Button onClick={() => setShowEditModal(true)}>
           Edit
         </MenuItem.Button>
         <Divider />
         <MenuItem.Button
           style="danger"
           // onClick={() => handleDelete(id)}
-          onClick={handleDelete}
+          onClick={() => setShowDeleteModal(true)}
         >
           Delete
         </MenuItem.Button>

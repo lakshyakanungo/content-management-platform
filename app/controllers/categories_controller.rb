@@ -28,6 +28,9 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
+    # puts @category.articles
+    # puts "here", category_params
+    @category.articles.update!(category_id: category_params[:move_into_category_id])
     @category.destroy!
   end
 
@@ -38,11 +41,16 @@ class CategoriesController < ApplicationController
   private
 
     def category_params
-      params.require(:category).permit(:name, :position)
+      params.require(:category).permit(:name, :position, :id, :move_into_category_id)
     end
 
     def load_category!
       # category = Category.find(params[:id])
+      # puts "getting id ? :", params[:id]
       @category = current_user.categories.find(params[:id])
+      # puts @category
     end
+
+  # def move_into_category_id(original_category_id, new_category_id)
+  # end
 end

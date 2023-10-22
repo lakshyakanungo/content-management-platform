@@ -4,23 +4,15 @@ import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import * as yup from "yup";
 
-const Edit = ({
-  category,
-  handleEdit,
-  showEditCategoryModal,
-  setShowEditCategoryModal,
-}) => {
+const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
   const { Header, Body, Footer } = Modal;
 
   const handleReset = () => {
-    setShowEditCategoryModal(false);
+    setShowEditModal(false);
   };
 
   return (
-    <Modal
-      isOpen={showEditCategoryModal}
-      onClose={() => setShowEditCategoryModal(false)}
-    >
+    <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
       <Header>
         <Typography style="h2" weight="medium">
           Edit Category

@@ -40,6 +40,7 @@ const List = ({ categories, setCategories, fetchCategories }) => {
     <ul className="flex flex-col gap-2">
       {categories.map((category, index) => (
         <ListItem
+          categories={categories}
           category={category}
           fetchCategories={fetchCategories}
           handleMove={handleMove}
