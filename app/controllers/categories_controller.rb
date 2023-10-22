@@ -5,8 +5,8 @@ class CategoriesController < ApplicationController
 
   def index
     # categories = Category.all.order(:position)
-    categories = current_user.categories.order(:position)
-    render status: :ok, json: { categories: }
+    @categories = current_user.categories.order("position ASC")
+    # render status: :ok, json: { categories: }
   end
 
   def search
@@ -30,7 +30,12 @@ class CategoriesController < ApplicationController
   def destroy
     # puts @category.articles
     # puts "here", category_params
-    @category.articles.update!(category_id: category_params[:move_into_category_id])
+    if current_user.categories_count == 1
+      new_category = current_user.categories.create!(name: "General")
+      move_articles(new_category.id)
+    else
+      move_articles(category_params[:move_into_category_id])
+    end
     @category.destroy!
   end
 
@@ -51,6 +56,7 @@ class CategoriesController < ApplicationController
       # puts @category
     end
 
-  # def move_into_category_id(original_category_id, new_category_id)
-  # end
+    def move_articles(new_category_id)
+      @category.articles.update!(category_id: new_category_id)
+    end
 end

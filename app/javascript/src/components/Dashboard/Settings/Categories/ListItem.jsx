@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import categoriesApi from "apis/categories";
 import useDragAndDrop from "hooks/useDragAndDrop";
 
+import Alert from "./Alert";
 import Dropdown from "./Dropdown";
-import Delete from "./Modals/Delete";
+import DeleteModal from "./Modals/Delete";
 import Edit from "./Modals/Edit";
 
 import MenuSquare from "/Users/bigbinary/Desktop/new-dev/Scribble/app/assets/images/MenuSquare";
@@ -62,7 +63,7 @@ const ListItem = ({
               {text}
             </span>
             <span className="neeto-ui-text-gray-500 neeto-ui-text-sm">
-              {6} articles
+              {category.count} articles
             </span>
           </div>
         </div>
@@ -78,15 +79,19 @@ const ListItem = ({
             showEditModal={showEditModal}
           />
         )}
-        {showDeleteModal && (
-          <Delete
-            category={category}
-            categoryMoveOptions={categoryMoveOptions}
-            fetchCategories={fetchCategories}
-            setShowDeleteModal={setShowDeleteModal}
-            showDeleteModal={showDeleteModal}
-          />
-        )}
+        {showDeleteModal &&
+          (category.articles_count > 0 ? (
+            <DeleteModal
+              category={category}
+              categoryMoveOptions={categoryMoveOptions}
+              fetchCategories={fetchCategories}
+              hasMultipleCategories={categories.length > 1}
+              setShowDeleteModal={setShowDeleteModal}
+              showDeleteModal={showDeleteModal}
+            />
+          ) : (
+            <Alert category={category} fetchCategories={fetchCategories} />
+          ))}
       </div>
     </li>
   );
