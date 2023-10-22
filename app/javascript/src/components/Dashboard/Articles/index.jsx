@@ -31,6 +31,7 @@ const Articles = () => {
   const [showEditArticle, setShowEditArticle] = useState(false);
 
   const [clickedArticle, setClickedArticle] = useState({});
+  const [counts, setCounts] = useState({ all: 0, draft: 0, published: 0 });
 
   // console.log(selectedCategories, "Selected categories");
   const coz_husky = articles;
@@ -41,8 +42,8 @@ const Articles = () => {
   const handleMenuStateChange = state => {
     setActiveMenuState(state);
 
-    if (state === "All") setDisplayArticles(allArticles);
-    else if (state === "Draft") setDisplayArticles(draftArticles);
+    if (state === "all") setDisplayArticles(allArticles);
+    else if (state === "draft") setDisplayArticles(draftArticles);
     else setDisplayArticles(publishedArticles);
   };
 
@@ -91,6 +92,11 @@ const Articles = () => {
       setAllArticles(allArticles);
       setArticles(allArticles);
       setDisplayArticles(allArticles);
+      setCounts({
+        all: allArticles.length,
+        draft: draft.length,
+        published: published.length,
+      });
       // setArticles(data.articles.published);
     } catch (error) {
       logger.log(error);
@@ -128,6 +134,7 @@ const Articles = () => {
           <Menu
             activeMenuState={activeMenuState}
             categories={categories}
+            counts={counts}
             handleMenuStateChange={handleMenuStateChange}
             isMenuOpen={isMenuOpen}
             selectedCategories={selectedCategories}

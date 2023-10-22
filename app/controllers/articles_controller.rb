@@ -4,20 +4,12 @@ class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
   before_action :load_multiple_articles!, only: %i[destroy_multiple update_multiple]
 
-  # def index
-  #   articles = Article.all
-  #   render status: :ok, json: { articles: }
-  #   # render json: @articles
-  #   # render
-  # end
   def index
     @all_articles = Article.all.joins(:category).select(
       "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
       "categories.name as category_name")
     @draft_articles = @all_articles.filter { |article| article.status == "Draft" }
     @published_articles = @all_articles.filter { |article|article.status == "Published" }
-    # render status: :ok, json: { articles: @articles_list }
-    # # render
   end
 
   def grouped
@@ -25,7 +17,8 @@ class ArticlesController < ApplicationController
       # .where(status: "Published")
       .joins(:category).select(
         "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
-        "categories.name as category_name")
+        "categories.name as category_name", "categories.position as category_position")
+      .order("category_position")
       .group_by(&:category_name).to_a
 
     render status: :ok, json: { grouped_articles: }

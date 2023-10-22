@@ -13,6 +13,7 @@ const Delete = ({
   fetchCategories,
   showDeleteModal,
   setShowDeleteModal,
+  hasMultipleCategories,
 }) => {
   const { Header, Body, Footer } = Modal;
 
@@ -23,7 +24,7 @@ const Delete = ({
         id: category.id,
         payload: {
           id: category.id,
-          move_into_category_id: selectedCategory.id,
+          move_into_category_id: selectedCategory?.id,
         },
       });
       fetchCategories();
@@ -45,23 +46,44 @@ const Delete = ({
         <div className="flex flex-col gap-3 w-full">
           <h2 className="neeto-ui-text-gray-800">Delete Category</h2>
           <p>
-            You are permanently deleting the <b>Neeto</b> category. This action
-            cannot be undone. Are you sure you wish to continue?
+            You are permanently deleting the <b>{category.name}</b> category.
+            This action cannot be undone. Are you sure you wish to continue?
           </p>
           <div className="flex neeto-ui-bg-error-100 gap-1 neeto-ui-rounded p-2">
             <Warning color="#BB121A" size={48} />
-            <span className="">
-              Category <b className="neeto-ui-text-error-800">Neeto</b> has 60
-              articles. Before this category can be deleted, these articles
-              needs to be moved to another category.
-            </span>
+            {hasMultipleCategories ? (
+              <span className="">
+                Category
+                <b className="neeto-ui-text-error-800">
+                  &nbsp;{category.name}&nbsp;
+                </b>
+                has&nbsp;{category.articles_count}&nbsp;articles. Before this
+                category can be deleted, these articles needs to be moved to
+                another category.
+              </span>
+            ) : (
+              <span className="">
+                Category
+                <b className="neeto-ui-text-error-800">
+                  &nbsp;{category.name}&nbsp;
+                </b>
+                is the only category present and it has&nbsp;
+                {category.articles_count}&nbsp;articles. On proceeding, all the
+                articles will be moved to a new category
+                <b className="neeto-ui-text-error-800">&nbsp;General&nbsp;</b>.
+              </span>
+            )}
           </div>
         </div>
       </Header>
       <Form
         formikProps={{
-          initialValues: { selectedCategory: null },
+          initialValues: {
+            showSelect: hasMultipleCategories,
+            selectedCategory: null,
+          },
           validationSchema: yup.object().shape({
+            showSelect: yup.boolean(),
             selectedCategory: yup
               .object()
               .shape({
@@ -69,12 +91,22 @@ const Delete = ({
                 id: yup.string().required(),
               })
               .nullable()
-              .required("Category to move articles into is required"),
+              .when("showSelect", {
+                is: true,
+                then: yup
+                  .object()
+                  .shape({
+                    name: yup.string().required(),
+                    id: yup.string().required(),
+                  })
+                  .nullable()
+                  .required("Category to move articles into is required"),
+              }),
           }),
           onSubmit: handleSubmit,
         }}
       >
-        {({ resetForm }) => (
+        {({ dirty }) => (
           <>
             <Body className="w-11/12">
               <Select
@@ -88,13 +120,20 @@ const Delete = ({
                 placeholder="Search category"
               />
             </Body>
-            <Footer className="">
-              <Button label="Proceed" style="danger" type="submit" />
+            <Footer>
               <Button
+                className="mr-2"
+                disabled={!dirty && hasMultipleCategories}
+                label="Proceed"
+                style="danger"
+                type="submit"
+              />
+              <Button
+                disabled={!dirty && hasMultipleCategories}
                 label="Cancel"
                 style="text"
                 type="reset"
-                onClick={resetForm}
+                onClick={() => setShowDeleteModal(false)}
               />
             </Footer>
           </>

@@ -6,7 +6,7 @@ import { Search as SearchIcon, Plus } from "neetoicons";
 
 import categoriesApi from "apis/categories";
 
-const ArticlesStates = ["All", "Draft", "Published"];
+const ArticlesStates = ["all", "draft", "published"];
 
 const Menu = ({
   isMenuOpen,
@@ -17,6 +17,7 @@ const Menu = ({
   handleMenuStateChange,
   selectedCategories,
   setSelectedCategories,
+  counts,
 }) => {
   const [categoriesDisplayed, setCategoriesDisplayed] = useState(categories);
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,23 +60,21 @@ const Menu = ({
   };
 
   useEffect(() => {
-    // if (searchTerm !== "") {
-    fetchSearchResults();
-    // }
+    if (searchTerm !== "") {
+      fetchSearchResults();
+    }
   }, [searchTerm]);
 
   return (
     <MenuBar showMenu={isMenuOpen} title="Articles">
-      {/* <Block active={} count={13} label="All" />
-      <Block count={2} label="Published" />
-      <Block count={7} label="Draft" /> */}
       {ArticlesStates.map(state => (
         <Block
           active={state === activeMenuState}
+          className="capitalize"
+          count={counts[state]}
           key={state}
           label={state}
           onClick={() => handleMenuStateChange(state)}
-          // count={}
         />
       ))}
       <SubTitle
@@ -110,9 +109,10 @@ const Menu = ({
         onKeyDown={handleKeyDown}
       />
       {categoriesDisplayed.map(category => (
+        // console.log(category);
         <Block
-          // count={}
           active={selectedCategories.includes(category)}
+          count={category.articles_count}
           key={category.id}
           label={category.name}
           onClick={() => handleCategoryClick(category)}
