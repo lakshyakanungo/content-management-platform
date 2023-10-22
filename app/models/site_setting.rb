@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SiteSetting < ApplicationRecord
-  MAX_TITLE_LENGTH = 125
+  MAX_TITLE_LENGTH = 40
   MIN_PASSWORD_LENGTH = 6
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*\d).+\z/
