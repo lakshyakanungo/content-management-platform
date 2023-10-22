@@ -27,10 +27,4 @@ export const validateForm = ({ values, setHasMinError, setHasMatchError }) => {
   }
 };
 
-export const handleEyeToggle = inputRef => {
-  if (inputRef.current.type === "password") {
-    inputRef.current.type = "text";
-  } else {
-    inputRef.current.type = "password";
-  }
-};
+// export

@@ -8,7 +8,7 @@ import siteSettingsApi from "apis/siteSettings";
 import { INITIAL_VALUES } from "./constants";
 import {
   buildValidationClassName,
-  handleEyeToggle,
+  // handleEyeToggle,
   validateForm,
 } from "./utils";
 
@@ -18,6 +18,23 @@ const Form = ({ fetchSiteSettings }) => {
 
   const inputRef = useRef(null);
 
+  const handleEyeToggle = inputRef => {
+    // console.log("working");
+    if (inputRef.current.type === "password") {
+      inputRef.current.type = "text";
+    } else {
+      inputRef.current.type = "password";
+    }
+  };
+
+  const ToggleElt = () => (
+    <div
+      className="cursor-pointer bg-green-300 z-10"
+      onClick={() => handleEyeToggle(inputRef)}
+    >
+      <Eye />
+    </div>
+  );
   // console.log("hasMinError : ", hasMinError);
   // console.log("hasMatchError : ", hasMatchError);
 
@@ -45,7 +62,8 @@ const Form = ({ fetchSiteSettings }) => {
         name="password"
         placeholder="Enter password"
         ref={inputRef}
-        suffix={<Eye onClick={() => handleEyeToggle(inputRef)} />}
+        // suffix={<Eye onClick={() => handleEyeToggle(inputRef)} />}
+        suffix={<ToggleElt />}
         type="password"
       />
       <div className={buildValidationClassName(hasMinError)}>
@@ -68,6 +86,8 @@ const Form = ({ fetchSiteSettings }) => {
         style="text"
         type="reset"
       />
+      <br />
+      <div onClick={() => handleEyeToggle(inputRef)}>Toggle</div>
     </NeetoForm>
   );
 };
