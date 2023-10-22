@@ -35,5 +35,6 @@ module.exports = {
   },
   variants: {
     borderWidth: ["last"],
+    visibility: ["group-hover"],
   },
 };

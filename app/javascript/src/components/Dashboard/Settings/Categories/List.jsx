@@ -37,7 +37,7 @@ const List = ({ categories, setCategories, fetchCategories }) => {
   );
 
   return (
-    <ul className="flex flex-col gap-5 p-2">
+    <ul className="flex flex-col gap-2">
       {categories.map((category, index) => (
         <ListItem
           category={category}
