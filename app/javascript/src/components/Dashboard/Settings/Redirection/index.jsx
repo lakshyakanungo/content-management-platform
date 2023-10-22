@@ -63,6 +63,7 @@ const Redirection = () => {
                 data={redirection}
                 fetchRedirections={fetchRedirections}
                 key={redirection.id}
+                redirections={redirections}
                 onCollapse={() => {
                   setEditingRow("");
                 }}
@@ -80,6 +81,7 @@ const Redirection = () => {
         {showNewRedirection && (
           <FormRow
             fetchRedirections={fetchRedirections}
+            redirections={redirections}
             onCollapse={() => setShowNewRedirection(false)}
           />
         )}
