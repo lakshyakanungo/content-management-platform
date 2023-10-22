@@ -22,7 +22,13 @@ const reorder = ({ id, payload }) =>
     category: payload,
   });
 
-const destroy = id => axios.delete(`/categories/${id}`);
+// TODO: See best way to implement. We need to send id with params or as data
+const destroy = ({ id, payload }) =>
+  axios.delete(`/categories/${id}`, {
+    data: {
+      category: payload,
+    },
+  });
 
 const categoriesApi = {
   fetch,
