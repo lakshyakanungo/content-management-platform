@@ -12,57 +12,31 @@ import Menu from "./Menu";
 import ArticlePage from "./Page";
 
 const Articles = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [showMenu, setShowMenu] = useState(true);
+  const [activeMenuState, setActiveMenuState] = useState("all");
+
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [articlesLoading, setArticlesLoading] = useState(true);
 
-  const [articles, setArticles] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [clickedArticle, setClickedArticle] = useState({});
+  const [showCreateArticle, setShowCreateArticle] = useState(false);
+  const [showEditArticle, setShowEditArticle] = useState(false);
+
   const [allArticles, setAllArticles] = useState([]);
   const [draftArticles, setDraftArticles] = useState([]);
   const [publishedArticles, setPublishedArticles] = useState([]);
   const [displayArticles, setDisplayArticles] = useState([]);
-
-  const [activeMenuState, setActiveMenuState] = useState("All");
-  const [selectedCategories, setSelectedCategories] = useState([]);
-
-  const [showCreateArticle, setShowCreateArticle] = useState(false);
-  const [showEditArticle, setShowEditArticle] = useState(false);
-
-  const [clickedArticle, setClickedArticle] = useState({});
-  const [counts, setCounts] = useState({ all: 0, draft: 0, published: 0 });
-
+  const [articleCounts, setArticleCounts] = useState({
+    all: 0,
+    draft: 0,
+    published: 0,
+  });
   // console.log(selectedCategories, "Selected categories");
-  const coz_husky = articles;
-  coz_husky;
-  setShowEditArticle;
-  //delete upper two lines later.
-
-  const handleMenuStateChange = state => {
-    setActiveMenuState(state);
-
-    if (state === "all") setDisplayArticles(allArticles);
-    else if (state === "draft") setDisplayArticles(draftArticles);
-    else setDisplayArticles(publishedArticles);
-  };
-
-  const handleAddCategory = async ({ category }) => {
-    // handle submit here
-    // console.log(category, "check");
-    try {
-      await categoriesApi.create({ name: category });
-      fetchCategories();
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setShowAddCategoryModal(false);
-    }
-  };
 
   const fetchCategories = async () => {
     try {
-      setLoading(true);
       const {
         data: { categories },
       } = await categoriesApi.fetch();
@@ -70,14 +44,11 @@ const Articles = () => {
       setCategories(categories);
     } catch (error) {
       logger.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchArticles = async () => {
     try {
-      setArticlesLoading(true);
       const {
         data: {
           articles: { draft, published },
@@ -90,24 +61,44 @@ const Articles = () => {
       setDraftArticles(draft);
       setPublishedArticles(published);
       setAllArticles(allArticles);
-      setArticles(allArticles);
       setDisplayArticles(allArticles);
-      setCounts({
+      setArticleCounts({
         all: allArticles.length,
         draft: draft.length,
         published: published.length,
       });
-      // setArticles(data.articles.published);
     } catch (error) {
       logger.log(error);
-    } finally {
-      setArticlesLoading(false);
     }
   };
 
+  const handleAddCategory = async ({ category }) => {
+    try {
+      await categoriesApi.create({ name: category });
+      fetchCategories();
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setShowAddCategoryModal(false);
+    }
+  };
+
+  const handleMenuStateChange = menuState => {
+    setActiveMenuState(menuState);
+
+    if (menuState === "all") setDisplayArticles(allArticles);
+    else if (menuState === "draft") setDisplayArticles(draftArticles);
+    else setDisplayArticles(publishedArticles);
+  };
+
+  const fetchArticlesAndCategories = async () => {
+    setLoading(true);
+    await Promise.all([fetchCategories(), fetchArticles()]);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetchCategories();
-    fetchArticles();
+    fetchArticlesAndCategories();
   }, []);
 
   if (loading) {
@@ -115,10 +106,11 @@ const Articles = () => {
   }
 
   return (
-    <div className="flex-grow flex flex-row">
+    <div className="flex-grow flex-shrink flex flex-row">
       {showCreateArticle && (
         <Create
           categories={categories}
+          refetch={fetchArticlesAndCategories}
           setShowCreateArticle={setShowCreateArticle}
         />
       )}
@@ -126,6 +118,7 @@ const Articles = () => {
         <Edit
           article={clickedArticle}
           categories={categories}
+          refetch={fetchArticlesAndCategories}
           setShowEditArticle={setShowEditArticle}
         />
       )}
@@ -133,29 +126,27 @@ const Articles = () => {
         <>
           <Menu
             activeMenuState={activeMenuState}
+            articleCounts={articleCounts}
             categories={categories}
-            counts={counts}
             handleMenuStateChange={handleMenuStateChange}
-            isMenuOpen={isMenuOpen}
             selectedCategories={selectedCategories}
             setSelectedCategories={setSelectedCategories}
             setShowAddCategoryModal={setShowAddCategoryModal}
             showAddCategoryModal={showAddCategoryModal}
+            showMenu={showMenu}
           />
           <ArticlePage
             articles={displayArticles}
-            articlesLoading={articlesLoading}
             categories={categories}
-            fetchArticles={fetchArticles}
-            isMenuOpen={isMenuOpen}
+            refetch={fetchArticlesAndCategories}
             selectedCategories={selectedCategories}
-            setArticles={setArticles}
             setClickedArticle={setClickedArticle}
             setDisplayArticles={setDisplayArticles}
-            setIsMenuOpen={setIsMenuOpen}
             setSelectedCategories={setSelectedCategories}
             setShowCreateArticle={setShowCreateArticle}
             setShowEditArticle={setShowEditArticle}
+            setShowMenu={setShowMenu}
+            showMenu={showMenu}
           />
           <AddCategory
             handleAddCategory={handleAddCategory}

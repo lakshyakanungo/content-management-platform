@@ -27,32 +27,34 @@ const Table = ({
   // console.log("column data", columnData);
 
   return (
-    // <div className="notes-table-height flex-shrink flex">
-    <TableWrapper>
-      <NeetoUITable
-        allowRowClick
-        preserveTableStateInQuery
-        rowSelection
-        bordered={false}
-        className="flex-shrink"
-        columnData={columnData}
-        currentPageNumber={currentPageNumber}
-        defaultPageSize={10}
-        handlePageChange={page => setCurrentPageNumber(page)}
-        rowClassName={buildRowClassName}
-        rowData={articles}
-        selectedRowKeys={selectedArticleIds}
-        onRowSelect={selectedRowKeys => setSelectedArticleIds(selectedRowKeys)}
-        // columnData={ARTICLES_TABLE_COLUMN_DATA}
-        // rowData={ARTICLES_TABLE_ROW_DATA}
+    <div className="notes-table-height w-11/12 justify-center">
+      <TableWrapper>
+        <NeetoUITable
+          allowRowClick
+          preserveTableStateInQuery
+          rowSelection
+          bordered={false}
+          className="flex-shrink"
+          columnData={columnData}
+          currentPageNumber={currentPageNumber}
+          defaultPageSize={10}
+          handlePageChange={page => setCurrentPageNumber(page)}
+          rowClassName={buildRowClassName}
+          rowData={articles}
+          selectedRowKeys={selectedArticleIds}
+          onRowSelect={selectedRowKeys =>
+            setSelectedArticleIds(selectedRowKeys)
+          }
+          // columnData={ARTICLES_TABLE_COLUMN_DATA}
+          // rowData={ARTICLES_TABLE_ROW_DATA}
 
-        // onRowClick={(_, article) => {
-        // setClickedArticle(article);
-        // setShowEditArticle(true);
-        // }}
-      />
-      {/* </div> */}
-    </TableWrapper>
+          // onRowClick={(_, article) => {
+          // setClickedArticle(article);
+          // setShowEditArticle(true);
+          // }}
+        />
+      </TableWrapper>
+    </div>
   );
 };
 

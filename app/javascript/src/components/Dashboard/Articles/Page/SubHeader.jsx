@@ -63,6 +63,7 @@ const SubHeader = ({
                 buttonSize="medium"
                 buttonStyle="secondary"
                 label="Change category"
+                strategy="fixed"
               >
                 <Menu>
                   {categories.map(category => (
@@ -85,6 +86,7 @@ const SubHeader = ({
                 buttonSize="medium"
                 buttonStyle="secondary"
                 label="Change status"
+                strategy="fixed"
               >
                 <Menu>
                   <MenuItem.Button

@@ -48,12 +48,14 @@ class ArticlesController < ApplicationController
 
   def create
     current_user.articles.create!(article_params)
+    respond_with_success("Created new article")
   end
 
   def update
     # puts "Printing", article_params
     # TODO: See if to allow all permitted article params here or we can filter those also here
     @article.update!(article_params)
+    respond_with_success("Updated successfully")
   end
 
   def destroy

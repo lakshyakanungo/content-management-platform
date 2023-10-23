@@ -11,7 +11,7 @@ import articlesApi from "apis/articles";
 // import { EDITOR_INITIAL_HTML } from "./constants";
 // import { extractTitle } from "./utils";
 
-const Edit = ({ article, categories, setShowEditArticle }) => {
+const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
   // console.log(article);
   // console.log(categories);
   const [selectedCategoryId, setSelectedCategoryId] = useState(
@@ -39,6 +39,7 @@ const Edit = ({ article, categories, setShowEditArticle }) => {
       // await articlesApi.update({ title, status, body, categoryId });
       await articlesApi.update({ id: article.id, payload: data });
       setShowEditArticle(false);
+      refetch();
     } catch (error) {
       logger.log(error);
     }

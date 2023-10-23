@@ -3,6 +3,8 @@ import React from "react";
 import { MenuHorizontal } from "neetoicons";
 import { Dropdown as NeetoDropdown, Button } from "neetoui";
 
+import { formatDate } from "./utils";
+
 // import { useTranslation } from "react-i18next";
 
 const renderDropdown = ({ record, handleStatusChange, handleDelete }) => {
@@ -16,6 +18,7 @@ const renderDropdown = ({ record, handleStatusChange, handleDelete }) => {
     <NeetoDropdown
       appendTo={() => document.body}
       buttonStyle="text"
+      className="w-6"
       icon={() => <MenuHorizontal size={20} />}
       strategy="fixed"
     >
@@ -56,6 +59,10 @@ const renderTitle = ({ record, setClickedArticle, setShowEditArticle }) => {
   );
 };
 
+const renderLastPublishedAt = date => (
+  <span>{date ? formatDate(date) : "-"}</span>
+);
+
 export const buildArticlesColumnData = ({
   handleStatusChange,
   handleDelete,
@@ -69,7 +76,7 @@ export const buildArticlesColumnData = ({
     render: (_, record) =>
       renderTitle({ record, setClickedArticle, setShowEditArticle }),
     ellipsis: {
-      showTitle: false,
+      showTitle: true,
     },
     width: "10%",
   },
@@ -78,36 +85,37 @@ export const buildArticlesColumnData = ({
     dataIndex: "category_name",
     key: "category",
     ellipsis: {
-      showTitle: false,
+      showTitle: true,
     },
-    width: "10%",
+    width: "5%",
   },
   {
     title: "Author",
     dataIndex: "author",
     key: "author",
     ellipsis: {
-      showTitle: false,
+      showTitle: true,
     },
-    width: "10%",
+    width: "5%",
   },
   {
     title: "Last Published At",
     dataIndex: "last_published_at",
     key: "lastPublishedAt",
     ellipsis: {
-      showTitle: false,
+      showTitle: true,
     },
-    width: "20%",
+    width: "10%",
+    render: renderLastPublishedAt,
   },
   {
     title: "Status",
     dataIndex: "status",
     key: "status",
     ellipsis: {
-      showTitle: false,
+      showTitle: true,
     },
-    width: "10%",
+    width: "5%",
   },
   {
     title: "",
@@ -117,7 +125,7 @@ export const buildArticlesColumnData = ({
       renderDropdown({ record, handleStatusChange, handleDelete }),
 
     fixed: "right",
-    width: "10%",
+    // width: 5,
   },
 ];
 

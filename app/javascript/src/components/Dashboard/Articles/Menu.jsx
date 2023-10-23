@@ -9,7 +9,7 @@ import categoriesApi from "apis/categories";
 const ArticlesStates = ["all", "draft", "published"];
 
 const Menu = ({
-  isMenuOpen,
+  showMenu,
   showAddCategoryModal,
   setShowAddCategoryModal,
   categories,
@@ -17,7 +17,7 @@ const Menu = ({
   handleMenuStateChange,
   selectedCategories,
   setSelectedCategories,
-  counts,
+  articleCounts,
 }) => {
   const [categoriesDisplayed, setCategoriesDisplayed] = useState(categories);
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,12 +66,12 @@ const Menu = ({
   }, [searchTerm]);
 
   return (
-    <MenuBar showMenu={isMenuOpen} title="Articles">
+    <MenuBar showMenu={showMenu} title="Articles">
       {ArticlesStates.map(state => (
         <Block
           active={state === activeMenuState}
           className="capitalize"
-          count={counts[state]}
+          count={articleCounts[state]}
           key={state}
           label={state}
           onClick={() => handleMenuStateChange(state)}

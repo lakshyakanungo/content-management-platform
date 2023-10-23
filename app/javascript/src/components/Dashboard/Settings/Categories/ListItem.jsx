@@ -63,7 +63,7 @@ const ListItem = ({
               {text}
             </span>
             <span className="neeto-ui-text-gray-500 neeto-ui-text-sm">
-              {category.count} articles
+              {category.articles_count} articles
             </span>
           </div>
         </div>

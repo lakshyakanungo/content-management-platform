@@ -11,7 +11,7 @@ import articlesApi from "apis/articles";
 import { EDITOR_INITIAL_HTML } from "./constants";
 import { extractTitle } from "./utils";
 
-const Create = ({ categories, setShowCreateArticle }) => {
+const Create = ({ categories, setShowCreateArticle, refetch }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showError, setShowError] = useState(false);
@@ -35,6 +35,7 @@ const Create = ({ categories, setShowCreateArticle }) => {
       // await articlesApi.create({ title, status, body, categoryId });
       await articlesApi.create({ payload: data });
       setShowCreateArticle(false);
+      refetch();
     } catch (error) {
       logger.log(error);
     }
