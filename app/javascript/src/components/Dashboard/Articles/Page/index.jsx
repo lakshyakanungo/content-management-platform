@@ -11,7 +11,7 @@ import SubHeader from "./SubHeader";
 
 import Table from "../Table";
 
-const ArticlePage = ({
+const Page = ({
   showMenu,
   setShowMenu,
   categories,
@@ -26,7 +26,7 @@ const ArticlePage = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
-  const [allowedColumns, setAllowedColumns] = useState([]);
+  const [allowedTableColumns, setAllowedTableColumns] = useState([]);
 
   const fetchSearchResults = async () => {
     try {
@@ -53,7 +53,6 @@ const ArticlePage = ({
         id,
         payload: { status },
       });
-
       refetch();
     } catch (error) {
       logger.log(error);
@@ -112,7 +111,7 @@ const ArticlePage = ({
   }, [searchTerm, selectedCategories]);
 
   return (
-    <Container className="w-10/12">
+    <Container>
       <Header
         title="All articles"
         actionBlock={
@@ -142,26 +141,19 @@ const ArticlePage = ({
         handleStatusChange={handleStatusChange}
         selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
-        // setColumns={setColumns}
-        // columns={columns}
-        setAllowedColumns={setAllowedColumns}
+        setAllowedTableColumns={setAllowedTableColumns}
         setClickedArticle={setClickedArticle}
         setSelectedCategories={setSelectedCategories}
-        // allowedColumns={allowedColumns}
         setShowEditArticle={setShowEditArticle}
       />
       {articles.length ? (
         <Table
           articles={articles}
-          columnData={allowedColumns}
-          // refetch={refetch}
+          columnData={allowedTableColumns}
           selectedArticleIds={selectedArticleIds}
           setSelectedArticleIds={setSelectedArticleIds}
-          //
-          // setShowEditArticle={setShowEditArticle}
-          // setClickedArticle={setClickedArticle}
         />
-      ) : searchTerm !== "" ? (
+      ) : searchTerm.length ? (
         <EmptyState
           primaryAction={() => setSearchTerm("")}
           primaryActionLabel="Clear search"
@@ -183,4 +175,4 @@ const ArticlePage = ({
   );
 };
 
-export default ArticlePage;
+export default Page;

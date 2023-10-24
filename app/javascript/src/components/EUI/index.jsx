@@ -10,8 +10,8 @@ import Login from "./Login";
 const EUI = () => {
   const [loading, setLoading] = useState(true);
   const [isPasswordProtected, setIsPasswordProtected] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [siteName, setSiteName] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const fetchSiteSettings = async () => {
     try {

@@ -24,6 +24,7 @@ export const NAVLINKS = [
     description: "Launch your KB preview",
     to: "/kb",
     icon: ExternalLink,
+    target: "_blank",
   },
 ];
 

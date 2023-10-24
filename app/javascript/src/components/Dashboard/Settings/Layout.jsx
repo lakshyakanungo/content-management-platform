@@ -9,14 +9,14 @@ const Layout = ({
   className = "",
   children,
 }) => {
-  const containerClassName = classNames(
+  const buildContainerClassName = classNames(
     className,
     " flex flex-col gap-4 my-24"
   );
 
   return (
     <Container>
-      <div className={containerClassName}>
+      <div className={buildContainerClassName}>
         <div className="flex flex-col">
           <h2 className="font-normal neeto-ui-text-gray-800 ">{header}</h2>
           <span className="text-base neeto-ui-text-gray-600">

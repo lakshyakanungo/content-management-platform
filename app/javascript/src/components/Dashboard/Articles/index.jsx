@@ -5,21 +5,18 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import AddCategory from "./AddCategory";
-import Create from "./Create";
-import Edit from "./Edit";
+import { Create, Edit } from "./Actions";
 import Menu from "./Menu";
-import ArticlePage from "./Page";
+import Page from "./Page";
 
 const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(true);
   const [activeMenuState, setActiveMenuState] = useState("all");
 
-  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [categories, setCategories] = useState([]);
-
   const [selectedCategories, setSelectedCategories] = useState([]);
+
   const [clickedArticle, setClickedArticle] = useState({});
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [showEditArticle, setShowEditArticle] = useState(false);
@@ -72,17 +69,6 @@ const Articles = () => {
     }
   };
 
-  const handleAddCategory = async ({ category }) => {
-    try {
-      await categoriesApi.create({ name: category });
-      fetchCategories();
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setShowAddCategoryModal(false);
-    }
-  };
-
   const handleMenuStateChange = menuState => {
     setActiveMenuState(menuState);
 
@@ -128,14 +114,13 @@ const Articles = () => {
             activeMenuState={activeMenuState}
             articleCounts={articleCounts}
             categories={categories}
+            fetchCategories={fetchCategories}
             handleMenuStateChange={handleMenuStateChange}
             selectedCategories={selectedCategories}
             setSelectedCategories={setSelectedCategories}
-            setShowAddCategoryModal={setShowAddCategoryModal}
-            showAddCategoryModal={showAddCategoryModal}
             showMenu={showMenu}
           />
-          <ArticlePage
+          <Page
             articles={displayArticles}
             categories={categories}
             refetch={fetchArticlesAndCategories}
@@ -147,11 +132,6 @@ const Articles = () => {
             setShowEditArticle={setShowEditArticle}
             setShowMenu={setShowMenu}
             showMenu={showMenu}
-          />
-          <AddCategory
-            handleAddCategory={handleAddCategory}
-            setShowAddCategoryModal={setShowAddCategoryModal}
-            showAddCategoryModal={showAddCategoryModal}
           />
         </>
       )}
