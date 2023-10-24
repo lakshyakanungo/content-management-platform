@@ -7,6 +7,7 @@ import { Dropdown, Tooltip } from "neetoui";
 import redirectionsApi from "apis/redirections";
 
 import {
+  APP_BASE_URL,
   FROM_PATH_TRUNCATE_LENGTH,
   TO_PATH_TRUNCATE_LENGTH,
 } from "./constants";
@@ -33,9 +34,7 @@ const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
         position="top"
       >
         <div className="col-span-5 mr-4">
-          <span className="neeto-ui-text-gray-500">
-            https://spinkart.scribbl.com
-          </span>
+          <span className="neeto-ui-text-gray-500">{APP_BASE_URL}</span>
           {truncate(redirection.from, FROM_PATH_TRUNCATE_LENGTH)}
         </div>
       </Tooltip>

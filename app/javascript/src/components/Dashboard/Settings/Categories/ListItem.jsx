@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import categoriesApi from "apis/categories";
 import useDragAndDrop from "hooks/useDragAndDrop";
 
 import Alert from "./Alert";
@@ -19,37 +18,15 @@ const ListItem = ({
   fetchCategories,
   handleMove,
 }) => {
-  // console.log(category);
-  const [isDragging, dragDropRef] = useDragAndDrop({
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const dragDropRef = useDragAndDrop({
     index,
     category,
     moveListItem,
     handleMove,
   });
-
-  // Make items being dragged transparent, so it's easier to see where we drop them
-  const opacity = isDragging ? 0 : 1;
-  opacity;
-
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const handleEdit = async ({ category: name }) => {
-    try {
-      await categoriesApi.update({
-        id: category.id,
-        payload: { name },
-      });
-      fetchCategories();
-      setShowEditModal(false);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const categoryMoveOptions = categories.filter(
-    item => item.id !== category.id
-  );
 
   return (
     <li className="group flex flex-row items-center" ref={dragDropRef}>
@@ -74,7 +51,7 @@ const ListItem = ({
         {showEditModal && (
           <Edit
             category={category}
-            handleEdit={handleEdit}
+            fetchCategories={fetchCategories}
             setShowEditModal={setShowEditModal}
             showEditModal={showEditModal}
           />
@@ -82,8 +59,8 @@ const ListItem = ({
         {showDeleteModal &&
           (category.articles_count > 0 ? (
             <DeleteModal
+              categories={categories}
               category={category}
-              categoryMoveOptions={categoryMoveOptions}
               fetchCategories={fetchCategories}
               hasMultipleCategories={categories.length > 1}
               setShowDeleteModal={setShowDeleteModal}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
-import { Button } from "@bigbinary/neetoui";
+import { Button, Spinner } from "@bigbinary/neetoui";
 import { Plus } from "neetoicons";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -14,18 +13,15 @@ import AddCategoryModal from "./Modals/Create";
 import Layout from "../Layout";
 
 const Categories = () => {
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
-
-  // console.log(categories);
 
   const fetchCategories = async () => {
     try {
       const {
         data: { categories: results },
       } = await categoriesApi.fetch();
-      // console.log(results);
       setCategories(results);
     } catch (error) {
       logger.log(error);
@@ -34,23 +30,16 @@ const Categories = () => {
     }
   };
 
-  const handleAddCategory = async ({ category }) => {
-    try {
-      await categoriesApi.create({ name: category });
-      fetchCategories();
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setShowAddCategoryModal(false);
-    }
-  };
-
   useEffect(() => {
     fetchCategories();
   }, []);
 
   if (loading) {
-    return <PageLoader />;
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
@@ -75,7 +64,7 @@ const Categories = () => {
       </div>
       {showAddCategoryModal && (
         <AddCategoryModal
-          handleAddCategory={handleAddCategory}
+          fetchCategories={fetchCategories}
           setShowAddCategoryModal={setShowAddCategoryModal}
           showAddCategoryModal={showAddCategoryModal}
         />

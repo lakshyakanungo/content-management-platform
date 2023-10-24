@@ -18,9 +18,6 @@ const Form = ({ fetchSiteSettings }) => {
 
   const inputRef = useRef(null);
 
-  // console.log("hasMinError : ", hasMinError);
-  // console.log("hasMatchError : ", hasMatchError);
-
   const handleSubmit = async ({ password }) => {
     try {
       await siteSettingsApi.update({ password, is_password_protected: true });

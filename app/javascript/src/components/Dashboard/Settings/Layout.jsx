@@ -1,32 +1,24 @@
 import React from "react";
 
 import Container from "@bigbinary/neeto-molecules/Container";
-import classNames from "classnames";
+
+import { buildLayoutClassName } from "./utils";
 
 const Layout = ({
   header = "",
   description = "",
   className = "",
   children,
-}) => {
-  const buildContainerClassName = classNames(
-    className,
-    " flex flex-col gap-4 my-24"
-  );
-
-  return (
-    <Container>
-      <div className={buildContainerClassName}>
-        <div className="flex flex-col">
-          <h2 className="font-normal neeto-ui-text-gray-800 ">{header}</h2>
-          <span className="text-base neeto-ui-text-gray-600">
-            {description}
-          </span>
-        </div>
-        {children}
+}) => (
+  <Container>
+    <div className={buildLayoutClassName(className)}>
+      <div className="flex flex-col">
+        <h2 className="font-normal neeto-ui-text-gray-800 ">{header}</h2>
+        <span className="text-base neeto-ui-text-gray-600">{description}</span>
       </div>
-    </Container>
-  );
-};
+      {children}
+    </div>
+  </Container>
+);
 
 export default Layout;

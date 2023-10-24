@@ -2,17 +2,27 @@ import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
-import * as yup from "yup";
+
+import categoriesApi from "apis/categories";
+
+import { VALIDATION_SCHEMA } from "./constants";
 
 const Create = ({
-  handleAddCategory,
+  fetchCategories,
   showAddCategoryModal,
   setShowAddCategoryModal,
 }) => {
   const { Header, Body, Footer } = Modal;
 
-  const handleReset = () => {
-    setShowAddCategoryModal(false);
+  const handleAddCategory = async ({ category }) => {
+    try {
+      await categoriesApi.create({ name: category });
+      fetchCategories();
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setShowAddCategoryModal(false);
+    }
   };
 
   return (
@@ -28,9 +38,7 @@ const Create = ({
       <Form
         formikProps={{
           initialValues: { category: "" },
-          validationSchema: yup.object().shape({
-            category: yup.string().required("Category title is required"),
-          }),
+          validationSchema: VALIDATION_SCHEMA,
           onSubmit: handleAddCategory,
         }}
       >
@@ -50,7 +58,7 @@ const Create = ({
             label="Cancel"
             style="text"
             type="reset"
-            onClick={handleReset}
+            onClick={() => setShowAddCategoryModal(false)}
           />
         </Footer>
       </Form>

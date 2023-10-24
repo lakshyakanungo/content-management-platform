@@ -9,19 +9,11 @@ const hasSubdomain = str => {
   return !!subdomain;
 };
 
-const getFromPaths = redirections => {
-  const fromPaths = redirections.map(redirection => redirection.from);
+const getFromPaths = redirections =>
+  redirections.map(redirection => redirection.from);
 
-  // console.log(fromPaths);
-  return fromPaths;
-};
-
-const getToPaths = redirections => {
-  const toPaths = redirections.map(redirection => redirection.to);
-
-  // console.log(toPaths);
-  return toPaths;
-};
+const getToPaths = redirections =>
+  redirections.map(redirection => redirection.to);
 
 const isFromPathPresentInToPathUrls = (value, redirections) => {
   const fromPathWithPrefix = formatFromUrl(value);
@@ -29,13 +21,22 @@ const isFromPathPresentInToPathUrls = (value, redirections) => {
   return getToPaths(redirections).includes(fromPathWithPrefix);
 };
 
-const isToPathPresentInFromPathUrls = (value, redirections) =>
+const isToPathPresentInFromPathUrls = (toPath, redirections) =>
   getFromPaths(redirections)
-    .map(fromPath => `${APP_BASE_URL}${fromPath}`)
-    .includes(value);
+    .map(path => `${APP_BASE_URL}${path}`)
+    .includes(toPath);
+
+export const formatFromUrl = url => {
+  if (url.startsWith(`${APP_BASE_URL}/`)) {
+    return url;
+  } else if (url.startsWith("/")) {
+    return `${APP_BASE_URL}${url}`;
+  }
+
+  return `${APP_BASE_URL}/${url}`;
+};
 
 export const formatToUrl = url => {
-  // console.log(url);
   if (hasSubdomain(url)) return url;
 
   if (url.startsWith("/")) {
@@ -50,7 +51,6 @@ export const buildFormInitialValues = ({ isEdit, data }) => ({
   toUrl: isEdit ? data.to : "",
 });
 
-// export const FORM_VALIDATION_SCHEMA =
 export const buildFormValidationSchema = redirections =>
   yup.object().shape({
     fromUrl: yup
@@ -79,19 +79,4 @@ export const buildFormValidationSchema = redirections =>
         "Cyclic redirections not allowed",
         value => !isToPathPresentInFromPathUrls(value, redirections)
       ),
-
-    // .url("To path URL must be valid"),
   });
-
-//See if this is getting used anywhere
-export const formatFromUrl = url => {
-  if (url.startsWith(`${APP_BASE_URL}/`)) {
-    return url;
-  } else if (url.startsWith("/")) {
-    return `${APP_BASE_URL}${url}`;
-  }
-
-  return `${APP_BASE_URL}/${url}`;
-};
-
-// TODO: See if writing if conditions better or ternary better here in react best practices

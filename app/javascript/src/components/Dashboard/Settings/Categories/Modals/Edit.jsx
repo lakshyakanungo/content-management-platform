@@ -2,13 +2,30 @@ import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
-import * as yup from "yup";
 
-const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
+import categoriesApi from "apis/categories";
+
+import { VALIDATION_SCHEMA } from "./constants";
+
+const Edit = ({
+  category,
+  fetchCategories,
+  showEditModal,
+  setShowEditModal,
+}) => {
   const { Header, Body, Footer } = Modal;
 
-  const handleReset = () => {
-    setShowEditModal(false);
+  const handleEdit = async ({ category: name }) => {
+    try {
+      await categoriesApi.update({
+        id: category.id,
+        payload: { name },
+      });
+      fetchCategories();
+      setShowEditModal(false);
+    } catch (error) {
+      logger.log(error);
+    }
   };
 
   return (
@@ -21,9 +38,7 @@ const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
       <Form
         formikProps={{
           initialValues: { category: category.name },
-          validationSchema: yup.object().shape({
-            category: yup.string().required("Category title is required"),
-          }),
+          validationSchema: VALIDATION_SCHEMA,
           onSubmit: handleEdit,
         }}
       >
@@ -43,7 +58,7 @@ const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
             label="Cancel"
             style="text"
             type="reset"
-            onClick={handleReset}
+            onClick={() => setShowEditModal(false)}
           />
         </Footer>
       </Form>
