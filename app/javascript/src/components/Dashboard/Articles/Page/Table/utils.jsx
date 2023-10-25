@@ -43,7 +43,7 @@ export const buildArticlesColumnData = ({
   },
   {
     title: "Category",
-    dataIndex: "category_name",
+    dataIndex: "categoryName",
     key: "category",
     ellipsis: {
       showTitle: true,
@@ -59,7 +59,7 @@ export const buildArticlesColumnData = ({
   },
   {
     title: "Last Published At",
-    dataIndex: "last_published_at",
+    dataIndex: "lastPublishedAt",
     key: "lastPublishedAt",
     ellipsis: {
       showTitle: true,

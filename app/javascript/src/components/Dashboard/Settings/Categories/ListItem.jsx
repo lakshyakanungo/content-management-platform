@@ -40,7 +40,7 @@ const ListItem = ({
               {text}
             </span>
             <span className="neeto-ui-text-gray-500 neeto-ui-text-sm">
-              {category.articles_count} articles
+              {category.articlesCount} articles
             </span>
           </div>
         </div>
@@ -57,7 +57,7 @@ const ListItem = ({
           />
         )}
         {showDeleteModal &&
-          (category.articles_count > 0 ? (
+          (category.articlesCount > 0 ? (
             <DeleteModal
               categories={categories}
               category={category}

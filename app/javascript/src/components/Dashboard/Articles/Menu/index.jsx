@@ -109,7 +109,7 @@ const Menu = ({
           ? categoriesDisplayed.map(category => (
               <Block
                 active={selectedCategories.includes(category)}
-                count={category.articles_count}
+                count={category.articlesCount}
                 key={category.id}
                 label={category.name}
                 onClick={() => handleCategoryClick(category)}
@@ -118,7 +118,7 @@ const Menu = ({
           : categories.map(category => (
               <Block
                 active={selectedCategories.includes(category)}
-                count={category.articles_count}
+                count={category.articlesCount}
                 key={category.id}
                 label={category.name}
                 onClick={() => handleCategoryClick(category)}

@@ -1,3 +1,4 @@
+import { keysToCamelCase } from "@bigbinary/neeto-commons-frontend/pure";
 import axios from "axios";
 import { Toastr } from "neetoui";
 
@@ -35,7 +36,7 @@ const handleSuccessResponse = response => {
     }
   }
 
-  return response;
+  return keysToCamelCase(response);
 };
 
 const handleErrorResponse = (error, authDispatch) => {

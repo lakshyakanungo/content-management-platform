@@ -18,7 +18,7 @@ const Home = () => {
       const { data } = await articlesApi.fetchByCategory();
       // console.log(data);
       // console.log(results);
-      setArticlesByCategory(data.grouped_articles);
+      setArticlesByCategory(data.groupedArticles);
     } catch (error) {
       logger.log(error);
     } finally {
@@ -49,7 +49,7 @@ const Home = () => {
         <Accordion className="flex flex-col gap-4">
           {articlesByCategory.map(([category, articles]) => (
             <Accordion.Item
-              key={articles[0].category_id}
+              key={articles[0].categoryId}
               title={category}
               titleProps={{ className: "neeto-ui-text-gray-700" }}
             >
