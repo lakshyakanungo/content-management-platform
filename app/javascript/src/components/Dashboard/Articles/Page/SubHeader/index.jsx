@@ -34,15 +34,8 @@ const SubHeader = ({
     []
   );
 
-  const handleTagClose = category => {
-    // console.log("working");
-    // console.log(selectedCategories);
-    // const categoriesAfterClose = selectedCategories.filter(
-    //   item => item !== category
-    // );
-    // console.log(categoriesAfterClose, "catgories after close");
+  const handleTagClose = category =>
     setSelectedCategories(prev => prev.filter(item => item !== category));
-  };
 
   return (
     <NeetoSubHeader

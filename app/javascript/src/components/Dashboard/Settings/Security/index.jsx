@@ -18,7 +18,7 @@ const Security = () => {
     try {
       setLoading(true);
       const { data } = await siteSettingsApi.fetch();
-      const { is_password_protected: isPasswordProtected } = data;
+      const { isPasswordProtected } = data;
       // console.log(data);
       setIsPasswordRequired(isPasswordProtected);
       setShowChangePasswordForm(isPasswordProtected);

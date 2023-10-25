@@ -15,7 +15,7 @@ const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
   const editorRef = useRef(null);
 
   const getDefaultCategory = () =>
-    categories.find(category => category.id === article.category_id);
+    categories.find(category => category.id === article.categoryId);
 
   const handleEdit = async ({ selectedCategory }) => {
     try {

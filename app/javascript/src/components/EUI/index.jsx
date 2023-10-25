@@ -16,9 +16,9 @@ const EUI = () => {
   const fetchSiteSettings = async () => {
     try {
       const { data } = await siteSettingsApi.fetch();
-      const { is_password_protected: siteIsPasswordProtected, title } = data;
+      const { isPasswordProtected, title } = data;
       // console.log(data);
-      setIsPasswordProtected(siteIsPasswordProtected);
+      setIsPasswordProtected(isPasswordProtected);
       setSiteName(title);
     } catch (error) {
       logger.log(error);
