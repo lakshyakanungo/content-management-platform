@@ -9,10 +9,9 @@ import {
 const LeftActionGroup = ({
   articles,
   categories,
-  handleBulkCategoryChange,
-  handleBulkStatusChange,
-  handleBulkDelete,
   selectedArticleIds,
+  refetch,
+  setSelectedArticleIds,
 }) => (
   <div className="flex gap-x-3 items-center	">
     <span>
@@ -21,16 +20,19 @@ const LeftActionGroup = ({
     </span>
     <ChangeCategoryDropdown
       categories={categories}
-      handleBulkCategoryChange={handleBulkCategoryChange}
+      refetch={refetch}
       selectedArticleIds={selectedArticleIds}
+      setSelectedArticleIds={setSelectedArticleIds}
     />
     <ChangeStatusDropdown
-      handleBulkStatusChange={handleBulkStatusChange}
+      refetch={refetch}
       selectedArticleIds={selectedArticleIds}
+      setSelectedArticleIds={setSelectedArticleIds}
     />
     <DeleteArticleButton
-      handleBulkDelete={handleBulkDelete}
+      refetch={refetch}
       selectedArticleIds={selectedArticleIds}
+      setSelectedArticleIds={setSelectedArticleIds}
     />
   </div>
 );

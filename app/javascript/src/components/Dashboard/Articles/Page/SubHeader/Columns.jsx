@@ -1,8 +1,8 @@
 import React from "react";
 
-import NeetoColumns from "@bigbinary/neeto-molecules/Columns";
+import NeetoColumns from "neetomolecules/Columns";
 
-const Columns = ({ columns, setAllowedTableColumns }) => (
+const Columns = ({ columns, setVisibleTableColumns }) => (
   <NeetoColumns
     buttonStyle="secondary"
     columnData={columns}
@@ -10,7 +10,7 @@ const Columns = ({ columns, setAllowedTableColumns }) => (
     label="Columns"
     localStorageKey="TABLE_HIDDEN_COLUMNS"
     noColumnMessage="No columns found"
-    onChange={cols => setAllowedTableColumns(cols)}
+    onChange={cols => setVisibleTableColumns(cols)}
   />
 );
 

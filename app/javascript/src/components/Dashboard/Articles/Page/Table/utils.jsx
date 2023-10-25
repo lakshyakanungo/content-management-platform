@@ -1,50 +1,12 @@
 import React from "react";
 
-import { MenuHorizontal } from "neetoicons";
-import { Dropdown as NeetoDropdown, Button } from "neetoui";
+import classNames from "classnames";
+import dayjs from "dayjs";
+import { Button } from "neetoui";
 
-import { formatDate } from "./utils";
+import Dropdown from "./Dropdown";
 
 // import { useTranslation } from "react-i18next";
-
-const renderDropdown = ({ record, handleStatusChange, handleDelete }) => {
-  const { Menu, MenuItem, Divider } = NeetoDropdown;
-
-  const { id, status } = record;
-
-  // const { t } = useTranslation();
-  return (
-    // <div className="flex justify-end	">
-    <NeetoDropdown
-      appendTo={() => document.body}
-      buttonStyle="text"
-      className="w-6"
-      icon={() => <MenuHorizontal size={20} />}
-      strategy="fixed"
-    >
-      <Menu>
-        {status === "Draft" ? (
-          <MenuItem.Button
-            onClick={() => handleStatusChange({ id, status: "Published" })}
-          >
-            Publish
-          </MenuItem.Button>
-        ) : (
-          <MenuItem.Button
-            onClick={() => handleStatusChange({ id, status: "Draft" })}
-          >
-            Unpublish
-          </MenuItem.Button>
-        )}
-        <Divider />
-        <MenuItem.Button style="danger" onClick={() => handleDelete(id)}>
-          Delete
-        </MenuItem.Button>
-      </Menu>
-    </NeetoDropdown>
-    // </div>
-  );
-};
 
 const renderTitle = ({ record, setClickedArticle, setShowEditArticle }) => {
   const handleClick = () => {
@@ -78,7 +40,6 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
-    width: "10%",
   },
   {
     title: "Category",
@@ -87,7 +48,6 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
-    width: "5%",
   },
   {
     title: "Author",
@@ -96,7 +56,6 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
-    width: "5%",
   },
   {
     title: "Last Published At",
@@ -105,7 +64,6 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
-    width: "10%",
     render: renderLastPublishedAt,
   },
   {
@@ -115,16 +73,24 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
-    width: "5%",
   },
   {
     title: "",
     dataIndex: "iconButton",
     key: "iconButton",
-    render: (_, record) =>
-      renderDropdown({ record, handleStatusChange, handleDelete }),
-
-    // fixed: "right",
-    // width: 5,
+    render: (_, record) => (
+      <Dropdown
+        handleDelete={handleDelete}
+        handleStatusChange={handleStatusChange}
+        record={record}
+      />
+    ),
   },
 ];
+
+export const formatDate = date => dayjs(date).format("MMM D, YYYY, h:mm A");
+
+export const buildRowClassName = (_, index) =>
+  classNames({
+    "neeto-ui-bg-gray-100": index % 2,
+  });

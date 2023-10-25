@@ -7,8 +7,8 @@ import { Search as SearchIcon, Plus } from "neetoicons";
 import categoriesApi from "apis/categories";
 
 import AddCategoryModal from "./AddCategory";
-
-const ArticlesStates = ["all", "draft", "published"];
+import { MENU_ARTICLE_STATES } from "./constants";
+import { handleKeyEvent } from "./utils";
 
 const Menu = ({
   showMenu,
@@ -26,20 +26,6 @@ const Menu = ({
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
 
   const { Block, SubTitle, Search } = MenuBar;
-  // console.log(categories, "categories from outside");
-
-  const handleAddCategory = async ({ category }) => {
-    try {
-      await categoriesApi.create({ name: category });
-      fetchCategories();
-      // console.log(categories, " categories from add fn");
-      // setCategoriesDisplayed(categories);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setShowAddCategoryModal(false);
-    }
-  };
 
   const handleCategoryClick = category => {
     if (selectedCategories.includes(category)) {
@@ -63,18 +49,13 @@ const Menu = ({
     }
   };
 
-  const handleKeyDown = event => {
-    // console.log(event);
-    if (event.code === "Escape") {
-      handleCollapse();
-    }
-  };
-
   const handleCollapse = () => {
     setIsSearchCollapsed(true);
     setSearchTerm("");
     setCategoriesDisplayed([]);
   };
+
+  const handleKeyDown = event => handleKeyEvent(event, handleCollapse);
 
   useEffect(() => {
     if (!isSearchCollapsed) fetchSearchResults();
@@ -83,7 +64,7 @@ const Menu = ({
   return (
     <div>
       <MenuBar showMenu={showMenu} title="Articles">
-        {ArticlesStates.map(state => (
+        {MENU_ARTICLE_STATES.map(state => (
           <Block
             active={state === activeMenuState}
             className="capitalize"
@@ -126,7 +107,6 @@ const Menu = ({
         />
         {searchTerm.length
           ? categoriesDisplayed.map(category => (
-              // console.log(category);
               <Block
                 active={selectedCategories.includes(category)}
                 count={category.articles_count}
@@ -136,7 +116,6 @@ const Menu = ({
               />
             ))
           : categories.map(category => (
-              // console.log(category);
               <Block
                 active={selectedCategories.includes(category)}
                 count={category.articles_count}
@@ -147,7 +126,7 @@ const Menu = ({
             ))}
       </MenuBar>
       <AddCategoryModal
-        handleAddCategory={handleAddCategory}
+        fetchCategories={fetchCategories}
         setShowAddCategoryModal={setShowAddCategoryModal}
         showAddCategoryModal={showAddCategoryModal}
       />

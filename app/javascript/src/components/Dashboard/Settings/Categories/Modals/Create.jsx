@@ -5,7 +5,10 @@ import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 
 import categoriesApi from "apis/categories";
 
-import { VALIDATION_SCHEMA } from "./constants";
+import {
+  CREATE_CATEGORY_FORM_INITIAL_VALUE,
+  FORM_VALIDATION_SCHEMA,
+} from "./constants";
 
 const Create = ({
   fetchCategories,
@@ -14,9 +17,9 @@ const Create = ({
 }) => {
   const { Header, Body, Footer } = Modal;
 
-  const handleAddCategory = async ({ category }) => {
+  const handleAddCategory = async ({ name }) => {
     try {
-      await categoriesApi.create({ name: category });
+      await categoriesApi.create({ name });
       fetchCategories();
     } catch (error) {
       logger.log(error);
@@ -37,15 +40,15 @@ const Create = ({
       </Header>
       <Form
         formikProps={{
-          initialValues: { category: "" },
-          validationSchema: VALIDATION_SCHEMA,
+          initialValues: CREATE_CATEGORY_FORM_INITIAL_VALUE,
+          validationSchema: FORM_VALIDATION_SCHEMA,
           onSubmit: handleAddCategory,
         }}
       >
         <Body>
           <Input
             label="Category title"
-            name="category"
+            name="name"
             placeholder="Enter category title here."
             labelProps={{
               className: "neeto-ui-text-gray-700 neeto-ui-font-light",

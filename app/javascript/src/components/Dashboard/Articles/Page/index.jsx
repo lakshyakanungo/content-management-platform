@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import Header from "@bigbinary/neeto-molecules/Header";
 import { Button } from "neetoui";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/commons/EmptyState";
 import Container from "neetomolecules/Container";
+import Header from "neetomolecules/Header";
 
 import SubHeader from "./SubHeader";
-
-import Table from "../Table";
+import Table from "./Table";
 
 const Page = ({
   showMenu,
@@ -26,7 +25,7 @@ const Page = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
-  const [allowedTableColumns, setAllowedTableColumns] = useState([]);
+  const [visibleTableColumns, setVisibleTableColumns] = useState([]);
 
   const fetchSearchResults = async () => {
     try {
@@ -59,45 +58,9 @@ const Page = ({
     }
   };
 
-  const handleBulkStatusChange = async ({ ids, status }) => {
-    try {
-      await articlesApi.updateMultiple({
-        ids,
-        payload: { status },
-      });
-      setSelectedArticleIds([]);
-      refetch();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
   const handleDelete = async id => {
     try {
       await articlesApi.deleteArticle(id);
-      refetch();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const handleBulkDelete = async ids => {
-    try {
-      await articlesApi.deleteMultiple(ids);
-      setSelectedArticleIds([]);
-      refetch();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const handleBulkCategoryChange = async ({ ids, category_id }) => {
-    try {
-      await articlesApi.updateMultiple({
-        ids,
-        payload: { category_id },
-      });
-      setSelectedArticleIds([]);
       refetch();
     } catch (error) {
       logger.log(error);
@@ -134,22 +97,21 @@ const Page = ({
       <SubHeader
         articles={articles}
         categories={categories}
-        handleBulkCategoryChange={handleBulkCategoryChange}
-        handleBulkDelete={handleBulkDelete}
-        handleBulkStatusChange={handleBulkStatusChange}
         handleDelete={handleDelete}
         handleStatusChange={handleStatusChange}
+        refetch={refetch}
         selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
-        setAllowedTableColumns={setAllowedTableColumns}
         setClickedArticle={setClickedArticle}
+        setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
         setShowEditArticle={setShowEditArticle}
+        setVisibleTableColumns={setVisibleTableColumns}
       />
       {articles.length ? (
         <Table
           articles={articles}
-          columnData={allowedTableColumns}
+          columnData={visibleTableColumns}
           selectedArticleIds={selectedArticleIds}
           setSelectedArticleIds={setSelectedArticleIds}
         />

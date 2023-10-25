@@ -2,14 +2,31 @@ import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
-import * as yup from "yup";
+
+import categoriesApi from "apis/categories";
+
+import {
+  ADD_CATEGORY_FORM_INITIAL_VALUE,
+  ADD_CATEGORY_FORM_VALIDATION_SCHEMA,
+} from "./constants";
 
 const AddCategory = ({
-  handleAddCategory,
+  fetchCategories,
   showAddCategoryModal,
   setShowAddCategoryModal,
 }) => {
   const { Header, Body, Footer } = Modal;
+
+  const handleAddCategory = async ({ name }) => {
+    try {
+      await categoriesApi.create({ name });
+      fetchCategories();
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setShowAddCategoryModal(false);
+    }
+  };
 
   const handleReset = () => {
     setShowAddCategoryModal(false);
@@ -27,17 +44,15 @@ const AddCategory = ({
       </Header>
       <Form
         formikProps={{
-          initialValues: { category: "" },
-          validationSchema: yup.object().shape({
-            category: yup.string().required("Category title is required"),
-          }),
+          initialValues: ADD_CATEGORY_FORM_INITIAL_VALUE,
+          validationSchema: ADD_CATEGORY_FORM_VALIDATION_SCHEMA,
           onSubmit: handleAddCategory,
         }}
       >
         <Body>
           <Input
             label="Category title"
-            name="category"
+            name="name"
             placeholder="Enter category title here."
             labelProps={{
               className: "neeto-ui-text-gray-700 neeto-ui-font-light",

@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 
-import NeetoSubHeader from "@bigbinary/neeto-molecules/SubHeader";
-import { Tag } from "@bigbinary/neetoui";
+import { Tag } from "neetoui";
+
+import NeetoSubHeader from "neetomolecules/SubHeader";
 
 import Columns from "./Columns";
 import LeftActionGroup from "./LeftActionGroup";
 
-import { buildArticlesColumnData } from "../../constants";
+import { buildArticlesColumnData } from "../Table/utils";
 
 const SubHeader = ({
   selectedArticleIds,
@@ -14,14 +15,13 @@ const SubHeader = ({
   categories,
   handleDelete,
   handleStatusChange,
-  handleBulkCategoryChange,
-  handleBulkStatusChange,
-  handleBulkDelete,
   selectedCategories,
   setSelectedCategories,
-  setAllowedTableColumns,
+  setVisibleTableColumns,
   setClickedArticle,
   setShowEditArticle,
+  refetch,
+  setSelectedArticleIds,
 }) => {
   const columns = useMemo(
     () =>
@@ -34,17 +34,14 @@ const SubHeader = ({
     []
   );
 
-  // console.log(columns, "columns");
-
-  // console.log(allowedColumns, "allowed ");
   const handleTagClose = category => {
     // console.log("working");
     // console.log(selectedCategories);
-    const categoriesAfterClose = selectedCategories.filter(
-      item => item !== category
-    );
+    // const categoriesAfterClose = selectedCategories.filter(
+    //   item => item !== category
+    // );
     // console.log(categoriesAfterClose, "catgories after close");
-    setSelectedCategories(categoriesAfterClose);
+    setSelectedCategories(prev => prev.filter(item => item !== category));
   };
 
   return (
@@ -56,10 +53,9 @@ const SubHeader = ({
             <LeftActionGroup
               articles={articles}
               categories={categories}
-              handleBulkCategoryChange={handleBulkCategoryChange}
-              handleBulkDelete={handleBulkDelete}
-              handleBulkStatusChange={handleBulkStatusChange}
+              refetch={refetch}
               selectedArticleIds={selectedArticleIds}
+              setSelectedArticleIds={setSelectedArticleIds}
             />
           ) : (
             <div>{articles.length} articles</div>
@@ -77,7 +73,7 @@ const SubHeader = ({
         !selectedArticleIds.length && (
           <Columns
             columns={columns}
-            setAllowedTableColumns={setAllowedTableColumns}
+            setVisibleTableColumns={setVisibleTableColumns}
           />
         )
       }

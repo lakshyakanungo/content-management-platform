@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import { EditorContent } from "@bigbinary/neeto-editor";
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
-import classNames from "classnames";
-import { Accordion } from "neetoui";
+import { Accordion, Spinner } from "neetoui";
 
 import articlesApi from "apis/articles";
+
+import { buildListItemClassName } from "./utils";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -31,24 +31,17 @@ const Home = () => {
     setSelectedArticleContent(article.body);
   };
 
-  const buildListItemClassName = article =>
-    // console.log(article);
-    classNames("neeto-ui-font-medium", {
-      "neeto-ui-text-primary-600": selectedArticleId === article.id,
-      "neeto-ui-text-gray-600": selectedArticleId !== article.id,
-    });
-
   useEffect(() => {
     fetchArticlesByCategory();
   }, []);
 
   if (loading) {
-    <div className="h-screen">
-      <PageLoader />
-    </div>;
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
-
-  // console.log(selectedArticleContent);
 
   return (
     <div className="flex-grow flex w-full">
@@ -60,12 +53,14 @@ const Home = () => {
               title={category}
               titleProps={{ className: "neeto-ui-text-gray-700" }}
             >
-              {/* {category.name} */}
               <ul className="list-none flex flex-col gap-2">
                 {articles.map(article => (
                   <li
-                    className={buildListItemClassName(article)}
                     key={article.id}
+                    className={buildListItemClassName({
+                      article,
+                      selectedArticleId,
+                    })}
                     onClick={() => handleClick(article)}
                   >
                     {article.title}

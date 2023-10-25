@@ -4,6 +4,7 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import "lib/dayjs"; // eslint-disable-line
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import { DASHBOARD_PATH, EUI_PATH } from "components/routeConstants";

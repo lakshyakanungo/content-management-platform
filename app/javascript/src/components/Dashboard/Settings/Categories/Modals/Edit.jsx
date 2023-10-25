@@ -5,7 +5,7 @@ import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 
 import categoriesApi from "apis/categories";
 
-import { VALIDATION_SCHEMA } from "./constants";
+import { FORM_VALIDATION_SCHEMA } from "./constants";
 
 const Edit = ({
   category,
@@ -15,7 +15,7 @@ const Edit = ({
 }) => {
   const { Header, Body, Footer } = Modal;
 
-  const handleEdit = async ({ category: name }) => {
+  const handleEdit = async ({ name }) => {
     try {
       await categoriesApi.update({
         id: category.id,
@@ -38,14 +38,14 @@ const Edit = ({
       <Form
         formikProps={{
           initialValues: { category: category.name },
-          validationSchema: VALIDATION_SCHEMA,
+          validationSchema: FORM_VALIDATION_SCHEMA,
           onSubmit: handleEdit,
         }}
       >
         <Body>
           <Input
             label="Category title"
-            name="category"
+            name="name"
             placeholder="Enter category title here."
             labelProps={{
               className: "neeto-ui-text-gray-700 neeto-ui-font-light",

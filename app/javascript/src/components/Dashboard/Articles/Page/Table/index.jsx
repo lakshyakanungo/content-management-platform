@@ -1,30 +1,17 @@
 import React, { useState } from "react";
 
 import TableWrapper from "@bigbinary/neeto-molecules/TableWrapper";
-import classnames from "classnames";
 import { Table as NeetoUITable } from "neetoui";
 
-// import EditNotePane from "./Pane/Edit";
+import { buildRowClassName } from "./utils";
 
 const Table = ({
   selectedArticleIds,
   setSelectedArticleIds,
   articles = [],
   columnData = [],
-  // fetchArticles,
-  // setShowEditArticle,
-  // setClickedArticle,
 }) => {
-  // const [showEditArticle, setShowEditArticle] = useState(false);
-  // const [selectedArticle, setSelectedArticle] = useState({});
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
-
-  const buildRowClassName = (_, index) =>
-    classnames({
-      "neeto-ui-bg-gray-100": index % 2,
-    });
-
-  // console.log("column data", columnData);
 
   return (
     <div className="notes-table-height w-11/12 justify-center">
@@ -34,10 +21,9 @@ const Table = ({
           preserveTableStateInQuery
           rowSelection
           bordered={false}
-          className="flex-shrink"
           columnData={columnData}
           currentPageNumber={currentPageNumber}
-          defaultPageSize={10}
+          defaultPageSize={9}
           handlePageChange={page => setCurrentPageNumber(page)}
           rowClassName={buildRowClassName}
           rowData={articles}
@@ -45,13 +31,6 @@ const Table = ({
           onRowSelect={selectedRowKeys =>
             setSelectedArticleIds(selectedRowKeys)
           }
-          // columnData={ARTICLES_TABLE_COLUMN_DATA}
-          // rowData={ARTICLES_TABLE_ROW_DATA}
-
-          // onRowClick={(_, article) => {
-          // setClickedArticle(article);
-          // setShowEditArticle(true);
-          // }}
         />
       </TableWrapper>
     </div>
