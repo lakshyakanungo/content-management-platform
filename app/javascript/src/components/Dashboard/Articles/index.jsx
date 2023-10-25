@@ -12,7 +12,7 @@ import Page from "./Page";
 const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(true);
-  const [activeMenuState, setActiveMenuState] = useState("all");
+  const [activeMenuState, setActiveMenuState] = useState("All");
 
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -48,19 +48,18 @@ const Articles = () => {
     try {
       const {
         data: {
-          articles: { draft, published },
+          articles: { all, draft, published },
         },
       } = await articlesApi.fetch();
+      // console.log("all", all);
       // console.log("draft", draft);
       // console.log("published", published);
-      const allArticles = [...draft, ...published];
-      // console.log("articles", allArticles);
       setDraftArticles(draft);
       setPublishedArticles(published);
-      setAllArticles(allArticles);
-      setDisplayArticles(allArticles);
+      setAllArticles(all);
+      setDisplayArticles(all);
       setArticleCounts({
-        all: allArticles.length,
+        all: all.length,
         draft: draft.length,
         published: published.length,
       });
@@ -72,8 +71,8 @@ const Articles = () => {
   const handleMenuStateChange = menuState => {
     setActiveMenuState(menuState);
 
-    if (menuState === "all") setDisplayArticles(allArticles);
-    else if (menuState === "draft") setDisplayArticles(draftArticles);
+    if (menuState === "All") setDisplayArticles(allArticles);
+    else if (menuState === "Draft") setDisplayArticles(draftArticles);
     else setDisplayArticles(publishedArticles);
   };
 
@@ -121,6 +120,7 @@ const Articles = () => {
             showMenu={showMenu}
           />
           <Page
+            activeMenuState={activeMenuState}
             articles={displayArticles}
             categories={categories}
             refetch={fetchArticlesAndCategories}
