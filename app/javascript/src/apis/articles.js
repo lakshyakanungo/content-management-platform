@@ -4,9 +4,13 @@ const fetch = () => axios.get("/articles");
 
 const fetchByCategory = () => axios.get("/articles/grouped");
 
-const search = ({ searchTerm, selectedCategoriesIds }) =>
+const search = ({ searchTerm, selectedCategoriesIds, activeMenuState }) =>
   axios.get("/articles/search", {
-    params: { title: searchTerm, category_id: selectedCategoriesIds },
+    params: {
+      title: searchTerm,
+      category_id: selectedCategoriesIds,
+      status: activeMenuState,
+    },
   });
 
 const create = ({ payload }) =>

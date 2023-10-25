@@ -1,8 +1,19 @@
 # frozen_string_literal: true
 
 json.articles do
-  json.draft @draft_articles do |draft|
-      json.extract! draft,
+  json.all @all_articles do |article|
+    json.extract! article,
+      :author,
+      :body,
+      :category_id,
+      :category_name,
+      :id,
+      :last_published_at,
+      :status,
+      :title
+  end
+  json.draft @draft_articles do |article|
+      json.extract! article,
         :author,
         :body,
         :category_id,
@@ -13,8 +24,8 @@ json.articles do
         :title
     end
 
-  json.published @published_articles do |published|
-    json.extract! published,
+  json.published @published_articles do |article|
+    json.extract! article,
       :author,
       :body,
       :category_id,

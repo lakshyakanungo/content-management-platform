@@ -8,7 +8,7 @@ import categoriesApi from "apis/categories";
 
 import AddCategoryModal from "./AddCategory";
 import { MENU_ARTICLE_STATES } from "./constants";
-import { handleKeyEvent } from "./utils";
+import { getMenuArticlesCount, handleKeyEvent } from "./utils";
 
 const Menu = ({
   showMenu,
@@ -68,7 +68,7 @@ const Menu = ({
           <Block
             active={state === activeMenuState}
             className="capitalize"
-            count={articleCounts[state]}
+            count={getMenuArticlesCount(articleCounts, state)}
             key={state}
             label={state}
             onClick={() => handleMenuStateChange(state)}

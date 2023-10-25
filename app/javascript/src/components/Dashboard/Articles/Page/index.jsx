@@ -11,6 +11,7 @@ import SubHeader from "./SubHeader";
 import Table from "./Table";
 
 const Page = ({
+  activeMenuState,
   showMenu,
   setShowMenu,
   categories,
@@ -38,8 +39,9 @@ const Page = ({
       } = await articlesApi.search({
         searchTerm: query,
         selectedCategoriesIds,
+        activeMenuState,
       });
-      // console.log(articles);
+      // console.log("search results", articles);
       setDisplayArticles(articles);
     } catch (error) {
       logger.log(error);

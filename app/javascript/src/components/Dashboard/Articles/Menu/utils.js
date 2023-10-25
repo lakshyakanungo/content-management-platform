@@ -3,3 +3,6 @@ export const handleKeyEvent = (event, action, code = "Escape") => {
     action();
   }
 };
+
+export const getMenuArticlesCount = (articleCounts, menuState) =>
+  articleCounts[menuState.toLowerCase()];

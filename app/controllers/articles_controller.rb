@@ -29,21 +29,28 @@ class ArticlesController < ApplicationController
     query = params[:title].downcase
     # query = "*" if query == ""
     category_ids = params[:category_id]
+    puts "getting these category ids", category_ids
+
+    status = params[:status]
+    # puts "statusss : ", status
+
+    articles = get_articles_by_status status
+    # puts "getting these by status", articles
 
     if category_ids.nil?
-      @search_results = Article.joins(:category).select(
+      @search_results = articles.joins(:category).select(
         "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
         "categories.name as category_name").where("lower(title) LIKE ?", "%#{query}%")
     else
-      @search_results = Article.joins(:category).select(
+      @search_results = articles.joins(:category).select(
         "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
-        "categories.name as category_name").where("lower(title) LIKE ?", "%#{query}%").where(
-          "category_id = ?",
-          category_ids)
+        "categories.name as category_name").where("lower(title) LIKE ?", "%#{query}%").where(category_id: category_ids)
     end
 
+    ordered_search_results = @search_results.order("articles.updated_at DESC")
+
     # puts "results : ", @search_results
-    render status: :ok, json: { articles: @search_results }
+    render status: :ok, json: { articles: ordered_search_results }
   end
 
   def create
@@ -86,5 +93,13 @@ class ArticlesController < ApplicationController
       # puts "params", params
       @articles = current_user.articles.where(id: params[:ids])
       # puts "checking", @articles
+    end
+
+    def get_articles_by_status (status)
+      if status == "All"
+        Article.all
+      else
+        Article.all.where(status:)
+      end
     end
 end
