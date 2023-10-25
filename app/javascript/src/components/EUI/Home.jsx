@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
-import { Accordion } from "neetoui";
-import ReactHtmlParser from "react-html-parser";
+import { EditorContent } from "@bigbinary/neeto-editor";
+import { Accordion, Spinner } from "neetoui";
 
 import articlesApi from "apis/articles";
-import Container from "neetomolecules/Container";
+
+import { buildListItemClassName } from "./utils";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [articlesByCategory, setArticlesByCategory] = useState([]);
-  const [articleContent, setArticleContent] = useState("");
+  const [selectedArticleId, setSelectedArticleId] = useState("");
+  const [selectedArticleContent, setSelectedArticleContent] = useState("");
 
   const fetchArticlesByCategory = async () => {
     try {
@@ -25,52 +26,55 @@ const Home = () => {
     }
   };
 
+  const handleClick = article => {
+    setSelectedArticleId(article.id);
+    setSelectedArticleContent(article.body);
+  };
+
   useEffect(() => {
     fetchArticlesByCategory();
   }, []);
 
   if (loading) {
-    <div className="h-screen">
-      <PageLoader />
-    </div>;
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
-    <Container className="h-screen flex flex-col">
-      <div className="flex-grow flex w-full">
-        <div
-          className="w-1/5
-          p-6 border neeto-ui-border-gray-100"
-        >
-          <Accordion>
-            {/* <Accordion.Item
-              title="Accordion 1"
-              // className="flex flex-row-reverse"
-              // titleProps={{ className: "flex flex-row-reverse" }}
+    <div className="flex-grow flex w-full">
+      <div className="w-1/5 p-6 border neeto-ui-border-gray-100">
+        <Accordion className="flex flex-col gap-4">
+          {articlesByCategory.map(([category, articles]) => (
+            <Accordion.Item
+              key={articles[0].category_id}
+              title={category}
+              titleProps={{ className: "neeto-ui-text-gray-700" }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </Accordion.Item> */}
-            {articlesByCategory.map(([category, articles]) => (
-              <Accordion.Item key={articles[0].category_id} title={category}>
-                {/* {category.name} */}
+              <ul className="list-none flex flex-col gap-2">
                 {articles.map(article => (
                   <li
                     key={article.id}
-                    onClick={() => setArticleContent(article.body)}
+                    className={buildListItemClassName({
+                      article,
+                      selectedArticleId,
+                    })}
+                    onClick={() => handleClick(article)}
                   >
                     {article.title}
                   </li>
                 ))}
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        </div>
-        <div className="w-4/5 px-12 py-4">
-          {ReactHtmlParser(articleContent)}
-        </div>
+              </ul>
+            </Accordion.Item>
+          ))}
+        </Accordion>
       </div>
-    </Container>
+      <div className="w-4/5 px-12 py-4">
+        <EditorContent content={selectedArticleContent} />
+      </div>
+    </div>
   );
 };
 

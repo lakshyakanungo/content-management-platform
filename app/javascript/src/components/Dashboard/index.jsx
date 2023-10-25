@@ -10,7 +10,7 @@ import {
 } from "components/routeConstants";
 
 const Dashboard = () => (
-  <div className="h-screen w-full flex flex-row">
+  <div className="box-border h-screen w-screen max-w-screen flex flex-row">
     <Sidebar />
     <Switch>
       {DASHBOARD_ROUTES.map(({ path, component }) => (

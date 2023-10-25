@@ -4,7 +4,13 @@ import { Button } from "neetoui";
 
 import Empty from "../../../../assets/images/Empty";
 
-const EmptyState = ({ title, subtitle, primaryAction, primaryActionLabel }) => (
+const EmptyState = ({
+  title,
+  subtitle,
+  primaryAction,
+  primaryActionLabel,
+  searchText = "",
+}) => (
   <div className="flex h-full w-full flex-row items-start justify-start">
     <div className="m-auto w-3/5">
       <div className="m-auto mb-8 max-w-sm">
@@ -20,7 +26,7 @@ const EmptyState = ({ title, subtitle, primaryAction, primaryActionLabel }) => (
             icon="ri-add-fill"
             label={primaryActionLabel}
             size="small"
-            style="primary"
+            style={searchText ? "secondary" : "primary"}
             onClick={primaryAction}
           />
         )}

@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   before_action :load_multiple_articles!, only: %i[destroy_multiple update_multiple]
 
   def index
-    @all_articles = Article.all.joins(:category).select(
+    @all_articles = Article.all.joins(:category).order("articles.updated_at DESC").select(
       "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
       "categories.name as category_name")
     @draft_articles = @all_articles.filter { |article| article.status == "Draft" }
@@ -48,12 +48,14 @@ class ArticlesController < ApplicationController
 
   def create
     current_user.articles.create!(article_params)
+    respond_with_success("Created new article")
   end
 
   def update
     # puts "Printing", article_params
     # TODO: See if to allow all permitted article params here or we can filter those also here
     @article.update!(article_params)
+    respond_with_success("Updated successfully")
   end
 
   def destroy

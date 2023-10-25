@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 
   def add_default_user
     @user = User.first
-    puts "created user : ", @user.name
   end
 
   def current_user

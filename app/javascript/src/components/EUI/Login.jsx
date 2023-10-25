@@ -9,7 +9,6 @@ const Login = ({ siteName, setIsAuthenticated }) => {
     try {
       await siteSettingsApi.authenticate({ password });
       setIsAuthenticated(true);
-      // history.push("/");
     } catch (error) {
       logger.log(error);
     }

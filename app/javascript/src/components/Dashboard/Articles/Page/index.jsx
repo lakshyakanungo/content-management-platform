@@ -1,46 +1,44 @@
 import React, { useState, useEffect } from "react";
 
-import Header from "@bigbinary/neeto-molecules/Header";
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { Button } from "neetoui";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/commons/EmptyState";
 import Container from "neetomolecules/Container";
+import Header from "neetomolecules/Header";
 
 import SubHeader from "./SubHeader";
+import Table from "./Table";
 
-import Table from "../Table";
-
-const ArticlePage = ({
-  isMenuOpen,
-  setIsMenuOpen,
+const Page = ({
+  showMenu,
+  setShowMenu,
   categories,
   articles,
-  // setArticles,
   setDisplayArticles,
-  fetchArticles,
-  loading,
+  refetch,
   selectedCategories,
   setSelectedCategories,
   setShowCreateArticle,
-  //
   setShowEditArticle,
   setClickedArticle,
 }) => {
-  // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
+  const [visibleTableColumns, setVisibleTableColumns] = useState([]);
 
   const fetchSearchResults = async () => {
     try {
       const selectedCategoriesIds = selectedCategories.map(
         category => category.id
       );
-
+      const query = searchTerm.trim();
       const {
         data: { articles },
-      } = await articlesApi.search({ searchTerm, selectedCategoriesIds });
+      } = await articlesApi.search({
+        searchTerm: query,
+        selectedCategoriesIds,
+      });
       // console.log(articles);
       setDisplayArticles(articles);
     } catch (error) {
@@ -54,22 +52,7 @@ const ArticlePage = ({
         id,
         payload: { status },
       });
-      fetchArticles();
-    } catch (error) {
-      logger.log(error);
-    }
-    // finally {
-    //   setLoading(false);
-    // }
-  };
-
-  const handleBulkStatusChange = async ({ ids, status }) => {
-    try {
-      await articlesApi.updateMultiple({
-        ids,
-        payload: { status },
-      });
-      fetchArticles();
+      refetch();
     } catch (error) {
       logger.log(error);
     }
@@ -78,47 +61,20 @@ const ArticlePage = ({
   const handleDelete = async id => {
     try {
       await articlesApi.deleteArticle(id);
-      await fetchArticles();
+      refetch();
     } catch (error) {
       logger.log(error);
     }
   };
-
-  const handleBulkDelete = async ids => {
-    try {
-      await articlesApi.deleteMultiple(ids);
-      fetchArticles();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const handleBulkCategoryChange = async ({ ids, category_id }) => {
-    try {
-      await articlesApi.updateMultiple({
-        ids,
-        payload: { category_id },
-      });
-      fetchArticles();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const [allowedColumns, setAllowedColumns] = useState([]);
 
   useEffect(() => {
-    if (!(searchTerm === "" && selectedCategories.length === 0)) {
-      fetchSearchResults();
-    }
+    // if (!(searchTerm === "" && selectedCategories.length === 0)) {
+    fetchSearchResults();
+    // }
   }, [searchTerm, selectedCategories]);
 
-  if (loading) {
-    return <PageLoader />;
-  }
-
   return (
-    <Container className="">
+    <Container>
       <Header
         title="All articles"
         actionBlock={
@@ -130,7 +86,7 @@ const ArticlePage = ({
           />
         }
         menuBarToggle={() => {
-          setIsMenuOpen(!isMenuOpen);
+          setShowMenu(!showMenu);
         }}
         searchProps={{
           value: searchTerm,
@@ -141,43 +97,44 @@ const ArticlePage = ({
       <SubHeader
         articles={articles}
         categories={categories}
-        handleBulkCategoryChange={handleBulkCategoryChange}
-        handleBulkDelete={handleBulkDelete}
-        handleBulkStatusChange={handleBulkStatusChange}
         handleDelete={handleDelete}
         handleStatusChange={handleStatusChange}
+        refetch={refetch}
         selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
-        // setColumns={setColumns}
-        // columns={columns}
-        setAllowedColumns={setAllowedColumns}
         setClickedArticle={setClickedArticle}
+        setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
-        // allowedColumns={allowedColumns}
         setShowEditArticle={setShowEditArticle}
+        setVisibleTableColumns={setVisibleTableColumns}
       />
       {articles.length ? (
         <Table
           articles={articles}
-          columnData={allowedColumns}
-          // fetchArticles={fetchArticles}
+          columnData={visibleTableColumns}
           selectedArticleIds={selectedArticleIds}
           setSelectedArticleIds={setSelectedArticleIds}
-          //
-          // setShowEditArticle={setShowEditArticle}
-          // setClickedArticle={setClickedArticle}
+        />
+      ) : searchTerm.length ? (
+        <EmptyState
+          primaryAction={() => setSearchTerm("")}
+          primaryActionLabel="Clear search"
+          searchText={searchTerm}
+          subtitle="We could not find any articles based on your search term. Try a different keyword or add a new article."
+          title={`No results for "${searchTerm}"`}
         />
       ) : (
-        // <>Table was here</>
         <EmptyState
-          primaryAction={() => {}}
           primaryActionLabel="Add article"
           subtitle="You have not yet created an article. Create an article using the CTA given below."
           title="There are no articles."
+          primaryAction={() => {
+            setShowCreateArticle(true);
+          }}
         />
       )}
     </Container>
   );
 };
 
-export default ArticlePage;
+export default Page;

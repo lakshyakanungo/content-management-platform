@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import { Spinner } from "@bigbinary/neetoui";
 import { Form, Input as FormikInput, Button } from "@bigbinary/neetoui/formik";
-import * as yup from "yup";
 
 import siteSettingsApi from "apis/siteSettings";
 
-import Layout from "./Layout";
+import { VALIDATION_SCHEMA } from "./constants";
+
+import Layout from "../Layout";
 
 const General = () => {
   const [siteName, setSiteName] = useState("");
@@ -18,7 +19,6 @@ const General = () => {
       const {
         data: { title },
       } = await siteSettingsApi.fetch();
-      // console.log(data);
       setSiteName(title);
     } catch (error) {
       logger.log(error);
@@ -59,16 +59,7 @@ const General = () => {
           initialValues: {
             siteName,
           },
-          validationSchema: yup.object().shape({
-            siteName: yup
-              .string()
-              .required("Required")
-              .max(40, "Max title length is 40 characters")
-              .matches(
-                /^.*[a-zA-Z0-9].*$/i,
-                "Atleast one alphanumeric character must be present"
-              ),
-          }),
+          validationSchema: VALIDATION_SCHEMA,
           onSubmit: handleSubmit,
         }}
       >
@@ -78,7 +69,6 @@ const General = () => {
               helpText="Customize the site name which is used to show the site name in Open Graph Tags."
               label="Site title"
               name="siteName"
-              // className="mb-4"
               labelProps={{
                 className: "neeto-ui-text-gray-700 neeto-ui-text-sm",
               }}

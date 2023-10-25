@@ -2,13 +2,30 @@ import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
-import * as yup from "yup";
 
-const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
+import categoriesApi from "apis/categories";
+
+import { FORM_VALIDATION_SCHEMA } from "./constants";
+
+const Edit = ({
+  category,
+  fetchCategories,
+  showEditModal,
+  setShowEditModal,
+}) => {
   const { Header, Body, Footer } = Modal;
 
-  const handleReset = () => {
-    setShowEditModal(false);
+  const handleEdit = async ({ name }) => {
+    try {
+      await categoriesApi.update({
+        id: category.id,
+        payload: { name },
+      });
+      fetchCategories();
+      setShowEditModal(false);
+    } catch (error) {
+      logger.log(error);
+    }
   };
 
   return (
@@ -21,16 +38,14 @@ const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
       <Form
         formikProps={{
           initialValues: { category: category.name },
-          validationSchema: yup.object().shape({
-            category: yup.string().required("Category title is required"),
-          }),
+          validationSchema: FORM_VALIDATION_SCHEMA,
           onSubmit: handleEdit,
         }}
       >
         <Body>
           <Input
             label="Category title"
-            name="category"
+            name="name"
             placeholder="Enter category title here."
             labelProps={{
               className: "neeto-ui-text-gray-700 neeto-ui-font-light",
@@ -43,7 +58,7 @@ const Edit = ({ category, handleEdit, showEditModal, setShowEditModal }) => {
             label="Cancel"
             style="text"
             type="reset"
-            onClick={handleReset}
+            onClick={() => setShowEditModal(false)}
           />
         </Footer>
       </Form>

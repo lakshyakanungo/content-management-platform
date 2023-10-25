@@ -3,7 +3,6 @@ import General from "./General";
 import Redirection from "./Redirection";
 import Security from "./Security";
 
-// Note: This is not kept in constants.js to avoid dependency cycle
 export const SETTINGS_NAVLINKS = [
   {
     key: "general",

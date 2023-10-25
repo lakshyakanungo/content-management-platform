@@ -31,7 +31,6 @@ const List = ({ categories, setCategories, fetchCategories }) => {
 
         return updatedCategories;
       });
-      // console.log(categories);
     },
     [categories]
   );

@@ -4,15 +4,10 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import "lib/dayjs"; // eslint-disable-line
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
-import {
-  // AUTH_ROUTES,
-  // PRIVATE_ROUTES,
-  DASHBOARD_PATH,
-  EUI_PATH,
-  // LOGIN_PATH,
-} from "components/routeConstants";
+import { DASHBOARD_PATH, EUI_PATH } from "components/routeConstants";
 
 import Dashboard from "./Dashboard";
 import EUI from "./EUI";
@@ -29,7 +24,7 @@ const Main = () => {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen max-w-screen">
+      <div className="h-screen w-screen">
         <PageLoader />
       </div>
     );
@@ -39,24 +34,6 @@ const Main = () => {
     <BrowserRouter>
       <ToastContainer />
       <Switch>
-        {/* {AUTH_ROUTES.map(route => (
-          <Route
-            exact
-            component={route.component}
-            key={route.path}
-            path={route.path}
-          />
-        ))} */}
-        {/* {!isLoggedIn && <Route exact component={Hero} path={DASHBOARD_PATH} />} */}
-        {/* {PRIVATE_ROUTES.map(route => (
-          <PrivateRoute
-            component={route.component}
-            condition={isLoggedIn}
-            key={route.path}
-            path={route.path}
-            redirectRoute={LOGIN_PATH}
-          />
-        ))} */}
         <Route component={EUI} path={EUI_PATH} />
         <Route component={Dashboard} path={DASHBOARD_PATH} />
       </Switch>
