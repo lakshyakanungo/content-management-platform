@@ -7,10 +7,10 @@ Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
     resources :articles, only: [:index, :create, :update, :destroy] do
       collection do
-        post "destroy_multiple"
-        post "update_multiple"
+        delete "destroy_multiple"
+        put "update_multiple"
         get "search"
-        get "grouped"
+        get "grouped_by_category"
       end
     end
     resources :categories, only: [:index, :create, :update, :destroy] do

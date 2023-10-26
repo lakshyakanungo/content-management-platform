@@ -1,56 +1,30 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy]
+  before_action :load_article!, only: %i[update destroy]
   before_action :load_multiple_articles!, only: %i[destroy_multiple update_multiple]
 
   def index
-    @all_articles = Article.all.joins(:category).order("articles.updated_at DESC").select(
-      "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
-      "categories.name as category_name")
+    @all_articles = Article.all.order(updated_at: :desc)
     @draft_articles = @all_articles.filter { |article| article.status == "Draft" }
     @published_articles = @all_articles.filter { |article|article.status == "Published" }
   end
 
-  def grouped
-    grouped_articles = current_user.articles
-      # .where(status: "Published")
-      .joins(:category).select(
-        "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
-        "categories.name as category_name", "categories.position as category_position")
-      .order("category_position")
-      .group_by(&:category_name).to_a
-
-    render status: :ok, json: { grouped_articles: }
+  def grouped_by_category
+    @grouped_articles = Article.joins(:category).group_by { |article| article.category.name }.to_a
   end
 
   def search
-    puts "Parmassss", params
     query = params[:title].downcase
-    # query = "*" if query == ""
     category_ids = params[:category_id]
-    puts "getting these category ids", category_ids
-
     status = params[:status]
-    # puts "statusss : ", status
 
-    articles = get_articles_by_status status
-    # puts "getting these by status", articles
-
-    if category_ids.nil?
-      @search_results = articles.joins(:category).select(
-        "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
-        "categories.name as category_name").where("lower(title) LIKE ?", "%#{query}%")
-    else
-      @search_results = articles.joins(:category).select(
-        "articles.id as id", "title", "author", "body", "status", "last_published_at", "categories.id as category_id",
-        "categories.name as category_name").where("lower(title) LIKE ?", "%#{query}%").where(category_id: category_ids)
-    end
-
-    ordered_search_results = @search_results.order("articles.updated_at DESC")
-
-    # puts "results : ", @search_results
-    render status: :ok, json: { articles: ordered_search_results }
+    @search_results = current_user.articles
+      .by_status(status)
+      .by_categories(category_ids)
+      .where("lower(title) LIKE ?", "%#{query}%")
+      .includes(:category)
+      .order(updated_at: :desc)
   end
 
   def create
@@ -59,22 +33,21 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    # puts "Printing", article_params
-    # TODO: See if to allow all permitted article params here or we can filter those also here
     @article.update!(article_params)
     respond_with_success("Updated successfully")
   end
 
   def destroy
     @article.destroy!
+    respond_with_success("Deleted successfully")
   end
 
   def destroy_multiple
     @articles.destroy_all
+    respond_with_success("Deleted successfully")
   end
 
   def update_multiple
-    # puts "updating multiple...", article_params
     @articles.update!(article_params)
     respond_with_success("Updated successfully")
   end
@@ -90,16 +63,6 @@ class ArticlesController < ApplicationController
     end
 
     def load_multiple_articles!
-      # puts "params", params
       @articles = current_user.articles.where(id: params[:ids])
-      # puts "checking", @articles
-    end
-
-    def get_articles_by_status (status)
-      if status == "All"
-        Article.all
-      else
-        Article.all.where(status:)
-      end
     end
 end
