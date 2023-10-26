@@ -41,7 +41,7 @@ const Menu = ({
     try {
       const {
         data: { categories },
-      } = await categoriesApi.search(searchTerm);
+      } = await categoriesApi.search({ name: searchTerm });
       // console.log(categories);
       setCategoriesDisplayed(categories);
     } catch (error) {

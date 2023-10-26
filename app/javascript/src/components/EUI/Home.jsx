@@ -15,10 +15,10 @@ const Home = () => {
 
   const fetchArticlesByCategory = async () => {
     try {
-      const { data } = await articlesApi.fetchByCategory();
-      // console.log(data);
-      // console.log(results);
-      setArticlesByCategory(data.groupedArticles);
+      const {
+        data: { groupedArticles },
+      } = await articlesApi.fetchByCategory();
+      setArticlesByCategory(groupedArticles);
     } catch (error) {
       logger.log(error);
     } finally {
@@ -47,10 +47,10 @@ const Home = () => {
     <div className="flex-grow flex w-full">
       <div className="w-1/5 p-6 border neeto-ui-border-gray-100">
         <Accordion className="flex flex-col gap-4">
-          {articlesByCategory.map(([category, articles]) => (
+          {articlesByCategory.map(([categoryName, articles]) => (
             <Accordion.Item
-              key={articles[0].categoryId}
-              title={category}
+              key={categoryName}
+              title={categoryName}
               titleProps={{ className: "neeto-ui-text-gray-700" }}
             >
               <ul className="list-none flex flex-col gap-2">

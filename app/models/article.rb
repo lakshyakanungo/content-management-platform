@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  scope :by_categories, ->(category_ids) { where(category_id: category_ids) unless category_ids.nil? }
+  scope :by_status, ->(status) { where(status:) unless status == "All" }
+
   MAX_TITLE_LENGTH = 125
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
 

@@ -4,8 +4,7 @@ class RedirectionsController < ApplicationController
   before_action :load_redirection!, only: [:destroy, :update]
 
   def index
-    redirections = current_user.redirections.all.order(:created_at)
-    render status: :ok, json: { redirections: }
+    @redirections = current_user.redirections.order(:created_at)
   end
 
   def create

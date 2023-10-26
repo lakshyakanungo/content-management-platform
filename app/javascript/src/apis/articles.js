@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fetch = () => axios.get("/articles");
 
-const fetchByCategory = () => axios.get("/articles/grouped");
+const fetchByCategory = () => axios.get("/articles/grouped_by_category");
 
 const search = ({ searchTerm, selectedCategoriesIds, activeMenuState }) =>
   axios.get("/articles/search", {
@@ -29,13 +29,13 @@ const deleteArticle = id => {
 };
 
 const deleteMultiple = ids => {
-  axios.post(`/articles/destroy_multiple/`, {
-    ids,
+  axios.delete(`/articles/destroy_multiple/`, {
+    data: { ids },
   });
 };
 
 const updateMultiple = ({ ids, payload }) => {
-  axios.post(`articles/update_multiple`, {
+  axios.put(`articles/update_multiple`, {
     ids,
     article: payload,
   });

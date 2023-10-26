@@ -41,7 +41,6 @@ const Page = ({
         selectedCategoriesIds,
         activeMenuState,
       });
-      // console.log("search results", articles);
       setDisplayArticles(articles);
     } catch (error) {
       logger.log(error);

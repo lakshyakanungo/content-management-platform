@@ -12,9 +12,9 @@ class SiteSetting < ApplicationRecord
   validates_inclusion_of :is_password_protected, in: [true, false]
   validates :password, length: { minimum: MIN_PASSWORD_LENGTH },
     format: { with: VALID_PASSWORD_REGEX },
-    if: :checkup?
+    if: :has_authentication?
 
-  def checkup?
+  def has_authentication?
     is_password_protected == true && password.present?
   end
 end

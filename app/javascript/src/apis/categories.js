@@ -2,9 +2,9 @@ import axios from "axios";
 
 const fetch = () => axios.get("/categories");
 
-const search = searchTerm =>
+const search = payload =>
   axios.get("/categories/search", {
-    params: { name: searchTerm },
+    params: payload,
   });
 
 const create = payload =>
@@ -17,12 +17,6 @@ const update = ({ id, payload }) =>
     category: payload,
   });
 
-const reorder = ({ id, payload }) =>
-  axios.put(`/categories/${id}`, {
-    category: payload,
-  });
-
-// TODO: See best way to implement. We need to send id with params or as data
 const destroy = ({ id, payload }) =>
   axios.delete(`/categories/${id}`, {
     data: {
@@ -36,7 +30,6 @@ const categoriesApi = {
   create,
   update,
   destroy,
-  reorder,
 };
 
 export default categoriesApi;
