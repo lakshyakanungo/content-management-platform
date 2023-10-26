@@ -30,11 +30,6 @@ class CategoriesController < ApplicationController
     @category.destroy!
   end
 
-  def reorder
-    puts "coming here"
-    @category.insert_at(category_params[:position])
-  end
-
   private
 
     def category_params

@@ -14,12 +14,7 @@ Rails.application.routes.draw do
       end
     end
     resources :categories, only: [:index, :create, :update, :destroy] do
-      member do
-        get :reorder
-      end
-      collection do
-        get "search"
-      end
+      get "search", on: :collection
     end
     resources :redirections, only: [:index, :create, :update, :destroy]
     resource :site_settings, only: [:show, :update] do

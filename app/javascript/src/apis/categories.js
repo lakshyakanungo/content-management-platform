@@ -17,11 +17,6 @@ const update = ({ id, payload }) =>
     category: payload,
   });
 
-const reorder = ({ id, payload }) =>
-  axios.put(`/categories/${id}`, {
-    category: payload,
-  });
-
 const destroy = ({ id, payload }) =>
   axios.delete(`/categories/${id}`, {
     data: {
@@ -35,7 +30,6 @@ const categoriesApi = {
   create,
   update,
   destroy,
-  reorder,
 };
 
 export default categoriesApi;

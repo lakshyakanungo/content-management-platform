@@ -9,7 +9,7 @@ const List = ({ categories, setCategories, fetchCategories }) => {
 
   const handleMove = async ({ category, finalPosition }) => {
     try {
-      await categoriesApi.reorder({
+      await categoriesApi.update({
         id: category.id,
         payload: { position: finalPosition },
       });
