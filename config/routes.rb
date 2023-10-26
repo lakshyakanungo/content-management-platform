@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   draw :api
 
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, only: [:index, :create, :update, :destroy] do
+    resources :articles, except: %i[show new edit] do
       collection do
         delete "destroy_multiple"
         put "update_multiple"
@@ -13,17 +13,17 @@ Rails.application.routes.draw do
         get "grouped_by_category"
       end
     end
-    resources :categories, only: [:index, :create, :update, :destroy] do
+    resources :categories, except: %i[show new edit] do
       get "search", on: :collection
     end
-    resources :redirections, only: [:index, :create, :update, :destroy]
+    resources :redirections, except: %i[show new edit]
     resource :site_settings, only: [:show, :update] do
-      post "authenticate"
+      post "authenticate", on: :collection
     end
-
   end
+
   Redirection.all.each do |redirection|
-    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301), only_path: false
+    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301)
   end
 
   root "home#index"

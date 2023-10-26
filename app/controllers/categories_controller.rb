@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
-  before_action :load_category!, only: [:update, :destroy, :reorder]
+  before_action :load_category!, only: [:update, :destroy]
 
   def index
     @categories = current_user.categories.order("position ASC")

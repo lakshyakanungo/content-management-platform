@@ -4,9 +4,6 @@ class SiteSettingsController < ApplicationController
   before_action :load_current_setting
 
   def show
-    is_password_protected = @setting.is_password_protected
-    title = @setting.title
-    render status: :ok, json: { is_password_protected:, title: }
   end
 
   def update
