@@ -42,6 +42,18 @@ def create_sample_data!
   puts 'Seeding with sample data...'
   create_user! email: 'oliver@example.com', name: 'Oliver'
   puts 'Done! Olvier with email "oliver@example.com" is the default user'
+
+  CATEGORIES.each do |category|
+    Category.create! category
+  end
+
+  puts "Added sample categories"
+
+  ARTICLES.each do |article|
+    Article.create! article
+  end
+
+  puts "Added sample articles"
 end
 
 def create_user!(options = {})
