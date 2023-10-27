@@ -2,6 +2,7 @@ import React from "react";
 
 import { Modal } from "@bigbinary/neetoui";
 import { Select, Form, Button } from "@bigbinary/neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
@@ -12,14 +13,15 @@ const Delete = ({
   category,
   categories,
   fetchCategories,
-  showDeleteModal,
-  setShowDeleteModal,
+  showDeleteOverlay,
+  setShowDeleteOverlay,
   hasMultipleCategories,
 }) => {
   const { Body, Footer } = Modal;
 
+  const { t } = useTranslation();
+
   const handleSubmit = async ({ selectedCategory }) => {
-    // console.log(selectedCategory);
     try {
       await categoriesApi.destroy({
         id: category.id,
@@ -29,7 +31,7 @@ const Delete = ({
         },
       });
       fetchCategories();
-      setShowDeleteModal(false);
+      setShowDeleteOverlay(false);
     } catch (error) {
       logger.log(error);
     }
@@ -43,9 +45,9 @@ const Delete = ({
     <Modal
       closeOnEsc
       closeOnOutsideClick
-      isOpen={showDeleteModal}
-      title="Delete category"
-      onClose={() => setShowDeleteModal(false)}
+      isOpen={showDeleteOverlay}
+      title={t("dashboard.settings.categories.modal.delete.title")}
+      onClose={() => setShowDeleteOverlay(false)}
     >
       <Header
         category={category}
@@ -68,27 +70,35 @@ const Delete = ({
                 isClearable
                 isSearchable
                 className="neeto-ui-text-gray-500 neeto-ui-font-normal"
-                label="Select a category to move these articles into*"
                 name="selectedCategory"
                 optionRemapping={{ label: "name", value: "id" }}
                 options={categoryMoveOptions}
-                placeholder="Search category"
+                label={t(
+                  "dashboard.settings.categories.modal.delete.selectLabel"
+                )}
+                placeholder={t(
+                  "dashboard.settings.categories.modal.delete.selectPlaceholder"
+                )}
               />
             </Body>
             <Footer>
               <Button
                 className="mr-2"
                 disabled={!dirty && hasMultipleCategories}
-                label="Proceed"
                 style="danger"
                 type="submit"
+                label={t(
+                  "dashboard.settings.categories.modal.delete.button.save"
+                )}
               />
               <Button
                 disabled={!dirty && hasMultipleCategories}
-                label="Cancel"
                 style="text"
                 type="reset"
-                onClick={() => setShowDeleteModal(false)}
+                label={t(
+                  "dashboard.settings.categories.modal.delete.button.cancel"
+                )}
+                onClick={() => setShowDeleteOverlay(false)}
               />
             </Footer>
           </>

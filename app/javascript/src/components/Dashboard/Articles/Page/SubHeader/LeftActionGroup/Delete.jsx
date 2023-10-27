@@ -1,5 +1,6 @@
 import React from "react";
 
+import { t } from "i18next";
 import { Delete as DeleteIcon } from "neetoicons";
 import { Button } from "neetoui";
 
@@ -19,9 +20,11 @@ const Delete = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
   return (
     <Button
       icon={DeleteIcon}
-      label="Delete"
       size="medium"
       style="danger"
+      label={t(
+        "dashboard.articles.page.subheader.leftActionGroup.deleteButtonLabel"
+      )}
       onClick={() => handleBulkDelete(selectedArticleIds)}
     />
   );

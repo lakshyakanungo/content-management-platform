@@ -22,7 +22,7 @@ const Header = ({ category, hasMultipleCategories }) => {
               <b className="neeto-ui-text-error-800">
                 &nbsp;{category.name}&nbsp;
               </b>
-              has&nbsp;{category.articles_count}&nbsp;articles. Before this
+              has&nbsp;{category.articlesCount}&nbsp;articles. Before this
               category can be deleted, these articles needs to be moved to
               another category.
             </span>
@@ -33,7 +33,7 @@ const Header = ({ category, hasMultipleCategories }) => {
                 &nbsp;{category.name}&nbsp;
               </b>
               is the only category present and it has&nbsp;
-              {category.articles_count}&nbsp;articles. On proceeding, all the
+              {category.articlesCount}&nbsp;articles. On proceeding, all the
               articles will be moved to a new category
               <b className="neeto-ui-text-error-800">&nbsp;General&nbsp;</b>.
             </span>

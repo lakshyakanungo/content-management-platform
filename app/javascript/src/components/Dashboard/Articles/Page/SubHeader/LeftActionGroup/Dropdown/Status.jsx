@@ -1,5 +1,6 @@
 import React from "react";
 
+import { t } from "i18next";
 import { Dropdown } from "neetoui";
 
 import articlesApi from "apis/articles";
@@ -24,8 +25,10 @@ const Status = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
     <Dropdown
       buttonSize="medium"
       buttonStyle="secondary"
-      label="Change status"
       strategy="fixed"
+      label={t(
+        "dashboard.articles.page.subheader.leftActionGroup.statusDropdownLabel"
+      )}
     >
       <Menu>
         <MenuItem.Button onClick={() => handleBulkStatusChange("Draft")}>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Spinner, Switch } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 
 import siteSettingsApi from "apis/siteSettings";
 
@@ -14,12 +15,13 @@ const Security = () => {
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(true);
 
+  const { t } = useTranslation();
+
   const fetchSiteSettings = async () => {
     try {
       setLoading(true);
       const { data } = await siteSettingsApi.fetch();
       const { isPasswordProtected } = data;
-      // console.log(data);
       setIsPasswordRequired(isPasswordProtected);
       setShowChangePasswordForm(isPasswordProtected);
     } catch (error) {
@@ -30,7 +32,6 @@ const Security = () => {
   };
 
   const updateSecurity = async value => {
-    // console.log(value);
     try {
       await siteSettingsApi.update({
         is_password_protected: value,
@@ -61,11 +62,11 @@ const Security = () => {
   return (
     <Layout
       className="mx-24"
-      description="Configure security related settings for your site."
-      header="Security"
+      description={t("dashboard.settings.security.description")}
+      header={t("dashboard.settings.security.header")}
     >
       <div className="flex justify-between">
-        <span>Password protect your site</span>
+        <span>{t("dashboard.settings.security.title")}</span>
         <Switch checked={isPasswordRequired} onChange={handleToggle} />
       </div>
       {isPasswordRequired &&

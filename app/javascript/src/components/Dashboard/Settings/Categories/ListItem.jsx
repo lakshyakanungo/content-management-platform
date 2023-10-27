@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 
+import { useTranslation } from "react-i18next";
+
 import useDragAndDrop from "hooks/useDragAndDrop";
 
 import Alert from "./Alert";
 import Dropdown from "./Dropdown";
 import DeleteModal from "./Modals/Delete";
-import Edit from "./Modals/Edit";
+import EditModal from "./Modals/Edit";
 
 import MenuSquare from "/Users/bigbinary/Desktop/new-dev/Scribble/app/assets/images/MenuSquare";
 
 const ListItem = ({
-  text,
   index,
   moveListItem,
   category,
   categories,
   fetchCategories,
-  handleMove,
+  handleReorder,
 }) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteOverlay, setShowDeleteOverlay] = useState(false);
+
+  const { t } = useTranslation();
 
   const dragDropRef = useDragAndDrop({
     index,
     category,
     moveListItem,
-    handleMove,
+    handleReorder,
   });
 
   return (
@@ -37,37 +40,44 @@ const ListItem = ({
         <div className="flex gap-2 items-center">
           <div className="flex flex-col gap-1 ">
             <span className="neeto-ui-text-gray-800 neeto-ui-text-base">
-              {text}
+              {category.name}
             </span>
             <span className="neeto-ui-text-gray-500 neeto-ui-text-sm">
-              {category.articlesCount} articles
+              {t("dashboard.settings.categories.listItem.articlesCount", {
+                count: category.articlesCount,
+              })}
             </span>
           </div>
         </div>
         <Dropdown
-          setShowDeleteModal={setShowDeleteModal}
+          setShowDeleteOverlay={setShowDeleteOverlay}
           setShowEditModal={setShowEditModal}
         />
         {showEditModal && (
-          <Edit
+          <EditModal
             category={category}
             fetchCategories={fetchCategories}
             setShowEditModal={setShowEditModal}
             showEditModal={showEditModal}
           />
         )}
-        {showDeleteModal &&
+        {showDeleteOverlay &&
           (category.articlesCount > 0 ? (
             <DeleteModal
               categories={categories}
               category={category}
               fetchCategories={fetchCategories}
               hasMultipleCategories={categories.length > 1}
-              setShowDeleteModal={setShowDeleteModal}
-              showDeleteModal={showDeleteModal}
+              setShowDeleteOverlay={setShowDeleteOverlay}
+              showDeleteOverlay={showDeleteOverlay}
             />
           ) : (
-            <Alert category={category} fetchCategories={fetchCategories} />
+            <Alert
+              category={category}
+              fetchCategories={fetchCategories}
+              setShowDeleteOverlay={setShowDeleteOverlay}
+              showDeleteOverlay={showDeleteOverlay}
+            />
           ))}
       </div>
     </li>

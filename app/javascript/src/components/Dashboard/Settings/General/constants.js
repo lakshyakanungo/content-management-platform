@@ -1,12 +1,13 @@
+import { t } from "i18next";
 import * as yup from "yup";
 
 export const VALIDATION_SCHEMA = yup.object().shape({
   siteName: yup
     .string()
-    .required("Required")
-    .max(40, "Max title length is 40 characters")
+    .required(t("dashboard.settings.general.form.validations.required"))
+    .max(40, t("dashboard.settings.general.form.validations.max"))
     .matches(
       /^.*[a-zA-Z0-9].*$/i,
-      "Atleast one alphanumeric character must be present"
+      t("dashboard.settings.general.form.validations.patternMatch")
     ),
 });

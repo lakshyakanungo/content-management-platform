@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FormikEditor } from "@bigbinary/neeto-editor";
+import { t } from "i18next";
 
 import { EDITOR_ADDONS, EDITOR_MENTIONS } from "./constants";
 
@@ -13,7 +14,7 @@ const Editor = ({ editorRef, ...otherProps }) => (
     heightStrategy="flexible"
     mentions={EDITOR_MENTIONS}
     name="editor"
-    placeholder="Add text here"
+    placeholder={t("dashboard.articles.actions.editorPlaceholder")}
     ref={editorRef}
     rows={25}
     {...otherProps}

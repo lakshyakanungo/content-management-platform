@@ -1,0 +1,191 @@
+{
+  "dashboard": {
+    "articles": {
+      "page": {
+        "header": {
+          "title": "All articles",
+          "buttonLabel": "Add article",
+          "searchPlaceholder": "Search article title"
+        },
+        "emptyState": {
+          "forSearch": {
+            "primaryActionLabel": "Clear search",
+            "subtitle": "We could not find any articles based on your search term. Try a different keyword or add a new article.",
+            "title": "No results for {{title}}"
+          },
+          "general": {
+            "primaryActionLabel": "Add article",
+            "subtitle": "You have not yet created an article. Create an article using the CTA given below.",
+            "title": "There are no articles."
+          }
+        },
+        "subheader": {
+          "numberOfArticles": "{{count}} articles",
+          "columns": {
+            "label": "Columns",
+            "empty": "No columns found"
+          },
+          "leftActionGroup": {
+            "headerText": "<0>{{count}} articles </0> selected of {{total}}",
+            "categoryDropdownLabel": "Change category",
+            "statusDropdownLabel": "Change status",
+            "deleteButtonLabel": "Delete"
+          }
+        },
+        "table": {
+          "title": "Title",
+          "category": "Category",
+          "author": "Author",
+          "lastPublishedAt": "Last Published At",
+          "status": "Status",
+          "dropdown": {
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "delete": "Delete"
+          }
+        }
+      },
+      "menu": {
+        "title": "Articles",
+        "subtitle": "Categories",
+        "searchPlaceholder": "Search category",
+        "addCategory": {
+          "title": "New category",
+          "inputLabel": "Category title",
+          "inputPlaceholder": "Enter category title here.",
+          "buttonLabel": "Cancel",
+          "error": "Category title is required"
+        }
+      },
+      "actions": {
+        "create": {
+          "placeholder": "Search category",
+          "cancelButton": "Cancel"
+        },
+        "edit": {
+          "placeholder": "Search category",
+          "cancelButton": "Cancel"
+        },
+        "editorPlaceholder": "Add text here"
+      }
+    },
+    "settings": {
+      "general": {
+        "description": "Configure general attributes of knowledge base",
+        "header": "General Settings",
+        "form": {
+          "input": {
+            "label": "Site title",
+            "helpText": "Customize the site name which is used to show the site name in Open Graph Tags."
+          },
+          "button": {
+            "cancel": {
+              "label": "Cancel"
+            },
+            "save": {
+              "label": "Save changes"
+            }
+          },
+          "validations": {
+            "required": "Required",
+            "max": "Max title length is 40 characters",
+            "patternMatch": "Atleast one alphanumeric character must be present"
+          }
+        }
+      },
+      "security": {
+        "description": "Configure security related settings for your site.",
+        "header": "Security",
+        "title": "Password protect your site",
+        "form": {
+          "changePassword": {
+            "inputLabel": "Password",
+            "buttonLabel": "Change password"
+          },
+          "inputLabel": "Password",
+          "placeholder": "Enter password",
+          "lengthError": "Have at least 6 characters",
+          "strengthError": "Include at least 1 letter and 1 number",
+          "button": {
+            "save": "Save changes",
+            "cancel": "Cancel"
+          }
+        }
+      },
+      "redirections": {
+        "description": "Create and configure redirection rules to send users from old links to new links. All redirections are performed with 301 status codes to be SEO friendly.",
+        "header": "Redirections",
+        "from": "FROM",
+        "to": "TO",
+        "form": {
+          "validations": {
+            "required": "Required",
+            "validFromUrl": "From path URL must be valid",
+            "duplicateFromUrl": "Duplicate value not allowed in From path URL",
+            "cyclicRedirection": "Cyclic redirections not allowed",
+            "validToUrl": "To path URL must be valid"
+          }
+        },
+        "newButtonLabel": "Add new redirection",
+        "row": {
+          "dropdown": {
+            "edit": "Edit",
+            "delete": "Delete"
+          }
+        }
+      },
+      "categories": {
+        "description": "Create and configure the categories inside your scribble.",
+        "header": "Manage categories",
+        "count": "{{count}} categories",
+        "listItem": {
+          "articlesCount": "{{count}} articles",
+          "dropdown": {
+            "edit": "Edit",
+            "delete": "Delete"
+          }
+        },
+        "modal": {
+          "create": {
+            "title": "New category",
+            "inputLabel": "Category title",
+            "inputPlaceholder": "Enter category title here.",
+            "button": {
+              "cancel": "Cancel",
+              "save": "Add"
+            },
+            "error": "Category title is required"
+          },
+          "edit": {
+            "title": "Edit category",
+            "inputLabel": "Category title",
+            "inputPlaceholder": "Enter category title here.",
+            "button": {
+              "cancel": "Cancel",
+              "save": "Save changes"
+            },
+            "error": "Category title is required"
+          },
+          "delete": {
+            "title": "Delete category",
+            "selectLabel": "Select a category to move these articles into*",
+            "selectPlaceholder": "Search category",
+            "button": {
+              "cancel": "Cancel",
+              "save": "Proceed"
+            },
+            "error": "Category to move articles into is required"
+          }
+        },
+        "alert": {
+          "message": "This category has 0 articles.",
+          "buttonLabel": "Delete",
+          "title": "Confirm category deletion?"
+        },
+        "button": {
+          "new": "New category"
+        }
+      }
+    }
+  }
+}

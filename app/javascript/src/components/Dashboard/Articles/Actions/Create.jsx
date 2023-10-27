@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 
@@ -13,6 +14,8 @@ const Create = ({ categories, setShowCreateArticle, refetch }) => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
 
   const editorRef = useRef(null);
+
+  const { t } = useTranslation();
 
   const handleCreate = async ({ selectedCategory }) => {
     try {
@@ -55,16 +58,18 @@ const Create = ({ categories, setShowCreateArticle, refetch }) => {
                     name="selectedCategory"
                     optionRemapping={{ label: "name", value: "id" }}
                     options={categories}
-                    placeholder="Search category"
                     className={`neeto-ui-text-gray-500 neeto-ui-font-normal flex flex-row gap-2 items-center ${
                       props.isValid ? "w-72" : "w-96"
                     }`}
+                    placeholder={t(
+                      "dashboard.articles.actions.create.placeholder"
+                    )}
                   />
                 </div>
                 <div className="flex gap-3">
                   <Button
                     disabled={false}
-                    label="Cancel"
+                    label={t("dashboard.articles.actions.create.cancelButton")}
                     style="secondary"
                     type="reset"
                     onClick={() => setShowCreateArticle(false)}

@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { getSubdomain } from "tldts";
 import * as yup from "yup";
 
@@ -55,28 +56,31 @@ export const buildFormValidationSchema = redirections =>
   yup.object().shape({
     fromUrl: yup
       .string()
-      .required("Required")
-      .matches(/^\/[/.a-zA-Z0-9-]+$/, "From path URL must be valid")
+      .required(t("dashboard.settings.redirections.form.validations.required"))
+      .matches(
+        /^\/[/.a-zA-Z0-9-]+$/,
+        t("dashboard.settings.redirections.form.validations.validFromUrl")
+      )
       .notOneOf(
         getFromPaths(redirections),
-        "Duplicate value not allowed in From path URL"
+        t("dashboard.settings.redirections.form.validations.duplicateFromUrl")
       )
       .test(
         "is-from-url-causing-cyclic-redirection",
-        "Cyclic redirections not allowed",
+        t("dashboard.settings.redirections.form.validations.cyclicRedirection"),
         value => !isFromPathPresentInToPathUrls(value, redirections)
       ),
     toUrl: yup
       .string()
-      .required("Required")
+      .required(t("dashboard.settings.redirections.form.validations.required"))
       .transform(formatToUrl)
       .matches(
         /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-        "To path URL must be valid"
+        t("dashboard.settings.redirections.form.validations.validToUrl")
       )
       .test(
         "is-to-url-causing-cyclic-redirection",
-        "Cyclic redirections not allowed",
+        t("dashboard.settings.redirections.form.validations.cyclicRedirection"),
         value => !isToPathPresentInFromPathUrls(value, redirections)
       ),
   });

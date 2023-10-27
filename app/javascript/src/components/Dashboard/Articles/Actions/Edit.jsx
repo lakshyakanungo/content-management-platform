@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 
@@ -13,6 +14,8 @@ const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
 
   const editorRef = useRef(null);
+
+  const { t } = useTranslation();
 
   const getDefaultCategory = () =>
     categories.find(category => category.id === article.categoryId);
@@ -58,13 +61,15 @@ const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
                     name="selectedCategory"
                     optionRemapping={{ label: "name", value: "id" }}
                     options={categories}
-                    placeholder="Search category"
+                    placeholder={t(
+                      "dashboard.articles.actions.edit.placeholder"
+                    )}
                   />
                 </div>
                 <div className="flex gap-3">
                   <Button
                     disabled={false}
-                    label="Cancel"
+                    label={t("dashboard.articles.actions.edit.cancelButton")}
                     style="secondary"
                     type="reset"
                     onClick={() => setShowEditArticle(false)}

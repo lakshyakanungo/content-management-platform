@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import * as yup from "yup";
 
 export const VALIDATION_SCHEMA = yup.object().shape({
@@ -18,6 +19,6 @@ export const VALIDATION_SCHEMA = yup.object().shape({
           id: yup.string().required(),
         })
         .nullable()
-        .required("Category to move articles into is required"),
+        .required(t("dashboard.settings.categories.modal.delete.error")),
     }),
 });

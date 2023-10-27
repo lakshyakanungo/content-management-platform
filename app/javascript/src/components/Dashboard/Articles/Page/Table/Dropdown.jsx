@@ -2,11 +2,14 @@ import React from "react";
 
 import { MenuHorizontal } from "neetoicons";
 import { Dropdown as NeetoDropdown } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 const Dropdown = ({ record, handleStatusChange, handleDelete }) => {
   const { id, status } = record;
 
   const { Menu, MenuItem, Divider } = NeetoDropdown;
+
+  const { t } = useTranslation();
 
   return (
     <NeetoDropdown
@@ -21,18 +24,18 @@ const Dropdown = ({ record, handleStatusChange, handleDelete }) => {
           <MenuItem.Button
             onClick={() => handleStatusChange({ id, status: "Published" })}
           >
-            Publish
+            {t("dashboard.articles.page.table.dropdown.publish")}
           </MenuItem.Button>
         ) : (
           <MenuItem.Button
             onClick={() => handleStatusChange({ id, status: "Draft" })}
           >
-            Unpublish
+            {t("dashboard.articles.page.table.dropdown.unpublish")}
           </MenuItem.Button>
         )}
         <Divider />
         <MenuItem.Button style="danger" onClick={() => handleDelete(id)}>
-          Delete
+          {t("dashboard.articles.page.table.dropdown.delete")}
         </MenuItem.Button>
       </Menu>
     </NeetoDropdown>

@@ -3,11 +3,10 @@ import React, { useCallback } from "react";
 import categoriesApi from "apis/categories";
 
 import ListItem from "./ListItem";
+import { swapItemsInArray } from "./utils";
 
 const List = ({ categories, setCategories, fetchCategories }) => {
-  // const [categories, setCategories] = useState(categories);
-
-  const handleMove = async ({ category, finalPosition }) => {
+  const handleReorder = async ({ category, finalPosition }) => {
     try {
       await categoriesApi.update({
         id: category.id,
@@ -23,14 +22,10 @@ const List = ({ categories, setCategories, fetchCategories }) => {
     (dragIndex, hoverIndex) => {
       const dragItem = categories[dragIndex];
       const hoverItem = categories[hoverIndex];
-      // Swap places of dragItem and hoverItem in the categories array
-      setCategories(categories => {
-        const updatedCategories = [...categories];
-        updatedCategories[dragIndex] = hoverItem;
-        updatedCategories[hoverIndex] = dragItem;
 
-        return updatedCategories;
-      });
+      setCategories(categories =>
+        swapItemsInArray(categories, dragIndex, hoverIndex, dragItem, hoverItem)
+      );
     },
     [categories]
   );
@@ -42,11 +37,10 @@ const List = ({ categories, setCategories, fetchCategories }) => {
           categories={categories}
           category={category}
           fetchCategories={fetchCategories}
-          handleMove={handleMove}
+          handleReorder={handleReorder}
           index={index}
           key={category.id}
           moveListItem={moveCategoryListItem}
-          text={category.name}
         />
       ))}
     </ul>
