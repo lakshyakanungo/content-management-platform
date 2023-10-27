@@ -2,6 +2,7 @@ import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
@@ -14,6 +15,8 @@ const Edit = ({
   setShowEditModal,
 }) => {
   const { Header, Body, Footer } = Modal;
+
+  const { t } = useTranslation();
 
   const handleEdit = async ({ name }) => {
     try {
@@ -32,7 +35,7 @@ const Edit = ({
     <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
       <Header>
         <Typography style="h2" weight="medium">
-          Edit Category
+          {t("dashboard.settings.categories.modal.edit.title")}
         </Typography>
       </Header>
       <Form
@@ -44,18 +47,24 @@ const Edit = ({
       >
         <Body>
           <Input
-            label="Category title"
+            label={t("dashboard.settings.categories.modal.edit.inputLabel")}
             name="name"
-            placeholder="Enter category title here."
             labelProps={{
               className: "neeto-ui-text-gray-700 neeto-ui-font-light",
             }}
+            placeholder={t(
+              "dashboard.settings.categories.modal.edit.inputPlaceholder"
+            )}
           />
         </Body>
         <Footer>
-          <Button className="mr-2" label="Save changes" type="submit" />
           <Button
-            label="Cancel"
+            className="mr-2"
+            label={t("dashboard.settings.categories.modal.edit.button.save")}
+            type="submit"
+          />
+          <Button
+            label={t("dashboard.settings.categories.modal.edit.button.cancel")}
             style="text"
             type="reset"
             onClick={() => setShowEditModal(false)}

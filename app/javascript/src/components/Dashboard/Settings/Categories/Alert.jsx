@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Alert as NeetoAlert } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
-const Alert = ({ fetchCategories, category }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const Alert = ({
+  fetchCategories,
+  category,
+  showDeleteOverlay,
+  setShowDeleteOverlay,
+}) => {
+  const { t } = useTranslation();
 
   const handleSubmit = async ({ selectedCategory }) => {
-    // console.log(selectedCategory);
     try {
       await categoriesApi.destroy({
         id: category.id,
@@ -18,7 +23,7 @@ const Alert = ({ fetchCategories, category }) => {
         },
       });
       fetchCategories();
-      setIsOpen(false);
+      setShowDeleteOverlay(false);
     } catch (error) {
       logger.log(error);
     }
@@ -26,11 +31,11 @@ const Alert = ({ fetchCategories, category }) => {
 
   return (
     <NeetoAlert
-      isOpen={isOpen}
-      message="This category has 0 articles."
-      submitButtonLabel="Delete"
-      title="Confirm category deletion?"
-      onClose={() => setIsOpen(false)}
+      isOpen={showDeleteOverlay}
+      message={t("dashboard.settings.categories.alert.message")}
+      submitButtonLabel={t("dashboard.settings.categories.alert.buttonLabel")}
+      title={t("dashboard.settings.categories.alert.title")}
+      onClose={() => setShowDeleteOverlay(false)}
       onSubmit={handleSubmit}
     />
   );

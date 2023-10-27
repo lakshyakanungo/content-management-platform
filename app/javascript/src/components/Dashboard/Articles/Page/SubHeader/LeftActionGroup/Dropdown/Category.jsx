@@ -1,5 +1,6 @@
 import React from "react";
 
+import { t } from "i18next";
 import { Dropdown } from "neetoui";
 
 import articlesApi from "apis/articles";
@@ -29,12 +30,13 @@ const Category = ({
     <Dropdown
       buttonSize="medium"
       buttonStyle="secondary"
-      label="Change category"
       strategy="fixed"
+      label={t(
+        "dashboard.articles.page.subheader.leftActionGroup.categoryDropdownLabel"
+      )}
     >
       <Menu>
         {categories.map(category => (
-          // console.log(category);
           <MenuItem.Button
             key={category.id}
             onClick={() => handleBulkCategoryChange(category.id)}

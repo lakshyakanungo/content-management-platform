@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Button } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/commons/EmptyState";
@@ -27,6 +28,8 @@ const Page = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
+
+  const { t } = useTranslation();
 
   const fetchSearchResults = async () => {
     try {
@@ -69,19 +72,17 @@ const Page = ({
   };
 
   useEffect(() => {
-    // if (!(searchTerm === "" && selectedCategories.length === 0)) {
     fetchSearchResults();
-    // }
   }, [searchTerm, selectedCategories]);
 
   return (
     <Container>
       <Header
-        title="All articles"
+        title={t("dashboard.articles.page.header.title")}
         actionBlock={
           <Button
             icon="ri-add-line"
-            label="Add article"
+            label={t("dashboard.articles.page.header.buttonLabel")}
             size="small"
             onClick={() => setShowCreateArticle(true)}
           />
@@ -92,7 +93,7 @@ const Page = ({
         searchProps={{
           value: searchTerm,
           onChange: event => setSearchTerm(event.target.value),
-          placeholder: "Search article title",
+          placeholder: t("dashboard.articles.page.header.searchPlaceholder"),
         }}
       />
       <SubHeader
@@ -119,19 +120,25 @@ const Page = ({
       ) : searchTerm.length ? (
         <EmptyState
           primaryAction={() => setSearchTerm("")}
-          primaryActionLabel="Clear search"
           searchText={searchTerm}
-          subtitle="We could not find any articles based on your search term. Try a different keyword or add a new article."
-          title={`No results for "${searchTerm}"`}
+          subtitle={t("dashboard.articles.page.emptyState.forSearch.subtitle")}
+          primaryActionLabel={t(
+            "dashboard.articles.page.emptyState.forSearch.primaryActionLabel"
+          )}
+          title={t("dashboard.articles.page.emptyState.forSearch.title", {
+            title: searchTerm,
+          })}
         />
       ) : (
         <EmptyState
-          primaryActionLabel="Add article"
-          subtitle="You have not yet created an article. Create an article using the CTA given below."
-          title="There are no articles."
+          subtitle={t("dashboard.articles.page.emptyState.general.subtitle")}
+          title={t("dashboard.articles.page.emptyState.general.title")}
           primaryAction={() => {
             setShowCreateArticle(true);
           }}
+          primaryActionLabel={t(
+            "dashboard.articles.page.emptyState.general.primaryActionLabel"
+          )}
         />
       )}
     </Container>

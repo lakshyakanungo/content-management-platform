@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import { useDrag, useDrop } from "react-dnd";
 
-const useDragAndDrop = ({ index, category, moveListItem, handleMove }) => {
+const useDragAndDrop = ({ index, category, moveListItem, handleReorder }) => {
   const [_, dragRef] = useDrag({
     type: "item",
     item: { index, position: category.position },
@@ -11,7 +11,7 @@ const useDragAndDrop = ({ index, category, moveListItem, handleMove }) => {
     }),
     end: item => {
       if (item.index !== item.position - 1) {
-        handleMove({ category, finalPosition: item.index + 1 });
+        handleReorder({ category, finalPosition: item.index + 1 });
       }
     },
   });

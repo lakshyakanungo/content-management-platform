@@ -30,14 +30,12 @@ const Articles = () => {
     draft: 0,
     published: 0,
   });
-  // console.log(selectedCategories, "Selected categories");
 
   const fetchCategories = async () => {
     try {
       const {
         data: { categories },
       } = await categoriesApi.fetch();
-      // console.log(categories);
       setCategories(categories);
     } catch (error) {
       logger.log(error);
@@ -51,9 +49,6 @@ const Articles = () => {
           articles: { all, draft, published },
         },
       } = await articlesApi.fetch();
-      // console.log("all", all);
-      // console.log("draft", draft);
-      // console.log("published", published);
       setDraftArticles(draft);
       setPublishedArticles(published);
       setAllArticles(all);

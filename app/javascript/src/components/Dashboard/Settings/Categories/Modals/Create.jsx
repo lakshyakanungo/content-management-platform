@@ -2,6 +2,7 @@ import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
@@ -16,6 +17,8 @@ const Create = ({
   setShowAddCategoryModal,
 }) => {
   const { Header, Body, Footer } = Modal;
+
+  const { t } = useTranslation();
 
   const handleAddCategory = async ({ name }) => {
     try {
@@ -35,7 +38,7 @@ const Create = ({
     >
       <Header>
         <Typography style="h2" weight="medium">
-          New Category
+          {t("dashboard.settings.categories.modal.create.title")}
         </Typography>
       </Header>
       <Form
@@ -47,20 +50,28 @@ const Create = ({
       >
         <Body>
           <Input
-            label="Category title"
+            label={t("dashboard.settings.categories.modal.create.inputLabel")}
             name="name"
-            placeholder="Enter category title here."
             labelProps={{
               className: "neeto-ui-text-gray-700 neeto-ui-font-light",
             }}
+            placeholder={t(
+              "dashboard.settings.categories.modal.create.inputPlaceholder"
+            )}
           />
         </Body>
         <Footer>
-          <Button className="mr-2" label="Add" type="submit" />
           <Button
-            label="Cancel"
+            className="mr-2"
+            label={t("dashboard.settings.categories.modal.create.button.save")}
+            type="submit"
+          />
+          <Button
             style="text"
             type="reset"
+            label={t(
+              "dashboard.settings.categories.modal.create.button.cancel"
+            )}
             onClick={() => setShowAddCategoryModal(false)}
           />
         </Footer>

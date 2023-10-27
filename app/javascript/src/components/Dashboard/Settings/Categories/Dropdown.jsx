@@ -2,9 +2,12 @@ import React from "react";
 
 import { Dropdown as NeetoDropdown } from "@bigbinary/neetoui";
 import { MenuVertical } from "neetoicons";
+import { useTranslation } from "react-i18next";
 
-const Dropdown = ({ setShowEditModal, setShowDeleteModal }) => {
+const Dropdown = ({ setShowEditModal, setShowDeleteOverlay }) => {
   const { Menu, MenuItem, Divider } = NeetoDropdown;
+
+  const { t } = useTranslation();
 
   return (
     <NeetoDropdown
@@ -14,15 +17,14 @@ const Dropdown = ({ setShowEditModal, setShowDeleteModal }) => {
     >
       <Menu>
         <MenuItem.Button onClick={() => setShowEditModal(true)}>
-          Edit
+          {t("dashboard.settings.categories.listItem.dropdown.edit")}
         </MenuItem.Button>
         <Divider />
         <MenuItem.Button
           style="danger"
-          // onClick={() => handleDelete(id)}
-          onClick={() => setShowDeleteModal(true)}
+          onClick={() => setShowDeleteOverlay(true)}
         >
-          Delete
+          {t("dashboard.settings.categories.listItem.dropdown.delete")}
         </MenuItem.Button>
       </Menu>
     </NeetoDropdown>

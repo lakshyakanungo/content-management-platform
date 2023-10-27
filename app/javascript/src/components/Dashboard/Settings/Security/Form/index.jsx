@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 
 import { Check, Close, Eye } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import siteSettingsApi from "apis/siteSettings";
 
@@ -17,6 +18,8 @@ const Form = ({ fetchSiteSettings }) => {
   const [hasMatchError, setHasMatchError] = useState(true);
 
   const inputRef = useRef(null);
+
+  const { t } = useTranslation();
 
   const handleSubmit = async ({ password }) => {
     try {
@@ -38,30 +41,30 @@ const Form = ({ fetchSiteSettings }) => {
     >
       <Input
         className="mb-4"
-        label="Password"
+        label={t("dashboard.settings.security.form.inputLabel")}
         name="password"
-        placeholder="Enter password"
+        placeholder={t("dashboard.settings.security.form.placeholder")}
         ref={inputRef}
         suffix={<Eye onClick={() => handleEyeToggle(inputRef)} />}
         type="password"
       />
       <div className={buildValidationClassName(hasMinError)}>
         <span>{hasMinError ? <Close size={16} /> : <Check size={16} />}</span>
-        <span>Have at least 6 characters</span>
+        <span>{t("dashboard.settings.security.form.lengthError")}</span>
       </div>
       <div className={buildValidationClassName(hasMatchError)}>
         <span>{hasMatchError ? <Close size={16} /> : <Check size={16} />}</span>
-        <span>Include at least 1 letter and 1 number</span>
+        <span>{t("dashboard.settings.security.form.strengthError")}</span>
       </div>
       <Button
         className="mr-2"
         disabled={hasMinError || hasMatchError}
-        label="Save changes"
+        label={t("dashboard.settings.security.form.button.save")}
         type="submit"
       />
       <Button
         disabled={hasMinError || hasMatchError}
-        label="Cancel"
+        label={t("dashboard.settings.security.form.button.cancel")}
         style="text"
         type="reset"
       />

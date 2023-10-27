@@ -3,6 +3,7 @@ import React from "react";
 import { truncate } from "@bigbinary/neeto-commons-frontend/pure";
 import { MenuHorizontal } from "neetoicons";
 import { Dropdown, Tooltip } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import redirectionsApi from "apis/redirections";
 
@@ -14,6 +15,8 @@ import {
 
 const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
   const { Menu, MenuItem } = Dropdown;
+
+  const { t } = useTranslation();
 
   const handleEdit = () => setEditingRow(redirection.id);
 
@@ -50,9 +53,11 @@ const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
       <span className="col-span-2 text-right">
         <Dropdown buttonStyle="text" icon={MenuHorizontal}>
           <Menu>
-            <MenuItem.Button onClick={handleEdit}>Edit</MenuItem.Button>
+            <MenuItem.Button onClick={handleEdit}>
+              {t("dashboard.settings.redirections.row.dropdown.edit")}
+            </MenuItem.Button>
             <MenuItem.Button style="danger" onClick={handleDelete}>
-              Delete
+              {t("dashboard.settings.redirections.row.dropdown.delete")}
             </MenuItem.Button>
           </Menu>
         </Dropdown>

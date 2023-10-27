@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Plus } from "neetoicons";
 import { Button, Spinner } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import redirectionsApi from "apis/redirections";
 
@@ -15,6 +16,8 @@ const Redirection = () => {
   const [showNewRedirection, setShowNewRedirection] = useState(false);
   const [editingRow, setEditingRow] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation();
 
   const fetchRedirections = async () => {
     try {
@@ -46,13 +49,17 @@ const Redirection = () => {
   return (
     <Layout
       className="mx-24"
-      description="Create and configure redirection rules to send users from old links to new links. All redirections are performed with 301 status codes to be SEO friendly."
-      header="Redirections"
+      description={t("dashboard.settings.redirections.description")}
+      header={t("dashboard.settings.redirections.header")}
     >
       <div className="neeto-ui-bg-pastel-blue flex flex-col px-6 py-8 gap-2 ">
         <div className="grid grid-cols-12 gap-2 justify-between neeto-ui-text-gray-600 neeto-ui-font-semibold neeto-ui-text-xs">
-          <span className="col-span-5">FROM</span>
-          <span className="col-span-5">TO</span>
+          <span className="col-span-5">
+            {t("dashboard.settings.redirections.from")}
+          </span>
+          <span className="col-span-5">
+            {t("dashboard.settings.redirections.to")}
+          </span>
           <span />
         </div>
         <div>
@@ -91,7 +98,7 @@ const Redirection = () => {
             disabled={showNewRedirection}
             icon={Plus}
             iconPosition="left"
-            label="Add new redirection"
+            label={t("dashboard.settings.redirections.newButtonLabel")}
             style="link"
             onClick={() => setShowNewRedirection(true)}
           />

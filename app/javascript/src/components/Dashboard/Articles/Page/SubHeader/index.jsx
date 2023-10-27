@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 
 import { Tag } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import NeetoSubHeader from "neetomolecules/SubHeader";
 
@@ -34,6 +35,8 @@ const SubHeader = ({
     []
   );
 
+  const { t } = useTranslation();
+
   const handleTagClose = category =>
     setSelectedCategories(prev => prev.filter(item => item !== category));
 
@@ -51,7 +54,11 @@ const SubHeader = ({
               setSelectedArticleIds={setSelectedArticleIds}
             />
           ) : (
-            <div>{articles.length} articles</div>
+            <div>
+              {t("dashboard.articles.page.subheader.numberOfArticles", {
+                count: articles.length,
+              })}
+            </div>
           )}
           {selectedCategories.map(category => (
             <Tag

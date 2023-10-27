@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Spinner } from "@bigbinary/neetoui";
 import { Form, Input as FormikInput, Button } from "@bigbinary/neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import siteSettingsApi from "apis/siteSettings";
 
@@ -12,6 +13,8 @@ import Layout from "../Layout";
 const General = () => {
   const [siteName, setSiteName] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const { t } = useTranslation();
 
   const fetchSiteName = async () => {
     try {
@@ -51,8 +54,8 @@ const General = () => {
   return (
     <Layout
       className="mx-auto"
-      description="Configure general attributes of knowledge base"
-      header="General Settings"
+      description={t("dashboard.settings.general.description")}
+      header={t("dashboard.settings.general.header")}
     >
       <Form
         formikProps={{
@@ -66,17 +69,21 @@ const General = () => {
         {({ resetForm }) => (
           <>
             <FormikInput
-              helpText="Customize the site name which is used to show the site name in Open Graph Tags."
-              label="Site title"
+              helpText={t("dashboard.settings.general.form.input.helpText")}
+              label={t("dashboard.settings.general.form.input.label")}
               name="siteName"
               labelProps={{
                 className: "neeto-ui-text-gray-700 neeto-ui-text-sm",
               }}
             />
             <div>
-              <Button className="mr-6" label="Save changes" type="submit" />
               <Button
-                label="Cancel"
+                className="mr-6"
+                label={t("dashboard.settings.general.form.button.save.label")}
+                type="submit"
+              />
+              <Button
+                label={t("dashboard.settings.general.form.button.cancel.label")}
                 style="text"
                 type="reset"
                 onClick={resetForm}

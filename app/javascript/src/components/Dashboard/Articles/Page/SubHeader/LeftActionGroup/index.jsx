@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Trans } from "react-i18next";
+
 import DeleteArticleButton from "./Delete";
 import {
   Category as ChangeCategoryDropdown,
@@ -15,8 +17,11 @@ const LeftActionGroup = ({
 }) => (
   <div className="flex gap-x-3 items-center	">
     <span>
-      <b>{selectedArticleIds.length} articles</b> selected of&nbsp;
-      {articles.length}
+      <Trans
+        components={[<b key={1} />]}
+        i18nKey="dashboard.articles.page.subheader.leftActionGroup.headerText"
+        values={{ count: selectedArticleIds.length, total: articles.length }}
+      />
     </span>
     <ChangeCategoryDropdown
       categories={categories}

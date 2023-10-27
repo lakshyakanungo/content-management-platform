@@ -2,7 +2,7 @@
 
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update destroy]
-  before_action :load_multiple_articles!, only: %i[destroy_multiple update_multiple]
+  before_action :load_multiple_articles, only: %i[destroy_multiple update_multiple]
 
   def index
     @all_articles = Article.all.order(updated_at: :desc)
@@ -62,7 +62,7 @@ class ArticlesController < ApplicationController
       @article = current_user.articles.find(params[:id])
     end
 
-    def load_multiple_articles!
+    def load_multiple_articles
       @articles = current_user.articles.where(id: params[:ids])
     end
 end

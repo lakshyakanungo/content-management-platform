@@ -12,6 +12,8 @@ import { DASHBOARD_PATH, EUI_PATH } from "components/routeConstants";
 import Dashboard from "./Dashboard";
 import EUI from "./EUI";
 
+import "../common/i18n";
+
 const Main = () => {
   const [loading, setLoading] = useState(true);
 

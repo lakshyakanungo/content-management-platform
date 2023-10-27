@@ -4,6 +4,7 @@ import { Button, Spinner } from "@bigbinary/neetoui";
 import { Plus } from "neetoicons";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
@@ -16,6 +17,8 @@ const Categories = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
+
+  const { t } = useTranslation();
 
   const fetchCategories = async () => {
     try {
@@ -45,18 +48,20 @@ const Categories = () => {
   return (
     <Layout
       className="mx-24 w-9/12	"
-      description="Create and configure the categories inside your scribble."
-      header="Manage categories"
+      description={t("dashboard.settings.categories.description")}
+      header={t("dashboard.settings.categories.header")}
     >
       <div className="flex justify-between">
         <span className="neeto-ui-text-gray-600 neeto-ui-text-sm">
-          {categories.length} categories
+          {t("dashboard.settings.categories.count", {
+            count: categories.length,
+          })}
         </span>
         <Button
           className="neeto-ui-text-primary-500"
           icon={Plus}
           iconPosition="left"
-          label="New category"
+          label={t("dashboard.settings.categories.button.new")}
           size="small"
           style="link"
           onClick={() => setShowAddCategoryModal(true)}

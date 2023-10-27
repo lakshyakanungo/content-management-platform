@@ -2,11 +2,10 @@ import React from "react";
 
 import classNames from "classnames";
 import dayjs from "dayjs";
+import { t } from "i18next";
 import { Button } from "neetoui";
 
 import Dropdown from "./Dropdown";
-
-// import { useTranslation } from "react-i18next";
 
 const renderTitle = ({ record, setClickedArticle, setShowEditArticle }) => {
   const handleClick = () => {
@@ -32,7 +31,7 @@ export const buildArticlesColumnData = ({
   setShowEditArticle,
 }) => [
   {
-    title: "Title",
+    title: t("dashboard.articles.page.table.title"),
     dataIndex: "title",
     key: "title",
     render: (_, record) =>
@@ -42,7 +41,7 @@ export const buildArticlesColumnData = ({
     },
   },
   {
-    title: "Category",
+    title: t("dashboard.articles.page.table.category"),
     dataIndex: "categoryName",
     key: "category",
     ellipsis: {
@@ -50,7 +49,7 @@ export const buildArticlesColumnData = ({
     },
   },
   {
-    title: "Author",
+    title: t("dashboard.articles.page.table.author"),
     dataIndex: "author",
     key: "author",
     ellipsis: {
@@ -58,7 +57,7 @@ export const buildArticlesColumnData = ({
     },
   },
   {
-    title: "Last Published At",
+    title: t("dashboard.articles.page.table.lastPublishedAt"),
     dataIndex: "lastPublishedAt",
     key: "lastPublishedAt",
     ellipsis: {
@@ -67,7 +66,7 @@ export const buildArticlesColumnData = ({
     render: renderLastPublishedAt,
   },
   {
-    title: "Status",
+    title: t("dashboard.articles.page.table.status"),
     dataIndex: "status",
     key: "status",
     ellipsis: {

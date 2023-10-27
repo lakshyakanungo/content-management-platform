@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
 import { Search as SearchIcon, Plus } from "neetoicons";
+import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
@@ -26,6 +27,8 @@ const Menu = ({
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
 
   const { Block, SubTitle, Search } = MenuBar;
+
+  const { t } = useTranslation();
 
   const handleCategoryClick = category => {
     if (selectedCategories.includes(category)) {
@@ -63,7 +66,7 @@ const Menu = ({
 
   return (
     <div>
-      <MenuBar showMenu={showMenu} title="Articles">
+      <MenuBar showMenu={showMenu} title={t("dashboard.articles.menu.title")}>
         {MENU_ARTICLE_STATES.map(state => (
           <Block
             active={state === activeMenuState}
@@ -94,12 +97,12 @@ const Menu = ({
             textTransform="uppercase"
             weight="bold"
           >
-            Categories
+            {t("dashboard.articles.menu.subtitle")}
           </Typography>
         </SubTitle>
         <Search
           isCollapsed={isSearchCollapsed}
-          placeholder="Search category"
+          placeholder={t("dashboard.articles.menu.searchPlaceholder")}
           value={searchTerm}
           onChange={event => setSearchTerm(event.target.value)}
           onCollapse={handleCollapse}
