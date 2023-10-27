@@ -38,10 +38,10 @@ class ActionDispatch::IntegrationTest
   # include Devise::Test::IntegrationHelpers
 end
 
-def headers(user, options = {})
+def headers(options = {})
   {
-    "X-Auth-Token" => user.authentication_token,
-    "X-Auth-Email" => user.email
+    Accept: "application/json",
+    "Content_Type" => "application/json"
   }.merge(options)
 end
 

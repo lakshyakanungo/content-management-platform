@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include ApiResponders
   include ApiRescuable
+  include Loggable
 
   before_action :add_default_user
 

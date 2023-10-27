@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :redirection do
     user
     from { "/test" }
-    to { Faker::Internet.url }
+    to { "https://www.google.com" }
   end
 end

@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :site_setting do
     title { Faker::Name.name }
-    is_password_protected { false }
+    is_password_protected { true }
   end
 end
