@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative "constants"
 
 desc "drops the db, creates db, migrates db and populates sample data"
 task setup: [:environment, "db:drop", "db:create", "db:migrate"] do
@@ -43,18 +44,22 @@ def create_sample_data!
   create_user! email: 'oliver@example.com', name: 'Oliver'
   puts 'Done! Olvier with email "oliver@example.com" is the default user'
 
-  CATEGORIES.each do |category|
-    Category.create! category
+  Constants::CATEGORIES.each do |category|
+    User.first.categories.create! category
   end
 
-  puts "Added sample categories"
+  puts "Added sample categories."
 
-  ARTICLES.each do |article|
-    Article.create! article
+  Constants::ARTICLES.each do |article|
+    User.first.articles.create! article
   end
 
-  puts "Added sample articles"
-end
+  puts "Added sample articles."
+
+  SiteSetting.create!(is_password_protected:false,title:"Spinkart")
+
+  puts "Added default site setting."
+
 
 def create_user!(options = {})
   User.create! options

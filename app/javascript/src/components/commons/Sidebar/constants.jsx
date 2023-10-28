@@ -2,26 +2,28 @@ import React from "react";
 
 import { Notes, Settings, ExternalLink } from "neetoicons";
 
+import i18n from "common/i18n";
+
 import Logo from "../../../../../assets/images/Logo";
 
 export const APP_NAME = "Scribble";
 
 export const NAVLINKS = [
   {
-    label: "Articles",
-    description: "Manage and list all your KB articles",
+    label: i18n.t("dashboard.sidebar.navlinks.articles.label"),
+    description: i18n.t("dashboard.sidebar.navlinks.articles.description"),
     to: "/articles",
     icon: Notes,
   },
   {
-    label: "Settings",
-    description: "Configure KB settings",
+    label: i18n.t("dashboard.sidebar.navlinks.settings.label"),
+    description: i18n.t("dashboard.sidebar.navlinks.settings.description"),
     to: "/settings",
     icon: Settings,
   },
   {
-    label: "Preview",
-    description: "Launch your KB preview",
+    label: i18n.t("dashboard.sidebar.navlinks.eui.label"),
+    description: i18n.t("dashboard.sidebar.navlinks.eui.description"),
     to: "/kb",
     icon: ExternalLink,
     target: "_blank",

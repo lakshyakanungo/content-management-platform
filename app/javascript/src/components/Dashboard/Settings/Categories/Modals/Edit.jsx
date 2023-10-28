@@ -40,7 +40,7 @@ const Edit = ({
       </Header>
       <Form
         formikProps={{
-          initialValues: { category: category.name },
+          initialValues: { name: category.name },
           validationSchema: FORM_VALIDATION_SCHEMA,
           onSubmit: handleEdit,
         }}

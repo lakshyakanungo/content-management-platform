@@ -17,7 +17,6 @@ const EUI = () => {
     try {
       const { data } = await siteSettingsApi.fetch();
       const { isPasswordProtected, title } = data;
-      // console.log(data);
       setIsPasswordProtected(isPasswordProtected);
       setSiteName(title);
     } catch (error) {

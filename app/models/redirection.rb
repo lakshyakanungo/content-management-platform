@@ -2,7 +2,7 @@
 
 class Redirection < ApplicationRecord
   MAX_LENGTH = 255
-  VALID_FROM_PATH_REGEX = /\A.*[a-zA-Z0-9].*\z/i
+  VALID_FROM_PATH_REGEX = /\A\/[a-zA-Z0-9_\-].*\z/i
   VALID_TO_PATH_REGEX = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?\z/
 
   belongs_to :user

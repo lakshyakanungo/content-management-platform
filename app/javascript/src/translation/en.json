@@ -28,7 +28,11 @@
           "leftActionGroup": {
             "headerText": "<0>{{count}} articles </0> selected of {{total}}",
             "categoryDropdownLabel": "Change category",
-            "statusDropdownLabel": "Change status",
+            "status": {
+              "dropdownLabel": "Change status",
+              "draft": "Draft",
+              "publish": "Publish"
+            },
             "deleteButtonLabel": "Delete"
           }
         },
@@ -54,7 +58,7 @@
           "inputLabel": "Category title",
           "inputPlaceholder": "Enter category title here.",
           "buttonLabel": "Cancel",
-          "error": "Category title is required"
+          "errorMsg": "Category title is required"
         }
       },
       "actions": {
@@ -66,7 +70,10 @@
           "placeholder": "Search category",
           "cancelButton": "Cancel"
         },
-        "editorPlaceholder": "Add text here"
+        "editor": {
+          "validation": "Article title and description is required",
+          "placeholder": "Add text here"
+        }
       }
     },
     "settings": {
@@ -109,6 +116,10 @@
           "button": {
             "save": "Save changes",
             "cancel": "Cancel"
+          },
+          "validation": {
+            "min": "Have at least 6 characters",
+            "match": "Include at least 1 letter and 1 number"
           }
         }
       },
@@ -174,7 +185,13 @@
               "cancel": "Cancel",
               "save": "Proceed"
             },
-            "error": "Category to move articles into is required"
+            "error": "Category to move articles into is required",
+            "header": {
+              "title": "Delete Category",
+              "subtitle": "You are permanently deleting the <0>{{name}}</0> category.\n This action cannot be undone. Are you sure you wish to continue?",
+              "multiple": "Category <0>{{ name }}</0> has {{ articlesCount }} articles. Before this category can be deleted, these articles needs to be moved to another category.",
+              "single": "Category <0>{{ name }}</0> is the only category present and it has {{ articlesCount }} articles. On proceeding, all the articles will be moved to a new category <0>General</0>."
+            }
           }
         },
         "alert": {
@@ -185,7 +202,30 @@
         "button": {
           "new": "New category"
         }
+      },
+      "menu": { "title": "Settings" }
+    },
+    "sidebar": {
+      "navlinks": {
+        "articles": {
+          "label": "Articles",
+          "description": "Manage and list all your KB articles"
+        },
+        "settings": {
+          "label": "Settings",
+          "description": "Configure KB settings"
+        },
+        "eui": {
+          "label": "Preview",
+          "description": "Launch your KB preview"
+        }
       }
+    }
+  },
+  "eui": {
+    "login": {
+      "header": "{{ name }} is password protected!",
+      "subheader": "Enter the password to gain access to {{ name }}."
     }
   }
 }

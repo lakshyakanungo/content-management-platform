@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :redirection do
     user
     from { "/test" }
-    to { "https://www.google.com" }
+    to { "https://spinkart.scribbl.com" }
   end
 end

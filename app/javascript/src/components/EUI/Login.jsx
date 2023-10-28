@@ -1,10 +1,13 @@
 import React from "react";
 
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
+import { useTranslation } from "react-i18next";
 
 import siteSettingsApi from "apis/siteSettings";
 
 const Login = ({ siteName, setIsAuthenticated }) => {
+  const { t } = useTranslation();
+
   const handleSubmit = async ({ password }) => {
     try {
       await siteSettingsApi.authenticate({ password });
@@ -18,10 +21,10 @@ const Login = ({ siteName, setIsAuthenticated }) => {
     <div className="flex-grow flex justify-center mt-52">
       <div className="mb-4">
         <div className="neeto-ui-text-2xl neeto-ui-text-gray-800 neeto-ui-font-medium">
-          {siteName} is password protected!
+          {t("eui.login.header", { name: siteName })}
         </div>
         <div className="neeto-ui-text-base neeto-ui-text-gray-600 neeto-ui-font-light">
-          Enter the password to gain access to {siteName}.
+          {t("eui.login.subheader", { name: siteName })}
         </div>
         <Form
           formikProps={{
