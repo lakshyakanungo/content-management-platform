@@ -2,40 +2,45 @@ import React from "react";
 
 import { Modal } from "@bigbinary/neetoui";
 import { Warning } from "neetoicons";
+import { useTranslation, Trans } from "react-i18next";
 
 const Header = ({ category, hasMultipleCategories }) => {
   const { Header: NeetoHeader } = Modal;
 
+  const { name, articlesCount } = category;
+
+  const { t } = useTranslation();
+
   return (
     <NeetoHeader>
       <div className="flex flex-col gap-3 w-full">
-        <h2 className="neeto-ui-text-gray-800">Delete Category</h2>
-        <p>
-          You are permanently deleting the <b>{category.name}</b> category. This
-          action cannot be undone. Are you sure you wish to continue?
-        </p>
+        <h2 className="neeto-ui-text-gray-800">
+          {t("dashboard.settings.categories.modal.delete.header.title")}
+        </h2>
+        <span>
+          <Trans
+            components={[<b key={1} />]}
+            i18nKey="dashboard.settings.categories.modal.delete.header.subtitle"
+            values={{ name }}
+          />
+        </span>
         <div className="flex neeto-ui-bg-error-100 gap-1 neeto-ui-rounded p-2">
           <Warning color="#BB121A" size={48} />
           {hasMultipleCategories ? (
-            <span className="">
-              Category
-              <b className="neeto-ui-text-error-800">
-                &nbsp;{category.name}&nbsp;
-              </b>
-              has&nbsp;{category.articlesCount}&nbsp;articles. Before this
-              category can be deleted, these articles needs to be moved to
-              another category.
+            <span>
+              <Trans
+                components={[<b className="neeto-ui-text-error-800" key={1} />]}
+                i18nKey="dashboard.settings.categories.modal.delete.header.multiple"
+                values={{ name, articlesCount }}
+              />
             </span>
           ) : (
-            <span className="">
-              Category
-              <b className="neeto-ui-text-error-800">
-                &nbsp;{category.name}&nbsp;
-              </b>
-              is the only category present and it has&nbsp;
-              {category.articlesCount}&nbsp;articles. On proceeding, all the
-              articles will be moved to a new category
-              <b className="neeto-ui-text-error-800">&nbsp;General&nbsp;</b>.
+            <span>
+              <Trans
+                components={[<b className="neeto-ui-text-error-800" key={1} />]}
+                i18nKey="dashboard.settings.categories.modal.delete.header.single"
+                values={{ name, articlesCount }}
+              />
             </span>
           )}
         </div>

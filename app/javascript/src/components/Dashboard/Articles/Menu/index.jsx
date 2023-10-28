@@ -45,7 +45,6 @@ const Menu = ({
       const {
         data: { categories },
       } = await categoriesApi.search({ name: searchTerm });
-      // console.log(categories);
       setCategoriesDisplayed(categories);
     } catch (error) {
       logger.log(error);
@@ -81,9 +80,7 @@ const Menu = ({
           iconProps={[
             {
               icon: SearchIcon,
-              onClick: () => {
-                setIsSearchCollapsed(!isSearchCollapsed);
-              },
+              onClick: () => setIsSearchCollapsed(!isSearchCollapsed),
             },
             {
               icon: Plus,

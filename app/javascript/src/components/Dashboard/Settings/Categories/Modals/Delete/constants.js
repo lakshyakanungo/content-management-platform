@@ -1,5 +1,6 @@
-import { t } from "i18next";
 import * as yup from "yup";
+
+import i18n from "common/i18n";
 
 export const VALIDATION_SCHEMA = yup.object().shape({
   showSelect: yup.boolean(),
@@ -19,6 +20,6 @@ export const VALIDATION_SCHEMA = yup.object().shape({
           id: yup.string().required(),
         })
         .nullable()
-        .required(t("dashboard.settings.categories.modal.delete.error")),
+        .required(i18n.t("dashboard.settings.categories.modal.delete.error")),
     }),
 });

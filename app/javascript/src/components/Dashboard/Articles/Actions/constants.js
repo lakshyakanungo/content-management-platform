@@ -1,13 +1,15 @@
 import { isEditorEmpty } from "@bigbinary/neeto-editor";
 import * as yup from "yup";
 
+import i18n from "common/i18n";
+
 export const EDITOR_VALIDATION_SCHEMA = yup.object().shape({
   selectedCategory: yup.object().nullable().required("Category is required"),
   editor: yup
     .string()
     .test(
       "description",
-      "Article title and description is required",
+      i18n.t("dashboard.articles.actions.editor.validation"),
       value => !isEditorEmpty(value)
     ),
 });

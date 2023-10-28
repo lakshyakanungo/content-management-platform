@@ -1,12 +1,14 @@
 import React from "react";
 
-import { t } from "i18next";
 import { Dropdown } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 
 const Status = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
   const { Menu, MenuItem } = Dropdown;
+
+  const { t } = useTranslation();
 
   const handleBulkStatusChange = async status => {
     try {
@@ -27,15 +29,17 @@ const Status = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
       buttonStyle="secondary"
       strategy="fixed"
       label={t(
-        "dashboard.articles.page.subheader.leftActionGroup.statusDropdownLabel"
+        "dashboard.articles.page.subheader.leftActionGroup.status.dropdownLabel"
       )}
     >
       <Menu>
         <MenuItem.Button onClick={() => handleBulkStatusChange("Draft")}>
-          Draft
+          {t("dashboard.articles.page.subheader.leftActionGroup.status.draft")}
         </MenuItem.Button>
         <MenuItem.Button onClick={() => handleBulkStatusChange("Published")}>
-          Publish
+          {t(
+            "dashboard.articles.page.subheader.leftActionGroup.status.publish"
+          )}
         </MenuItem.Button>
       </Menu>
     </Dropdown>

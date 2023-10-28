@@ -30,6 +30,12 @@ const Form = ({ fetchSiteSettings }) => {
     }
   };
 
+  const handleReset = resetForm => {
+    resetForm();
+    setHasMinError(true);
+    setHasMatchError(true);
+  };
+
   return (
     <NeetoForm
       formikProps={{
@@ -39,35 +45,44 @@ const Form = ({ fetchSiteSettings }) => {
         onSubmit: handleSubmit,
       }}
     >
-      <Input
-        className="mb-4"
-        label={t("dashboard.settings.security.form.inputLabel")}
-        name="password"
-        placeholder={t("dashboard.settings.security.form.placeholder")}
-        ref={inputRef}
-        suffix={<Eye onClick={() => handleEyeToggle(inputRef)} />}
-        type="password"
-      />
-      <div className={buildValidationClassName(hasMinError)}>
-        <span>{hasMinError ? <Close size={16} /> : <Check size={16} />}</span>
-        <span>{t("dashboard.settings.security.form.lengthError")}</span>
-      </div>
-      <div className={buildValidationClassName(hasMatchError)}>
-        <span>{hasMatchError ? <Close size={16} /> : <Check size={16} />}</span>
-        <span>{t("dashboard.settings.security.form.strengthError")}</span>
-      </div>
-      <Button
-        className="mr-2"
-        disabled={hasMinError || hasMatchError}
-        label={t("dashboard.settings.security.form.button.save")}
-        type="submit"
-      />
-      <Button
-        disabled={hasMinError || hasMatchError}
-        label={t("dashboard.settings.security.form.button.cancel")}
-        style="text"
-        type="reset"
-      />
+      {({ resetForm }) => (
+        <>
+          <Input
+            className="mb-4"
+            label={t("dashboard.settings.security.form.inputLabel")}
+            name="password"
+            placeholder={t("dashboard.settings.security.form.placeholder")}
+            ref={inputRef}
+            suffix={<Eye onClick={() => handleEyeToggle(inputRef)} />}
+            type="password"
+          />
+          <div className={buildValidationClassName(hasMinError)}>
+            <span>
+              {hasMinError ? <Close size={16} /> : <Check size={16} />}
+            </span>
+            <span>{t("dashboard.settings.security.form.lengthError")}</span>
+          </div>
+          <div className={buildValidationClassName(hasMatchError)}>
+            <span>
+              {hasMatchError ? <Close size={16} /> : <Check size={16} />}
+            </span>
+            <span>{t("dashboard.settings.security.form.strengthError")}</span>
+          </div>
+          <Button
+            className="mr-2"
+            disabled={hasMinError || hasMatchError}
+            label={t("dashboard.settings.security.form.button.save")}
+            type="submit"
+          />
+          <Button
+            disabled={hasMinError || hasMatchError}
+            label={t("dashboard.settings.security.form.button.cancel")}
+            style="text"
+            type="reset"
+            onClick={() => handleReset(resetForm)}
+          />
+        </>
+      )}
     </NeetoForm>
   );
 };

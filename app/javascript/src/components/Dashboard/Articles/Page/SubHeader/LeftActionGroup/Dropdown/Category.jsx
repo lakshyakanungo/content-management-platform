@@ -1,7 +1,7 @@
 import React from "react";
 
-import { t } from "i18next";
 import { Dropdown } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 
@@ -12,6 +12,8 @@ const Category = ({
   refetch,
 }) => {
   const { Menu, MenuItem } = Dropdown;
+
+  const { t } = useTranslation();
 
   const handleBulkCategoryChange = async categoryId => {
     try {
