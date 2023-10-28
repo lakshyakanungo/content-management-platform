@@ -13,6 +13,7 @@ class ArticlesController < ApplicationController
   def grouped_by_category
     @grouped_articles = Article.joins(:category)
       .order("categories.position")
+      .where(status: "Published")
       .group_by { |article| article.category.name }.to_a
   end
 
