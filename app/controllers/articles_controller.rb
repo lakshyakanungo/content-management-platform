@@ -31,27 +31,27 @@ class ArticlesController < ApplicationController
 
   def create
     current_user.articles.create!(article_params)
-    respond_with_success("Created new article")
+    respond_with_success(t("successfully_created", entity: "Article", count: 1))
   end
 
   def update
     @article.update!(article_params)
-    respond_with_success("Updated successfully")
+    respond_with_success(t("successfully_updated", entity: "Article", count: 1))
   end
 
   def destroy
     @article.destroy!
-    respond_with_success("Deleted successfully")
+    respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
   end
 
   def destroy_multiple
     @articles.destroy_all
-    respond_with_success("Deleted successfully")
+    respond_with_success(t("successfully_deleted", entity: "Articles", count: 2))
   end
 
   def update_multiple
     @articles.update!(article_params)
-    respond_with_success("Updated successfully")
+    respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
   end
 
   private

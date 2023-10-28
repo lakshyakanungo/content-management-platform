@@ -33,7 +33,9 @@ en:
   not_found: "%{entity} not found!"
   invalid_credentials: "Incorrect email or password!"
   successfully_created: "%{entity} was successfully created!"
-  successfully_updated: "%{entity} has been successfully updated!"
+  successfully_updated:
+    one: "%{entity} has been successfully updated!"
+    other: "%{entity} have been successfully updated!"
   successfully_deleted:
     one: "%{entity} has been successfully deleted!"
     other: "%{entity} have been successfully deleted!"
