@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class HomeControllerTest < ActionDispatch::IntegrationTest
+class SiteSettingsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @site_setting = create(:site_setting)
   end
@@ -34,7 +34,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   # def test_should_not_authenticate_invalid_password
-  #   get(authenticate_site_settings_path, params: { password: "test" }, headers:)
+  #   get(authenticate_site_settings_path(password: "test"), headers:)
   #   assert_response :error
   # end
 end
