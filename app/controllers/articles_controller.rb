@@ -11,7 +11,9 @@ class ArticlesController < ApplicationController
   end
 
   def grouped_by_category
-    @grouped_articles = Article.joins(:category).group_by { |article| article.category.name }.to_a
+    @grouped_articles = Article.joins(:category)
+      .order("categories.position")
+      .group_by { |article| article.category.name }.to_a
   end
 
   def search
