@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resource :site_settings, only: [:show, :update] do
       post "authenticate", on: :collection
     end
+    resource :session, only: :create
   end
 
   Redirection.all.each do |redirection|

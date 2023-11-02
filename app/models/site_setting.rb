@@ -7,6 +7,7 @@ class SiteSetting < ApplicationRecord
   VALID_PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*\d).+\z/
 
   has_secure_password(validations: false)
+  has_secure_token :authentication_token
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: VALID_TITLE_REGEX }
   validates_inclusion_of :is_password_protected, in: [true, false]

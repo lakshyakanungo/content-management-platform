@@ -39,9 +39,12 @@ const handleSuccessResponse = response => {
   return keysToCamelCase(response);
 };
 
-const handleErrorResponse = (error, authDispatch) => {
+const handleErrorResponse = (
+  error
+  // , authDispatch
+) => {
   if (error.response?.status === 401) {
-    authDispatch({ type: "LOGOUT" });
+    // authDispatch({ type: "LOGOUT" });
     Toastr.error(error.response?.data?.error);
   } else {
     Toastr.error(error.response?.data?.error || error.message);
