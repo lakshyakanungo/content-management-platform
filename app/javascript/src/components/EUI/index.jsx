@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 
-import siteSettingsApi from "apis/siteSettings";
+import euiApi from "apis/eui";
 
 import Home from "./Home";
 import Login from "./Login";
@@ -15,8 +15,10 @@ const EUI = () => {
 
   const fetchSiteSettings = async () => {
     try {
-      const { data } = await siteSettingsApi.fetch();
-      const { isPasswordProtected, title } = data;
+      const {
+        data: { eui },
+      } = await euiApi.fetch();
+      const { isPasswordProtected, title } = eui;
       setIsPasswordProtected(isPasswordProtected);
       setSiteName(title);
     } catch (error) {

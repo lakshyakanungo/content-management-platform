@@ -39,6 +39,7 @@ const handleSuccessResponse = response => {
   return keysToCamelCase(response);
 };
 
+// TODO: Refactor this handleError fn
 const handleErrorResponse = (
   error
   // , authDispatch

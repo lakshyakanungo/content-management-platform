@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { EditorContent } from "@bigbinary/neeto-editor";
 import { Accordion, Spinner } from "neetoui";
 
-import articlesApi from "apis/articles";
+import euiApi from "apis/eui";
 
 import { buildListItemClassName } from "./utils";
 
@@ -17,7 +17,7 @@ const Home = () => {
     try {
       const {
         data: { groupedArticles },
-      } = await articlesApi.fetchByCategory();
+      } = await euiApi.fetchByCategory();
       setArticlesByCategory(groupedArticles);
     } catch (error) {
       logger.log(error);
