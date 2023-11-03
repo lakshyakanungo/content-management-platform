@@ -119,6 +119,7 @@
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
     "react-i18next": "^12.3.1",
+    "react-icons": "^4.11.0",
     "react-query": "^3.39.2",
     "react-router-dom": "5.3.1",
     "react-router-nav-prompt": "^0.4.1",

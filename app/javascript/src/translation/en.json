@@ -17,6 +17,11 @@
             "primaryActionLabel": "Add article",
             "subtitle": "You have not yet created an article. Create an article using the CTA given below.",
             "title": "There are no articles."
+          },
+          "categoryFilter": {
+            "primaryActionLabel": "Add article",
+            "subtitle": "Create an article using the CTA given below.",
+            "title": "There are no articles found with the selected filters."
           }
         },
         "subheader": {
@@ -195,7 +200,7 @@
           }
         },
         "alert": {
-          "message": "This category has 0 articles.",
+          "message": "Category <0>{{ name }}</0> has 0 articles.",
           "buttonLabel": "Delete",
           "title": "Confirm category deletion?"
         },

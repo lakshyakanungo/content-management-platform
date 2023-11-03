@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
 import { Search as SearchIcon, Plus } from "neetoicons";
+import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
@@ -30,13 +31,15 @@ const Menu = ({
 
   const { t } = useTranslation();
 
-  const handleCategoryClick = category => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(
-        selectedCategories.filter(item => item !== category)
+  const handleCategoryClick = categoryClicked => {
+    if (includes(categoryClicked, selectedCategories)) {
+      setSelectedCategories(prev =>
+        prev.filter(
+          selectedCategory => !equals(selectedCategory, categoryClicked)
+        )
       );
     } else {
-      setSelectedCategories(prev => [...prev, category]);
+      setSelectedCategories(prev => [...prev, categoryClicked]);
     }
   };
 
@@ -127,6 +130,7 @@ const Menu = ({
       </MenuBar>
       <AddCategoryModal
         fetchCategories={fetchCategories}
+        setSelectedCategories={setSelectedCategories}
         setShowAddCategoryModal={setShowAddCategoryModal}
         showAddCategoryModal={showAddCategoryModal}
       />

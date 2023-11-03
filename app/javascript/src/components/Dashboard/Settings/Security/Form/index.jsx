@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import { Check, Close, Eye } from "neetoicons";
+import { Check, Close } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
@@ -8,14 +8,16 @@ import siteSettingsApi from "apis/siteSettings";
 
 import { INITIAL_VALUES } from "./constants";
 import {
+  TogglePassword,
   buildValidationClassName,
-  handleEyeToggle,
+  handleToggle,
   validateForm,
 } from "./utils";
 
 const Form = ({ fetchSiteSettings }) => {
   const [hasMinError, setHasMinError] = useState(true);
   const [hasMatchError, setHasMatchError] = useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -53,8 +55,13 @@ const Form = ({ fetchSiteSettings }) => {
             name="password"
             placeholder={t("dashboard.settings.security.form.placeholder")}
             ref={inputRef}
-            suffix={<Eye onClick={() => handleEyeToggle(inputRef)} />}
             type="password"
+            suffix={
+              <TogglePassword
+                isPasswordVisible={isPasswordVisible}
+                onClick={() => handleToggle({ inputRef, setIsPasswordVisible })}
+              />
+            }
           />
           <div className={buildValidationClassName(hasMinError)}>
             <span>
@@ -75,7 +82,6 @@ const Form = ({ fetchSiteSettings }) => {
             type="submit"
           />
           <Button
-            disabled={hasMinError || hasMatchError}
             label={t("dashboard.settings.security.form.button.cancel")}
             style="text"
             type="reset"

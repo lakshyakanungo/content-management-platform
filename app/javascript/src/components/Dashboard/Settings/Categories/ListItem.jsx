@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 
 import useDragAndDrop from "hooks/useDragAndDrop";
 
-import Alert from "./Alert";
+import DeleteAlert from "./DeleteAlert";
 import Dropdown from "./Dropdown";
 import DeleteModal from "./Modals/Delete";
 import EditModal from "./Modals/Edit";
 
-import MenuSquare from "/Users/bigbinary/Desktop/new-dev/Scribble/app/assets/images/MenuSquare";
+import MenuSquare from "../../../../../../assets/images/MenuSquare";
 
 const ListItem = ({
   index,
@@ -72,7 +72,7 @@ const ListItem = ({
               showDeleteOverlay={showDeleteOverlay}
             />
           ) : (
-            <Alert
+            <DeleteAlert
               category={category}
               fetchCategories={fetchCategories}
               setShowDeleteOverlay={setShowDeleteOverlay}

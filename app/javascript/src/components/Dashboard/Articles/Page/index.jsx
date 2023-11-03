@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
-import EmptyState from "components/commons/EmptyState";
 import Container from "neetomolecules/Container";
 import Header from "neetomolecules/Header";
 
+import Empty from "./Empty";
 import SubHeader from "./SubHeader";
 import Table from "./Table";
 
@@ -84,7 +84,6 @@ const Page = ({
             icon="ri-add-line"
             label={t("dashboard.articles.page.header.buttonLabel")}
             size="small"
-            // onClick={() => setShowCreateArticle(true)}
             onClick={() => history.push("/articles/new")}
           />
         }
@@ -116,26 +115,12 @@ const Page = ({
           selectedArticleIds={selectedArticleIds}
           setSelectedArticleIds={setSelectedArticleIds}
         />
-      ) : searchTerm.length ? (
-        <EmptyState
-          primaryAction={() => setSearchTerm("")}
-          searchText={searchTerm}
-          subtitle={t("dashboard.articles.page.emptyState.forSearch.subtitle")}
-          primaryActionLabel={t(
-            "dashboard.articles.page.emptyState.forSearch.primaryActionLabel"
-          )}
-          title={t("dashboard.articles.page.emptyState.forSearch.title", {
-            title: searchTerm,
-          })}
-        />
       ) : (
-        <EmptyState
-          primaryAction={() => history.push("/articles/new")}
-          subtitle={t("dashboard.articles.page.emptyState.general.subtitle")}
-          title={t("dashboard.articles.page.emptyState.general.title")}
-          primaryActionLabel={t(
-            "dashboard.articles.page.emptyState.general.primaryActionLabel"
-          )}
+        <Empty
+          history={history}
+          searchTerm={searchTerm}
+          selectedCategories={selectedCategories}
+          setSearchTerm={setSearchTerm}
         />
       )}
     </Container>

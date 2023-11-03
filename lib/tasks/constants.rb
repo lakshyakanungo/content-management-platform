@@ -28,14 +28,12 @@ module Constants
   {
     id: "6ceed3d8-014a-443f-af6d-5ffa171ccf12",
     name: "Frontend",
-
     position: 1
   },
 
   {
     id: "16ff422d-0b14-4ed4-874c-cf81bf08eb31",
     name: "Getting started",
-
     position: 5
   }
 ]
