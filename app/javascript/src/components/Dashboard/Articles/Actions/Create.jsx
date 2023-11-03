@@ -1,17 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
+import { Spinner } from "@bigbinary/neetoui";
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import categoriesApi from "apis/categories";
 
 import ActionDropdown from "./ActionDropdown";
 import { EDITOR_VALIDATION_SCHEMA } from "./constants";
 import Editor from "./Editor";
 import { parseData } from "./utils";
 
-const Create = ({ categories, setShowCreateArticle, refetch }) => {
+const Create = () => {
+  const [loading, setLoading] = useState(true);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
+  const [categories, setCategories] = useState([]);
+
+  const history = useHistory();
 
   const editorRef = useRef(null);
 
@@ -26,12 +33,34 @@ const Create = ({ categories, setShowCreateArticle, refetch }) => {
       });
 
       await articlesApi.create({ payload: data });
-      setShowCreateArticle(false);
-      refetch();
+      // setShowCreateArticle(false);
+      // refetch();
+      history.push("/articles");
     } catch (error) {
       logger.log(error);
     }
   };
+
+  const fetchCategories = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch();
+      setCategories(categories);
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -72,7 +101,8 @@ const Create = ({ categories, setShowCreateArticle, refetch }) => {
                     label={t("dashboard.articles.actions.create.cancelButton")}
                     style="secondary"
                     type="reset"
-                    onClick={() => setShowCreateArticle(false)}
+                    // onClick={() => setShowCreateArticle(false)}
+                    onClick={() => history.push("/articles")}
                   />
                   <ActionDropdown
                     formikProps={props}
