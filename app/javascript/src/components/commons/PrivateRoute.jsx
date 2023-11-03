@@ -10,17 +10,13 @@ const PrivateRoute = ({
   condition,
   path,
   redirectRoute,
-  setIsAuthenticated,
   siteName,
   ...props
 }) => {
-  // console.log("coming here");
   if (!condition) {
     return (
       <Route
-        render={() => (
-          <Login setIsAuthenticated={setIsAuthenticated} siteName={siteName} />
-        )}
+        render={() => <Login siteName={siteName} />}
         to={{
           pathname: redirectRoute,
           from: props.location,

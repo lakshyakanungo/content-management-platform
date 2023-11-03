@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   def create
     authenticated = @site_setting.authenticate(session_params[:password])
 
-    respond_with_error("The password you entered is incorrect.", :unauthorized) unless authenticated
+    respond_with_error(t("invalid_password"), :unauthorized) unless authenticated
   end
 
   private

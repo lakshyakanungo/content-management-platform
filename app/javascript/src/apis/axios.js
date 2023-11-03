@@ -2,7 +2,7 @@ import { keysToCamelCase } from "@bigbinary/neeto-commons-frontend/pure";
 import axios from "axios";
 import { Toastr } from "neetoui";
 
-import { getFromLocalStorage } from "utils/storage";
+import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 
 axios.defaults.baseURL = "/";
 
@@ -44,11 +44,11 @@ const handleErrorResponse = (
   error
   // , authDispatch
 ) => {
-  if (error.response?.status === 401) {
+  if (error.response?.status === 403) {
     // authDispatch({ type: "LOGOUT" });
     Toastr.error(error.response?.data?.error);
-    // setToLocalStorage("authToken", null);
-    // setTimeout(() => (window.location.href = "/kb"), 2000);
+    setToLocalStorage("authToken", null);
+    setTimeout(() => (window.location.href = "/kb"), 2000);
   } else {
     Toastr.error(error.response?.data?.error || error.message);
   }
