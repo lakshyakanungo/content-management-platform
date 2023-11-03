@@ -33,7 +33,7 @@ class ArticlesController < ApplicationController
 
   def create
     current_user.articles.create!(article_params)
-    respond_with_success(t("successfully_created", entity: "Article", count: 1))
+    respond_with_success(t("successfully_created", entity: "Article"))
   end
 
   def update

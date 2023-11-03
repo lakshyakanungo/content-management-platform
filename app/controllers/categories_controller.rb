@@ -14,6 +14,7 @@ class CategoriesController < ApplicationController
 
   def create
     current_user.categories.create!(name: category_params[:name])
+    respond_with_success(t("successfully_created", entity: "Category"))
   end
 
   def update
