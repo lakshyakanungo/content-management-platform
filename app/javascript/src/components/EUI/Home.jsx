@@ -72,6 +72,7 @@ const Home = () => {
         </Accordion>
       </div>
       <div className="w-4/5 px-12 py-4">
+        <button onClick={fetchArticlesByCategory}>Click me</button>
         <EditorContent content={selectedArticleContent} />
       </div>
     </div>

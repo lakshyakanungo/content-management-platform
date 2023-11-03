@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class EuisController < ApplicationController
+  include Authenticable
+  skip_before_action :authenticate_user_using_x_auth_token, only: :show
+
   def show
     puts "reahcing here"
     @setting = SiteSetting.first

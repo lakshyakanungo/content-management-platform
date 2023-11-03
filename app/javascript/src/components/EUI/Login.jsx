@@ -15,9 +15,12 @@ const Login = ({ siteName, setIsAuthenticated }) => {
       const {
         data: { authenticationToken },
       } = await authApi.authenticate({ password });
+      // console.log(authenticationToken);
       setToLocalStorage("authToken", authenticationToken);
       // console.log(authenticationToken);
       setIsAuthenticated(true);
+      // history.push("/kb");
+      // TODO: check where history and where window.location.href
     } catch (error) {
       logger.log(error);
     }
