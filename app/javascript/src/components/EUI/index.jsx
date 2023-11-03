@@ -15,8 +15,10 @@ const EUI = () => {
   const [loading, setLoading] = useState(true);
   const [isPasswordProtected, setIsPasswordProtected] = useState(true);
   const [siteName, setSiteName] = useState("");
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
+
+  const authToken = getFromLocalStorage("authToken");
+  const isAuthenticated = !!authToken;
 
   const fetchSiteSettings = async () => {
     try {
@@ -33,20 +35,11 @@ const EUI = () => {
     }
   };
 
-  const authToken = getFromLocalStorage("authToken");
-  const isAuthenticated = !!authToken;
-
-  // const setAuth = () => {
-  //   setAuthHeaders(setLoading);
-  // };
-
+  // TODO: Check/see if setting auth headers is needed here. Try to understand its working.
   useEffect(() => {
     setAuthHeaders(setLoading);
     fetchSiteSettings();
   }, []);
-
-  // console.log(isPasswordProtected, "password?");
-  // console.log(isAuthenticated, "authenticated?");
 
   if (loading || isPageLoading) {
     <div className="h-screen">
@@ -70,18 +63,12 @@ const EUI = () => {
           condition={!isPasswordProtected || isAuthenticated}
           path="/kb"
           redirectRoute="/kb/login"
-          // setIsAuthenticated={setIsAuthenticated}
           siteName={siteName}
         />
         <Route
           exact
           path="/kb/login"
-          render={() => (
-            <Login
-              // setIsAuthenticated={setIsAuthenticated}
-              siteName={siteName}
-            />
-          )}
+          render={() => <Login siteName={siteName} />}
         />
         <Route exact component={Home} path="/kb" />
       </Switch>

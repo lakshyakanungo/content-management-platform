@@ -9,10 +9,7 @@ import { setToLocalStorage } from "utils/storage";
 
 import { LOGIN_FORM_INITIAL_VALUE } from "./constants";
 
-const Login = ({
-  siteName,
-  //  setIsAuthenticated
-}) => {
+const Login = ({ siteName }) => {
   const { t } = useTranslation();
 
   const handleSubmit = async ({ password }) => {
