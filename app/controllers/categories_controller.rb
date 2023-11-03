@@ -9,7 +9,7 @@ class CategoriesController < ApplicationController
 
   def search
     query = params[:name].downcase
-    @search_results = current_user.categories.where("lower(name) LIKE ?", "%#{query}%")
+    @search_results = current_user.categories.where("lower(name) LIKE ?", "%#{query}%").order("position ASC")
   end
 
   def create

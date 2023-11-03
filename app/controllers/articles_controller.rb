@@ -17,6 +17,10 @@ class ArticlesController < ApplicationController
       .group_by { |article| article.category.name }.to_a
   end
 
+  def show
+    @show_article = current_user.articles.find(params[:slug])
+  end
+
   def search
     query = params[:title].downcase
     category_ids = params[:category_id]
