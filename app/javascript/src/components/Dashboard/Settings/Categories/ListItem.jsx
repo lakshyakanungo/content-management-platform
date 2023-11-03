@@ -9,7 +9,7 @@ import Dropdown from "./Dropdown";
 import DeleteModal from "./Modals/Delete";
 import EditModal from "./Modals/Edit";
 
-import MenuSquare from "/Users/bigbinary/Desktop/new-dev/Scribble/app/assets/images/MenuSquare";
+import MenuSquare from "../../../../../../assets/images/MenuSquare";
 
 const ListItem = ({
   index,
