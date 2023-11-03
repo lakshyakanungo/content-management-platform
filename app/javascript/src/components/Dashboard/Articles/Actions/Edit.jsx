@@ -1,17 +1,27 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
+import { Spinner } from "@bigbinary/neetoui";
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import articlesApi from "apis/articles";
+import categoriesApi from "apis/categories";
 
 import ActionDropdown from "./ActionDropdown";
 import { EDITOR_VALIDATION_SCHEMA } from "./constants";
 import Editor from "./Editor";
 import { buildSelectClassName, parseData } from "./utils";
 
-const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
+const Edit = () => {
+  const [loading, setLoading] = useState(true);
+  const [article, setArticle] = useState({});
+  const [categories, setCategories] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
+
+  const history = useHistory();
+  const { id } = useParams();
 
   const editorRef = useRef(null);
 
@@ -27,13 +37,52 @@ const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
         editorRef,
         selectedOptionIndex,
       });
-      await articlesApi.update({ id: article.id, payload: data });
-      setShowEditArticle(false);
-      refetch();
+      await articlesApi.update({ id, payload: data });
+      history.push("/articles");
     } catch (error) {
       logger.log(error);
     }
   };
+
+  const fetchArticle = async () => {
+    try {
+      const {
+        data: { article },
+      } = await articlesApi.show(id);
+      setArticle(article);
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch();
+      setCategories(categories);
+    } catch (error) {
+      logger.log(error);
+    }
+  };
+
+  const fetchArticleAndCategories = async () => {
+    setLoading(true);
+    await Promise.all([fetchArticle(), fetchCategories()]);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchArticleAndCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -72,7 +121,7 @@ const Edit = ({ article, categories, setShowEditArticle, refetch }) => {
                     label={t("dashboard.articles.actions.edit.cancelButton")}
                     style="secondary"
                     type="reset"
-                    onClick={() => setShowEditArticle(false)}
+                    onClick={() => history.push("/articles")}
                   />
                   <ActionDropdown
                     formikProps={props}

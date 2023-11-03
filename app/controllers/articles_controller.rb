@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[update destroy]
+  before_action :load_article!, only: %i[show update destroy]
   before_action :load_multiple_articles, only: %i[destroy_multiple update_multiple]
 
   def index
@@ -28,6 +28,10 @@ class ArticlesController < ApplicationController
       .where("lower(title) LIKE ?", "%#{query}%")
       .includes(:category)
       .order(updated_at: :desc)
+  end
+
+  def show
+    render
   end
 
   def create
