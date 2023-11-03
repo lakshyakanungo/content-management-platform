@@ -15,6 +15,7 @@ const AddCategory = ({
   fetchCategories,
   showAddCategoryModal,
   setShowAddCategoryModal,
+  setSelectedCategories,
 }) => {
   const { Header, Body, Footer } = Modal;
 
@@ -28,6 +29,7 @@ const AddCategory = ({
       logger.log(error);
     } finally {
       setShowAddCategoryModal(false);
+      setSelectedCategories([]);
     }
   };
 
