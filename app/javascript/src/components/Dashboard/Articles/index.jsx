@@ -16,10 +16,6 @@ const Articles = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-  const [allArticles, setAllArticles] = useState([]);
-  const [draftArticles, setDraftArticles] = useState([]);
-  const [publishedArticles, setPublishedArticles] = useState([]);
-  const [displayArticles, setDisplayArticles] = useState([]);
   const [articleCounts, setArticleCounts] = useState({
     all: 0,
     draft: 0,
@@ -37,43 +33,28 @@ const Articles = () => {
     }
   };
 
-  const fetchArticles = async () => {
+  const fetchArticlesCount = async () => {
     try {
       const {
         data: {
-          articles: { all, draft, published },
+          counts: { all, draft, published },
         },
       } = await articlesApi.fetch();
-      setDraftArticles(draft);
-      setPublishedArticles(published);
-      setAllArticles(all);
-      setDisplayArticles(all);
-      setArticleCounts({
-        all: all.length,
-        draft: draft.length,
-        published: published.length,
-      });
+      // console.log(all, draft, published);
+      setArticleCounts({ all, draft, published });
     } catch (error) {
       logger.log(error);
     }
   };
 
-  const handleMenuStateChange = menuState => {
-    setActiveMenuState(menuState);
-
-    if (menuState === "All") setDisplayArticles(allArticles);
-    else if (menuState === "Draft") setDisplayArticles(draftArticles);
-    else setDisplayArticles(publishedArticles);
-  };
-
-  const fetchArticlesAndCategories = async () => {
+  const fetchArticlesCountAndCategories = async () => {
     setLoading(true);
-    await Promise.all([fetchCategories(), fetchArticles()]);
+    await Promise.all([fetchCategories(), fetchArticlesCount()]);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchArticlesAndCategories();
+    fetchArticlesCountAndCategories();
   }, []);
 
   if (loading) {
@@ -87,18 +68,16 @@ const Articles = () => {
         articleCounts={articleCounts}
         categories={categories}
         fetchCategories={fetchCategories}
-        handleMenuStateChange={handleMenuStateChange}
         selectedCategories={selectedCategories}
+        setActiveMenuState={setActiveMenuState}
         setSelectedCategories={setSelectedCategories}
         showMenu={showMenu}
       />
       <Page
         activeMenuState={activeMenuState}
-        articles={displayArticles}
         categories={categories}
-        refetch={fetchArticlesAndCategories}
+        refetch={fetchArticlesCountAndCategories}
         selectedCategories={selectedCategories}
-        setDisplayArticles={setDisplayArticles}
         setSelectedCategories={setSelectedCategories}
         setShowMenu={setShowMenu}
         showMenu={showMenu}

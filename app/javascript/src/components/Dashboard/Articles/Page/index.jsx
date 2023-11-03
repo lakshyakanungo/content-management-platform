@@ -17,13 +17,12 @@ const Page = ({
   showMenu,
   setShowMenu,
   categories,
-  articles,
-  setDisplayArticles,
   refetch,
   selectedCategories,
   setSelectedCategories,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [articles, setArticles] = useState([]);
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
 
@@ -44,7 +43,7 @@ const Page = ({
         selectedCategoriesIds,
         activeMenuState,
       });
-      setDisplayArticles(articles);
+      setArticles(articles);
     } catch (error) {
       logger.log(error);
     }
@@ -73,7 +72,7 @@ const Page = ({
 
   useEffect(() => {
     fetchSearchResults();
-  }, [searchTerm, selectedCategories]);
+  }, [searchTerm, selectedCategories, activeMenuState]);
 
   return (
     <Container>
