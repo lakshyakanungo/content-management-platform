@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/commons/EmptyState";
@@ -21,7 +22,7 @@ const Page = ({
   refetch,
   selectedCategories,
   setSelectedCategories,
-  setShowCreateArticle,
+  // setShowCreateArticle,
   setShowEditArticle,
   setClickedArticle,
 }) => {
@@ -30,6 +31,8 @@ const Page = ({
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
 
   const { t } = useTranslation();
+
+  const history = useHistory();
 
   const fetchSearchResults = async () => {
     try {
@@ -84,7 +87,8 @@ const Page = ({
             icon="ri-add-line"
             label={t("dashboard.articles.page.header.buttonLabel")}
             size="small"
-            onClick={() => setShowCreateArticle(true)}
+            // onClick={() => setShowCreateArticle(true)}
+            onClick={() => history.push("/articles/new")}
           />
         }
         menuBarToggle={() => {
@@ -134,7 +138,8 @@ const Page = ({
           subtitle={t("dashboard.articles.page.emptyState.general.subtitle")}
           title={t("dashboard.articles.page.emptyState.general.title")}
           primaryAction={() => {
-            setShowCreateArticle(true);
+            // setShowCreateArticle(true);
+            history.push("/articles/new");
           }}
           primaryActionLabel={t(
             "dashboard.articles.page.emptyState.general.primaryActionLabel"

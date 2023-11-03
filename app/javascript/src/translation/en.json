@@ -71,8 +71,8 @@
           "cancelButton": "Cancel"
         },
         "editor": {
-          "validation": "Article title and description is required",
-          "placeholder": "Add text here"
+          "validation": "Article title is required",
+          "placeholder": "Add title here"
         }
       }
     },

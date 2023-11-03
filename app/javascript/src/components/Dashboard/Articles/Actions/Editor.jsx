@@ -21,6 +21,7 @@ const Editor = ({ editorRef, ...otherProps }) => {
       ref={editorRef}
       rows={25}
       {...otherProps}
+      className="px-4"
     />
   );
 };
