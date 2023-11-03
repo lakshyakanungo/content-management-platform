@@ -16,7 +16,7 @@ const Menu = ({
   showMenu,
   categories,
   activeMenuState,
-  handleMenuStateChange,
+  setActiveMenuState,
   selectedCategories,
   setSelectedCategories,
   articleCounts,
@@ -76,7 +76,7 @@ const Menu = ({
             count={getMenuArticlesCount(articleCounts, state)}
             key={state}
             label={state}
-            onClick={() => handleMenuStateChange(state)}
+            onClick={() => setActiveMenuState(state)}
           />
         ))}
         <SubTitle
