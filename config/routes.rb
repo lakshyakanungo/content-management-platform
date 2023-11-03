@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   draw :api
 
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[show new edit] do
+    resources :articles, except: %i[new edit] do
       collection do
         delete "destroy_multiple"
         put "update_multiple"

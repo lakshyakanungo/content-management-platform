@@ -5,7 +5,6 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import { Create, Edit } from "./Actions";
 import Menu from "./Menu";
 import Page from "./Page";
 
@@ -16,10 +15,6 @@ const Articles = () => {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-
-  const [clickedArticle, setClickedArticle] = useState({});
-  const [showCreateArticle, setShowCreateArticle] = useState(false);
-  const [showEditArticle, setShowEditArticle] = useState(false);
 
   const [allArticles, setAllArticles] = useState([]);
   const [draftArticles, setDraftArticles] = useState([]);
@@ -87,49 +82,27 @@ const Articles = () => {
 
   return (
     <div className="flex-grow flex-shrink flex flex-row">
-      {showCreateArticle && (
-        <Create
-          categories={categories}
-          refetch={fetchArticlesAndCategories}
-          setShowCreateArticle={setShowCreateArticle}
-        />
-      )}
-      {showEditArticle && (
-        <Edit
-          article={clickedArticle}
-          categories={categories}
-          refetch={fetchArticlesAndCategories}
-          setShowEditArticle={setShowEditArticle}
-        />
-      )}
-      {!showCreateArticle && !showEditArticle && (
-        <>
-          <Menu
-            activeMenuState={activeMenuState}
-            articleCounts={articleCounts}
-            categories={categories}
-            fetchCategories={fetchCategories}
-            handleMenuStateChange={handleMenuStateChange}
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-            showMenu={showMenu}
-          />
-          <Page
-            activeMenuState={activeMenuState}
-            articles={displayArticles}
-            categories={categories}
-            refetch={fetchArticlesAndCategories}
-            selectedCategories={selectedCategories}
-            setClickedArticle={setClickedArticle}
-            setDisplayArticles={setDisplayArticles}
-            setSelectedCategories={setSelectedCategories}
-            setShowCreateArticle={setShowCreateArticle}
-            setShowEditArticle={setShowEditArticle}
-            setShowMenu={setShowMenu}
-            showMenu={showMenu}
-          />
-        </>
-      )}
+      <Menu
+        activeMenuState={activeMenuState}
+        articleCounts={articleCounts}
+        categories={categories}
+        fetchCategories={fetchCategories}
+        handleMenuStateChange={handleMenuStateChange}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+        showMenu={showMenu}
+      />
+      <Page
+        activeMenuState={activeMenuState}
+        articles={displayArticles}
+        categories={categories}
+        refetch={fetchArticlesAndCategories}
+        selectedCategories={selectedCategories}
+        setDisplayArticles={setDisplayArticles}
+        setSelectedCategories={setSelectedCategories}
+        setShowMenu={setShowMenu}
+        showMenu={showMenu}
+      />
     </div>
   );
 };

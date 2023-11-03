@@ -43,3 +43,6 @@ en:
   signup_successful: "Signup successful. Please login to continue"
   session:
     expiry: "Your session has expired. Please login again."
+  article:
+    slug:
+      immutable: "is immutable!"

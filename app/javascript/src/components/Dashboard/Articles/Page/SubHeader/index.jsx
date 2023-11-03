@@ -19,19 +19,11 @@ const SubHeader = ({
   selectedCategories,
   setSelectedCategories,
   setVisibleTableColumns,
-  setClickedArticle,
-  setShowEditArticle,
   refetch,
   setSelectedArticleIds,
 }) => {
   const columns = useMemo(
-    () =>
-      buildArticlesColumnData({
-        handleStatusChange,
-        handleDelete,
-        setClickedArticle,
-        setShowEditArticle,
-      }),
+    () => buildArticlesColumnData({ handleStatusChange, handleDelete }),
     []
   );
 

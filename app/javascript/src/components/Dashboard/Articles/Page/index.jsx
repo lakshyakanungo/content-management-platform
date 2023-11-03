@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/commons/EmptyState";
@@ -21,15 +22,14 @@ const Page = ({
   refetch,
   selectedCategories,
   setSelectedCategories,
-  setShowCreateArticle,
-  setShowEditArticle,
-  setClickedArticle,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
 
   const { t } = useTranslation();
+
+  const history = useHistory();
 
   const fetchSearchResults = async () => {
     try {
@@ -84,7 +84,8 @@ const Page = ({
             icon="ri-add-line"
             label={t("dashboard.articles.page.header.buttonLabel")}
             size="small"
-            onClick={() => setShowCreateArticle(true)}
+            // onClick={() => setShowCreateArticle(true)}
+            onClick={() => history.push("/articles/new")}
           />
         }
         menuBarToggle={() => {
@@ -104,10 +105,8 @@ const Page = ({
         refetch={refetch}
         selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
-        setClickedArticle={setClickedArticle}
         setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
-        setShowEditArticle={setShowEditArticle}
         setVisibleTableColumns={setVisibleTableColumns}
       />
       {articles.length ? (
@@ -131,11 +130,9 @@ const Page = ({
         />
       ) : (
         <EmptyState
+          primaryAction={() => history.push("/articles/new")}
           subtitle={t("dashboard.articles.page.emptyState.general.subtitle")}
           title={t("dashboard.articles.page.emptyState.general.title")}
-          primaryAction={() => {
-            setShowCreateArticle(true);
-          }}
           primaryActionLabel={t(
             "dashboard.articles.page.emptyState.general.primaryActionLabel"
           )}

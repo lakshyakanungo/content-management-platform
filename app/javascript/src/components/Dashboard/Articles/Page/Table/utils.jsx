@@ -4,14 +4,14 @@ import classNames from "classnames";
 import dayjs from "dayjs";
 import { t } from "i18next";
 import { Button } from "neetoui";
+import { useHistory } from "react-router-dom";
 
 import Dropdown from "./Dropdown";
 
-const renderTitle = ({ record, setClickedArticle, setShowEditArticle }) => {
-  const handleClick = () => {
-    setClickedArticle(record);
-    setShowEditArticle(true);
-  };
+const Title = ({ record }) => {
+  const history = useHistory();
+
+  const handleClick = () => history.push(`/articles/edit/${record.id}`);
 
   return (
     <Button style="link" onClick={handleClick}>
@@ -27,15 +27,12 @@ const renderLastPublishedAt = date => (
 export const buildArticlesColumnData = ({
   handleStatusChange,
   handleDelete,
-  setClickedArticle,
-  setShowEditArticle,
 }) => [
   {
     title: t("dashboard.articles.page.table.title"),
     dataIndex: "title",
     key: "title",
-    render: (_, record) =>
-      renderTitle({ record, setClickedArticle, setShowEditArticle }),
+    render: (_, record) => <Title record={record} />,
     ellipsis: {
       showTitle: true,
     },
