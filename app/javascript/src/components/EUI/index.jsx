@@ -6,6 +6,7 @@ import { Route, Switch } from "react-router-dom";
 import { setAuthHeaders } from "apis/axios";
 import euiApi from "apis/eui";
 import PrivateRoute from "components/commons/PrivateRoute";
+import { getFromLocalStorage } from "utils/storage";
 
 import Home from "./Home";
 import Login from "./Login";
@@ -14,7 +15,7 @@ const EUI = () => {
   const [loading, setLoading] = useState(true);
   const [isPasswordProtected, setIsPasswordProtected] = useState(true);
   const [siteName, setSiteName] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   const fetchSiteSettings = async () => {
@@ -31,6 +32,9 @@ const EUI = () => {
       setIsPageLoading(false);
     }
   };
+
+  const authToken = getFromLocalStorage("authToken");
+  const isAuthenticated = !!authToken;
 
   // const setAuth = () => {
   //   setAuthHeaders(setLoading);
@@ -66,7 +70,7 @@ const EUI = () => {
           condition={!isPasswordProtected || isAuthenticated}
           path="/kb"
           redirectRoute="/kb/login"
-          setIsAuthenticated={setIsAuthenticated}
+          // setIsAuthenticated={setIsAuthenticated}
           siteName={siteName}
         />
         <Route
@@ -74,7 +78,7 @@ const EUI = () => {
           path="/kb/login"
           render={() => (
             <Login
-              setIsAuthenticated={setIsAuthenticated}
+              // setIsAuthenticated={setIsAuthenticated}
               siteName={siteName}
             />
           )}

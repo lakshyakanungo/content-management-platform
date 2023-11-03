@@ -7,7 +7,12 @@ import { useTranslation } from "react-i18next";
 import authApi from "apis/auth";
 import { setToLocalStorage } from "utils/storage";
 
-const Login = ({ siteName, setIsAuthenticated }) => {
+import { LOGIN_FORM_INITIAL_VALUE } from "./constants";
+
+const Login = ({
+  siteName,
+  //  setIsAuthenticated
+}) => {
   const { t } = useTranslation();
 
   const handleSubmit = async ({ password }) => {
@@ -15,12 +20,8 @@ const Login = ({ siteName, setIsAuthenticated }) => {
       const {
         data: { authenticationToken },
       } = await authApi.authenticate({ password });
-      // console.log(authenticationToken);
       setToLocalStorage("authToken", authenticationToken);
-      // console.log(authenticationToken);
-      setIsAuthenticated(true);
-      // history.push("/kb");
-      // TODO: check where history and where window.location.href
+      window.location.href = "/kb";
     } catch (error) {
       logger.log(error);
     }
@@ -37,10 +38,11 @@ const Login = ({ siteName, setIsAuthenticated }) => {
         </div>
         <Form
           formikProps={{
-            initialValues: { password: "" },
+            initialValues: LOGIN_FORM_INITIAL_VALUE,
             onSubmit: handleSubmit,
           }}
         >
+          {/* TODO: Add translations here */}
           <Input
             className="my-4"
             label="Password"

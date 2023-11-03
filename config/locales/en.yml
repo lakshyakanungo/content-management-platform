@@ -31,7 +31,8 @@
 
 en:
   not_found: "%{entity} not found!"
-  invalid_credentials: "Incorrect password!"
+  unauthorised_request: "Unauthorised request! Please login again."
+  invalid_password: "The password you entered is incorrect."
   successfully_created: "%{entity} was successfully created!"
   successfully_updated:
     one: "%{entity} has been successfully updated!"

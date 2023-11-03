@@ -10,7 +10,7 @@ const PrivateRoute = ({
   condition,
   path,
   redirectRoute,
-  setIsAuthenticated,
+  // setIsAuthenticated,
   siteName,
   ...props
 }) => {
@@ -19,7 +19,10 @@ const PrivateRoute = ({
     return (
       <Route
         render={() => (
-          <Login setIsAuthenticated={setIsAuthenticated} siteName={siteName} />
+          <Login
+            // setIsAuthenticated={setIsAuthenticated}
+            siteName={siteName}
+          />
         )}
         to={{
           pathname: redirectRoute,
