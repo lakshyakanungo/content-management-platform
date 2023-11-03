@@ -1,4 +1,10 @@
+import React from "react";
+
 import classNames from "classnames";
+import {
+  AiOutlineEye as EyeOpen,
+  AiOutlineEyeInvisible as EyeClosed,
+} from "react-icons/ai";
 
 import { YUP_VALIDATION_SCHEMA } from "./constants";
 
@@ -27,10 +33,19 @@ export const validateForm = ({ values, setHasMinError, setHasMatchError }) => {
   }
 };
 
-export const handleEyeToggle = inputRef => {
+export const handleToggle = ({ inputRef, setIsPasswordVisible }) => {
+  setIsPasswordVisible(prev => !prev);
+
   if (inputRef.current.type === "password") {
     inputRef.current.type = "text";
   } else {
     inputRef.current.type = "password";
   }
 };
+
+export const TogglePassword = ({ isPasswordVisible, onClick }) =>
+  isPasswordVisible ? (
+    <EyeOpen onClick={onClick} />
+  ) : (
+    <EyeClosed onClick={onClick} />
+  );
