@@ -5,19 +5,25 @@ module Authenticable
 
   included do
     before_action :authenticate_user_using_x_auth_token
-    before_action :authenticate_user!
+    # before_action :authenticate_user!
   end
 
   private
 
     def authenticate_user_using_x_auth_token
-      user_email = request.headers["X-Auth-Email"].presence
       auth_token = request.headers["X-Auth-Token"].presence
-      user = user_email && User.find_by(email: user_email)
 
-      if user && auth_token && Devise.secure_compare(user.authentication_token, auth_token)
-        sign_in user, store: false
-      else
+      puts "COMPARING "
+      puts auth_token
+      puts SiteSetting.first.authentication_token
+
+      is_valid_token = ActiveSupport::SecurityUtils.secure_compare(
+        SiteSetting.first.authentication_token,
+        auth_token)
+
+      puts "VALID REQUEST???", is_valid_token
+
+      if SiteSetting.first.is_password_protected && !is_valid_token
         respond_with_error(t("invalid_credentials"), :unauthorized)
       end
     end

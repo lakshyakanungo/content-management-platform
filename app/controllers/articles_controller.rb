@@ -10,13 +10,6 @@ class ArticlesController < ApplicationController
     @published_articles = @all_articles.filter { |article|article.status == "Published" }
   end
 
-  def grouped_by_category
-    @grouped_articles = Article.joins(:category)
-      .order("categories.position")
-      .where(status: "Published")
-      .group_by { |article| article.category.name }.to_a
-  end
-
   def show
     @show_article = current_user.articles.find(params[:slug])
   end

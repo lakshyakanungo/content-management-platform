@@ -10,7 +10,6 @@ Rails.application.routes.draw do
         delete "destroy_multiple"
         put "update_multiple"
         get "search"
-        get "grouped_by_category"
       end
     end
     resources :categories, except: %i[show new edit] do
@@ -19,6 +18,10 @@ Rails.application.routes.draw do
     resources :redirections, except: %i[show new edit]
     resource :site_settings, only: [:show, :update] do
       post "authenticate", on: :collection
+    end
+    resource :session, only: :create
+    resource :eui, only: [:show] do
+      get "grouped_by_category"
     end
   end
 

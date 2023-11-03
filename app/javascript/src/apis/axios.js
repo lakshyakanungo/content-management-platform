@@ -39,10 +39,16 @@ const handleSuccessResponse = response => {
   return keysToCamelCase(response);
 };
 
-const handleErrorResponse = (error, authDispatch) => {
+// TODO: Refactor this handleError fn
+const handleErrorResponse = (
+  error
+  // , authDispatch
+) => {
   if (error.response?.status === 401) {
-    authDispatch({ type: "LOGOUT" });
+    // authDispatch({ type: "LOGOUT" });
     Toastr.error(error.response?.data?.error);
+    // setToLocalStorage("authToken", null);
+    // setTimeout(() => (window.location.href = "/kb"), 2000);
   } else {
     Toastr.error(error.response?.data?.error || error.message);
   }

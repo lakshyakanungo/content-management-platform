@@ -31,7 +31,7 @@
 
 en:
   not_found: "%{entity} not found!"
-  invalid_credentials: "Incorrect email or password!"
+  invalid_credentials: "Incorrect password!"
   successfully_created: "%{entity} was successfully created!"
   successfully_updated:
     one: "%{entity} has been successfully updated!"

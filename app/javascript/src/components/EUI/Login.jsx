@@ -3,15 +3,24 @@ import React from "react";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import siteSettingsApi from "apis/siteSettings";
+// import siteSettingsApi from "apis/siteSettings";
+import authApi from "apis/auth";
+import { setToLocalStorage } from "utils/storage";
 
 const Login = ({ siteName, setIsAuthenticated }) => {
   const { t } = useTranslation();
 
   const handleSubmit = async ({ password }) => {
     try {
-      await siteSettingsApi.authenticate({ password });
+      const {
+        data: { authenticationToken },
+      } = await authApi.authenticate({ password });
+      // console.log(authenticationToken);
+      setToLocalStorage("authToken", authenticationToken);
+      // console.log(authenticationToken);
       setIsAuthenticated(true);
+      // history.push("/kb");
+      // TODO: check where history and where window.location.href
     } catch (error) {
       logger.log(error);
     }
