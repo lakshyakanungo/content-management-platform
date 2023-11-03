@@ -3,7 +3,7 @@
 json.articles @search_results do |article|
   json.extract! article,
     :author,
-    :body,
+    # :body,
     :category_id,
     :id,
     :last_published_at,

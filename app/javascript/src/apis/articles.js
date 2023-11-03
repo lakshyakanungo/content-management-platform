@@ -24,6 +24,8 @@ const update = ({ id, payload }) => {
   });
 };
 
+const show = id => axios.get(`/articles/${id}`);
+
 const deleteArticle = id => {
   axios.delete(`/articles/${id}`);
 };
@@ -46,6 +48,7 @@ const articlesApi = {
   fetchByCategory,
   search,
   create,
+  show,
   update,
   deleteArticle,
   deleteMultiple,

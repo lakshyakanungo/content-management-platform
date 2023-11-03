@@ -4,7 +4,7 @@ json.articles do
   json.all @all_articles do |article|
     json.extract! article,
       :author,
-      :body,
+      # :body,
       :category_id,
       :id,
       :last_published_at,
@@ -15,7 +15,7 @@ json.articles do
   json.draft @draft_articles do |article|
       json.extract! article,
         :author,
-        :body,
+        # :body,
         :category_id,
         :id,
         :last_published_at,
@@ -27,7 +27,7 @@ json.articles do
   json.published @published_articles do |article|
     json.extract! article,
       :author,
-      :body,
+      # :body,
       :category_id,
       :id,
       :last_published_at,

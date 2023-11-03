@@ -22,9 +22,6 @@ const Page = ({
   refetch,
   selectedCategories,
   setSelectedCategories,
-  // setShowCreateArticle,
-  setShowEditArticle,
-  setClickedArticle,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
@@ -108,10 +105,8 @@ const Page = ({
         refetch={refetch}
         selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
-        setClickedArticle={setClickedArticle}
         setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
-        setShowEditArticle={setShowEditArticle}
         setVisibleTableColumns={setVisibleTableColumns}
       />
       {articles.length ? (
@@ -135,12 +130,9 @@ const Page = ({
         />
       ) : (
         <EmptyState
+          primaryAction={() => history.push("/articles/new")}
           subtitle={t("dashboard.articles.page.emptyState.general.subtitle")}
           title={t("dashboard.articles.page.emptyState.general.title")}
-          primaryAction={() => {
-            // setShowCreateArticle(true);
-            history.push("/articles/new");
-          }}
           primaryActionLabel={t(
             "dashboard.articles.page.emptyState.general.primaryActionLabel"
           )}

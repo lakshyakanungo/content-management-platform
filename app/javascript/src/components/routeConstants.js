@@ -7,7 +7,7 @@ import EUI from "./EUI";
 export const DASHBOARD_PATH = "/";
 export const ARTICLES_PATH = "/articles";
 export const NEW_ARTICLE_PATH = "/articles/new";
-export const EDIT_ARTICLE_PATH = "/articles/edit";
+export const EDIT_ARTICLE_PATH = "/articles/edit/:id";
 export const CHANGE_PASSWORD_PATH = "/settings?tab=password";
 export const PROFILE_PATH = "/settings?tab=profile";
 export const SETTINGS_PATH = "/settings";
