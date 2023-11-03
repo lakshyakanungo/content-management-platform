@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resource :session, only: :create
     resource :eui, only: [:show] do
       get "grouped_by_category"
+      get "show_article", param: :slug
     end
   end
 

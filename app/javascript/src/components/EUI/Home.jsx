@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-import { EditorContent } from "@bigbinary/neeto-editor";
 import { Accordion, Spinner } from "neetoui";
+import { useHistory, Route } from "react-router-dom";
 
 import euiApi from "apis/eui";
 
+import ShowArticle from "./ShowArticle";
 import { buildListItemClassName } from "./utils";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [articlesByCategory, setArticlesByCategory] = useState([]);
-  const [selectedArticleId, setSelectedArticleId] = useState("");
-  const [selectedArticleContent, setSelectedArticleContent] = useState("");
+  const [selectedArticle, setSelectedArticle] = useState("");
+
+  const history = useHistory();
 
   const fetchArticlesByCategory = async () => {
     try {
@@ -27,13 +29,20 @@ const Home = () => {
   };
 
   const handleClick = article => {
-    setSelectedArticleId(article.id);
-    setSelectedArticleContent(article.body);
+    setSelectedArticle(article);
+    history.push(`/kb/${article.slug}`);
   };
 
   useEffect(() => {
     fetchArticlesByCategory();
   }, []);
+
+  useEffect(() => {
+    if (articlesByCategory.length !== 0) {
+      setSelectedArticle(articlesByCategory[0][1][0]);
+      history.replace(`/kb/${articlesByCategory[0][1][0].slug}`);
+    }
+  }, [articlesByCategory]);
 
   if (loading) {
     return (
@@ -46,7 +55,7 @@ const Home = () => {
   return (
     <div className="flex-grow flex w-full">
       <div className="w-1/5 p-6 border neeto-ui-border-gray-100">
-        <Accordion className="flex flex-col gap-4">
+        <Accordion className="flex flex-col gap-4" defaultActiveKey={0}>
           {articlesByCategory.map(([categoryName, articles]) => (
             <Accordion.Item
               key={categoryName}
@@ -59,7 +68,7 @@ const Home = () => {
                     key={article.id}
                     className={buildListItemClassName({
                       article,
-                      selectedArticleId,
+                      selectedArticle,
                     })}
                     onClick={() => handleClick(article)}
                   >
@@ -71,10 +80,7 @@ const Home = () => {
           ))}
         </Accordion>
       </div>
-      <div className="w-4/5 px-12 py-4">
-        <button onClick={fetchArticlesByCategory}>Click me</button>
-        <EditorContent content={selectedArticleContent} />
-      </div>
+      <Route exact component={ShowArticle} path="/kb/:slug" />
     </div>
   );
 };

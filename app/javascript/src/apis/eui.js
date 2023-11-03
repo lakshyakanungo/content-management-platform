@@ -9,9 +9,17 @@ const fetch = () => axios.get("/eui");
 
 const fetchByCategory = () => axios.get("/eui/grouped_by_category");
 
+const fetchArticle = slug =>
+  axios.get(`/eui/show_article`, {
+    params: {
+      slug,
+    },
+  });
+
 const euiApi = {
   fetch,
   fetchByCategory,
+  fetchArticle,
   // update,
 };
 

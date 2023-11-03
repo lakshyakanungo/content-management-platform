@@ -5,9 +5,9 @@ class EuisController < ApplicationController
   skip_before_action :authenticate_user_using_x_auth_token, only: :show
 
   def show
-    puts "reahcing here"
+    # puts "reahcing here"
     @setting = SiteSetting.first
-    puts @setting.inspect, "GOT THIS"
+    # puts @setting.inspect, "GOT THIS"
   end
 
   def grouped_by_category
@@ -15,5 +15,10 @@ class EuisController < ApplicationController
       .order("categories.position")
       .where(status: "Published")
       .group_by { |article| article.category.name }.to_a
+  end
+
+  def show_article
+    # puts "COMING HERE BABY!"
+    @article = current_user.articles.find_by(slug: params[:slug])
   end
 end
