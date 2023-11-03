@@ -200,7 +200,7 @@
           }
         },
         "alert": {
-          "message": "This category has 0 articles.",
+          "message": "Category <0>{{ name }}</0> has 0 articles.",
           "buttonLabel": "Delete",
           "title": "Confirm category deletion?"
         },
