@@ -1,4 +1,3 @@
-import { t } from "i18next";
 import { getSubdomain } from "tldts";
 import * as yup from "yup";
 
@@ -13,29 +12,29 @@ const hasSubdomain = str => {
 const getFromPaths = redirections =>
   redirections.map(redirection => redirection.from);
 
-const getToPaths = redirections =>
-  redirections.map(redirection => redirection.to);
+// const getToPaths = redirections =>
+//   redirections.map(redirection => redirection.to);
 
-const isFromPathPresentInToPathUrls = (value, redirections) => {
-  const fromPathWithPrefix = formatFromUrl(value);
+// const isFromPathPresentInToPathUrls = (value, redirections) => {
+//   const fromPathWithPrefix = formatFromUrl(value);
 
-  return getToPaths(redirections).includes(fromPathWithPrefix);
-};
+//   return getToPaths(redirections).includes(fromPathWithPrefix);
+// };
 
-const isToPathPresentInFromPathUrls = (toPath, redirections) =>
-  getFromPaths(redirections)
-    .map(path => `${APP_BASE_URL}${path}`)
-    .includes(toPath);
+// const isToPathPresentInFromPathUrls = (toPath, redirections) =>
+//   getFromPaths(redirections)
+//     .map(path => `${APP_BASE_URL}${path}`)
+//     .includes(toPath);
 
-export const formatFromUrl = url => {
-  if (url.startsWith(`${APP_BASE_URL}/`)) {
-    return url;
-  } else if (url.startsWith("/")) {
-    return `${APP_BASE_URL}${url}`;
-  }
+// const formatFromUrl = url => {
+//   if (url.startsWith(`${APP_BASE_URL}/`)) {
+//     return url;
+//   } else if (url.startsWith("/")) {
+//     return `${APP_BASE_URL}${url}`;
+//   }
 
-  return `${APP_BASE_URL}/${url}`;
-};
+//   return `${APP_BASE_URL}/${url}`;
+// };
 
 export const formatToUrl = url => {
   if (hasSubdomain(url)) return url;
@@ -52,35 +51,46 @@ export const buildFormInitialValues = ({ isEdit, data }) => ({
   toUrl: isEdit ? data.to : "",
 });
 
-export const buildFormValidationSchema = redirections =>
+export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
   yup.object().shape({
     fromUrl: yup
       .string()
-      .required(t("dashboard.settings.redirections.form.validations.required"))
-      .matches(
-        /^\/[/.a-zA-Z0-9-]+$/,
-        t("dashboard.settings.redirections.form.validations.validFromUrl")
-      )
-      .notOneOf(
-        getFromPaths(redirections),
-        t("dashboard.settings.redirections.form.validations.duplicateFromUrl")
+      .required("Required")
+      .test(
+        "should-start-with-forward-slash",
+        "From path url must start with /",
+        value => value.startsWith("/")
       )
       .test(
-        "is-from-url-causing-cyclic-redirection",
-        t("dashboard.settings.redirections.form.validations.cyclicRedirection"),
-        value => !isFromPathPresentInToPathUrls(value, redirections)
-      ),
+        "should-not-have-two-same-from-path-urls",
+        "Duplicate value not allowed in From path URL",
+        value => {
+          if (isEdit && value === data.from) {
+            return true;
+          }
+
+          return !getFromPaths(redirections).includes(value);
+        }
+      )
+      .matches(/^\/[/.a-zA-Z0-9-]+$/, "From path URL must be valid"),
+    // .test(
+    //   "is-from-url-causing-cyclic-redirection",
+    //   "Cyclic redirections not allowed",
+    //   value => !isFromPathPresentInToPathUrls(value, redirections)
+    // )
     toUrl: yup
       .string()
-      .required(t("dashboard.settings.redirections.form.validations.required"))
-      .transform(formatToUrl)
-      .matches(
-        /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-        t("dashboard.settings.redirections.form.validations.validToUrl")
-      )
+      .required("Required")
       .test(
-        "is-to-url-causing-cyclic-redirection",
-        t("dashboard.settings.redirections.form.validations.cyclicRedirection"),
-        value => !isToPathPresentInFromPathUrls(value, redirections)
-      ),
+        "to-path-url-and-from-path-url-should-be-different",
+        "From path url and To path url should be different",
+        (_, context) => context.originalValue !== context.parent.fromUrl
+      )
+      .transform(formatToUrl)
+      .matches(/^(?:(https?:\/\/)?\S+|\/\S+)$/, "To path URL must be valid"),
+    // .test(
+    //   "is-to-url-causing-cyclic-redirection",
+    //   "Cyclic redirections not allowed",
+    //   value => !isToPathPresentInFromPathUrls(value, redirections)
+    // ),
   });
