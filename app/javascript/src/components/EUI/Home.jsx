@@ -19,7 +19,7 @@ const Home = () => {
     try {
       const {
         data: { groupedArticles },
-      } = await euiApi.fetchByCategory();
+      } = await euiApi.fetch();
       setArticlesByCategory(groupedArticles);
     } catch (error) {
       logger.log(error);
@@ -30,7 +30,7 @@ const Home = () => {
 
   const handleClick = article => {
     setSelectedArticle(article);
-    history.push(`/kb/${article.slug}`);
+    history.push(`/eui/${article.slug}`);
   };
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Home = () => {
   useEffect(() => {
     if (articlesByCategory.length !== 0) {
       setSelectedArticle(articlesByCategory[0][1][0]);
-      history.replace(`/kb/${articlesByCategory[0][1][0].slug}`);
+      history.replace(`/eui/${articlesByCategory[0][1][0].slug}`);
     }
   }, [articlesByCategory]);
 
@@ -80,7 +80,7 @@ const Home = () => {
           ))}
         </Accordion>
       </div>
-      <Route exact component={ShowArticle} path="/kb/:slug" />
+      <Route exact component={ShowArticle} path="/eui/:slug" />
     </div>
   );
 };

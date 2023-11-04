@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   draw :sidekiq
   draw :api
 
+  Redirection.all.each do |redirection|
+    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301)
+  end
+
   constraints(lambda { |req| req.format == :json }) do
     resources :articles, except: %i[new edit] do
       collection do
@@ -16,18 +20,11 @@ Rails.application.routes.draw do
       get "search", on: :collection
     end
     resources :redirections, except: %i[show new edit]
-    resource :site_settings, only: [:show, :update] do
+    resource :site_settings, only: %i[show update] do
       post "authenticate", on: :collection
     end
     resource :session, only: :create
-    resource :eui, only: [:show] do
-      get "grouped_by_category"
-      get "show_article", param: :slug
-    end
-  end
-
-  Redirection.all.each do |redirection|
-    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301)
+    resources :euis, only: %i[index show], param: :slug
   end
 
   root "home#index"

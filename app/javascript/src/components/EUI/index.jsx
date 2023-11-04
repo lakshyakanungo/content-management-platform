@@ -4,7 +4,7 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { Route, Switch } from "react-router-dom";
 
 import { setAuthHeaders } from "apis/axios";
-import euiApi from "apis/eui";
+import siteSettingsApi from "apis/siteSettings";
 import PrivateRoute from "components/commons/PrivateRoute";
 import { getFromLocalStorage } from "utils/storage";
 
@@ -23,9 +23,8 @@ const EUI = () => {
   const fetchSiteSettings = async () => {
     try {
       const {
-        data: { eui },
-      } = await euiApi.fetch();
-      const { isPasswordProtected, title } = eui;
+        data: { isPasswordProtected, title },
+      } = await siteSettingsApi.fetch();
       setIsPasswordProtected(isPasswordProtected);
       setSiteName(title);
     } catch (error) {
@@ -61,16 +60,16 @@ const EUI = () => {
         <PrivateRoute
           component={Home}
           condition={!isPasswordProtected || isAuthenticated}
-          path="/kb"
-          redirectRoute="/kb/login"
+          path="/eui"
+          redirectRoute="/eui/login"
           siteName={siteName}
         />
         <Route
           exact
-          path="/kb/login"
+          path="/eui/login"
           render={() => <Login siteName={siteName} />}
         />
-        <Route exact component={Home} path="/kb" />
+        <Route exact component={Home} path="/eui" />
       </Switch>
     </div>
   );

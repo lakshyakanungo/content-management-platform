@@ -11,7 +11,7 @@ export const EDIT_ARTICLE_PATH = "/articles/edit/:id";
 export const CHANGE_PASSWORD_PATH = "/settings?tab=password";
 export const PROFILE_PATH = "/settings?tab=profile";
 export const SETTINGS_PATH = "/settings";
-export const EUI_PATH = "/kb";
+export const EUI_PATH = "/eui";
 
 export const DASHBOARD_ROUTES = [
   {

@@ -48,7 +48,7 @@ const handleErrorResponse = (
     // authDispatch({ type: "LOGOUT" });
     Toastr.error(error.response?.data?.error);
     setToLocalStorage("authToken", null);
-    setTimeout(() => (window.location.href = "/kb"), 2000);
+    setTimeout(() => (window.location.href = "/eui"), 2000);
   } else {
     Toastr.error(error.response?.data?.error || error.message);
   }
