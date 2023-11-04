@@ -20,15 +20,15 @@ const Dropdown = ({ record, handleStatusChange, handleDelete }) => {
       strategy="fixed"
     >
       <Menu>
-        {status === "Draft" ? (
+        {status === "draft" ? (
           <MenuItem.Button
-            onClick={() => handleStatusChange({ id, status: "Published" })}
+            onClick={() => handleStatusChange({ id, status: "published" })}
           >
             {t("dashboard.articles.page.table.dropdown.publish")}
           </MenuItem.Button>
         ) : (
           <MenuItem.Button
-            onClick={() => handleStatusChange({ id, status: "Draft" })}
+            onClick={() => handleStatusChange({ id, status: "draft" })}
           >
             {t("dashboard.articles.page.table.dropdown.unpublish")}
           </MenuItem.Button>

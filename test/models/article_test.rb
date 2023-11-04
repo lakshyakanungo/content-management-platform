@@ -89,7 +89,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_article_should_have_last_published_date_once_published
-    @article.status = "Published"
+    @article.status = "published"
     @article.save!
     assert_not @article.last_published_at.nil?
   end

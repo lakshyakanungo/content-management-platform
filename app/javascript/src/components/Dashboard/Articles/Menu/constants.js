@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 import i18n from "common/i18n";
 
-export const MENU_ARTICLE_STATES = ["All", "Draft", "Published"];
+export const MENU_ARTICLE_STATES = ["all", "draft", "published"];
 
 export const ADD_CATEGORY_FORM_INITIAL_VALUE = { name: "" };
 

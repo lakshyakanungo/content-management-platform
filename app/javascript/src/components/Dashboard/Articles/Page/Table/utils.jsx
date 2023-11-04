@@ -69,6 +69,7 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
+    className: "capitalize",
   },
   {
     title: "",

@@ -7,6 +7,6 @@ FactoryBot.define do
     title { Faker::Lorem.sentence[0..49] }
     author { "Oliver" }
     body { Faker::Lorem.sentence[0..49] }
-    status { "Draft" }
+    status { "draft" }
   end
 end

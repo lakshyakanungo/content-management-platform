@@ -2,18 +2,20 @@
 
 class Article < ApplicationRecord
   scope :by_categories, ->(category_ids) { where(category_id: category_ids) unless category_ids.nil? }
-  scope :by_status, ->(status) { where(status:) unless status == "All" }
+  scope :by_status, ->(status) { where(status:) unless status == "all" }
+  # TODO: Change in frentend and here also if possible
 
   MAX_TITLE_LENGTH = 125
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
 
-  enum :status, { Draft: "Draft", Published: "Published" }, default: :Draft
+  enum :status, { draft: "draft", published: "published" }, default: :draft
   belongs_to :user
   belongs_to :category, counter_cache: true
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: VALID_TITLE_REGEX }
   validates :body, presence: true
   validates :slug, uniqueness: true
+  # TODO: See if to keep this slug not changed fn
   validate :slug_not_changed
 
   before_save :update_last_published_at
@@ -22,7 +24,7 @@ class Article < ApplicationRecord
   private
 
     def update_last_published_at
-      self.last_published_at = Time.zone.now if self.status_changed? && self.status == "Published"
+      self.last_published_at = Time.zone.now if self.status_changed? && self.status == "published"
     end
 
     def set_slug

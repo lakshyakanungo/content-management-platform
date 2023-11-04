@@ -11,7 +11,7 @@ import Page from "./Page";
 const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(true);
-  const [activeMenuState, setActiveMenuState] = useState("All");
+  const [activeMenuState, setActiveMenuState] = useState("all");
 
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
