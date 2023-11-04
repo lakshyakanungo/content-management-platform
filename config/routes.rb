@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
     resources :articles, except: %i[new edit] do
       collection do
-        delete "destroy_multiple"
-        put "update_multiple"
+        delete "bulk_destroy"
+        put "bulk_update"
         get "search"
       end
     end

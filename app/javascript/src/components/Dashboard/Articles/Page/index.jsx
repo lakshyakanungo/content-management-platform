@@ -63,7 +63,7 @@ const Page = ({
 
   const handleDelete = async id => {
     try {
-      await articlesApi.deleteArticle(id);
+      await articlesApi.destroy(id);
       refetch();
     } catch (error) {
       logger.log(error);

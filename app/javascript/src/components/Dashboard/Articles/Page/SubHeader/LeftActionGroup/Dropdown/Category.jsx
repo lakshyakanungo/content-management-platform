@@ -17,7 +17,7 @@ const Category = ({
 
   const handleBulkCategoryChange = async categoryId => {
     try {
-      await articlesApi.updateMultiple({
+      await articlesApi.bulkUpdate({
         ids: selectedArticleIds,
         payload: { category_id: categoryId },
       });

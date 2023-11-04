@@ -9,7 +9,7 @@ import articlesApi from "apis/articles";
 const Delete = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
   const handleBulkDelete = async ids => {
     try {
-      await articlesApi.deleteMultiple(ids);
+      await articlesApi.bulkDelete(ids);
       setSelectedArticleIds([]);
       refetch();
     } catch (error) {

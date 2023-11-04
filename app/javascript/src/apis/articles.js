@@ -24,18 +24,18 @@ const update = ({ id, payload }) => {
 
 const show = id => axios.get(`/articles/${id}`);
 
-const deleteArticle = id => {
+const destroy = id => {
   axios.delete(`/articles/${id}`);
 };
 
-const deleteMultiple = ids => {
-  axios.delete(`/articles/destroy_multiple/`, {
+const bulkDelete = ids => {
+  axios.delete(`/articles/bulk_destroy/`, {
     data: { ids },
   });
 };
 
-const updateMultiple = ({ ids, payload }) => {
-  axios.put(`articles/update_multiple`, {
+const bulkUpdate = ({ ids, payload }) => {
+  axios.put(`articles/bulk_update`, {
     ids,
     article: payload,
   });
@@ -47,9 +47,9 @@ const articlesApi = {
   create,
   show,
   update,
-  deleteArticle,
-  deleteMultiple,
-  updateMultiple,
+  destroy,
+  bulkDelete,
+  bulkUpdate,
 };
 
 export default articlesApi;
