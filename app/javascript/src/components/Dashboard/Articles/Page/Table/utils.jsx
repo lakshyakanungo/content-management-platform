@@ -24,6 +24,8 @@ const renderLastPublishedAt = date => (
   <span>{date ? formatDate(date) : "-"}</span>
 );
 
+const renderStatus = status => <span className="capitalize">{status}</span>;
+
 export const buildArticlesColumnData = ({
   handleStatusChange,
   handleDelete,
@@ -69,7 +71,8 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: true,
     },
-    className: "capitalize",
+    render: renderStatus,
+
   },
   {
     title: "",

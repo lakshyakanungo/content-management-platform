@@ -41,7 +41,11 @@ const FormRow = ({
     <Form
       formikProps={{
         initialValues: buildFormInitialValues({ isEdit, data }),
-        validationSchema: buildFormValidationSchema(redirections),
+        validationSchema: buildFormValidationSchema({
+          redirections,
+          isEdit,
+          data,
+        }),
         onSubmit: handleSubmit,
       }}
     >
