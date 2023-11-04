@@ -72,6 +72,7 @@ export const buildArticlesColumnData = ({
       showTitle: true,
     },
     render: renderStatus,
+
   },
   {
     title: "",
