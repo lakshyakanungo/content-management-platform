@@ -18,7 +18,7 @@ const Login = ({ siteName }) => {
         data: { authenticationToken },
       } = await authApi.authenticate({ password });
       setToLocalStorage("authToken", authenticationToken);
-      window.location.href = "/kb";
+      window.location.href = "/eui";
     } catch (error) {
       logger.log(error);
     }

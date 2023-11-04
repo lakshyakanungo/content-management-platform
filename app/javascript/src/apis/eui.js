@@ -1,26 +1,12 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/eui");
+const fetch = () => axios.get("/euis");
 
-// const update = payload =>
-//   axios.put("/site_settings", {
-//     site_settings: payload,
-//   });
-
-const fetchByCategory = () => axios.get("/eui/grouped_by_category");
-
-const fetchArticle = slug =>
-  axios.get(`/eui/show_article`, {
-    params: {
-      slug,
-    },
-  });
+const show = slug => axios.get(`/euis/${slug}`);
 
 const euiApi = {
   fetch,
-  fetchByCategory,
-  fetchArticle,
-  // update,
+  show,
 };
 
 export default euiApi;

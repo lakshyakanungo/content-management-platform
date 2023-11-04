@@ -16,7 +16,7 @@ const ShowArticle = () => {
     try {
       const {
         data: { article },
-      } = await euiApi.fetchArticle(slug);
+      } = await euiApi.show(slug);
       setArticle(article);
     } catch (error) {
       logger.log(error);
