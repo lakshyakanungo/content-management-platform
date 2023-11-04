@@ -4,12 +4,10 @@ class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
   before_action :load_multiple_articles, only: %i[destroy_multiple update_multiple]
 
+  # TODO: See if index action right for performing this count operation
   def index
-    # @all_articles = Article.all.order(updated_at: :desc)
-    # @draft_articles = @all_articles.filter { |article| article.status == "Draft" }
-    # @published_articles = @all_articles.filter { |article|article.status == "Published" }
-    @draft_articles_count = current_user.articles.Draft.count
-    @published_articles_count = current_user.articles.Published.count
+    @draft_articles_count = current_user.articles.draft.count
+    @published_articles_count = current_user.articles.published.count
   end
 
   def show

@@ -33,10 +33,10 @@ const Status = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
       )}
     >
       <Menu>
-        <MenuItem.Button onClick={() => handleBulkStatusChange("Draft")}>
+        <MenuItem.Button onClick={() => handleBulkStatusChange("draft")}>
           {t("dashboard.articles.page.subheader.leftActionGroup.status.draft")}
         </MenuItem.Button>
-        <MenuItem.Button onClick={() => handleBulkStatusChange("Published")}>
+        <MenuItem.Button onClick={() => handleBulkStatusChange("published")}>
           {t(
             "dashboard.articles.page.subheader.leftActionGroup.status.publish"
           )}

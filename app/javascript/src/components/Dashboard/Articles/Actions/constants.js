@@ -15,8 +15,8 @@ export const EDITOR_VALIDATION_SCHEMA = yup.object().shape({
 });
 
 export const STATUS_OPTIONS = [
-  { label: "Save as draft", value: "Draft" },
-  { label: "Publish", value: "Published" },
+  { label: "Save as draft", value: "draft" },
+  { label: "Publish", value: "published" },
 ];
 
 export const EDITOR_ADDONS = [

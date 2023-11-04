@@ -18,8 +18,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     all_articles = response_json["articles"]
 
     expected_all_articles_ids = Article.order(updated_at: :desc).pluck(:id)
-    expected_draft_articles_ids = Article.where(status: "Draft").order(updated_at: :desc).pluck(:id)
-    expected_published_articles_ids = Article.where(status: "Published").order(updated_at: :desc).pluck(:id)
+    expected_draft_articles_ids = Article.where(status: "draft").order(updated_at: :desc).pluck(:id)
+    expected_published_articles_ids = Article.where(status: "published").order(updated_at: :desc).pluck(:id)
 
     actual_all_articles_ids = all_articles["all"].pluck("id")
     actual_draft_articles_ids = all_articles["draft"].pluck("id")
@@ -60,7 +60,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       articles_path,
       params: {
         article: {
-          title: "Learn Ruby", status: "Draft", category_id: @category.id,
+          title: "Learn Ruby", status: "draft", category_id: @category.id,
           body: "<p>Test body</p>"
         }
       },
@@ -75,7 +75,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       articles_path,
       params: {
         article: {
-          title: "", status: "Draft", category_id: @category.id,
+          title: "", status: "draft", category_id: @category.id,
           body: "<p>Test body</p>"
         }
       },
@@ -90,7 +90,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       articles_path,
       params: {
         article: {
-          title: "Test title", status: "Draft", category_id: nil,
+          title: "Test title", status: "draft", category_id: nil,
           body: "<p>Test body</p>"
         }
       },
@@ -105,7 +105,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       articles_path,
       params: {
         article: {
-          title: "Test title", status: "Draft", category_id: @category.id,
+          title: "Test title", status: "draft", category_id: @category.id,
           body: ""
         }
       },
@@ -120,7 +120,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     new_title = "Updated title"
     article_params = {
       article: {
-        title: new_title, status: "Published", category_id: @category.id,
+        title: new_title, status: "published", category_id: @category.id,
         body: "Test body"
       }
     }
@@ -142,7 +142,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   # def test_search_results_should_list_articles
   #   query = "a"
-  #   status = "Draft"
+  #   status = "draft"
   #   category_id = [@category.id]
 
   #   get(search_articles_path(title: query, status:, category_id:), headers:)

@@ -5,9 +5,10 @@ class EuisController < ApplicationController
   skip_before_action :authenticate_user_using_x_auth_token, only: :show
 
   def index
-    @grouped_articles = current_user.articles.includes(:category)
+    @grouped_articles = current_user.articles.published
+      .includes(:category)
       .order("categories.position")
-      .where(status: "Published")
+      # .where(status: "published")
       .select(:id, :title, :slug, :category_id)
       .group_by { |article| article.category.name }.to_a
   end
@@ -15,7 +16,7 @@ class EuisController < ApplicationController
   # def grouped_by_category
   #   @grouped_articles = Article.joins(:category)
   #     .order("categories.position")
-  #     .where(status: "Published")
+  #     .where(status: "published")
   #     .group_by { |article| article.category.name }.to_a
   # end
 
