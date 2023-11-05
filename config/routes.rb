@@ -16,9 +16,7 @@ Rails.application.routes.draw do
       get "search", on: :collection
     end
     resources :redirections, except: %i[show new edit]
-    resource :site_settings, only: %i[show update] do
-      post "authenticate", on: :collection
-    end
+    resource :site_settings, only: %i[show update]
     resource :session, only: :create
     resources :euis, only: %i[index show], param: :slug
   end
