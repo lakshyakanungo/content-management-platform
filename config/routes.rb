@@ -4,15 +4,11 @@ Rails.application.routes.draw do
   draw :sidekiq
   draw :api
 
-  Redirection.all.each do |redirection|
-    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301)
-  end
-
   constraints(lambda { |req| req.format == :json }) do
     resources :articles, except: %i[new edit] do
       collection do
-        delete "destroy_multiple"
-        put "update_multiple"
+        delete "bulk_destroy"
+        put "bulk_update"
         get "search"
       end
     end
@@ -20,9 +16,7 @@ Rails.application.routes.draw do
       get "search", on: :collection
     end
     resources :redirections, except: %i[show new edit]
-    resource :site_settings, only: %i[show update] do
-      post "authenticate", on: :collection
-    end
+    resource :site_settings, only: %i[show update]
     resource :session, only: :create
     resources :euis, only: %i[index show], param: :slug
   end

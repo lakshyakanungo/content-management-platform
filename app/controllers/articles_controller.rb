@@ -2,7 +2,7 @@
 
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
-  before_action :load_multiple_articles, only: %i[destroy_multiple update_multiple]
+  before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
   # TODO: See if index action right for performing this count operation
   def index
@@ -46,12 +46,12 @@ class ArticlesController < ApplicationController
     respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
   end
 
-  def destroy_multiple
+  def bulk_destroy
     @articles.destroy_all
     respond_with_success(t("successfully_deleted", entity: "Articles", count: 2))
   end
 
-  def update_multiple
+  def bulk_update
     @articles.update!(article_params)
     respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
   end

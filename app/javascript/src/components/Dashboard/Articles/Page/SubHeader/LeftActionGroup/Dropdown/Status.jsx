@@ -12,7 +12,7 @@ const Status = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
 
   const handleBulkStatusChange = async status => {
     try {
-      await articlesApi.updateMultiple({
+      await articlesApi.bulkUpdate({
         ids: selectedArticleIds,
         payload: { status },
       });

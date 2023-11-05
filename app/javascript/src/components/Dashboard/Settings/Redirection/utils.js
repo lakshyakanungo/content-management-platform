@@ -1,12 +1,12 @@
-import { getSubdomain } from "tldts";
+import { getDomain } from "tldts";
 import * as yup from "yup";
 
 import { APP_BASE_URL } from "./constants";
 
-const hasSubdomain = str => {
-  const subdomain = getSubdomain(str);
+const hasDomain = str => {
+  const domain = getDomain(str, { validHosts: ["localhost"] });
 
-  return !!subdomain;
+  return !!domain;
 };
 
 const getFromPaths = redirections =>
@@ -37,7 +37,7 @@ const getFromPaths = redirections =>
 // };
 
 export const formatToUrl = url => {
-  if (hasSubdomain(url)) return url;
+  if (hasDomain(url)) return url;
 
   if (url.startsWith("/")) {
     return `${APP_BASE_URL}${url}`;
@@ -86,7 +86,7 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
         "From path url and To path url should be different",
         (_, context) => context.originalValue !== context.parent.fromUrl
       )
-      .transform(formatToUrl)
+      // .transform(formatToUrl)
       .matches(/^(?:(https?:\/\/)?\S+|\/\S+)$/, "To path URL must be valid"),
     // .test(
     //   "is-to-url-causing-cyclic-redirection",

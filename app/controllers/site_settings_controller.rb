@@ -28,12 +28,6 @@ class SiteSettingsController < ApplicationController
     # puts @setting.inspect
   end
 
-  # def authenticate
-  #   authenticated = @setting.authenticate(site_settings_params[:password])
-
-  #   respond_with_error "The password you entered is incorrect." unless authenticated
-  # end
-
   private
 
     def site_settings_params

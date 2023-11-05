@@ -22,13 +22,12 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    if current_user.categories_count == 1
-      new_category = current_user.categories.create!(name: "General")
-      move_articles(new_category.id)
+    category_deletion_service = CategoryDeletionService.new params[:id]
+    if category_deletion_service.process category_params[:move_into_category_id]
+      respond_with_success(t("category.delete.success"))
     else
-      move_articles(category_params[:move_into_category_id])
+      respond_with_error(t("category.delete.error"))
     end
-    @category.destroy!
   end
 
   private
@@ -39,9 +38,5 @@ class CategoriesController < ApplicationController
 
     def load_category!
       @category = current_user.categories.find(params[:id])
-    end
-
-    def move_articles(new_category_id)
-      @category.articles.update!(category_id: new_category_id)
     end
 end
