@@ -4,10 +4,6 @@ Rails.application.routes.draw do
   draw :sidekiq
   draw :api
 
-  Redirection.all.each do |redirection|
-    get "#{redirection.from}", to: redirect("#{redirection.to}", status: 301)
-  end
-
   constraints(lambda { |req| req.format == :json }) do
     resources :articles, except: %i[new edit] do
       collection do
