@@ -38,6 +38,7 @@ gem "bootsnap", ">= 1.9.4", require: false
 # Background jobs
 gem "sidekiq", "<8"
 
+# Add ons
 gem "acts_as_list"
 
 gem "bcrypt", "~> 3.1.13"

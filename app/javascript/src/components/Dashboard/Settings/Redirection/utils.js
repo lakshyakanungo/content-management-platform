@@ -1,10 +1,8 @@
 import { getDomain } from "tldts";
 import * as yup from "yup";
 
-import { APP_BASE_URL } from "./constants";
-
 const hasDomain = str => {
-  const domain = getDomain(str, { validHosts: ["localhost"] });
+  const domain = getDomain(str);
 
   return !!domain;
 };
@@ -12,38 +10,23 @@ const hasDomain = str => {
 const getFromPaths = redirections =>
   redirections.map(redirection => redirection.from);
 
-// const getToPaths = redirections =>
-//   redirections.map(redirection => redirection.to);
+const checkValidToPath = path => {
+  if (path.startsWith("/")) return true;
 
-// const isFromPathPresentInToPathUrls = (value, redirections) => {
-//   const fromPathWithPrefix = formatFromUrl(value);
+  return hasDomain(path);
+};
 
-//   return getToPaths(redirections).includes(fromPathWithPrefix);
-// };
-
-// const isToPathPresentInFromPathUrls = (toPath, redirections) =>
-//   getFromPaths(redirections)
-//     .map(path => `${APP_BASE_URL}${path}`)
-//     .includes(toPath);
-
-// const formatFromUrl = url => {
-//   if (url.startsWith(`${APP_BASE_URL}/`)) {
-//     return url;
-//   } else if (url.startsWith("/")) {
-//     return `${APP_BASE_URL}${url}`;
-//   }
-
-//   return `${APP_BASE_URL}/${url}`;
-// };
-
-export const formatToUrl = url => {
-  if (hasDomain(url)) return url;
-
-  if (url.startsWith("/")) {
-    return `${APP_BASE_URL}${url}`;
+const checkDuplicateValuesInFromPaths = ({
+  value,
+  data,
+  isEdit,
+  redirections,
+}) => {
+  if (isEdit && value === data.from) {
+    return true;
   }
 
-  return `${APP_BASE_URL}/${url}`;
+  return !getFromPaths(redirections).includes(value);
 };
 
 export const buildFormInitialValues = ({ isEdit, data }) => ({
@@ -64,20 +47,10 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
       .test(
         "should-not-have-two-same-from-path-urls",
         "Duplicate value not allowed in From path URL",
-        value => {
-          if (isEdit && value === data.from) {
-            return true;
-          }
-
-          return !getFromPaths(redirections).includes(value);
-        }
+        value =>
+          checkDuplicateValuesInFromPaths({ value, data, isEdit, redirections })
       )
       .matches(/^\/[/.a-zA-Z0-9-]+$/, "From path URL must be valid"),
-    // .test(
-    //   "is-from-url-causing-cyclic-redirection",
-    //   "Cyclic redirections not allowed",
-    //   value => !isFromPathPresentInToPathUrls(value, redirections)
-    // )
     toUrl: yup
       .string()
       .required("Required")
@@ -86,11 +59,7 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
         "From path url and To path url should be different",
         (_, context) => context.originalValue !== context.parent.fromUrl
       )
-      // .transform(formatToUrl)
-      .matches(/^(?:(https?:\/\/)?\S+|\/\S+)$/, "To path URL must be valid"),
-    // .test(
-    //   "is-to-url-causing-cyclic-redirection",
-    //   "Cyclic redirections not allowed",
-    //   value => !isToPathPresentInFromPathUrls(value, redirections)
-    // ),
+      .test("valid-to-path-url", "To path url must be valid", value =>
+        checkValidToPath(value)
+      ),
   });
