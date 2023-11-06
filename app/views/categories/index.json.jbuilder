@@ -8,5 +8,5 @@ json.categories @categories do |category|
     :updated_at,
     :user_id,
     :position
-  json.articles_count category.articles.size
+  json.articles_count category.articles_count
 end
