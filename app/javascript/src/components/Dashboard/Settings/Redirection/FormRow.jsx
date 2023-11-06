@@ -5,11 +5,7 @@ import { Check, Close } from "neetoicons";
 
 import redirectionsApi from "apis/redirections";
 
-import {
-  buildFormInitialValues,
-  buildFormValidationSchema,
-  formatToUrl,
-} from "./utils";
+import { buildFormInitialValues, buildFormValidationSchema } from "./utils";
 
 const FormRow = ({
   isEdit = false,
@@ -19,7 +15,7 @@ const FormRow = ({
   redirections,
 }) => {
   const handleSubmit = async ({ fromUrl, toUrl }) => {
-    const payload = { from: fromUrl, to: formatToUrl(toUrl) };
+    const payload = { from: fromUrl, to: toUrl };
 
     try {
       if (isEdit) {

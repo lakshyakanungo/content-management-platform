@@ -2,6 +2,8 @@
 
 class Redirection < ApplicationRecord
   MAX_LENGTH = 255
+
+  # TODO: Add validation, for from-> starts with "/", for to-> eihter starts with "/" or has subdomain
   # VALID_FROM_PATH_REGEX = /\A\/[a-zA-Z0-9_\-].*\z/i
   # VALID_TO_PATH_REGEX = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?\z/
 
