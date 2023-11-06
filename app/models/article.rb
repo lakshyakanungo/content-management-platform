@@ -3,7 +3,6 @@
 class Article < ApplicationRecord
   scope :by_categories, ->(category_ids) { where(category_id: category_ids) unless category_ids.nil? }
   scope :by_status, ->(status) { where(status:) unless status == "all" }
-  # TODO: Change in frentend and here also if possible
 
   MAX_TITLE_LENGTH = 125
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
@@ -15,7 +14,6 @@ class Article < ApplicationRecord
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: VALID_TITLE_REGEX }
   validates :body, presence: true
   validates :slug, uniqueness: true
-  # TODO: See if to keep this slug not changed fn
   validate :slug_not_changed
 
   before_save :update_last_published_at
@@ -45,7 +43,7 @@ class Article < ApplicationRecord
 
     def slug_not_changed
       if slug_changed? && self.persisted?
-        errors.add(:slug, t("article.slug.immutable"))
+        errors.add(:slug, I18n.t("article.slug.immutable"))
       end
     end
 end
