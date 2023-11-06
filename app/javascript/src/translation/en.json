@@ -136,10 +136,15 @@
         "form": {
           "validations": {
             "required": "Required",
-            "validFromUrl": "From path URL must be valid",
-            "duplicateFromUrl": "Duplicate value not allowed in From path URL",
-            "cyclicRedirection": "Cyclic redirections not allowed",
-            "validToUrl": "To path URL must be valid"
+            "from": {
+              "valid": "From path URL must be valid",
+              "duplicate": "Duplicate value not allowed in From path URL",
+              "start": "From path url must start with /"
+            },
+            "to": {
+              "valid": "To path url must be valid",
+              "different": "From path url and To path url should be different"
+            }
           }
         },
         "newButtonLabel": "Add new redirection",
