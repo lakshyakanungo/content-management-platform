@@ -4,51 +4,70 @@ require "test_helper"
 
 class RedirectionTest < ActiveSupport::TestCase
   def setup
-    @redirection = create(:redirection)
+    @redirection = Redirection.new(from: "/1", to: "/2")
   end
 
-  def test_values_of_created_at_and_updated_at
-    redirection = Redirection.new(from: "/abc", to: @redirection.to)
-    assert_nil redirection.created_at
-    assert_nil redirection.updated_at
-
-    redirection.save!
-    assert_not_nil redirection.created_at
-    assert_equal redirection.updated_at, redirection.created_at
-
-    redirection.update!(from: "/another_test_path")
-    assert_not_equal redirection.updated_at, redirection.created_at
+  def test_redirection_should_not_be_valid_and_saved_without_from_path
+    @redirection.from = ""
+    assert_not @redirection.valid?
+    assert_includes @redirection.errors.full_messages, "From can't be blank"
   end
 
-  # def test_validation_should_reject_invalid_from_path_urls
-  #   invalid_from_paths = %w[a /- /*d /? /a?b=]
-  #   invalid_from_paths.each do |path|
-  #     @redirection.from = path
-  #     assert @redirection.invalid?
-  #   end
-  # end
-
-  def test_validation_should_accept_valid_from_path_urls
-    valid_from_paths = %w[/a /abc /ab/c/d/e ]
-    valid_from_paths.each do |path|
-      @redirection.from = path
-      assert @redirection.valid?
-    end
+  def test_redirection_should_not_be_valid_and_saved_without_to_path
+    @redirection.to = ""
+    assert_not @redirection.valid?
+    assert_includes @redirection.errors.full_messages, "To can't be blank"
   end
 
-  def test_validation_should_reject_invalid_to_path_urls
-    invalid_to_paths = %w[/a http//ab https:// https://google. https://google.co. https://g-$a]
-    invalid_to_paths.each do |path|
-      @redirection.to = path
-      assert @redirection.invalid?
-    end
+  def test_redirection_should_not_be_saved_if_from_path_not_unique
+    @redirection.save!
+
+    test_redirection = Redirection.new(from: "/1", to: "/test")
+    assert_not test_redirection.valid?
+
+    assert_includes test_redirection.errors.full_messages, "From has already been taken"
+  end
+
+  def test_redirection_should_not_be_saved_for_same_from_and_to_path
+    test_redirection = Redirection.new(from: "/test", to: "/test")
+    assert_not test_redirection.valid?
+
+    assert_includes test_redirection.errors.full_messages, t("redirection.error.paths_equal")
+  end
+
+  def test_should_not_allow_cyclic_redirection
+    test_redirection1 = Redirection.create!(from: "/1", to: "/2")
+    test_redirection2 = Redirection.create!(from: "/2", to: "/3")
+    test_cyclic_redirection = Redirection.new(from: "/3", to: "/1")
+
+    assert_not test_cyclic_redirection.valid?
+
+    assert_includes test_cyclic_redirection.errors.full_messages, t("redirection.error.cyclic")
+  end
+
+  def test_should_reject_invalid_from_path_urls
+    invalid_from_paths = %w[abc a/bc. /* //]
+    invalid_from_paths.each do |from_path|
+        @redirection.to = from_path
+        assert_not @redirection.valid?
+      end
   end
 
   def test_validation_should_accept_valid_to_path_urls
-    valid_to_paths = %w[https://google.com https://google.co.in https://google.co.in/ab/c https://www.google.com]
-    valid_to_paths.each do |path|
-      @redirection.to = path
+    valid_to_paths = %w[/ /2 /abc www.google.com www.google.co.in abc.com https://abc.com/ https://abc.com/questions/regex-check-if-given-string-is-relative-url]
+
+    valid_to_paths.each do |to_path|
+      @redirection.to = to_path
       assert @redirection.valid?
+    end
+  end
+
+  def test_should_reject_invalid_to_path_urls
+    invalid_to_paths = %w[abc abc. https://abc. https://.s abc.c ]
+
+    invalid_to_paths.each do |to_path|
+      @redirection.to = to_path
+      assert_not @redirection.valid?
     end
   end
 end

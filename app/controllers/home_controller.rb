@@ -7,24 +7,26 @@ class HomeController < ApplicationController
     render
   end
 
-  def check_if_redirection_url
-    redirection = Redirection.find_by(from: request.path)
-    if redirection
-      url = add_scheme_to_url_if_needed redirection.to
-      # puts url, "REDIRECTING HERE"
-      redirect_to url, allow_other_host: true, status: 301
+  private
+
+    def check_if_redirection_url
+      redirection = Redirection.find_by(from: request.path)
+      if redirection
+        url = add_scheme_to_url_if_needed redirection.to
+        # puts url, "REDIRECTING HERE"
+        redirect_to url, allow_other_host: true, status: 301
+      end
     end
-  end
 
-  def add_scheme_to_url_if_needed(url)
-    return url if url.starts_with?("/")
+    def add_scheme_to_url_if_needed(url)
+      return url if url.starts_with?("/")
 
-    uri = URI.parse(url)
+      uri = URI.parse(url)
 
-    if !uri.scheme.present?
-      URI.join("https:/", url).to_s
-    else
-      url
+      if !uri.scheme.present?
+        URI.join("https:/", url).to_s
+      else
+        url
+      end
     end
-  end
 end

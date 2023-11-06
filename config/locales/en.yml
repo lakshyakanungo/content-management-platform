@@ -20,3 +20,9 @@ en:
     delete:
       error: "Can't delete General category!"
       success: "Deleted category successfully."
+  redirection:
+    error:
+      from: "Invalid from path"
+      to: "To path is not valid"
+      cyclic: "Cyclic redirections not allowed"
+      paths_equal: "To and From paths cannot be equal"

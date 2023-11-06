@@ -1,19 +1,21 @@
-import { getDomain } from "tldts";
+import { t } from "i18next";
 import * as yup from "yup";
 
-const hasDomain = str => {
-  const domain = getDomain(str);
-
-  return !!domain;
-};
+import {
+  VALID_FROM_PATH_REGEX,
+  VALID_TO_FULL_URL_REGEX,
+  VALID_TO_PATH_URL_REGEX,
+} from "./constants";
 
 const getFromPaths = redirections =>
   redirections.map(redirection => redirection.from);
 
 const checkValidToPath = path => {
-  if (path.startsWith("/")) return true;
+  if (!path) return true;
 
-  return hasDomain(path);
+  if (path.startsWith("/")) return VALID_TO_PATH_URL_REGEX.test(path);
+
+  return VALID_TO_FULL_URL_REGEX.test(path);
 };
 
 const checkDuplicateValuesInFromPaths = ({
@@ -38,28 +40,33 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
   yup.object().shape({
     fromUrl: yup
       .string()
-      .required("Required")
+      .required(t("dashboard.settings.redirections.form.validations.required"))
       .test(
         "should-start-with-forward-slash",
-        "From path url must start with /",
-        value => value.startsWith("/")
+        t("dashboard.settings.redirections.form.validations.from.start"),
+        value => value && value.startsWith("/")
       )
       .test(
         "should-not-have-two-same-from-path-urls",
-        "Duplicate value not allowed in From path URL",
+        t("dashboard.settings.redirections.form.validations.from.duplicate"),
         value =>
           checkDuplicateValuesInFromPaths({ value, data, isEdit, redirections })
       )
-      .matches(/^\/[/.a-zA-Z0-9-]+$/, "From path URL must be valid"),
+      .matches(
+        VALID_FROM_PATH_REGEX,
+        t("dashboard.settings.redirections.form.validations.from.valid")
+      ),
     toUrl: yup
       .string()
-      .required("Required")
+      .required(t("dashboard.settings.redirections.form.validations.required"))
       .test(
         "to-path-url-and-from-path-url-should-be-different",
-        "From path url and To path url should be different",
+        t("dashboard.settings.redirections.form.validations.to.different"),
         (_, context) => context.originalValue !== context.parent.fromUrl
       )
-      .test("valid-to-path-url", "To path url must be valid", value =>
-        checkValidToPath(value)
+      .test(
+        "valid-to-path-url",
+        t("dashboard.settings.redirections.form.validations.to.valid"),
+        value => checkValidToPath(value)
       ),
   });
