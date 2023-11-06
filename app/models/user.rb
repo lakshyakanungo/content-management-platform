@@ -7,7 +7,6 @@ class User < ApplicationRecord
 
   has_many :articles
   has_many :categories
-  has_many :redirections
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }
   validates :email, presence: true,
