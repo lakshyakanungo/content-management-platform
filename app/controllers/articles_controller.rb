@@ -10,10 +10,6 @@ class ArticlesController < ApplicationController
     @published_articles_count = current_user.articles.published.count
   end
 
-  def show
-    @show_article = current_user.articles.find(params[:slug])
-  end
-
   def search
     query = params[:title].downcase
     category_ids = params[:category_id]
