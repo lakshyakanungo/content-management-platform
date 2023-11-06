@@ -4,12 +4,11 @@ require "test_helper"
 
 class RedirectionTest < ActiveSupport::TestCase
   def setup
-    @user = create(:user)
     @redirection = create(:redirection)
   end
 
   def test_values_of_created_at_and_updated_at
-    redirection = Redirection.new(user_id: @user.id, from: "/abc", to: @redirection.to)
+    redirection = Redirection.new(from: "/abc", to: @redirection.to)
     assert_nil redirection.created_at
     assert_nil redirection.updated_at
 

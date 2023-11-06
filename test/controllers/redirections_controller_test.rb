@@ -4,7 +4,6 @@ require "test_helper"
 
 class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
     @redirection = create(:redirection)
   end
 
