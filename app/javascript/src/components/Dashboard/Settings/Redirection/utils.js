@@ -1,10 +1,10 @@
-import { getSubdomain } from "tldts";
+import { getDomain } from "tldts";
 import * as yup from "yup";
 
-const hasSubdomain = str => {
-  const subdomain = getSubdomain(str);
+const hasDomain = str => {
+  const domain = getDomain(str);
 
-  return !!subdomain;
+  return !!domain;
 };
 
 const getFromPaths = redirections =>
@@ -13,7 +13,7 @@ const getFromPaths = redirections =>
 const checkValidToPath = path => {
   if (path.startsWith("/")) return true;
 
-  return hasSubdomain(path);
+  return hasDomain(path);
 };
 
 const checkDuplicateValuesInFromPaths = ({

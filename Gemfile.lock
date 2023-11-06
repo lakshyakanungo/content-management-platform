@@ -181,7 +181,6 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
-    public_suffix (5.0.3)
     puma (6.3.1)
       nio4r (~> 2.0)
     racc (1.7.1)
@@ -311,7 +310,6 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
-  addressable
   autoprefixer-rails
   bcrypt (~> 3.1.13)
   bootsnap (>= 1.9.4)
