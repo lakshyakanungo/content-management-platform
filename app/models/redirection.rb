@@ -2,8 +2,8 @@
 
 class Redirection < ApplicationRecord
   MAX_LENGTH = 255
-  VALID_FROM_PATH_URL_REGEX = /\A\/[a-zA-Z0-9\-\.]+\z/i
-  VALID_TO_PATH_URL_REGEX = /\A\/[a-zA-Z0-9\-\.]*\z/i
+  VALID_FROM_PATH_URL_REGEX = /\A\/[a-zA-Z0-9\-\.\/]+\z/i
+  VALID_TO_PATH_URL_REGEX = /\A\/[a-zA-Z0-9\-\.\/]*\z/i
   VALID_TO_FULL_URL_REGEX = /\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?\Z/i
 
   validates :from, presence: true, length: { maximum: MAX_LENGTH }, format: { with: VALID_FROM_PATH_URL_REGEX },
