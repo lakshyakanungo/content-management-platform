@@ -34,7 +34,6 @@ const EUI = () => {
     }
   };
 
-  // TODO: Check/see if setting auth headers is needed here. Try to understand its working.
   useEffect(() => {
     setAuthHeaders(setLoading);
     fetchSiteSettings();
@@ -51,11 +50,6 @@ const EUI = () => {
       <div className="w-full text-center font-bold p-4 text-base border neeto-ui-border-gray-100 neeto-ui-text-gray-800">
         {siteName}
       </div>
-      {/* {isPasswordProtected && !isAuthenticated ? (
-        <Login setIsAuthenticated={setIsAuthenticated} siteName={siteName} />
-      ) : (
-        <Home />
-      )} */}
       <Switch>
         <PrivateRoute
           component={Home}
