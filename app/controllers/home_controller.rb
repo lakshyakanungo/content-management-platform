@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  before_action :check_if_redirection_url
+  before_action :check_and_handle_redirection
 
   def index
     render
@@ -9,11 +9,10 @@ class HomeController < ApplicationController
 
   private
 
-    def check_if_redirection_url
+    def check_and_handle_redirection
       redirection = Redirection.find_by(from: request.path)
       if redirection
         url = add_scheme_to_url_if_needed redirection.to
-        # puts url, "REDIRECTING HERE"
         redirect_to url, allow_other_host: true, status: 301
       end
     end

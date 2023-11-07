@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 import euiApi from "apis/eui";
 
-const ShowArticle = () => {
+const ShowArticle = ({ setSelectedArticleId }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
 
@@ -18,6 +18,7 @@ const ShowArticle = () => {
         data: { article },
       } = await euiApi.show(slug);
       setArticle(article);
+      setSelectedArticleId(article.id);
     } catch (error) {
       logger.log(error);
     } finally {

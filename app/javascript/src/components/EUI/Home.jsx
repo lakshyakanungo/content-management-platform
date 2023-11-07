@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 
 import { Accordion, Spinner } from "neetoui";
 import { useHistory, Route } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 
 import euiApi from "apis/eui";
 
 import ShowArticle from "./ShowArticle";
-import { buildListItemClassName } from "./utils";
+import { buildListItemClassName, getFirstArticle } from "./utils";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [articlesByCategory, setArticlesByCategory] = useState([]);
-  const [selectedArticle, setSelectedArticle] = useState("");
+  const [selectedArticleId, setSelectedArticleId] = useState("");
 
   const history = useHistory();
+  const match = useRouteMatch("/eui/:slug");
 
   const fetchArticlesByCategory = async () => {
     try {
@@ -28,9 +30,15 @@ const Home = () => {
     }
   };
 
-  const handleClick = article => {
-    setSelectedArticle(article);
-    history.push(`/eui/${article.slug}`);
+  const routeToArticle = () => {
+    const slug = match?.params?.slug;
+
+    if (slug) {
+      history.push(`/eui/${slug}`);
+    } else {
+      const firstArticle = getFirstArticle(articlesByCategory);
+      history.push(`/eui/${firstArticle.slug}`);
+    }
   };
 
   useEffect(() => {
@@ -38,10 +46,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (articlesByCategory.length !== 0) {
-      setSelectedArticle(articlesByCategory[0][1][0]);
-      history.replace(`/eui/${articlesByCategory[0][1][0].slug}`);
-    }
+    if (articlesByCategory.length !== 0) routeToArticle();
   }, [articlesByCategory]);
 
   if (loading) {
@@ -68,9 +73,9 @@ const Home = () => {
                     key={article.id}
                     className={buildListItemClassName({
                       article,
-                      selectedArticle,
+                      selectedArticleId,
                     })}
-                    onClick={() => handleClick(article)}
+                    onClick={() => history.push(`/eui/${article.slug}`)}
                   >
                     {article.title}
                   </li>
@@ -80,7 +85,13 @@ const Home = () => {
           ))}
         </Accordion>
       </div>
-      <Route exact component={ShowArticle} path="/eui/:slug" />
+      <Route
+        exact
+        path="/eui/:slug"
+        render={() => (
+          <ShowArticle setSelectedArticleId={setSelectedArticleId} />
+        )}
+      />
     </div>
   );
 };
