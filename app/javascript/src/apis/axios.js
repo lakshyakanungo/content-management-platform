@@ -39,13 +39,8 @@ const handleSuccessResponse = response => {
   return keysToCamelCase(response);
 };
 
-// TODO: Refactor this handleError fn
-const handleErrorResponse = (
-  error
-  // , authDispatch
-) => {
+const handleErrorResponse = error => {
   if (error.response?.status === 403) {
-    // authDispatch({ type: "LOGOUT" });
     Toastr.error(error.response?.data?.error);
     setToLocalStorage("authToken", null);
     setTimeout(() => (window.location.href = "/eui"), 2000);

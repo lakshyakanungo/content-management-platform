@@ -36,7 +36,6 @@ const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
         position="top"
       >
         <div className="col-span-5 mr-4">
-          {/* <span className="neeto-ui-text-gray-500">{APP_BASE_URL}</span> */}
           {truncate(redirection.from, FROM_PATH_TRUNCATE_LENGTH)}
         </div>
       </Tooltip>

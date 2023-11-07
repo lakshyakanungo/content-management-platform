@@ -3,7 +3,6 @@ import React from "react";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-// import siteSettingsApi from "apis/siteSettings";
 import authApi from "apis/auth";
 import { setToLocalStorage } from "utils/storage";
 
@@ -39,12 +38,11 @@ const Login = ({ siteName }) => {
             onSubmit: handleSubmit,
           }}
         >
-          {/* TODO: Add translations here */}
           <Input
             className="my-4"
-            label="Password"
+            label={t("eui.login.input.label")}
             name="password"
-            placeholder="Enter password here"
+            placeholder={t("eui.login.input.placeholder")}
             type="password"
             labelProps={{
               className:
@@ -54,7 +52,7 @@ const Login = ({ siteName }) => {
           <Button
             fullWidth
             className="mt-2 p-3 text-center"
-            label="Continue"
+            label={t("eui.login.button.label")}
             type="submit"
           />
         </Form>

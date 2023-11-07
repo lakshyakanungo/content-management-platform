@@ -40,7 +40,6 @@ const Articles = () => {
           counts: { all, draft, published },
         },
       } = await articlesApi.fetch();
-      // console.log(all, draft, published);
       setArticleCounts({ all, draft, published });
     } catch (error) {
       logger.log(error);
