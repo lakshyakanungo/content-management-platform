@@ -8,24 +8,15 @@ class SiteSettingsController < ApplicationController
   end
 
   def update
-    # puts "SETTING BEFORE : "
-    # puts @setting.inspect
-
     if site_settings_params[:is_password_protected] == false
-      @setting.update!(password_digest: nil)
+      site_settings_params.merge!(password_digest: nil)
     end
-    # if site_settings_params[:is_password_protected] == true || site_settings_params.has_key?(:password)
-    #   @setting.regenerate_authentication_token
-    # end
+
     @setting.update!(site_settings_params)
 
-    # regenerate only after valid password updation
     if site_settings_params.has_key?(:password)
       @setting.regenerate_authentication_token
     end
-
-    # puts "SETTING AFTER : "
-    # puts @setting.inspect
   end
 
   private

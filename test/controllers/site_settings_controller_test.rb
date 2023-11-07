@@ -4,10 +4,10 @@ require "test_helper"
 
 class SiteSettingsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site_setting = create(:site_setting)
+    @site_setting = SiteSetting.create!(title: "Test title", is_password_protected: true, password: "abcdefg1")
   end
 
-  def test_should_respond_with_site_seeting
+  def test_should_respond_with_site_setting
     get(site_settings_path, headers:)
     assert_response :success
 
@@ -24,17 +24,23 @@ class SiteSettingsControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_update_site_setting
     new_title = "Test title updated"
-    site_settings_params = { site_settings: { title: new_title, is_password_protected: true, password: "welcome1" } }
+    site_settings_params = { site_settings: { title: new_title, is_password_protected: true } }
 
     put(site_settings_path, params: site_settings_params, headers:)
     assert_response :success
     @site_setting.reload
-    assert_equal new_title, @site_setting.title
+    assert_equal @site_setting.title, new_title
     assert_equal true, @site_setting.is_password_protected
   end
 
-  # def test_should_not_authenticate_invalid_password
-  #   get(authenticate_site_settings_path(password: "test"), headers:)
-  #   assert_response :error
-  # end
+  def test_should_regenerate_authentication_token_after_successfull_password_update
+    current_authentication_tokn = @site_setting.authentication_token
+    site_settings_params = { site_settings: { title: "New", password: "welcome1" } }
+
+    put(site_settings_path, params: site_settings_params, headers:)
+    assert_response :success
+
+    @site_setting.reload
+    assert_not_equal @site_setting.authentication_token, current_authentication_tokn
+  end
 end
