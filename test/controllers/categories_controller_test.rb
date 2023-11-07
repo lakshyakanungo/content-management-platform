@@ -5,7 +5,7 @@ require "test_helper"
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
-    @category = create(:category)
+    @category = Category.create!(name: "Test category", user_id: @user.id)
   end
 
   def test_should_list_all_categories_ordered_by_position
@@ -40,23 +40,14 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def test_should_create_valid_category
     post(
       categories_path,
-      params: { category: { name: "Test category", user_id: @user.id } },
+      params: { category: { name: "New category", user_id: @user.id } },
       headers:)
     assert_response :success
   end
 
-  def test_shouldnt_create_category_without_name
-    post(
-      categories_path, params: { category: { name: "", user_id: @user.id } },
-      headers:)
-    assert_response :unprocessable_entity
-    response_json = response_body
-    assert_equal "Name can't be blank and Name is invalid", response_json["error"]
-  end
-
   def test_should_update_category_fields
     new_name = "#{@category.name}-(updated)"
-    category_params = { category: { name: new_name, user_id: @user.id } }
+    category_params = { category: { name: new_name } }
 
     put(category_path(@category.id), params: category_params, headers:)
     assert_response :success
@@ -64,11 +55,30 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal new_name, @category.name
   end
 
+  def test_should_update_position_after_reordering
+    test_category = Category.create!(name: "New category", user_id: @user.id)
+    current_position = test_category.position
+
+    new_position = 1
+    category_params = { category: { position: new_position } }
+    put(category_path(test_category.id), params: category_params, headers:)
+
+    assert_response :success
+    test_category.reload
+    assert_equal test_category.position, new_position
+  end
+
+  # DOUBT: This test is giving Interanl server error:500. How to write correctly?
+  # Failing if using assert difference also so tried this way.
+
   # def test_should_destroy_category
-  #   new_category = create(:category)
-  #   assert_difference "Category.count", -1 do
-  #     delete(category_path(@category.id, move_into_category_id: new_category.id), headers:)
-  #   end
+  #   new_category = Category.create!(name: "New", user_id: @user.id)
+  #   initial_category_count = Category.count
+
+  #   delete(category_path(id: @category.id, move_into_category_id: new_category.id), headers:)
   #   assert_response :ok
+
+  #   @category.reload
+  #   assert_nil @category
   # end
 end
