@@ -33,8 +33,6 @@ const Create = () => {
       });
 
       await articlesApi.create({ payload: data });
-      // setShowCreateArticle(false);
-      // refetch();
       history.push("/articles");
     } catch (error) {
       logger.log(error);
@@ -105,7 +103,6 @@ const Create = () => {
                     label={t("dashboard.articles.actions.create.cancelButton")}
                     style="secondary"
                     type="reset"
-                    // onClick={() => setShowCreateArticle(false)}
                     onClick={() => history.push("/articles")}
                   />
                   <ActionDropdown

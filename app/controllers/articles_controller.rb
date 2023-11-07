@@ -4,7 +4,6 @@ class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
-  # TODO: See if index action right for performing this count operation
   def index
     @draft_articles_count = current_user.articles.draft.count
     @published_articles_count = current_user.articles.published.count
