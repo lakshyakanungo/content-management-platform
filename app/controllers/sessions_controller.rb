@@ -11,7 +11,6 @@ class SessionsController < ApplicationController
 
   private
 
-    # TODO: See if name showed be :session or login / authentication
     def session_params
       params.require(:session).permit(:password)
     end
