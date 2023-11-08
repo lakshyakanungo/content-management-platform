@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { Spinner } from "@bigbinary/neetoui";
-import { Form, Select as FormikSelect, Button } from "neetoui/formik";
+import { Spinner, Typography, Button } from "@bigbinary/neetoui";
+import {
+  Form,
+  Select as FormikSelect,
+  Button as FormikButton,
+} from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
@@ -13,12 +17,14 @@ import ActionDropdown from "./ActionDropdown";
 import { EDITOR_VALIDATION_SCHEMA } from "./constants";
 import Editor from "./Editor";
 import { buildSelectClassName, parseData } from "./utils";
+import VersionHistory from "./VersionHistory";
 
 const Edit = () => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
   const [categories, setCategories] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const history = useHistory();
   const { id } = useParams();
@@ -115,8 +121,23 @@ const Edit = () => {
                     )}
                   />
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-center">
+                  <Typography
+                    className="neeto-ui-text-primary-500"
+                    style="h5"
+                    textTransform="capitalize"
+                  >
+                    {article.status}
+                  </Typography>
                   <Button
+                    label="View version history"
+                    style="text"
+                    type="button"
+                    onClick={() => setShowVersionHistory(true)}
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <FormikButton
                     disabled={false}
                     label={t("dashboard.articles.actions.edit.cancelButton")}
                     style="secondary"
@@ -135,6 +156,10 @@ const Edit = () => {
           </>
         )}
       </Form>
+      <VersionHistory
+        setShowVersionHistory={setShowVersionHistory}
+        showVersionHistory={showVersionHistory}
+      />
     </div>
   );
 };
