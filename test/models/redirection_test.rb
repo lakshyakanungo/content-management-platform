@@ -45,8 +45,16 @@ class RedirectionTest < ActiveSupport::TestCase
     assert_includes test_cyclic_redirection.errors.full_messages, t("redirection.error.cyclic")
   end
 
+  def test_should_accept_valid_from_path_urls
+    valid_from_paths = %w[/abc /abc/d /a/b/c /abc-test/d /abc/this-is-test-path]
+    valid_from_paths.each do |from_path|
+      @redirection.from = from_path
+      assert @redirection.valid?
+    end
+  end
+
   def test_should_reject_invalid_from_path_urls
-    invalid_from_paths = %w[abc a/bc. /* //]
+    invalid_from_paths = %w[abc a/bc. /* ]
     invalid_from_paths.each do |from_path|
         @redirection.to = from_path
         assert_not @redirection.valid?
