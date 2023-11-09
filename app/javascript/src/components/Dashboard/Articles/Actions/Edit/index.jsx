@@ -161,9 +161,9 @@ const Edit = () => {
         )}
       </Form>
       <VersionHistory
+        article={article}
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}
-        versions={article.versions}
       />
     </div>
   );

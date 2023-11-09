@@ -7,7 +7,7 @@ import Details from "./Details";
 import { formatDate } from "../../../Page/Table/utils";
 
 const VersionHistory = ({
-  versions,
+  article,
   showVersionHistory,
   setShowVersionHistory,
 }) => {
@@ -33,11 +33,11 @@ const VersionHistory = ({
             Version History
           </Typography>
           <Typography className="neeto-ui-text-gray-600">
-            Version history of article in Scribble.
+            Version history of <b>{article.title}</b> in Scribble.
           </Typography>
         </Header>
         <Body>
-          {versions.map(version => (
+          {article.versions.map(version => (
             <div
               className="flex flex-row gap-3 items-center py-1"
               key={version.id}
@@ -66,6 +66,7 @@ const VersionHistory = ({
         </Body>
       </Pane>
       <Details
+        categoryName={article.categoryName}
         details={details}
         setShowDetails={setShowDetails}
         showDetails={showDetails}
