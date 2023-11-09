@@ -13,11 +13,12 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import ActionDropdown from "./ActionDropdown";
-import { EDITOR_VALIDATION_SCHEMA } from "./constants";
-import Editor from "./Editor";
-import { buildSelectClassName, parseData } from "./utils";
 import VersionHistory from "./VersionHistory";
+
+import ActionDropdown from "../ActionDropdown";
+import { EDITOR_VALIDATION_SCHEMA } from "../constants";
+import Editor from "../Editor";
+import { buildSelectClassName, parseData } from "../utils";
 
 const Edit = () => {
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,7 @@ const Edit = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   // const [versions, setvVersions] = useState([]);
+  // console.log(article, "Article data");
 
   const history = useHistory();
   const { id } = useParams();
