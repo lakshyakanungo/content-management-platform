@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Pane, Typography } from "@bigbinary/neetoui";
 
-const VersionHistory = ({ showVersionHistory, setShowVersionHistory }) => {
+import { formatDate } from "../../Page/Table/utils";
+
+const VersionHistory = ({
+  versions,
+  showVersionHistory,
+  setShowVersionHistory,
+}) => {
   const { Header, Body } = Pane;
-  const [versions, setVersions] = useState([]);
-  setVersions;
+  // const [versions, setVersions] = useState([]);
+  // setVersions;
 
   return (
     <Pane
@@ -22,9 +28,20 @@ const VersionHistory = ({ showVersionHistory, setShowVersionHistory }) => {
       </Header>
       <Body>
         {versions.map(version => (
-          <div className="flex flex-row" key={version.id}>
-            <span>Date</span>
-            <span>Article status action</span>
+          <div className="flex flex-row gap-3" key={version.id}>
+            {version.object && (
+              <>
+                <span>{formatDate(version.object.updatedAt)}</span>
+                <span>
+                  {version.object.status === "draft"
+                    ? "Article Drafted"
+                    : "Article Published"}
+                </span>
+              </>
+            )}
+            {/* <span>Article status action</span> */}
+            {/* {console.log("details, ", version.object)} */}
+            {/* {console.log(version.object)} */}
           </div>
         ))}
       </Body>

@@ -43,6 +43,8 @@ gem "acts_as_list"
 
 gem "bcrypt", "~> 3.1.13"
 
+gem "paper_trail"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"
