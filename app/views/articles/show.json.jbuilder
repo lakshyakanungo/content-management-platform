@@ -9,4 +9,8 @@ json.article do
     :last_published_at,
     :status,
     :title
+  json.versions @article.versions do |version|
+    json.id version.id
+    json.object version.object
+  end
 end
