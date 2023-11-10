@@ -43,7 +43,7 @@ const handleErrorResponse = error => {
   if (error.response?.status === 403) {
     Toastr.error(error.response?.data?.error);
     setToLocalStorage("authToken", null);
-    setTimeout(() => (window.location.href = "/eui"), 2000);
+    setTimeout(() => (window.location.href = "/eui/login"), 2000);
   } else {
     Toastr.error(error.response?.data?.error || error.message);
   }

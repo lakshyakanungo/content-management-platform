@@ -24,40 +24,45 @@ const Login = ({ siteName }) => {
   };
 
   return (
-    <div className="flex-grow flex justify-center mt-52">
-      <div className="mb-4">
-        <div className="neeto-ui-text-2xl neeto-ui-text-gray-800 neeto-ui-font-medium">
-          {t("eui.login.header", { name: siteName })}
-        </div>
-        <div className="neeto-ui-text-base neeto-ui-text-gray-600 neeto-ui-font-light">
-          {t("eui.login.subheader", { name: siteName })}
-        </div>
-        <Form
-          formikProps={{
-            initialValues: LOGIN_FORM_INITIAL_VALUE,
-            onSubmit: handleSubmit,
-          }}
-        >
-          <Input
-            className="my-4"
-            label={t("eui.login.input.label")}
-            name="password"
-            placeholder={t("eui.login.input.placeholder")}
-            type="password"
-            labelProps={{
-              className:
-                "neeto-ui-text-sm neeto-ui-text-gray-700 neeto-ui-font-light",
-            }}
-          />
-          <Button
-            fullWidth
-            className="mt-2 p-3 text-center"
-            label={t("eui.login.button.label")}
-            type="submit"
-          />
-        </Form>
+    <>
+      <div className="w-full text-center font-bold p-4 text-base border neeto-ui-border-gray-100 neeto-ui-text-gray-800">
+        {siteName}
       </div>
-    </div>
+      <div className="flex-grow flex justify-center mt-52">
+        <div className="mb-4">
+          <div className="neeto-ui-text-2xl neeto-ui-text-gray-800 neeto-ui-font-medium">
+            {t("eui.login.header", { name: siteName })}
+          </div>
+          <div className="neeto-ui-text-base neeto-ui-text-gray-600 neeto-ui-font-light">
+            {t("eui.login.subheader", { name: siteName })}
+          </div>
+          <Form
+            formikProps={{
+              initialValues: LOGIN_FORM_INITIAL_VALUE,
+              onSubmit: handleSubmit,
+            }}
+          >
+            <Input
+              className="my-4"
+              label={t("eui.login.input.label")}
+              name="password"
+              placeholder={t("eui.login.input.placeholder")}
+              type="password"
+              labelProps={{
+                className:
+                  "neeto-ui-text-sm neeto-ui-text-gray-700 neeto-ui-font-light",
+              }}
+            />
+            <Button
+              fullWidth
+              className="mt-2 p-3 text-center"
+              label={t("eui.login.button.label")}
+              type="submit"
+            />
+          </Form>
+        </div>
+      </div>
+    </>
   );
 };
 

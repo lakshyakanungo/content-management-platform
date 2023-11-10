@@ -12,7 +12,8 @@ module Authenticable
     def authenticate_using_x_auth_token
       auth_token = request.headers["X-Auth-Token"].presence
 
-      is_valid_token = ActiveSupport::SecurityUtils.secure_compare(
+      # TODO: See how its implemented in LRRB and rectify if possible
+      is_valid_token = auth_token && ActiveSupport::SecurityUtils.secure_compare(
         SiteSetting.first&.authentication_token,
         auth_token)
 
