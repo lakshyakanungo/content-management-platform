@@ -5,7 +5,14 @@ import { Button, Modal } from "@bigbinary/neetoui";
 
 import articlesApi from "apis/articles";
 
-const Details = ({ details, showDetails, setShowDetails, categoryName }) => {
+const Details = ({
+  details,
+  showDetails,
+  setShowDetails,
+  categoryName,
+  setShowVersionHistory,
+  refetch,
+}) => {
   // console.log(details, "details");
   const { Header, Body, Footer } = Modal;
 
@@ -14,7 +21,9 @@ const Details = ({ details, showDetails, setShowDetails, categoryName }) => {
   const restoreVersion = async () => {
     try {
       await articlesApi.restore({ id: article.id, versionId: details.id });
+      refetch();
       setShowDetails(false);
+      setShowVersionHistory(false);
     } catch (error) {
       logger.log(error);
     }

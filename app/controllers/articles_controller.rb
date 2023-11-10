@@ -4,6 +4,10 @@ class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy restore_version]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
+  # def info_for_paper_trail
+  #   { restored: params[:action] == "restore_version" ? true : false }
+  # end
+
   def index
     @draft_articles_count = current_user.articles.draft.count
     @published_articles_count = current_user.articles.published.count
@@ -37,9 +41,12 @@ class ArticlesController < ApplicationController
   end
 
   def restore_version
+    puts request.inspect, "restore request"
     version = @article.versions.find(article_params[:version_id])
     @article = version.reify
-    @article.save
+    @article.status = "draft"
+    @article.paper_trail_event = "restore"
+    @article.save!
     respond_with_success("Article version restored")
   end
 

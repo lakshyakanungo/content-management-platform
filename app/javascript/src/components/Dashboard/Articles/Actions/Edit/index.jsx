@@ -162,6 +162,7 @@ const Edit = () => {
       </Form>
       <VersionHistory
         article={article}
+        refetch={fetchArticleAndCategories}
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}
       />

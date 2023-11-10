@@ -10,13 +10,14 @@ const VersionHistory = ({
   article,
   showVersionHistory,
   setShowVersionHistory,
+  refetch,
 }) => {
   const { Header, Body } = Pane;
   const [showDetails, setShowDetails] = useState(false);
   const [details, setDetails] = useState({});
   // const [versions, setVersions] = useState([]);
-  // setVersions;
-  // console.log(article, "artilce");
+  // // setVersions;
+  // console.log(article, "article");
   // console.log(article.versions, "versions");
 
   const handleClick = version => {
@@ -51,7 +52,9 @@ const VersionHistory = ({
                     className="neeto-ui-text-primary-600"
                     style="text"
                     label={
-                      version.object.status === "draft"
+                      version.event === "restore"
+                        ? "Article Restored"
+                        : version.object.status === "draft"
                         ? "Article Drafted"
                         : "Article Published"
                     }
@@ -70,7 +73,9 @@ const VersionHistory = ({
       <Details
         categoryName={article.categoryName}
         details={details}
+        refetch={refetch}
         setShowDetails={setShowDetails}
+        setShowVersionHistory={setShowVersionHistory}
         showDetails={showDetails}
       />
     </>
