@@ -32,6 +32,13 @@ module.exports = {
         },
       },
     },
+    maxHeight: {
+      0: "0%",
+      "3/4": "75%",
+      112: "28rem",
+      128: "32rem",
+      full: "100%",
+    },
   },
   variants: {
     borderWidth: ["last"],

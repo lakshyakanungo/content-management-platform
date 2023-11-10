@@ -22,6 +22,13 @@ const update = ({ id, payload }) => {
   });
 };
 
+const restore = ({ id, versionId }) => {
+  axios.put(`/articles/restore_version/`, {
+    id,
+    article: { version_id: versionId },
+  });
+};
+
 const show = id => axios.get(`/articles/${id}`);
 
 const destroy = id => {
@@ -47,6 +54,7 @@ const articlesApi = {
   create,
   show,
   update,
+  restore,
   destroy,
   bulkDelete,
   bulkUpdate,

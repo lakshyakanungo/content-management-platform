@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         delete "bulk_destroy"
         put "bulk_update"
         get "search"
+        put "restore_version"
       end
     end
     resources :categories, except: %i[show new edit] do
