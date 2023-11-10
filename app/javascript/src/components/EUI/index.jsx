@@ -5,7 +5,6 @@ import { Route, Switch } from "react-router-dom";
 
 import { setAuthHeaders } from "apis/axios";
 import siteSettingsApi from "apis/siteSettings";
-import PrivateRoute from "components/commons/PrivateRoute";
 import { getFromLocalStorage } from "utils/storage";
 
 import Home from "./Home";
@@ -47,23 +46,22 @@ const EUI = () => {
 
   return (
     <div className="h-screen w-full flex flex-col">
-      <div className="w-full text-center font-bold p-4 text-base border neeto-ui-border-gray-100 neeto-ui-text-gray-800">
-        {siteName}
-      </div>
       <Switch>
-        <PrivateRoute
+        {/* <PrivateRoute
           component={Home}
           condition={!isPasswordProtected || isAuthenticated}
           path="/eui"
           redirectRoute="/eui/login"
           siteName={siteName}
-        />
-        <Route
-          exact
-          path="/eui/login"
-          render={() => <Login siteName={siteName} />}
-        />
-        <Route exact component={Home} path="/eui" />
+        /> */}
+        {isPasswordProtected && !isAuthenticated && (
+          <Route
+            exact
+            path="/eui/login"
+            render={() => <Login siteName={siteName} />}
+          />
+        )}
+        <Route path="/eui" render={() => <Home siteName={siteName} />} />
       </Switch>
     </div>
   );
