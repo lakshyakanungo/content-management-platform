@@ -16,6 +16,8 @@ const VersionHistory = ({
   const [details, setDetails] = useState({});
   // const [versions, setVersions] = useState([]);
   // setVersions;
+  // console.log(article, "artilce");
+  // console.log(article.versions, "versions");
 
   const handleClick = version => {
     setShowDetails(true);

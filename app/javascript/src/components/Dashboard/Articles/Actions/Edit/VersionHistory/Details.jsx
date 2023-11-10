@@ -3,11 +3,22 @@ import React from "react";
 import { EditorContent } from "@bigbinary/neeto-editor";
 import { Button, Modal } from "@bigbinary/neetoui";
 
+import articlesApi from "apis/articles";
+
 const Details = ({ details, showDetails, setShowDetails, categoryName }) => {
-  // console.log(details);
+  // console.log(details, "details");
   const { Header, Body, Footer } = Modal;
 
   const article = details.object;
+
+  const restoreVersion = async () => {
+    try {
+      await articlesApi.restore({ id: article.id, versionId: details.id });
+      setShowDetails(false);
+    } catch (error) {
+      logger.log(error);
+    }
+  };
 
   return (
     <Modal
@@ -28,7 +39,12 @@ const Details = ({ details, showDetails, setShowDetails, categoryName }) => {
         <EditorContent content={article?.body} />
       </Body>
       <Footer className="mt-6">
-        <Button className="mr-2" label="Restore version" type="button" />
+        <Button
+          className="mr-2"
+          label="Restore version"
+          type="button"
+          onClick={restoreVersion}
+        />
         <Button
           label="Cancel"
           style="text"

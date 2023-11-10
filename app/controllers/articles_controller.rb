@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy]
+  before_action :load_article!, only: %i[show update destroy restore_version]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
   def index
@@ -36,6 +36,13 @@ class ArticlesController < ApplicationController
     respond_with_success(t("successfully_updated", entity: "Article", count: 1))
   end
 
+  def restore_version
+    version = @article.versions.find(article_params[:version_id])
+    @article = version.reify
+    @article.save
+    respond_with_success("Article version restored")
+  end
+
   def destroy
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
@@ -54,7 +61,7 @@ class ArticlesController < ApplicationController
   private
 
     def article_params
-      params.require(:article).permit(:status, :category_id, :title, :body)
+      params.require(:article).permit(:status, :category_id, :title, :body, :version_id)
     end
 
     def load_article!

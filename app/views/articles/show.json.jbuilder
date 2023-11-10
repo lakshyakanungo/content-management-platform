@@ -11,8 +11,9 @@ json.article do
     :title
   # TODO: SEE WHY IT IS NOT QUERYING. OR BETTER WHEN IS A QUERY FIRED UP WITH ASSOCIATION METHODS
   json.category_name @article.category.name
-  json.versions @article.versions do |version|
-    json.id version.id
-    json.object version.object
-  end
+  json.versions @article.versions
+  # do |version|
+  # json.id version.id
+  # json.object version.object
+  # end
 end
