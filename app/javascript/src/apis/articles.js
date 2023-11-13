@@ -11,6 +11,8 @@ const search = ({ searchTerm, selectedCategoriesIds, activeMenuState }) =>
     },
   });
 
+const analytics = () => axios.get("/articles/analytics");
+
 const create = ({ payload }) =>
   axios.post("/articles", {
     article: payload,
@@ -51,6 +53,7 @@ const bulkUpdate = ({ ids, payload }) => {
 const articlesApi = {
   fetch,
   search,
+  analytics,
   create,
   show,
   update,

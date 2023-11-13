@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         put "bulk_update"
         get "search"
         put "restore_version"
+        get "analytics"
       end
     end
     resources :categories, except: %i[show new edit] do
