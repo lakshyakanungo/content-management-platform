@@ -16,7 +16,11 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(0);
 
   useKeyDown(() => setShowSearchModal(true), "Slash");
-  useKeyDown(() => setShowSearchModal(false), "Escape");
+  useKeyDown(() => {
+    setShowSearchModal(false);
+    setSearchTerm("");
+    setArticles([]);
+  }, "Escape");
 
   const history = useHistory();
 
@@ -73,7 +77,7 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
 
   return (
     <Modal
-      className="max-h-96"
+      className="my-6"
       closeButton={false}
       isOpen={showSearchModal}
       size="medium"
