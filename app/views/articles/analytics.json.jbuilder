@@ -10,3 +10,4 @@ json.articles @articles do |article|
     :slug
   json.category_name article.category.name
 end
+json.total_count @articles.total_count

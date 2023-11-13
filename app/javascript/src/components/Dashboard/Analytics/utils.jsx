@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@bigbinary/neetoui";
 import classNames from "classnames";
 
+// TODO: REfactor code and move this to top level utils since its reused at many places. Search and correct.
 import { formatDate } from "../Articles/Page/Table/utils";
 
 const Title = ({ record }) => {
@@ -43,6 +44,7 @@ export const buildColumnData = [
     key: "visits",
     width: 75,
     sorter: (a, b) => a.visits - b.visits,
+    // defaultSortOrder: "descend",
   },
 ];
 

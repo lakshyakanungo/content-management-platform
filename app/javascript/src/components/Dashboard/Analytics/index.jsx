@@ -11,14 +11,18 @@ const Analytics = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [orderBy, setOrderBy] = useState("descend");
+  const [totalArticles, setTotalArticles] = useState(0);
 
   const fetchArticles = async () => {
     try {
       setLoading(true);
       const {
-        data: { articles },
-      } = await articlesApi.analytics();
+        data: { articles, totalCount },
+      } = await articlesApi.analytics(currentPageNumber, orderBy);
       setArticles(articles);
+      setTotalArticles(totalCount);
+      // console.log(totalCount, "count");
     } catch (error) {
       logger.log(error);
     } finally {
@@ -26,9 +30,17 @@ const Analytics = () => {
     }
   };
 
+  const handleTableChange = (pagination, sorter) => {
+    setCurrentPageNumber(pagination.current);
+    if (sorter.order && orderBy !== sorter.order) {
+      setOrderBy(sorter.order);
+      setCurrentPageNumber(1);
+    }
+  };
+
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [currentPageNumber, orderBy]);
 
   if (loading) {
     return (
@@ -39,9 +51,10 @@ const Analytics = () => {
   }
 
   return (
-    <div className="mx-8 my-4">
+    <div className="mx-8 my-4 w-full">
       <Header className="" title="Analytics" />
       <Table
+        preserveTableStateInQuery
         className="px-2"
         columnData={buildColumnData}
         currentPageNumber={currentPageNumber}
@@ -49,6 +62,10 @@ const Analytics = () => {
         handlePageChange={page => setCurrentPageNumber(page)}
         rowClassName={buildRowClassName}
         rowData={articles}
+        totalCount={totalArticles}
+        onChange={(pagination, _, sorter) =>
+          handleTableChange(pagination, sorter)
+        }
       />
     </div>
   );

@@ -45,6 +45,8 @@ gem "bcrypt", "~> 3.1.13"
 
 gem "paper_trail"
 
+gem "kaminari"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"
