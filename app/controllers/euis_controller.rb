@@ -14,4 +14,13 @@ class EuisController < ApplicationController
   def show
     @article = current_user.articles.find_by(slug: params[:slug])
   end
+
+  def search
+    search_term = params[:search_term].downcase
+    # puts search_term, "search term"
+
+    @search_results = current_user.articles
+      # .where("lower(title) LIKE ?", "%#{search_term}%")
+      .where("lower(title) LIKE :search_term OR lower(body) LIKE :search_term", search_term: "%#{search_term}%")
+  end
 end

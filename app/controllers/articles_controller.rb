@@ -14,6 +14,8 @@ class ArticlesController < ApplicationController
   end
 
   def search
+    # TODO: See do we have to send search query with name of title? or smth else would suffice
+
     query = params[:title].downcase
     category_ids = params[:category_id]
     status = params[:status]

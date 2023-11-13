@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     resources :redirections, except: %i[show new edit]
     resource :site_settings, only: %i[show update]
     resource :session, only: :create
-    resources :euis, only: %i[index show], param: :slug
+    resources :euis, only: %i[index show], param: :slug do
+      get "search", on: :collection
+    end
   end
 
   root "home#index"
