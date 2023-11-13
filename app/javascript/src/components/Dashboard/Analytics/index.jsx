@@ -1,70 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "@bigbinary/neeto-molecules/Header";
-import { Table } from "@bigbinary/neetoui";
+import { Spinner, Table } from "@bigbinary/neetoui";
+
+import articlesApi from "apis/articles";
+
+import { buildColumnData, buildRowClassName } from "./utils";
 
 const Analytics = () => {
-  const columnData = [
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-      width: 75,
-      sorter: (a, b) => a.id - b.id,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      width: 75,
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
-      width: 75,
-    },
-    {
-      title: "Visits",
-      dataIndex: "visits",
-      key: "visits",
-      width: 75,
-      sorter: (a, b) => a.visits - b.visits,
-    },
-  ];
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
 
-  const rowData = [
-    {
-      id: 1,
-      title: "Some published article title",
-      category: "some category",
-      date: "some Date",
-      visits: "23",
-    },
-    {
-      id: 2,
-      title: "Some published article title 2",
-      category: "some category",
-      date: "some Date",
-      visits: "34",
-    },
-    {
-      id: 3,
-      title: "Some published article title 3",
-      category: "some category",
-      date: "some Date",
-      visits: "7",
-    },
+  const fetchArticles = async () => {
+    try {
+      setLoading(true);
+      const {
+        data: { articles },
+      } = await articlesApi.analytics();
+      setArticles(articles);
+    } catch (error) {
+      logger.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // Other rows
-  ];
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
-    <div className="p-4">
-      <Header className="p-4" title="Analytics" />
-      <div>
-        <Table className="mx-4" columnData={columnData} rowData={rowData} />
-      </div>
+    <div className="mx-8 my-4">
+      <Header className="" title="Analytics" />
+      <Table
+        className="px-2"
+        columnData={buildColumnData}
+        currentPageNumber={currentPageNumber}
+        defaultPageSize={10}
+        handlePageChange={page => setCurrentPageNumber(page)}
+        rowClassName={buildRowClassName}
+        rowData={articles}
+      />
     </div>
   );
 };

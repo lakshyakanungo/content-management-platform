@@ -3,6 +3,7 @@
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy restore_version]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
+  before_action :reset_article_visits, only: %i[update bulk_update]
 
   # def info_for_paper_trail
   #   { restored: params[:action] == "restore_version" ? true : false }
@@ -38,7 +39,8 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    @article.update!(article_params)
+    updated_article_params = reset_article_visits
+    @article.update!(updated_article_params)
     respond_with_success(t("successfully_updated", entity: "Article", count: 1))
   end
 
@@ -52,6 +54,10 @@ class ArticlesController < ApplicationController
     respond_with_success("Article version restored")
   end
 
+  def analytics
+    @articles = current_user.articles.published.includes(:category)
+  end
+
   def destroy
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
@@ -63,7 +69,8 @@ class ArticlesController < ApplicationController
   end
 
   def bulk_update
-    @articles.update!(article_params)
+    updated_article_params = reset_article_visits
+    @articles.update!(updated_article_params)
     respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
   end
 
@@ -79,5 +86,13 @@ class ArticlesController < ApplicationController
 
     def load_multiple_articles
       @articles = current_user.articles.where(id: params[:ids])
+    end
+
+    def reset_article_visits
+      if article_params[:status] == "draft"
+        article_params.merge({ visits: 0 })
+      else
+        article_params
+      end
     end
 end
