@@ -11,7 +11,15 @@ const search = ({ searchTerm, selectedCategoriesIds, activeMenuState }) =>
     },
   });
 
-const analytics = () => axios.get("/articles/analytics");
+//TODO: See if this way of passing key value pair for params in api connector okay?
+// Or this logic should be moved to the place of calling the api.
+const analytics = (currentPageNumber, orderBy) =>
+  axios.get("/articles/analytics", {
+    params: {
+      page: currentPageNumber,
+      order_by: orderBy,
+    },
+  });
 
 const create = ({ payload }) =>
   axios.post("/articles", {

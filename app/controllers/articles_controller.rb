@@ -55,7 +55,12 @@ class ArticlesController < ApplicationController
   end
 
   def analytics
-    @articles = current_user.articles.published.includes(:category)
+    sort_order = params[:order_by] == "ascend" ? "asc" : "desc"
+    @articles = current_user.articles.published
+      .includes(:category)
+      .order(visits: sort_order)
+      .page(params[:page])
+      .per(10)
   end
 
   def destroy
