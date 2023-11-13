@@ -1,6 +1,7 @@
 import Articles from "components/Dashboard/Articles";
 import Settings from "components/Dashboard/Settings";
 
+import Analytics from "./Dashboard/Analytics";
 import { Create, Edit } from "./Dashboard/Articles/Actions";
 import EUI from "./EUI";
 
@@ -12,6 +13,7 @@ export const CHANGE_PASSWORD_PATH = "/settings?tab=password";
 export const PROFILE_PATH = "/settings?tab=profile";
 export const SETTINGS_PATH = "/settings";
 export const EUI_PATH = "/eui";
+export const ANALYTICS_PATH = "/analytics";
 
 export const DASHBOARD_ROUTES = [
   {
@@ -29,6 +31,10 @@ export const DASHBOARD_ROUTES = [
   {
     path: EDIT_ARTICLE_PATH,
     component: Edit,
+  },
+  {
+    path: ANALYTICS_PATH,
+    component: Analytics,
   },
 ];
 

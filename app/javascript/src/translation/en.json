@@ -228,6 +228,10 @@
         "eui": {
           "label": "Preview",
           "description": "Launch your KB preview"
+        },
+        "analytics": {
+          "label": "Analytics",
+          "description": "Get insights for published articles"
         }
       }
     }
