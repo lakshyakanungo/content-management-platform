@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Notes, Settings, ExternalLink } from "neetoicons";
+import { Notes, Settings, ExternalLink, NeetoAnalytics } from "neetoicons";
 
 import i18n from "common/i18n";
 
@@ -27,6 +27,12 @@ export const NAVLINKS = [
     to: "/eui",
     icon: ExternalLink,
     target: "_blank",
+  },
+  {
+    label: i18n.t("dashboard.sidebar.navlinks.analytics.label"),
+    description: i18n.t("dashboard.sidebar.navlinks.analytics.description"),
+    to: "/analytics",
+    icon: NeetoAnalytics,
   },
 ];
 
