@@ -39,7 +39,6 @@ def delete_all_records_from_all_tables
 end
 
 def create_sample_data!
-  # puts "**Write logic to seed sample data later in Scribble as per requirements**"
   puts 'Seeding with sample data...'
   create_user! email: 'oliver@example.com', name: 'Oliver'
   puts 'Done! Olvier with email "oliver@example.com" is the default user'
