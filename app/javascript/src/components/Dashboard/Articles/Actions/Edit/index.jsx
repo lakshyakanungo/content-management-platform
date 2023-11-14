@@ -27,7 +27,6 @@ const Edit = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   // const [versions, setvVersions] = useState([]);
-  // console.log(article, "Article data");
 
   const history = useHistory();
   const { id } = useParams();
@@ -162,6 +161,7 @@ const Edit = () => {
       </Form>
       <VersionHistory
         article={article}
+        categories={categories}
         refetch={fetchArticleAndCategories}
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}

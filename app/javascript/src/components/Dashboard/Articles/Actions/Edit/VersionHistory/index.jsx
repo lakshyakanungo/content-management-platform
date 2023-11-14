@@ -8,6 +8,7 @@ import { formatDate } from "../../../Page/Table/utils";
 
 const VersionHistory = ({
   article,
+  categories,
   showVersionHistory,
   setShowVersionHistory,
   refetch,
@@ -21,8 +22,8 @@ const VersionHistory = ({
   // console.log(article.versions, "versions");
 
   const handleClick = version => {
-    setShowDetails(true);
     setDetails(version);
+    setShowDetails(true);
   };
 
   return (
@@ -36,7 +37,7 @@ const VersionHistory = ({
             Version History
           </Typography>
           <Typography className="neeto-ui-text-gray-600">
-            Version history of <b>{article.title}</b> in Scribble.
+            Previous versions of <b>{article.title}</b> in Scribble.
           </Typography>
         </Header>
         <Body>
@@ -70,14 +71,16 @@ const VersionHistory = ({
           ))}
         </Body>
       </Pane>
-      <Details
-        categoryName={article.categoryName}
-        details={details}
-        refetch={refetch}
-        setShowDetails={setShowDetails}
-        setShowVersionHistory={setShowVersionHistory}
-        showDetails={showDetails}
-      />
+      {showDetails && (
+        <Details
+          categories={categories}
+          details={details}
+          refetch={refetch}
+          setShowDetails={setShowDetails}
+          setShowVersionHistory={setShowVersionHistory}
+          showDetails={showDetails}
+        />
+      )}
     </>
   );
 };
