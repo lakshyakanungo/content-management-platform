@@ -2,12 +2,18 @@ import axios from "axios";
 
 const fetch = () => axios.get("/articles");
 
-const search = ({ searchTerm, selectedCategoriesIds, activeMenuState }) =>
+const search = ({
+  searchTerm,
+  selectedCategoriesIds,
+  activeMenuState,
+  currentPageNumber,
+}) =>
   axios.get("/articles/search", {
     params: {
       title: searchTerm,
       category_id: selectedCategoriesIds,
       status: activeMenuState,
+      page: currentPageNumber,
     },
   });
 

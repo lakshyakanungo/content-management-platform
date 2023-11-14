@@ -20,11 +20,14 @@ const Page = ({
   refetch,
   selectedCategories,
   setSelectedCategories,
+  selectedArticleIds,
+  setSelectedArticleIds,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState([]);
-  const [selectedArticleIds, setSelectedArticleIds] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [totalArticlesCount, setTotalArticlesCount] = useState(0);
 
   const { t } = useTranslation();
 
@@ -37,13 +40,17 @@ const Page = ({
       );
       const query = searchTerm.trim();
       const {
-        data: { articles },
+        data: { articles, totalCount },
       } = await articlesApi.search({
         searchTerm: query,
         selectedCategoriesIds,
         activeMenuState,
+        currentPageNumber,
       });
       setArticles(articles);
+      setTotalArticlesCount(totalCount);
+      // console.log(totalCount);
+      // console.log(articles);
     } catch (error) {
       logger.log(error);
     }
@@ -72,7 +79,7 @@ const Page = ({
 
   useEffect(() => {
     fetchSearchResults();
-  }, [searchTerm, selectedCategories, activeMenuState]);
+  }, [searchTerm, selectedCategories, activeMenuState, currentPageNumber]);
 
   return (
     <Container>
@@ -96,7 +103,6 @@ const Page = ({
         }}
       />
       <SubHeader
-        articles={articles}
         categories={categories}
         handleDelete={handleDelete}
         handleStatusChange={handleStatusChange}
@@ -106,13 +112,17 @@ const Page = ({
         setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
         setVisibleTableColumns={setVisibleTableColumns}
+        totalArticlesCount={totalArticlesCount}
       />
       {articles.length ? (
         <Table
           articles={articles}
           columnData={visibleTableColumns}
+          currentPageNumber={currentPageNumber}
           selectedArticleIds={selectedArticleIds}
+          setCurrentPageNumber={setCurrentPageNumber}
           setSelectedArticleIds={setSelectedArticleIds}
+          totalArticlesCount={totalArticlesCount}
         />
       ) : (
         <Empty

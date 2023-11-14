@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import TableWrapper from "@bigbinary/neeto-molecules/TableWrapper";
 import { Table as NeetoUITable } from "neetoui";
@@ -10,15 +10,47 @@ const Table = ({
   setSelectedArticleIds,
   articles = [],
   columnData = [],
+  currentPageNumber,
+  setCurrentPageNumber,
+  totalArticlesCount,
 }) => {
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  // console.log(articles, "Articles");
+
+  const handleRowSelect = selectedKeysInCurrentPage => {
+    const currentPageKeys = articles.map(article => article.id);
+    // const keysAlreadySelectedInCurrentPage = currentPageKeys.map(key =>
+    //   selectedKeysInCurrentPage.includes(key)
+    // );
+    // const keysUnselected = currentPageKeys.filter(
+    //   key => !keysAlreadySelectedInCurrentPage.includes(key)
+    // );
+
+    // const newSelectedKeys = selectedArticleIds.map(key=>{
+    //   if(!currentPageKeys.includes(key))return key;
+    //   else if(selectedKeysInCurrentPage.includes(key))
+    // })
+    const selectedArticleIdsSet = new Set(selectedArticleIds);
+    selectedKeysInCurrentPage.forEach(key => selectedArticleIdsSet.add(key));
+
+    const keysUnselected = currentPageKeys.filter(
+      key =>
+        !selectedKeysInCurrentPage.includes(key) &&
+        selectedArticleIdsSet.has(key)
+    );
+
+    keysUnselected.forEach(key => selectedArticleIdsSet.delete(key));
+
+    // console.log(selectedArticleIdsSet, "selected keys");
+    setSelectedArticleIds([...selectedArticleIdsSet]);
+  };
+
+  // console.log(selectedArticleIds, "Selected article ids");
 
   return (
     <div className="notes-table-height w-11/12 justify-center">
       <TableWrapper>
         <NeetoUITable
           allowRowClick
-          preserveTableStateInQuery
           rowSelection
           bordered={false}
           columnData={columnData}
@@ -28,9 +60,11 @@ const Table = ({
           rowClassName={buildRowClassName}
           rowData={articles}
           selectedRowKeys={selectedArticleIds}
-          onRowSelect={selectedRowKeys =>
-            setSelectedArticleIds(selectedRowKeys)
-          }
+          totalCount={totalArticlesCount}
+          onRowSelect={handleRowSelect}
+          // onRowSelect={selectedRowKeys =>
+          //   setSelectedArticleIds(selectedRowKeys)
+          // }
         />
       </TableWrapper>
     </div>
