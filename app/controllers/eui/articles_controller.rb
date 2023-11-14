@@ -13,7 +13,7 @@ class Eui::ArticlesController < ApplicationController
 
   def show
     @article = current_user.articles.published.find_by!(slug: params[:slug])
-    @article.update!(visits: @article.visits + 1) # increase visits
+    @article.update!(visits: @article.visits + 1)
   end
 
   def search

@@ -12,7 +12,7 @@ class Redirection < ApplicationRecord
 
   validate :valid_to_path_format
   validate :to_and_from_not_equal
-  validate :check_redirection_loop
+  validate :not_causing_cycling_redirection
 
   private
 
@@ -23,7 +23,7 @@ class Redirection < ApplicationRecord
         to_path_regex = VALID_TO_FULL_URL_REGEX
       end
 
-      unless self.to.match to_path_regex
+      unless self.to.match? to_path_regex
         errors.add(:to, I18n.t("redirection.error.to"))
       end
     end
@@ -34,17 +34,17 @@ class Redirection < ApplicationRecord
       end
     end
 
-    def check_redirection_loop
-      if to_exist_in_from? && from_exist_in_to?
-        errors.add(:base, I18n.t("redirection.error.cyclic"))
+    def not_causing_cycling_redirection
+      @from_path = self.from
+
+      redirection = self
+      while redirection.present?
+        redirection_to_pathname = redirection.to
+        if redirection.to == @from_path
+          errors.add(:base, I18n.t("redirection.error.cyclic"))
+          break
+        end
+        redirection = Redirection.find_by(from: redirection.to)
       end
-    end
-
-    def to_exist_in_from?
-      Redirection.where(to: self.from).present?
-    end
-
-    def from_exist_in_to?
-      Redirection.where(from: self.to).present?
     end
 end
