@@ -6,7 +6,7 @@ class CategoryDeletionService
   attr_reader :category
 
   def initialize(id)
-    @category = load_category! id
+    @category = Category.find(id)
   end
 
   def process(final_category_id)
@@ -31,9 +31,5 @@ class CategoryDeletionService
 
     def move_articles(final_category_id)
       category.articles.update!(category_id: final_category_id)
-    end
-
-    def load_category!(id)
-      Category.find(id)
     end
 end
