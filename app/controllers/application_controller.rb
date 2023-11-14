@@ -8,4 +8,8 @@ class ApplicationController < ActionController::Base
   def current_user
     @_current_user ||= User.first
   end
+
+  def load_site_setting
+    @site_setting = SiteSetting.first
+  end
 end

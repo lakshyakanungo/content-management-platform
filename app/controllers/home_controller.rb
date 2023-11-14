@@ -13,7 +13,7 @@ class HomeController < ApplicationController
       redirection = Redirection.find_by(from: request.path)
       if redirection
         url = add_scheme_to_url_if_needed redirection.to
-        redirect_to url, allow_other_host: true, status: 301
+        redirect_to url, allow_other_host: true, status: :moved_permanently
       end
     end
 

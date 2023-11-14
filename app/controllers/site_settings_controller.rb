@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SiteSettingsController < ApplicationController
-  before_action :load_current_setting
+  before_action :load_site_setting
 
   def show
     render
@@ -12,10 +12,10 @@ class SiteSettingsController < ApplicationController
       site_settings_params.merge!(password_digest: nil)
     end
 
-    @setting.update!(site_settings_params)
+    @site_setting.update!(site_settings_params)
 
     if site_settings_params.has_key?(:password)
-      @setting.regenerate_authentication_token
+      @site_setting.regenerate_authentication_token
     end
   end
 
@@ -25,7 +25,7 @@ class SiteSettingsController < ApplicationController
       params.require(:site_settings).permit(:is_password_protected, :password, :title)
     end
 
-    def load_current_setting
-      @setting = SiteSetting.first
-    end
+  # def load_current_setting
+  #   @setting = SiteSetting.first
+  # end
 end
