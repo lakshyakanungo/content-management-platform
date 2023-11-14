@@ -73,7 +73,23 @@
         },
         "edit": {
           "placeholder": "Search category",
-          "cancelButton": "Cancel"
+          "cancelButton": "Cancel",
+          "versionHistory": {
+            "title": "Version History",
+            "subtitle": "Previous versions of <0>{{title}}</0> in Scribble.",
+            "button": {
+              "label": {
+                "restore": "Article Restored",
+                "drafted": "Article Drafted",
+                "published": "Article Published"
+              }
+            },
+            "details": {
+              "title": "Version History",
+              "subtitle": "Category: <0>{{name}}</0>",
+              "button": { "restore": "Restore version", "cancel": "Cancel" }
+            }
+          }
         },
         "editor": {
           "validation": "Article title is required",
@@ -234,6 +250,15 @@
           "description": "Get insights for published articles"
         }
       }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "table": {
+        "title": "Title",
+        "lastPublishedAt": "Last Published At",
+        "category": "Category",
+        "visits": "Visits"
+      }
     }
   },
   "eui": {
@@ -245,6 +270,14 @@
         "placeholder": "Enter password here"
       },
       "button": { "label": "Continue" }
+    },
+    "home": {
+      "search": {
+        "placeholder": {
+          "short": "Search article here.",
+          "long": "Search article title or content"
+        }
+      }
     }
   }
 }

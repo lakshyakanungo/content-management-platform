@@ -1,10 +1,10 @@
 import React from "react";
 
 import classNames from "classnames";
-import dayjs from "dayjs";
 import { t } from "i18next";
 import { Button } from "neetoui";
 import { useHistory } from "react-router-dom";
+import { formatDate } from "utils";
 
 import Dropdown from "./Dropdown";
 
@@ -72,7 +72,6 @@ export const buildArticlesColumnData = ({
       showTitle: true,
     },
     render: renderStatus,
-
   },
   {
     title: "",
@@ -87,8 +86,6 @@ export const buildArticlesColumnData = ({
     ),
   },
 ];
-
-export const formatDate = date => dayjs(date).format("MMM D, YYYY, h:mm A");
 
 export const buildRowClassName = (_, index) =>
   classNames({

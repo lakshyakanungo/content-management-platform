@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "@bigbinary/neeto-molecules/Header";
 import { Spinner, Table } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 
@@ -14,6 +15,8 @@ const Analytics = () => {
   const [orderBy, setOrderBy] = useState("descend");
   const [totalArticles, setTotalArticles] = useState(0);
 
+  const { t } = useTranslation();
+
   const fetchArticles = async () => {
     try {
       setLoading(true);
@@ -22,7 +25,6 @@ const Analytics = () => {
       } = await articlesApi.analytics(currentPageNumber, orderBy);
       setArticles(articles);
       setTotalArticles(totalCount);
-      // console.log(totalCount, "count");
     } catch (error) {
       logger.log(error);
     } finally {
@@ -52,7 +54,7 @@ const Analytics = () => {
 
   return (
     <div className="mx-8 my-4 w-full">
-      <Header className="" title="Analytics" />
+      <Header className="" title={t("dashboard.analytics.title")} />
       <Table
         preserveTableStateInQuery
         className="px-2"

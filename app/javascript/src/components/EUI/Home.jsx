@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import { Search as SearchIcon } from "@bigbinary/neeto-icons";
 import { Accordion, Input, Spinner } from "neetoui";
+import { useTranslation } from "react-i18next";
 import { useHistory, Route } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 
-import euiApi from "apis/euis";
+import euisApi from "apis/euis";
 
 import { SEARCH_SUFFIX } from "./constants";
 import Search from "./Search";
@@ -16,9 +17,9 @@ const Home = ({ siteName }) => {
   const [loading, setLoading] = useState(true);
   const [articlesByCategory, setArticlesByCategory] = useState([]);
   const [selectedArticleId, setSelectedArticleId] = useState("");
-  // TODO: See if this naming with modal fine. In wheel.
   const [showSearchModal, setShowSearchModal] = useState(false);
 
+  const { t } = useTranslation();
   const history = useHistory();
   const match = useRouteMatch("/eui/:slug");
   const slug = match?.params?.slug;
@@ -27,7 +28,7 @@ const Home = ({ siteName }) => {
     try {
       const {
         data: { groupedArticles },
-      } = await euiApi.fetch();
+      } = await euisApi.fetch();
       setArticlesByCategory(groupedArticles);
     } catch (error) {
       logger.log(error);
@@ -67,7 +68,7 @@ const Home = ({ siteName }) => {
         <span className="w-1/6 absolute float-left">
           <Input
             className="w-56"
-            placeholder="Search article here."
+            placeholder={t("eui.home.search.placeholder.short")}
             prefix={<SearchIcon />}
             suffix={SEARCH_SUFFIX}
             onClick={() => setShowSearchModal(true)}
@@ -103,7 +104,6 @@ const Home = ({ siteName }) => {
           </Accordion>
         </div>
         <Route
-          // exact
           path="/eui/:slug"
           render={() => (
             <ShowArticle setSelectedArticleId={setSelectedArticleId} />

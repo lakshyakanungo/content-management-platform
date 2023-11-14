@@ -2,8 +2,11 @@ import React from "react";
 
 import { EditorContent } from "@bigbinary/neeto-editor";
 import { Button, Modal } from "@bigbinary/neetoui";
+import { Trans, useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
+
+import { renderCategoryName } from "./utils";
 
 const Details = ({
   details,
@@ -13,10 +16,12 @@ const Details = ({
   setShowVersionHistory,
   refetch,
 }) => {
-  // console.log(details, "details");
+  const { t } = useTranslation();
+
   const { Header, Body, Footer } = Modal;
 
   const article = details.object;
+  const categoryName = renderCategoryName(article, categories);
 
   const restoreVersion = async () => {
     try {
@@ -28,17 +33,6 @@ const Details = ({
     }
   };
 
-  const renderCategoryName = () => {
-    // console.log(categories, "categories");
-    // console.log(article, "article");
-    const category = categories.find(
-      category => category.id === article?.categoryId
-    );
-
-    // console.log(category, "found category");
-    return category?.name;
-  };
-
   return (
     <Modal
       className="mx-auto w-9/12"
@@ -48,9 +42,15 @@ const Details = ({
     >
       <Header>
         <div className="flex flex-col">
-          <h4 className="text-center">Version History</h4>
+          <h4 className="text-center">
+            {t("dashboard.articles.actions.edit.versionHistory.details.title")}
+          </h4>
           <span>
-            Category: <b>{renderCategoryName()}</b>
+            <Trans
+              components={[<b key={1} />]}
+              i18nKey="dashboard.articles.actions.edit.versionHistory.details.subtitle"
+              values={{ name: categoryName }}
+            />
           </span>
         </div>
       </Header>
@@ -60,14 +60,18 @@ const Details = ({
       <Footer className="mt-6">
         <Button
           className="mr-2"
-          label="Restore version"
           type="button"
+          label={t(
+            "dashboard.articles.actions.edit.versionHistory.details.button.restore"
+          )}
           onClick={restoreVersion}
         />
         <Button
-          label="Cancel"
           style="text"
           type="button"
+          label={t(
+            "dashboard.articles.actions.edit.versionHistory.details.button.cancel"
+          )}
           onClick={() => setShowDetails(false)}
         />
       </Footer>

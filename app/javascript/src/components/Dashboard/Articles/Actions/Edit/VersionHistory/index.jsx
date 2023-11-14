@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 import { Button, Pane, Typography } from "@bigbinary/neetoui";
+import { Trans, useTranslation } from "react-i18next";
+import { formatDate } from "utils";
 
 import Details from "./Details";
-
-import { formatDate } from "../../../Page/Table/utils";
+import { buildButtonLabel } from "./utils";
 
 const VersionHistory = ({
   article,
@@ -13,13 +14,12 @@ const VersionHistory = ({
   setShowVersionHistory,
   refetch,
 }) => {
-  const { Header, Body } = Pane;
-  const [showDetails, setShowDetails] = useState(false);
   const [details, setDetails] = useState({});
-  // const [versions, setVersions] = useState([]);
-  // // setVersions;
-  // console.log(article, "article");
-  // console.log(article.versions, "versions");
+  const [showDetails, setShowDetails] = useState(false);
+
+  const { Header, Body } = Pane;
+
+  const { t } = useTranslation();
 
   const handleClick = version => {
     setDetails(version);
@@ -34,10 +34,14 @@ const VersionHistory = ({
       >
         <Header>
           <Typography className="mb-2" style="h2" weight="semibold">
-            Version History
+            {t("dashboard.articles.actions.edit.versionHistory.title")}
           </Typography>
           <Typography className="neeto-ui-text-gray-600">
-            Previous versions of <b>{article.title}</b> in Scribble.
+            <Trans
+              components={[<b key={1} />]}
+              i18nKey="dashboard.articles.actions.edit.versionHistory.subtitle"
+              values={{ title: article.title }}
+            />
           </Typography>
         </Header>
         <Body>
@@ -51,22 +55,12 @@ const VersionHistory = ({
                   <span>{formatDate(version.object.updatedAt)}</span>
                   <Button
                     className="neeto-ui-text-primary-600"
+                    label={buildButtonLabel(version)}
                     style="text"
-                    label={
-                      version.event === "restore"
-                        ? "Article Restored"
-                        : version.object.status === "draft"
-                        ? "Article Drafted"
-                        : "Article Published"
-                    }
                     onClick={() => handleClick(version)}
                   />
                 </>
               )}
-              {/* <span>Article status action</span> */}
-              {/* {console.log("details, ", version.object)} */}
-              {/* {console.log(version.object)} */}
-              {/* {(console.log(version), "version")} */}
             </div>
           ))}
         </Body>
