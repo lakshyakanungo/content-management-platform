@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  has_paper_trail
+  has_paper_trail ignore: :visits
 
   scope :by_categories, ->(category_ids) { where(category_id: category_ids) unless category_ids.nil? }
   scope :by_status, ->(status) { where(status:) unless status == "all" }

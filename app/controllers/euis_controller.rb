@@ -20,7 +20,7 @@ class EuisController < ApplicationController
     search_term = params[:search_term].downcase
     # puts search_term, "search term"
 
-    @search_results = current_user.articles
+    @search_results = current_user.articles.published
       # .where("lower(title) LIKE ?", "%#{search_term}%")
       .where("lower(title) LIKE :search_term OR lower(body) LIKE :search_term", search_term: "%#{search_term}%")
   end

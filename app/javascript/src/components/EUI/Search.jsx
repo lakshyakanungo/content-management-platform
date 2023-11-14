@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Search as SearchIcon } from "@bigbinary/neeto-icons";
 import { Input, Modal } from "@bigbinary/neetoui";
@@ -50,26 +50,24 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
   //   }
   // };
 
-  const handleKeyDown = useCallback(
-    event => {
-      // console.log(event);
-      if (event.code === "ArrowUp") {
-        setSelectedArticleIndex(prev =>
-          prev > 0 ? prev - 1 : articles.length - 1
-        );
-      } else if (event.code === "ArrowDown") {
-        setSelectedArticleIndex(prev =>
-          prev < articles.length - 1 ? prev + 1 : 0
-        );
-      } else if (event.code === "Enter") {
-        handleClick(articles[selectedArticleIndex]);
-      }
-    },
-    [articles]
-  );
+  const handleKeyDown = event => {
+    // console.log(event);
+    if (event.code === "ArrowUp") {
+      setSelectedArticleIndex(prev =>
+        prev > 0 ? prev - 1 : articles.length - 1
+      );
+    } else if (event.code === "ArrowDown") {
+      setSelectedArticleIndex(prev =>
+        prev < articles.length - 1 ? prev + 1 : 0
+      );
+    } else if (event.code === "Enter") {
+      handleClick(articles[selectedArticleIndex]);
+    }
+  };
 
   useEffect(() => {
-    if (searchTerm !== "") fetchArticles();
+    if (searchTerm === "") setArticles([]);
+    else fetchArticles();
 
     // TODO: Choose this design weather to reset it to top .
     // setSelectedArticleIndex(0);

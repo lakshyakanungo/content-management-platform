@@ -9,7 +9,7 @@ const Details = ({
   details,
   showDetails,
   setShowDetails,
-  categoryName,
+  categories,
   setShowVersionHistory,
   refetch,
 }) => {
@@ -22,11 +22,21 @@ const Details = ({
     try {
       await articlesApi.restore({ id: article.id, versionId: details.id });
       refetch();
-      setShowDetails(false);
       setShowVersionHistory(false);
     } catch (error) {
       logger.log(error);
     }
+  };
+
+  const renderCategoryName = () => {
+    // console.log(categories, "categories");
+    // console.log(article, "article");
+    const category = categories.find(
+      category => category.id === article?.categoryId
+    );
+
+    // console.log(category, "found category");
+    return category?.name;
   };
 
   return (
@@ -40,7 +50,7 @@ const Details = ({
         <div className="flex flex-col">
           <h4 className="text-center">Version History</h4>
           <span>
-            Category: <b>{categoryName}</b>
+            Category: <b>{renderCategoryName()}</b>
           </span>
         </div>
       </Header>
