@@ -15,12 +15,6 @@ class CategoryDeletionServiceTest < ActiveSupport::TestCase
     CategoryDeletionService.new(@category.id).process(final_category.id)
 
     assert_equal Category.count, initial_category_count - 1
-
-    # DOUBT : IF USING ASSERT DIFFERENCE THEN THIS TEST FAILING
-
-    # assert_difference "Category.count" do
-    #   CategoryDeletionService.new(@category.id).process(final_category.id)
-    # end
   end
 
   def test_process_when_only_one_category
