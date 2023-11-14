@@ -49,8 +49,6 @@ const Page = ({
       });
       setArticles(articles);
       setTotalArticlesCount(totalCount);
-      // console.log(totalCount);
-      // console.log(articles);
     } catch (error) {
       logger.log(error);
     }

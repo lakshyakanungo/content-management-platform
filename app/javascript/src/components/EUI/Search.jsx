@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 
 import { Search as SearchIcon } from "@bigbinary/neeto-icons";
 import { Input, Modal } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import euiApi from "apis/euis";
+import euisApi from "apis/euis";
 import { useKeyDown } from "hooks/useKeyDown";
 
 import { SEARCH_SUFFIX } from "./constants";
 
 const Search = ({ showSearchModal, setShowSearchModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  // TODO: See if to keep name as articles or change it to articles
   const [articles, setArticles] = useState([]);
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(0);
+
+  const { t } = useTranslation();
 
   useKeyDown(() => setShowSearchModal(true), "Slash");
   useKeyDown(() => {
@@ -28,9 +30,8 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
 
   const fetchArticles = async () => {
     try {
-      const { data } = await euiApi.search(searchTerm);
+      const { data } = await euisApi.search(searchTerm);
       setArticles(data.articles);
-      // console.log(data);
     } catch (error) {
       logger.log(error);
     }
@@ -42,17 +43,7 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
     setSearchTerm("");
   };
 
-  // const handleKeyDown = e => {
-  //   console.log(e);
-  //   if (e.code === "ArrowUp") {
-  //     setSelectedArticleIndex(prev => (prev > 0 ? prev - 1 : articles.length - 1));
-  //   } else if (e.code === "ArrowDown") {
-  //     setSelectedArticleIndex(prev => (prev < articles.length - 1 ? prev + 1 : 0));
-  //   }
-  // };
-
   const handleKeyDown = event => {
-    // console.log(event);
     if (event.code === "ArrowUp") {
       setSelectedArticleIndex(prev =>
         prev > 0 ? prev - 1 : articles.length - 1
@@ -69,9 +60,6 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
   useEffect(() => {
     if (searchTerm === "") setArticles([]);
     else fetchArticles();
-
-    // TODO: Choose this design weather to reset it to top .
-    // setSelectedArticleIndex(0);
   }, [searchTerm]);
 
   return (
@@ -86,7 +74,7 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
     >
       <Header className="p-2">
         <Input
-          placeholder="Search article title or content"
+          placeholder={t("eui.home.search.placeholder.long")}
           prefix={<SearchIcon />}
           suffix={SEARCH_SUFFIX}
           value={searchTerm}

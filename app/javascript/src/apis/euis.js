@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// TODO: This file is named as singular. SEe if its correct.
-// Better name it with public.
-
 const fetch = () => axios.get("/eui/articles");
 
 const show = slug => axios.get(`/eui/articles/${slug}`);
@@ -14,10 +11,10 @@ const search = searchTerm =>
     },
   });
 
-const euiApi = {
+const euisApi = {
   fetch,
   show,
   search,
 };
 
-export default euiApi;
+export default euisApi;

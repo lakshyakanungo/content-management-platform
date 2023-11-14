@@ -26,7 +26,6 @@ const Edit = () => {
   const [categories, setCategories] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
-  // const [versions, setvVersions] = useState([]);
 
   const history = useHistory();
   const { id } = useParams();
@@ -57,7 +56,6 @@ const Edit = () => {
       const {
         data: { article },
       } = await articlesApi.show(id);
-      // console.log(article);
       setArticle(article);
     } catch (error) {
       logger.log(error);
