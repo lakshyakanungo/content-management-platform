@@ -15,7 +15,7 @@ const Articles = () => {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-
+  const [selectedArticleIds, setSelectedArticleIds] = useState([]);
   const [articleCounts, setArticleCounts] = useState({
     all: 0,
     draft: 0,
@@ -69,6 +69,7 @@ const Articles = () => {
         fetchCategories={fetchCategories}
         selectedCategories={selectedCategories}
         setActiveMenuState={setActiveMenuState}
+        setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
         showMenu={showMenu}
       />
@@ -76,7 +77,9 @@ const Articles = () => {
         activeMenuState={activeMenuState}
         categories={categories}
         refetch={fetchArticlesCountAndCategories}
+        selectedArticleIds={selectedArticleIds}
         selectedCategories={selectedCategories}
+        setSelectedArticleIds={setSelectedArticleIds}
         setSelectedCategories={setSelectedCategories}
         setShowMenu={setShowMenu}
         showMenu={showMenu}

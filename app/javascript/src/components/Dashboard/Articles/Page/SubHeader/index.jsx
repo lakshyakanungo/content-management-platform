@@ -12,7 +12,6 @@ import { buildArticlesColumnData } from "../Table/utils";
 
 const SubHeader = ({
   selectedArticleIds,
-  articles,
   categories,
   handleDelete,
   handleStatusChange,
@@ -21,6 +20,7 @@ const SubHeader = ({
   setVisibleTableColumns,
   refetch,
   setSelectedArticleIds,
+  totalArticlesCount,
 }) => {
   const columns = useMemo(
     () => buildArticlesColumnData({ handleStatusChange, handleDelete }),
@@ -29,8 +29,10 @@ const SubHeader = ({
 
   const { t } = useTranslation();
 
-  const handleTagClose = category =>
+  const handleTagClose = category => {
     setSelectedCategories(prev => prev.filter(item => item !== category));
+    setSelectedArticleIds([]);
+  };
 
   return (
     <NeetoSubHeader
@@ -39,16 +41,16 @@ const SubHeader = ({
         <div className="flex gap-x-3 items-center">
           {selectedArticleIds.length ? (
             <LeftActionGroup
-              articles={articles}
               categories={categories}
               refetch={refetch}
               selectedArticleIds={selectedArticleIds}
               setSelectedArticleIds={setSelectedArticleIds}
+              totalArticlesCount={totalArticlesCount}
             />
           ) : (
             <div>
               {t("dashboard.articles.page.subheader.numberOfArticles", {
-                count: articles.length,
+                count: totalArticlesCount,
               })}
             </div>
           )}

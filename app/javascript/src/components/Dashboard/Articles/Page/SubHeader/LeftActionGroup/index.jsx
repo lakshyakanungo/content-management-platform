@@ -9,18 +9,18 @@ import {
 } from "./Dropdown";
 
 const LeftActionGroup = ({
-  articles,
   categories,
   selectedArticleIds,
   refetch,
   setSelectedArticleIds,
+  totalArticlesCount,
 }) => (
   <div className="flex gap-x-3 items-center	">
     <span>
       <Trans
         components={[<b key={1} />]}
         i18nKey="dashboard.articles.page.subheader.leftActionGroup.headerText"
-        values={{ count: selectedArticleIds.length, total: articles.length }}
+        values={{ count: selectedArticleIds.length, total: totalArticlesCount }}
       />
     </span>
     <ChangeCategoryDropdown

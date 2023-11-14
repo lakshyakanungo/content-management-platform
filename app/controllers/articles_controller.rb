@@ -27,6 +27,8 @@ class ArticlesController < ApplicationController
       .where("lower(title) LIKE ?", "%#{query}%")
       .includes(:category)
       .order(updated_at: :desc)
+      .page(params[:page])
+      .per(9)
   end
 
   def show

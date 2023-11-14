@@ -21,6 +21,7 @@ const Menu = ({
   setSelectedCategories,
   articleCounts,
   fetchCategories,
+  setSelectedArticleIds,
 }) => {
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [categoriesDisplayed, setCategoriesDisplayed] = useState([]);
@@ -41,6 +42,7 @@ const Menu = ({
     } else {
       setSelectedCategories(prev => [...prev, categoryClicked]);
     }
+    setSelectedArticleIds([]);
   };
 
   const fetchSearchResults = async () => {
@@ -62,6 +64,11 @@ const Menu = ({
 
   const handleKeyDown = event => handleKeyEvent(event, handleCollapse);
 
+  const handleMenuStateChange = state => {
+    setActiveMenuState(state);
+    setSelectedArticleIds([]);
+  };
+
   useEffect(() => {
     if (!isSearchCollapsed) fetchSearchResults();
   }, [searchTerm]);
@@ -76,7 +83,7 @@ const Menu = ({
             count={getMenuArticlesCount(articleCounts, state)}
             key={state}
             label={state}
-            onClick={() => setActiveMenuState(state)}
+            onClick={() => handleMenuStateChange(state)}
           />
         ))}
         <SubTitle
