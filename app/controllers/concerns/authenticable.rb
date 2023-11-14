@@ -12,12 +12,11 @@ module Authenticable
     def authenticate_using_x_auth_token
       auth_token = request.headers["X-Auth-Token"].presence
 
-      # TODO: See how its implemented in LRRB and rectify if possible
       is_valid_token = auth_token && ActiveSupport::SecurityUtils.secure_compare(
-        SiteSetting.first&.authentication_token,
+        Site.first&.authentication_token,
         auth_token)
 
-      if SiteSetting.first.is_password_protected && !is_valid_token
+      if Site.first.is_password_protected && !is_valid_token
         respond_with_error(t("unauthorised_request"), :forbidden)
       end
     end

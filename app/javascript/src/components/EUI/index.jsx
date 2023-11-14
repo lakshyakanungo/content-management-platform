@@ -4,7 +4,7 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { Route, Switch } from "react-router-dom";
 
 import { setAuthHeaders } from "apis/axios";
-import siteSettingsApi from "apis/siteSettings";
+import siteApi from "apis/site";
 import { getFromLocalStorage } from "utils/storage";
 
 import Home from "./Home";
@@ -19,11 +19,11 @@ const EUI = () => {
   const authToken = getFromLocalStorage("authToken");
   const isAuthenticated = !!authToken;
 
-  const fetchSiteSettings = async () => {
+  const fetchSite = async () => {
     try {
       const {
         data: { isPasswordProtected, title },
-      } = await siteSettingsApi.fetch();
+      } = await siteApi.fetch();
       setIsPasswordProtected(isPasswordProtected);
       setSiteName(title);
     } catch (error) {
@@ -35,7 +35,7 @@ const EUI = () => {
 
   useEffect(() => {
     setAuthHeaders(setLoading);
-    fetchSiteSettings();
+    fetchSite();
   }, []);
 
   if (loading || isPageLoading) {

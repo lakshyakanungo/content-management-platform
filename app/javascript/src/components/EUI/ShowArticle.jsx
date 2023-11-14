@@ -5,7 +5,7 @@ import { Spinner } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import euiApi from "apis/eui";
+import euiApi from "apis/euis";
 
 const ShowArticle = ({ setSelectedArticleId }) => {
   const [loading, setLoading] = useState(true);

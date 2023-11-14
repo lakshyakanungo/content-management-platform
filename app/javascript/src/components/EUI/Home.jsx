@@ -5,7 +5,7 @@ import { Accordion, Input, Spinner } from "neetoui";
 import { useHistory, Route } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 
-import euiApi from "apis/eui";
+import euiApi from "apis/euis";
 
 import { SEARCH_SUFFIX } from "./constants";
 import Search from "./Search";

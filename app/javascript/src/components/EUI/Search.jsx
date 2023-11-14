@@ -4,7 +4,7 @@ import { Search as SearchIcon } from "@bigbinary/neeto-icons";
 import { Input, Modal } from "@bigbinary/neetoui";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import euiApi from "apis/eui";
+import euiApi from "apis/euis";
 import { useKeyDown } from "hooks/useKeyDown";
 
 import { SEARCH_SUFFIX } from "./constants";

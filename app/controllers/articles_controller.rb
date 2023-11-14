@@ -5,18 +5,12 @@ class ArticlesController < ApplicationController
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
   before_action :reset_article_visits, only: %i[update bulk_update]
 
-  # def info_for_paper_trail
-  #   { restored: params[:action] == "restore_version" ? true : false }
-  # end
-
   def index
     @draft_articles_count = current_user.articles.draft.count
     @published_articles_count = current_user.articles.published.count
   end
 
   def search
-    # TODO: See do we have to send search query with name of title? or smth else would suffice
-
     query = params[:title].downcase
     category_ids = params[:category_id]
     status = params[:status]
@@ -47,12 +41,12 @@ class ArticlesController < ApplicationController
   end
 
   def restore_version
-    puts request.inspect, "restore request"
     version = @article.versions.find(article_params[:version_id])
     @article = version.reify
     @article.status = "draft"
     @article.paper_trail_event = "restore"
     @article.save!
+    # TODO: translation here
     respond_with_success("Article version restored")
   end
 

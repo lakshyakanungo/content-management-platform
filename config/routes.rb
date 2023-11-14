@@ -2,7 +2,6 @@
 
 Rails.application.routes.draw do
   draw :sidekiq
-  draw :api
 
   constraints(lambda { |req| req.format == :json }) do
     resources :articles, except: %i[new edit] do
@@ -18,11 +17,15 @@ Rails.application.routes.draw do
       get "search", on: :collection
     end
     resources :redirections, except: %i[show new edit]
-    resource :site_settings, only: %i[show update]
+    resource :site, only: %i[show update]
     resource :session, only: :create
-    resources :euis, only: %i[index show], param: :slug do
-      get "search", on: :collection
+
+    namespace :eui do
+      resources :articles, only: %i[index show], param: :slug do
+        get "search", on: :collection
+      end
     end
+
   end
 
   root "home#index"

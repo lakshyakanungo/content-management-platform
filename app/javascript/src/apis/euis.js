@@ -3,12 +3,12 @@ import axios from "axios";
 // TODO: This file is named as singular. SEe if its correct.
 // Better name it with public.
 
-const fetch = () => axios.get("/euis");
+const fetch = () => axios.get("/eui/articles");
 
-const show = slug => axios.get(`/euis/${slug}`);
+const show = slug => axios.get(`/eui/articles/${slug}`);
 
 const search = searchTerm =>
-  axios.get(`euis/search`, {
+  axios.get(`/eui/articles/search`, {
     params: {
       search_term: searchTerm,
     },

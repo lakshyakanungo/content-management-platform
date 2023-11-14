@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-json.extract! @site_setting,
+json.extract! @site,
   :authentication_token

@@ -4,7 +4,7 @@ import { Check, Close } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import siteSettingsApi from "apis/siteSettings";
+import siteApi from "apis/site";
 
 import { INITIAL_VALUES } from "./constants";
 import {
@@ -14,7 +14,7 @@ import {
   validateForm,
 } from "./utils";
 
-const Form = ({ fetchSiteSettings }) => {
+const Form = ({ fetchSite }) => {
   const [hasMinError, setHasMinError] = useState(true);
   const [hasMatchError, setHasMatchError] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -25,8 +25,8 @@ const Form = ({ fetchSiteSettings }) => {
 
   const handleSubmit = async ({ password }) => {
     try {
-      await siteSettingsApi.update({ password, is_password_protected: true });
-      fetchSiteSettings();
+      await siteApi.update({ password, is_password_protected: true });
+      fetchSite();
     } catch (error) {
       logger.log(error);
     }

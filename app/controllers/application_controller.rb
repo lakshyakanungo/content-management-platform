@@ -5,13 +5,11 @@ class ApplicationController < ActionController::Base
   include ApiRescuable
   include Loggable
 
-  before_action :add_default_user
-
-  def add_default_user
-    @user = User.first
+  def current_user
+    @_current_user ||= User.first
   end
 
-  def current_user
-    @user
+  def load_site
+    @site = Site.first
   end
 end

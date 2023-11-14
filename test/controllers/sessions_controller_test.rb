@@ -4,13 +4,13 @@ require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site_setting = SiteSetting.create!(title: "Test title", is_password_protected: true, password: "welcome1")
+    @site = Site.create!(title: "Test title", is_password_protected: true, password: "welcome1")
   end
 
   def test_should_authenticate_valid_password
-    post session_path, params: { session: { password: @site_setting.password } }, as: :json
+    post session_path, params: { session: { password: @site.password } }, as: :json
     assert_response :success
-    assert_equal response_body["authentication_token"], @site_setting.authentication_token
+    assert_equal response_body["authentication_token"], @site.authentication_token
   end
 
   def test_shouldnt_authenticate_invalid_password
