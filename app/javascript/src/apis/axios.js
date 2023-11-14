@@ -44,16 +44,16 @@ const handleErrorResponse = error => {
     Toastr.error(error.response?.data?.error);
     setToLocalStorage("authToken", null);
     setTimeout(() => (window.location.href = "/eui/login"), 2000);
-  } else {
+  } else if (error.response?.status !== 404) {
     Toastr.error(error.response?.data?.error || error.message);
   }
 
   return Promise.reject(error);
 };
 
-const registerIntercepts = authDispatch => {
+const registerIntercepts = () => {
   axios.interceptors.response.use(handleSuccessResponse, error =>
-    handleErrorResponse(error, authDispatch)
+    handleErrorResponse(error)
   );
 };
 

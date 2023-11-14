@@ -47,13 +47,6 @@ const EUI = () => {
   return (
     <div className="h-screen w-full flex flex-col">
       <Switch>
-        {/* <PrivateRoute
-          component={Home}
-          condition={!isPasswordProtected || isAuthenticated}
-          path="/eui"
-          redirectRoute="/eui/login"
-          siteName={siteName}
-        /> */}
         {isPasswordProtected && !isAuthenticated && (
           <Route
             exact

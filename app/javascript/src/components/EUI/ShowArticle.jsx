@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { EditorContent } from "@bigbinary/neeto-editor";
 import { Spinner } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 import euiApi from "apis/eui";
 
@@ -11,6 +12,7 @@ const ShowArticle = ({ setSelectedArticleId }) => {
   const [article, setArticle] = useState({});
 
   const { slug } = useParams();
+  const history = useHistory();
 
   const fetchArticle = async () => {
     try {
@@ -21,6 +23,7 @@ const ShowArticle = ({ setSelectedArticleId }) => {
       setSelectedArticleId(article.id);
     } catch (error) {
       logger.log(error);
+      history.replace("/eui");
     } finally {
       setLoading(false);
     }

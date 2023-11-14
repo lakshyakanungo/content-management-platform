@@ -39,6 +39,7 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
   const handleClick = article => {
     history.push(`${article.slug}`);
     setShowSearchModal(false);
+    setSearchTerm("");
   };
 
   // const handleKeyDown = e => {
