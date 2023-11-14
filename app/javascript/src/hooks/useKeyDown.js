@@ -3,7 +3,6 @@ import { useEffect } from "react";
 const useKeyDown = (action, keyName = "Escape") => {
   const handelKeyDown = event => {
     if (event.code === keyName) {
-      // event.preventDefault();
       action();
     }
   };
