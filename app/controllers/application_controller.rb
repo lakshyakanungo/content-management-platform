@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     @_current_user ||= User.first
   end
 
-  def load_site_setting
-    @site_setting = SiteSetting.first
+  def load_site
+    @site = Site.first
   end
 end

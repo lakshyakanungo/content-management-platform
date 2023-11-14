@@ -4,7 +4,7 @@ import { Spinner } from "@bigbinary/neetoui";
 import { Form, Input as FormikInput, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import siteSettingsApi from "apis/siteSettings";
+import siteApi from "apis/site";
 
 import { VALIDATION_SCHEMA } from "./constants";
 
@@ -21,7 +21,7 @@ const General = () => {
       setLoading(true);
       const {
         data: { title },
-      } = await siteSettingsApi.fetch();
+      } = await siteApi.fetch();
       setSiteName(title);
     } catch (error) {
       logger.log(error);
@@ -32,7 +32,7 @@ const General = () => {
 
   const handleSubmit = async ({ siteName }) => {
     try {
-      await siteSettingsApi.update({ title: siteName });
+      await siteApi.update({ title: siteName });
       fetchSiteName();
     } catch (error) {
       logger.log(error);

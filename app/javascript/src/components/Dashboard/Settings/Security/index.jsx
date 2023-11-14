@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Spinner, Switch } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 
-import siteSettingsApi from "apis/siteSettings";
+import siteApi from "apis/site";
 
 import ChangePassword from "./ChangePassword";
 import Form from "./Form";
@@ -17,10 +17,10 @@ const Security = () => {
 
   const { t } = useTranslation();
 
-  const fetchSiteSettings = async () => {
+  const fetchSite = async () => {
     try {
       setLoading(true);
-      const { data } = await siteSettingsApi.fetch();
+      const { data } = await siteApi.fetch();
       const { isPasswordProtected } = data;
       setIsPasswordRequired(isPasswordProtected);
       setShowChangePasswordForm(isPasswordProtected);
@@ -33,10 +33,10 @@ const Security = () => {
 
   const updateSecurity = async value => {
     try {
-      await siteSettingsApi.update({
+      await siteApi.update({
         is_password_protected: value,
       });
-      fetchSiteSettings();
+      fetchSite();
     } catch (error) {
       logger.log(error);
     }
@@ -48,7 +48,7 @@ const Security = () => {
   };
 
   useEffect(() => {
-    fetchSiteSettings();
+    fetchSite();
   }, []);
 
   if (loading) {
@@ -75,7 +75,7 @@ const Security = () => {
             setShowChangePasswordForm={setShowChangePasswordForm}
           />
         ) : (
-          <Form fetchSiteSettings={fetchSiteSettings} />
+          <Form fetchSite={fetchSite} />
         ))}
     </Layout>
   );

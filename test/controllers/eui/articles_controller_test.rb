@@ -7,14 +7,14 @@ require "test_helper"
 
 class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site_setting = SiteSetting.create!(title: "Test title", is_password_protected: true)
-    @headers = set_headers(@site_setting)
+    @site = Site.create!(title: "Test title", is_password_protected: true)
+    @headers = set_headers(@site)
   end
 
-  def set_headers(site_setting, options = {}){
+  def set_headers(site, options = {}){
     Accept: "application/json",
     "Content_Type" => "application/json",
-    "X-Auth-Token" => site_setting.authentication_token
+    "X-Auth-Token" => site.authentication_token
   }.merge(options)
   end
 

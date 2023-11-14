@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       get "search", on: :collection
     end
     resources :redirections, except: %i[show new edit]
-    resource :site_settings, only: %i[show update]
+    resource :site, only: %i[show update]
     resource :session, only: :create
 
     namespace :eui do
