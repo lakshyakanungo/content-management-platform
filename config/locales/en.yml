@@ -16,6 +16,7 @@ en:
   article:
     slug:
       immutable: "is immutable!"
+    restored: "Article version restored"
   category:
     delete:
       error: "Can't delete General category!"

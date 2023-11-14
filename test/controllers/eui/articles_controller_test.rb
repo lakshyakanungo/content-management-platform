@@ -2,12 +2,15 @@
 
 require "test_helper"
 
-# NOTE: - EUI controller tests are failing with a reason related to
-# why the redirection from one article to another in not happening in EUI.
-
 class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = Site.create!(title: "Test title", is_password_protected: true)
+    @user = create(:user)
+    @category = Category.create!(name: "Test category", user_id: @user.id)
+    @article = Article.create!(
+      title: "Test article", body: "<p>Test body</p>", status: "published",
+      user_id: @user.id,
+      category_id: @category.id)
+    @site = Site.create!(title: "Test title", is_password_protected: false)
     @headers = set_headers(@site)
   end
 
@@ -18,28 +21,59 @@ class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   }.merge(options)
   end
 
-  # def test_should_list_grouped_articles
-  #   get(euis_path, headers:)
-  #   assert_response :success
-  #   response_json = response_body
+  def test_should_list_grouped_articles
+    get(eui_articles_path, headers: @headers)
+    assert_response :success
+    response_json = response_body
 
-  #   grouped_articles = response_json["grouped_articles"]
+    grouped_articles = response_json["grouped_articles"]
 
-  #   expected_group_names = []
-  #   expected_article_ids_by_group = []
+    expected_group_names = []
+    expected_article_ids_by_group = []
 
-  #   Article.joins(:category).group_by { |article| article.category.name }.to_a.each do |group|
-  #     expected_article_ids_by_group << group[1].pluck("id")
-  #     expected_group_names << group[0]
-  #   end
+    Article.joins(:category).group_by { |article| article.category.name }.to_a.each do |group|
+      expected_article_ids_by_group << group[1].pluck("id")
+      expected_group_names << group[0]
+    end
 
-  #   expected_group_names = expected_group_names.sort
-  #   expected_article_ids_by_group = expected_article_ids_by_group.flatten.sort
+    expected_group_names = expected_group_names.sort
+    expected_article_ids_by_group = expected_article_ids_by_group.flatten.sort
 
-  #   actual_group_names = grouped_articles.map { |group| group[0] }.sort
-  #   actual_articles_ids_by_group = grouped_articles.map { |group| group[1].pluck("id") }.flatten.sort
+    actual_group_names = grouped_articles.map { |group| group[0] }.sort
+    actual_articles_ids_by_group = grouped_articles.map { |group| group[1].pluck("id") }.flatten.sort
 
-  #   assert_equal expected_group_names, actual_group_names
-  #   assert_equal expected_article_ids_by_group, actual_articles_ids_by_group
-  # end
+    assert_equal expected_group_names, actual_group_names
+    assert_equal expected_article_ids_by_group, actual_articles_ids_by_group
+  end
+
+  def test_search_results_should_list_articles
+    search_term = "ru"
+
+    get(search_eui_articles_path(search_term:), headers: @headers)
+    assert_response :success
+    response_json = response_body
+
+    search_articles = response_json["articles"]
+
+    expected_search_results = Article.published
+      .where("lower(title) LIKE :search_term OR lower(body) LIKE :search_term", search_term: "%#{search_term}%")
+      .pluck(:id).sort
+
+    actual_search_results = search_articles.pluck("id").sort
+
+    assert_equal expected_search_results, actual_search_results
+  end
+
+  def test_should_respond_with_article
+    get(
+      eui_article_path(slug: @article.slug), headers: @headers)
+    assert_response :success
+
+    response_json = response_body
+    expected_article_id = response_json["article"]["id"]
+
+    actual_article_id = @article.id
+
+    assert_equal expected_article_id, actual_article_id
+  end
 end

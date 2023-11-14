@@ -68,17 +68,14 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal test_category.position, new_position
   end
 
-  # DOUBT: This test is giving Interanl server error:500. How to write correctly?
-  # Failing if using assert difference also so tried this way.
+  def test_should_destroy_category
+    new_category = Category.create!(name: "New", user_id: @user.id)
+    assert_difference "Category.count", -1 do
+      delete(
+        category_path(id: @category.id, params: { category: { move_into_category_id: new_category.id } }),
+        headers:)
+    end
 
-  # def test_should_destroy_category
-  #   new_category = Category.create!(name: "New", user_id: @user.id)
-  #   initial_category_count = Category.count
-
-  #   delete(category_path(id: @category.id, move_into_category_id: new_category.id), headers:)
-  #   assert_response :ok
-
-  #   @category.reload
-  #   assert_nil @category
-  # end
+    assert_response :success
+  end
 end

@@ -33,6 +33,30 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_published_articles_count, actual_published_articles_count
   end
 
+  def test_search_results_should_list_articles
+    query = "a"
+    status = "draft"
+    category_id = [@category.id]
+
+    get(search_articles_path(title: query, status:, category_id:), headers:)
+    assert_response :success
+    response_json = response_body
+
+    search_articles = response_json["articles"]
+
+    expected_search_results = Article
+      .where(status:)
+      .where(category_id:)
+      .where("lower(title) LIKE ?", "%#{query}%")
+      .includes(:category)
+      .order(updated_at: :desc)
+
+    actual_search_result_ids = search_articles.pluck("id").sort
+    expected_search_result_ids = expected_search_results.pluck("id").sort
+
+    assert_equal expected_search_result_ids, actual_search_result_ids
+  end
+
   def test_should_create_valid_article
     post(
       articles_path,
@@ -77,28 +101,43 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
-  # Note:- This test is failing with an error "Can't cast hash." Not able to debug it yet.
+  def test_should_respond_with_article
+    get(
+      article_path(id: @article.id), headers:)
+    assert_response :success
 
-  # def test_search_results_should_list_articles
-  #   query = "a"
-  #   status = "draft"
-  #   category_id = [@category.id]
+    response_json = response_body
+    expected_article_id = response_json["article"]["id"]
 
-  #   get(search_articles_path(title: query, status:, category_id:), headers:)
-  #   assert_response :success
-  #   response_json = response_body
+    actual_article_id = @article.id
 
-  #   search_articles = response_json["articles"]
+    assert_equal expected_article_id, actual_article_id
+  end
 
-  #   expected_search_results = Article.by_status(status:)
-  #     .by_categories(category_id:)
-  #     .where("lower(title) LIKE ?", "%#{query}%")
-  #     .includes(:category)
-  #     .order(updated_at: :desc)
-  #     .to_a
+  def test_should_restore_article_version
+    @article.update!(title: "New title")
+    previous_version = @article.versions.last
+    put(
+      restore_version_articles_path(
+        id: @article.id, params: {
+          article: { version_id: previous_version.id }
+        }), headers:)
 
-  #   actual_search_results = search_articles.pluck("id")
+    assert_response :success
+    assert_equal @article.reload.title, previous_version.object["title"]
+    assert_equal t("article.restored"), response_body["notice"]
+  end
 
-  #   assert_equal expected_search_results, actual_search_results
-  # end
+  def test_should_list_articles_in_analytics_and_in_correct_order
+    get(analytics_articles_path(order_by: "desc"), headers:)
+    assert_response :success
+    actual_articles = response_body["articles"]
+
+    expected_articles = Article.published.order(visits: "desc")
+
+    actual_article_ids = actual_articles.pluck("id")
+    expected_article_ids = expected_articles.pluck("id")
+
+    assert_equal expected_article_ids, actual_article_ids
+  end
 end

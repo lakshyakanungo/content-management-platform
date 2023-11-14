@@ -7,4 +7,10 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_response :success
   end
+
+  def test_should_redirect_successfully
+    Redirection.create!(from: "/1", to: "/2")
+    get "/1"
+    assert_response :moved_permanently
+  end
 end

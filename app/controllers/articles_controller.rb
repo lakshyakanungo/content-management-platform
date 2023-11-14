@@ -3,7 +3,6 @@
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy restore_version]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
-  before_action :reset_article_visits, only: %i[update bulk_update]
 
   def index
     @draft_articles_count = current_user.articles.draft.count
@@ -12,12 +11,10 @@ class ArticlesController < ApplicationController
 
   def search
     query = params[:title].downcase
-    category_ids = params[:category_id]
-    status = params[:status]
 
     @search_results = current_user.articles
-      .by_status(status)
-      .by_categories(category_ids)
+      .by_status(params[:status])
+      .by_categories(params[:category_id])
       .where("lower(title) LIKE ?", "%#{query}%")
       .includes(:category)
       .order(updated_at: :desc)
@@ -35,7 +32,7 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    updated_article_params = reset_article_visits
+    updated_article_params = merge_visits_in_params_for_draft
     @article.update!(updated_article_params)
     respond_with_success(t("successfully_updated", entity: "Article", count: 1))
   end
@@ -46,8 +43,7 @@ class ArticlesController < ApplicationController
     @article.status = "draft"
     @article.paper_trail_event = "restore"
     @article.save!
-    # TODO: translation here
-    respond_with_success("Article version restored")
+    respond_with_success(t("article.restored"))
   end
 
   def analytics
@@ -70,7 +66,7 @@ class ArticlesController < ApplicationController
   end
 
   def bulk_update
-    updated_article_params = reset_article_visits
+    updated_article_params = merge_visits_in_params_for_draft
     @articles.update!(updated_article_params)
     respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
   end
@@ -89,7 +85,7 @@ class ArticlesController < ApplicationController
       @articles = current_user.articles.where(id: params[:ids])
     end
 
-    def reset_article_visits
+    def merge_visits_in_params_for_draft
       if article_params[:status] == "draft"
         article_params.merge({ visits: 0 })
       else
