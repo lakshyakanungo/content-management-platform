@@ -12,7 +12,7 @@ class EuisController < ApplicationController
   end
 
   def show
-    @article = current_user.articles.find_by(slug: params[:slug])
+    @article = current_user.articles.published.find_by!(slug: params[:slug])
     @article.update!(visits: @article.visits + 1) # increase visits
   end
 

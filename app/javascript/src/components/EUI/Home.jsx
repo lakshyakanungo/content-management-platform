@@ -21,6 +21,7 @@ const Home = ({ siteName }) => {
 
   const history = useHistory();
   const match = useRouteMatch("/eui/:slug");
+  const slug = match?.params?.slug;
 
   const fetchArticlesByCategory = async () => {
     try {
@@ -36,8 +37,6 @@ const Home = ({ siteName }) => {
   };
 
   const routeToArticle = () => {
-    const slug = match?.params?.slug;
-
     if (slug) {
       history.push(`/eui/${slug}`);
     } else {
@@ -52,7 +51,7 @@ const Home = ({ siteName }) => {
 
   useEffect(() => {
     if (articlesByCategory.length !== 0) routeToArticle();
-  }, [articlesByCategory]);
+  }, [articlesByCategory, slug]);
 
   if (loading) {
     return (
