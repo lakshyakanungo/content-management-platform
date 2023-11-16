@@ -36,32 +36,36 @@ export const buildArticlesColumnData = ({
     key: "title",
     render: (_, record) => <Title record={record} />,
     ellipsis: {
-      showTitle: true,
+      showTitle: false,
     },
+    width: 50,
   },
   {
     title: t("dashboard.articles.page.table.category"),
     dataIndex: "categoryName",
     key: "category",
     ellipsis: {
-      showTitle: true,
+      showTitle: false,
     },
+    width: 10,
   },
   {
     title: t("dashboard.articles.page.table.author"),
     dataIndex: "author",
     key: "author",
     ellipsis: {
-      showTitle: true,
+      showTitle: false,
     },
+    width: 5,
   },
   {
     title: t("dashboard.articles.page.table.lastPublishedAt"),
     dataIndex: "lastPublishedAt",
     key: "lastPublishedAt",
     ellipsis: {
-      showTitle: true,
+      showTitle: false,
     },
+    width: 15,
     render: renderLastPublishedAt,
   },
   {
@@ -69,14 +73,16 @@ export const buildArticlesColumnData = ({
     dataIndex: "status",
     key: "status",
     ellipsis: {
-      showTitle: true,
+      showTitle: false,
     },
+    width: 10,
     render: renderStatus,
   },
   {
     title: "",
     dataIndex: "iconButton",
     key: "iconButton",
+    width: 10,
     render: (_, record) => (
       <Dropdown
         handleDelete={handleDelete}

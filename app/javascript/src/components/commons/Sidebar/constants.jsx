@@ -24,7 +24,7 @@ export const NAVLINKS = [
   {
     label: i18n.t("dashboard.sidebar.navlinks.eui.label"),
     description: i18n.t("dashboard.sidebar.navlinks.eui.description"),
-    to: "/eui",
+    to: "/eui/login",
     icon: ExternalLink,
     target: "_blank",
   },

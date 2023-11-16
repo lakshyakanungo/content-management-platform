@@ -17,8 +17,6 @@ const search = ({
     },
   });
 
-//TODO: See if this way of passing key value pair for params in api connector okay?
-// Or this logic should be moved to the place of calling the api.
 const analytics = (currentPageNumber, orderBy) =>
   axios.get("/articles/analytics", {
     params: {
@@ -32,37 +30,31 @@ const create = ({ payload }) =>
     article: payload,
   });
 
-const update = ({ id, payload }) => {
+const update = ({ id, payload }) =>
   axios.put(`/articles/${id}`, {
     article: payload,
   });
-};
 
-const restore = ({ id, versionId }) => {
+const restore = ({ id, versionId }) =>
   axios.put(`/articles/restore_version/`, {
     id,
     article: { version_id: versionId },
   });
-};
 
 const show = id => axios.get(`/articles/${id}`);
 
-const destroy = id => {
-  axios.delete(`/articles/${id}`);
-};
+const destroy = id => axios.delete(`/articles/${id}`);
 
-const bulkDelete = ids => {
+const bulkDelete = ids =>
   axios.delete(`/articles/bulk_destroy/`, {
     data: { ids },
   });
-};
 
-const bulkUpdate = ({ ids, payload }) => {
+const bulkUpdate = ({ ids, payload }) =>
   axios.put(`articles/bulk_update`, {
     ids,
     article: payload,
   });
-};
 
 const articlesApi = {
   fetch,
