@@ -74,7 +74,7 @@ const Menu = ({
   }, [searchTerm]);
 
   return (
-    <div>
+    <>
       <MenuBar showMenu={showMenu} title={t("dashboard.articles.menu.title")}>
         {MENU_ARTICLE_STATES.map(state => (
           <Block
@@ -141,7 +141,7 @@ const Menu = ({
         setShowAddCategoryModal={setShowAddCategoryModal}
         showAddCategoryModal={showAddCategoryModal}
       />
-    </div>
+    </>
   );
 };
 

@@ -28,24 +28,24 @@ const Table = ({
   };
 
   return (
-    <div className="notes-table-height w-11/12 justify-center">
-      <TableWrapper>
-        <NeetoUITable
-          allowRowClick
-          rowSelection
-          bordered={false}
-          columnData={columnData}
-          currentPageNumber={currentPageNumber}
-          defaultPageSize={9}
-          handlePageChange={page => setCurrentPageNumber(page)}
-          rowClassName={buildRowClassName}
-          rowData={articles}
-          selectedRowKeys={selectedArticleIds}
-          totalCount={totalArticlesCount}
-          onRowSelect={handleRowSelect}
-        />
-      </TableWrapper>
-    </div>
+    // <div className="notes-table-height w-11/12 justify-center">
+    <TableWrapper>
+      <NeetoUITable
+        allowRowClick
+        rowSelection
+        bordered={false}
+        columnData={columnData}
+        currentPageNumber={currentPageNumber}
+        defaultPageSize={9}
+        handlePageChange={page => setCurrentPageNumber(page)}
+        rowClassName={buildRowClassName}
+        rowData={articles}
+        selectedRowKeys={selectedArticleIds}
+        totalCount={totalArticlesCount}
+        onRowSelect={handleRowSelect}
+      />
+    </TableWrapper>
+    // </div>
   );
 };
 

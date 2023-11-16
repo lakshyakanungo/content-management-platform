@@ -61,7 +61,7 @@ const Articles = () => {
   }
 
   return (
-    <div className="flex-grow flex-shrink flex flex-row">
+    <div className="flex-grow flex flex-row">
       <Menu
         activeMenuState={activeMenuState}
         articleCounts={articleCounts}
