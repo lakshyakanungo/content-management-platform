@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
+import Schedule from "./Schedule";
 import VersionHistory from "./VersionHistory";
 
 import ActionDropdown from "../ActionDropdown";
@@ -26,6 +27,7 @@ const Edit = () => {
   const [categories, setCategories] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const history = useHistory();
   const { id } = useParams();
@@ -131,10 +133,18 @@ const Edit = () => {
                     {article.status}
                   </Typography>
                   <Button
+                    // TODO: Add to translation
                     label="View version history"
                     style="text"
                     type="button"
                     onClick={() => setShowVersionHistory(true)}
+                  />
+                  <Button
+                    className="neeto-ui-text-primary-800"
+                    label="Schedule update"
+                    style="link"
+                    type="button"
+                    onClick={() => setShowScheduleModal(true)}
                   />
                 </div>
                 <div className="flex gap-3">
@@ -164,6 +174,14 @@ const Edit = () => {
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}
       />
+      {showScheduleModal && (
+        <Schedule
+          editorRef={editorRef}
+          setShowScheduleModal={setShowScheduleModal}
+          showScheduleModal={showScheduleModal}
+          // selectedCategory={}
+        />
+      )}
     </div>
   );
 };
