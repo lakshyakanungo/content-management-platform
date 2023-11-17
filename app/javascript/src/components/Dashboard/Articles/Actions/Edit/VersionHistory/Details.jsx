@@ -37,7 +37,7 @@ const Details = ({
 
   return (
     <Modal
-      className="mx-auto w-9/12"
+      className="mx-auto min-w-65"
       isOpen={showVersionDetails}
       size="large"
       onClose={() => setShowVersionDetails(false)}
