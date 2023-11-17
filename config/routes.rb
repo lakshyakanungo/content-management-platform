@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get "search"
         put "restore_version"
         get "analytics"
+        put "schedule_update"
       end
     end
     resources :categories, except: %i[show new edit] do

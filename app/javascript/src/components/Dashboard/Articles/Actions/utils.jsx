@@ -43,3 +43,14 @@ export const parseData = ({
 
   return { title, status, body, category_id: selectedCategory.id };
 };
+
+// export const parseDataForSchedule = ({
+//   editorRef,
+//   selectedCategory,
+//   scheduleTime,
+//   status,
+// }) => {
+//   const body = editorRef.current.editor.getHTML();
+//   const jsonOfContent = editorRef.current.editor.getJSON();
+//   const title = extractTitle(jsonOfContent);
+// };
