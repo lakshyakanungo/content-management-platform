@@ -16,6 +16,15 @@ export const buildButtonLabel = version => {
   );
 };
 
+export const buildCurrentVersionLabel = article =>
+  article.status === "draft"
+    ? i18n.t(
+        "dashboard.articles.actions.edit.versionHistory.button.label.drafted"
+      )
+    : i18n.t(
+        "dashboard.articles.actions.edit.versionHistory.button.label.published"
+      );
+
 export const renderCategoryName = (article, categories) => {
   const category = categories.find(
     category => category.id === article.categoryId

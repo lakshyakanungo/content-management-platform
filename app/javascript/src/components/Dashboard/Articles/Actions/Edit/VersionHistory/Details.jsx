@@ -9,9 +9,9 @@ import articlesApi from "apis/articles";
 import { renderCategoryName } from "./utils";
 
 const Details = ({
-  details,
-  showDetails,
-  setShowDetails,
+  version,
+  showVersionDetails,
+  setShowVersionDetails,
   categories,
   setShowVersionHistory,
   refetch,
@@ -20,12 +20,14 @@ const Details = ({
 
   const { Header, Body, Footer } = Modal;
 
-  const article = details.object;
+  const isCurrentVersion = !version.object;
+  const article = isCurrentVersion ? version : version.object;
+
   const categoryName = renderCategoryName(article, categories);
 
   const restoreVersion = async () => {
     try {
-      await articlesApi.restore({ id: article.id, versionId: details.id });
+      await articlesApi.restore({ id: article.id, versionId: version.id });
       refetch();
       setShowVersionHistory(false);
     } catch (error) {
@@ -36,9 +38,9 @@ const Details = ({
   return (
     <Modal
       className="mx-auto w-9/12"
-      isOpen={showDetails}
+      isOpen={showVersionDetails}
       size="large"
-      onClose={() => setShowDetails(false)}
+      onClose={() => setShowVersionDetails(false)}
     >
       <Header>
         <div className="flex flex-col">
@@ -55,26 +57,28 @@ const Details = ({
         </div>
       </Header>
       <Body className="overflow-auto max-h-128">
-        <EditorContent content={article?.body} />
+        <EditorContent content={article.body} />
       </Body>
-      <Footer className="mt-6">
-        <Button
-          className="mr-2"
-          type="button"
-          label={t(
-            "dashboard.articles.actions.edit.versionHistory.details.button.restore"
-          )}
-          onClick={restoreVersion}
-        />
-        <Button
-          style="text"
-          type="button"
-          label={t(
-            "dashboard.articles.actions.edit.versionHistory.details.button.cancel"
-          )}
-          onClick={() => setShowDetails(false)}
-        />
-      </Footer>
+      {!isCurrentVersion && (
+        <Footer className="mt-6">
+          <Button
+            className="mr-2"
+            type="button"
+            label={t(
+              "dashboard.articles.actions.edit.versionHistory.details.button.restore"
+            )}
+            onClick={restoreVersion}
+          />
+          <Button
+            style="text"
+            type="button"
+            label={t(
+              "dashboard.articles.actions.edit.versionHistory.details.button.cancel"
+            )}
+            onClick={() => setShowVersionDetails(false)}
+          />
+        </Footer>
+      )}
     </Modal>
   );
 };

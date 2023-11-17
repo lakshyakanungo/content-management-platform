@@ -5,7 +5,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { formatDate } from "utils";
 
 import Details from "./Details";
-import { buildButtonLabel } from "./utils";
+import { buildButtonLabel, buildCurrentVersionLabel } from "./utils";
 
 const VersionHistory = ({
   article,
@@ -14,16 +14,16 @@ const VersionHistory = ({
   setShowVersionHistory,
   refetch,
 }) => {
-  const [details, setDetails] = useState({});
-  const [showDetails, setShowDetails] = useState(false);
+  const [version, setVersion] = useState({});
+  const [showVersionDetails, setShowVersionDetails] = useState(false);
 
   const { Header, Body } = Pane;
 
   const { t } = useTranslation();
 
   const handleClick = version => {
-    setDetails(version);
-    setShowDetails(true);
+    setVersion(version);
+    setShowVersionDetails(true);
   };
 
   return (
@@ -44,10 +44,24 @@ const VersionHistory = ({
             />
           </Typography>
         </Header>
-        <Body>
-          {article.versions.map(version => (
+        <Body className="w-full">
+          <div className="neeto-ui-bg-primary-100 p-2 flex flex-col neeto-ui-rounded-sm">
+            <div className="flex flex-row gap-3 items-center">
+              <span>{formatDate(article.updatedAt)}</span>
+              <Button
+                className="neeto-ui-text-primary-600 capitalize"
+                label={buildCurrentVersionLabel(article)}
+                style="text"
+                onClick={() => handleClick(article)}
+              />
+            </div>
+            <span className="neeto-ui-text-primary-600 italic w-full ml-4">
+              {t("dashboard.articles.actions.edit.versionHistory.current")}
+            </span>
+          </div>
+          {article.versions.toReversed().map(version => (
             <div
-              className="flex flex-row gap-3 items-center py-1"
+              className="flex flex-row gap-3 items-center py-1 px-2"
               key={version.id}
             >
               {version.object && (
@@ -65,14 +79,14 @@ const VersionHistory = ({
           ))}
         </Body>
       </Pane>
-      {showDetails && (
+      {showVersionDetails && (
         <Details
           categories={categories}
-          details={details}
           refetch={refetch}
-          setShowDetails={setShowDetails}
+          setShowVersionDetails={setShowVersionDetails}
           setShowVersionHistory={setShowVersionHistory}
-          showDetails={showDetails}
+          showVersionDetails={showVersionDetails}
+          version={version}
         />
       )}
     </>

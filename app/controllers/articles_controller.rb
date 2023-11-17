@@ -38,11 +38,14 @@ class ArticlesController < ApplicationController
   end
 
   def restore_version
-    version = @article.versions.find(article_params[:version_id])
-    @article = version.reify
-    @article.status = "draft"
-    @article.paper_trail_event = "restore"
-    @article.save!
+    version = @article.versions.find(article_params[:version_id]).reify
+    # puts version.inspect, "version"
+    @article.update!(
+      version.attributes.slice("title", "body", "category_id").merge(
+        {
+          status: "draft",
+          paper_trail_event: "restore"
+        }))
     respond_with_success(t("article.restored"))
   end
 
