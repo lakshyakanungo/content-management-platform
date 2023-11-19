@@ -3,6 +3,7 @@ import * as yup from "yup";
 
 import i18n from "common/i18n";
 
+// TODO: Change const name to appropriate name
 export const EDITOR_VALIDATION_SCHEMA = yup.object().shape({
   selectedCategory: yup.object().nullable().required("Category is required"),
   editor: yup

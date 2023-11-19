@@ -13,13 +13,15 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import Schedule from "./Schedule";
+// import Schedule from "./Schedule";
+import Schedule2 from "./Schedule/index2";
 import VersionHistory from "./VersionHistory";
 
 import ActionDropdown from "../ActionDropdown";
 import { EDITOR_VALIDATION_SCHEMA } from "../constants";
 import Editor from "../Editor";
 import { buildSelectClassName, parseData } from "../utils";
+// import dayjs from "dayjs";
 
 const Edit = () => {
   const [loading, setLoading] = useState(true);
@@ -39,15 +41,32 @@ const Edit = () => {
   const getDefaultCategory = () =>
     categories.find(category => category.id === article.categoryId);
 
-  const handleEdit = async ({ selectedCategory }) => {
+  // const handleEdit = async ({ selectedCategory }) => {
+  //   try {
+  //     const data = parseData({
+  //       selectedCategory,
+  //       editorRef,
+  //       selectedOptionIndex,
+  //     });
+  //     await articlesApi.update({ id, payload: data });
+  //     history.push("/articles");
+  //   } catch (error) {
+  //     logger.log(error);
+  //   }
+  // };
+  const handleEdit = async values => {
     try {
+      // console.log(values, "values");
       const data = parseData({
-        selectedCategory,
+        selectedCategory: values.selectedCategory,
         editorRef,
         selectedOptionIndex,
       });
-      await articlesApi.update({ id, payload: data });
-      history.push("/articles");
+      // console.log(data, "data");
+      // console.log(dayjs(values.date).format("MMM D, YYYY, h:mm A"), "date got");
+      // await articlesApi.update({ id, payload: data });
+      // history.push("/articles");
+      data;
     } catch (error) {
       logger.log(error);
     }
@@ -100,6 +119,7 @@ const Edit = () => {
           initialValues: {
             selectedCategory: getDefaultCategory(),
             editor: article.body,
+            date: "",
           },
           onSubmit: handleEdit,
           validationSchema: EDITOR_VALIDATION_SCHEMA,
@@ -146,6 +166,11 @@ const Edit = () => {
                     type="button"
                     onClick={() => setShowScheduleModal(true)}
                   />
+                  <Schedule2
+                    formikProps={props}
+                    setShowScheduleModal={setShowScheduleModal}
+                    showScheduleModal={showScheduleModal}
+                  />
                 </div>
                 <div className="flex gap-3">
                   <FormikButton
@@ -174,14 +199,14 @@ const Edit = () => {
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}
       />
-      {showScheduleModal && (
+      {/* {showScheduleModal && (
         <Schedule
           editorRef={editorRef}
           setShowScheduleModal={setShowScheduleModal}
           showScheduleModal={showScheduleModal}
           // selectedCategory={}
         />
-      )}
+      )} */}
     </div>
   );
 };
