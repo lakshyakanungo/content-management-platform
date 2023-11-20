@@ -72,7 +72,9 @@
           "cancelButton": "Cancel"
         },
         "edit": {
-          "placeholder": "Search category",
+          "category": { "placeholder": "Search category" },
+          "versionHistoryButton": { "label": "View version history" },
+          "schedule": { "label": "Schedule update" },
           "cancelButton": "Cancel",
           "versionHistory": {
             "title": "Version History",
@@ -90,6 +92,11 @@
               "subtitle": "Category: <0>{{name}}</0>",
               "button": { "restore": "Restore version", "cancel": "Cancel" }
             }
+          },
+          "scheduleUpdate": {
+            "title": "Schedule update",
+            "label": "Select time to schedule article update",
+            "placeholder": "Select time"
           }
         },
         "editor": {

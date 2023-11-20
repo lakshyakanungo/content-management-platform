@@ -9,7 +9,7 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import ActionDropdown from "./ActionDropdown";
-import { EDITOR_VALIDATION_SCHEMA } from "./constants";
+import { FORM_VALIDATION_SCHEMA } from "./constants";
 import Editor from "./Editor";
 import { parseData } from "./utils";
 
@@ -73,7 +73,7 @@ const Create = () => {
             editor: "<p></p>",
           },
           onSubmit: handleCreate,
-          validationSchema: EDITOR_VALIDATION_SCHEMA,
+          validationSchema: FORM_VALIDATION_SCHEMA,
         }}
       >
         {props => (

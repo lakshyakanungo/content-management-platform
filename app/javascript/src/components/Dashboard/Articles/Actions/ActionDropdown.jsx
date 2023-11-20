@@ -3,18 +3,23 @@ import React from "react";
 import { ActionDropdown as NeetoActionDropdown } from "@bigbinary/neetoui";
 
 import { STATUS_OPTIONS } from "./constants";
-import { buildActionItemClassName, renderActionItemPrefix } from "./utils";
+import {
+  buildActionItemClassName,
+  renderActionDropdownLabel,
+  renderActionItemPrefix,
+} from "./utils";
 
 const ActionDropdown = ({
   setSelectedOptionIndex,
   selectedOptionIndex,
   formikProps,
+  isScheduled,
 }) => {
   const { Menu, MenuItem } = NeetoActionDropdown;
 
   return (
     <NeetoActionDropdown
-      label={STATUS_OPTIONS[selectedOptionIndex].label}
+      label={renderActionDropdownLabel(selectedOptionIndex, isScheduled)}
       value={STATUS_OPTIONS[selectedOptionIndex].value}
       onClick={formikProps.handleSubmit}
     >

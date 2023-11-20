@@ -13,15 +13,13 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-// import Schedule from "./Schedule";
-import Schedule2 from "./Schedule/index2";
+import Schedule from "./Schedule";
 import VersionHistory from "./VersionHistory";
 
 import ActionDropdown from "../ActionDropdown";
-import { EDITOR_VALIDATION_SCHEMA } from "../constants";
+import { FORM_VALIDATION_SCHEMA } from "../constants";
 import Editor from "../Editor";
-import { buildSelectClassName, parseDataForSchedule } from "../utils";
-// import dayjs from "dayjs";
+import { buildSelectClassName, parseData } from "../utils";
 
 const Edit = () => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +28,7 @@ const Edit = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [isScheduled, setIsScheduled] = useState(false);
 
   const history = useHistory();
   const { id } = useParams();
@@ -41,35 +40,19 @@ const Edit = () => {
   const getDefaultCategory = () =>
     categories.find(category => category.id === article.categoryId);
 
-  // const handleEdit = async ({ selectedCategory }) => {
-  //   try {
-  //     const data = parseData({
-  //       selectedCategory,
-  //       editorRef,
-  //       selectedOptionIndex,
-  //     });
-  //     await articlesApi.update({ id, payload: data });
-  //     history.push("/articles");
-  //   } catch (error) {
-  //     logger.log(error);
-  //   }
-  // };
   const handleEdit = async values => {
-    // console.log(values, "values");
     try {
-      // console.log(values, "values");
-      const data = parseDataForSchedule({
+      const data = parseData({
         selectedCategory: values.selectedCategory,
         editorRef,
         selectedOptionIndex,
-        scheduledTime: values.date,
       });
-      // console.log(data, "data");
-      // console.log(dayjs(values.date).format("MMM D, YYYY, h:mm A"), "date got");
-      await articlesApi.update({ id, payload: data });
-      // console.log("done");
-      // history.push("/articles");
-      // data;
+
+      await articlesApi.update({
+        id,
+        payload: { ...data, scheduled_time: values.time },
+      });
+      history.push("/articles");
     } catch (error) {
       logger.log(error);
     }
@@ -125,7 +108,7 @@ const Edit = () => {
             date: "",
           },
           onSubmit: handleEdit,
-          validationSchema: EDITOR_VALIDATION_SCHEMA,
+          validationSchema: FORM_VALIDATION_SCHEMA,
         }}
       >
         {props => (
@@ -143,7 +126,7 @@ const Edit = () => {
                     optionRemapping={{ label: "name", value: "id" }}
                     options={categories}
                     placeholder={t(
-                      "dashboard.articles.actions.edit.placeholder"
+                      "dashboard.articles.actions.edit.category.placeholder"
                     )}
                   />
                 </div>
@@ -156,21 +139,23 @@ const Edit = () => {
                     {article.status}
                   </Typography>
                   <Button
-                    // TODO: Add to translation
-                    label="View version history"
                     style="text"
                     type="button"
+                    label={t(
+                      "dashboard.articles.actions.edit.versionHistoryButton.label"
+                    )}
                     onClick={() => setShowVersionHistory(true)}
                   />
                   <Button
                     className="neeto-ui-text-primary-800"
-                    label="Schedule update"
+                    label={t("dashboard.articles.actions.edit.schedule.label")}
                     style="link"
                     type="button"
                     onClick={() => setShowScheduleModal(true)}
                   />
-                  <Schedule2
+                  <Schedule
                     formikProps={props}
+                    setIsScheduled={setIsScheduled}
                     setShowScheduleModal={setShowScheduleModal}
                     showScheduleModal={showScheduleModal}
                   />
@@ -185,6 +170,7 @@ const Edit = () => {
                   />
                   <ActionDropdown
                     formikProps={props}
+                    isScheduled={isScheduled}
                     selectedOptionIndex={selectedOptionIndex}
                     setSelectedOptionIndex={setSelectedOptionIndex}
                   />
@@ -202,14 +188,6 @@ const Edit = () => {
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}
       />
-      {/* {showScheduleModal && (
-        <Schedule
-          editorRef={editorRef}
-          setShowScheduleModal={setShowScheduleModal}
-          showScheduleModal={showScheduleModal}
-          // selectedCategory={}
-        />
-      )} */}{" "}
     </div>
   );
 };
