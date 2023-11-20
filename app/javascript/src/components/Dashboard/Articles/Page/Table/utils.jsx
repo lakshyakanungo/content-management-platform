@@ -38,7 +38,7 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: false,
     },
-    width: 50,
+    width: 30,
   },
   {
     title: t("dashboard.articles.page.table.category"),

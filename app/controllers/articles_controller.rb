@@ -33,7 +33,17 @@ class ArticlesController < ApplicationController
 
   def update
     updated_article_params = merge_visits_in_params_for_draft
-    @article.update!(updated_article_params)
+    # puts params, "parmassss"
+    if updated_article_params.has_key?(:scheduled_time) &&
+      Time.parse(article_params[:scheduled_time]).utc.iso8601 > Time.now.utc.iso8601
+      # puts "Coming here"
+      # params[:scheduled_time]
+      ArticleUpdaterJob.set(wait_until: Time.parse(article_params[:scheduled_time]).utc.iso8601).perform_later(
+        @article,
+        updated_article_params.except(:scheduled_time))
+    elsif
+      @article.update!(updated_article_params.except(:scheduled_time))
+    end
     respond_with_success(t("successfully_updated", entity: "Article", count: 1))
   end
 
@@ -77,7 +87,7 @@ class ArticlesController < ApplicationController
   private
 
     def article_params
-      params.require(:article).permit(:status, :category_id, :title, :body, :version_id)
+      params.require(:article).permit(:status, :category_id, :title, :body, :version_id, :scheduled_time)
     end
 
     def load_article!

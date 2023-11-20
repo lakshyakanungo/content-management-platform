@@ -17,6 +17,7 @@ const Schedule2 = ({
     <>
       {/* {console.log(props)} */}
       {/* TODO: Add logic to not allow to set this for a past value */}
+      {/* TODO: Change this name to time */}
       <DatePicker
         showTime
         className="w-52"

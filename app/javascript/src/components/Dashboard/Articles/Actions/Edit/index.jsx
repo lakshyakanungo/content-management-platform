@@ -20,7 +20,7 @@ import VersionHistory from "./VersionHistory";
 import ActionDropdown from "../ActionDropdown";
 import { EDITOR_VALIDATION_SCHEMA } from "../constants";
 import Editor from "../Editor";
-import { buildSelectClassName, parseData } from "../utils";
+import { buildSelectClassName, parseDataForSchedule } from "../utils";
 // import dayjs from "dayjs";
 
 const Edit = () => {
@@ -55,18 +55,21 @@ const Edit = () => {
   //   }
   // };
   const handleEdit = async values => {
+    // console.log(values, "values");
     try {
       // console.log(values, "values");
-      const data = parseData({
+      const data = parseDataForSchedule({
         selectedCategory: values.selectedCategory,
         editorRef,
         selectedOptionIndex,
+        scheduledTime: values.date,
       });
       // console.log(data, "data");
       // console.log(dayjs(values.date).format("MMM D, YYYY, h:mm A"), "date got");
-      // await articlesApi.update({ id, payload: data });
+      await articlesApi.update({ id, payload: data });
+      // console.log("done");
       // history.push("/articles");
-      data;
+      // data;
     } catch (error) {
       logger.log(error);
     }
@@ -206,7 +209,7 @@ const Edit = () => {
           showScheduleModal={showScheduleModal}
           // selectedCategory={}
         />
-      )} */}
+      )} */}{" "}
     </div>
   );
 };
