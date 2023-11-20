@@ -28,7 +28,6 @@ const Table = ({
   };
 
   return (
-    // <div className="notes-table-height w-11/12 justify-center">
     <TableWrapper>
       <NeetoUITable
         allowRowClick
@@ -45,7 +44,6 @@ const Table = ({
         onRowSelect={handleRowSelect}
       />
     </TableWrapper>
-    // </div>
   );
 };
 
