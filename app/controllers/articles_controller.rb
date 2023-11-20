@@ -3,6 +3,8 @@
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy restore_version]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
+  # TODO: See if this naming and code for merging and another class variable can be improved
+  before_action :merge_visits_in_params_for_draft, only: %i[update bulk_update]
 
   def index
     @draft_articles_count = current_user.articles.draft.count
@@ -32,16 +34,14 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    updated_article_params = merge_visits_in_params_for_draft
-
-    if updated_article_params[:scheduled_time].present? &&
+    if @article_params_with_default_visits[:scheduled_time].present? &&
       Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
       ArticleUpdaterJob.set(wait_until: Time.parse(article_params[:scheduled_time]).to_f).perform_later(
         @article,
-        updated_article_params.except(:scheduled_time))
+        @article_params_with_default_visits.except(:scheduled_time))
       respond_with_success(t("successfully_scheduled"))
     elsif
-      @article.update!(updated_article_params.except(:scheduled_time))
+      @article.update!(@article_params_with_default_visits.except(:scheduled_time))
       respond_with_success(t("successfully_updated", entity: "Article", count: 1))
     end
   end
@@ -77,8 +77,7 @@ class ArticlesController < ApplicationController
   end
 
   def bulk_update
-    updated_article_params = merge_visits_in_params_for_draft
-    @articles.update!(updated_article_params)
+    @articles.update!(@article_params_with_default_visits)
     respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
   end
 
@@ -97,10 +96,7 @@ class ArticlesController < ApplicationController
     end
 
     def merge_visits_in_params_for_draft
-      if article_params[:status] == "draft"
-        article_params.merge({ visits: 0 })
-      else
-        article_params
-      end
+      @article_params_with_default_visits = article_params[:status] == "draft" ?
+       article_params.merge({ visits: 0 }) : article_params
     end
 end
