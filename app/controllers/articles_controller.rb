@@ -33,23 +33,21 @@ class ArticlesController < ApplicationController
 
   def update
     updated_article_params = merge_visits_in_params_for_draft
-    # puts params, "parmassss"
-    if updated_article_params.has_key?(:scheduled_time) &&
-      Time.parse(article_params[:scheduled_time]).utc.iso8601 > Time.now.utc.iso8601
-      # puts "Coming here"
-      # params[:scheduled_time]
-      ArticleUpdaterJob.set(wait_until: Time.parse(article_params[:scheduled_time]).utc.iso8601).perform_later(
+
+    if updated_article_params[:scheduled_time].present? &&
+      Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
+      ArticleUpdaterJob.set(wait_until: Time.parse(article_params[:scheduled_time]).to_f).perform_later(
         @article,
         updated_article_params.except(:scheduled_time))
+      respond_with_success(t("successfully_scheduled"))
     elsif
       @article.update!(updated_article_params.except(:scheduled_time))
+      respond_with_success(t("successfully_updated", entity: "Article", count: 1))
     end
-    respond_with_success(t("successfully_updated", entity: "Article", count: 1))
   end
 
   def restore_version
     version = @article.versions.find(article_params[:version_id]).reify
-    # puts version.inspect, "version"
     @article.update!(
       version.attributes.slice("title", "body", "category_id").merge(
         {

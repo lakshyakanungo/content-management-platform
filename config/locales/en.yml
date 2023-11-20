@@ -2,6 +2,7 @@ en:
   not_found: "%{entity} not found!"
   unauthorised_request: "Unauthorised request! Please login again."
   invalid_password: "The password you entered is incorrect."
+  successfully_scheduled: "Article has been scheduled for update."
   successfully_created: "%{entity} was successfully created!"
   successfully_updated:
     one: "%{entity} has been successfully updated!"

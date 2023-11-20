@@ -31,6 +31,12 @@ export const renderActionItemPrefix = ({ selectedOptionIndex, index }) => (
   />
 );
 
+export const renderActionDropdownLabel = (selectedOptionIndex, isScheduled) => {
+  if (!isScheduled) return STATUS_OPTIONS[selectedOptionIndex].label;
+
+  return selectedOptionIndex === 0 ? "Schedule draft" : "Schedule publish";
+};
+
 export const parseData = ({
   selectedCategory,
   editorRef,
@@ -42,24 +48,4 @@ export const parseData = ({
   const status = STATUS_OPTIONS[selectedOptionIndex].value;
 
   return { title, status, body, category_id: selectedCategory.id };
-};
-
-export const parseDataForSchedule = ({
-  editorRef,
-  selectedCategory,
-  scheduledTime,
-  selectedOptionIndex,
-}) => {
-  const body = editorRef.current.editor.getHTML();
-  const jsonOfContent = editorRef.current.editor.getJSON();
-  const title = extractTitle(jsonOfContent);
-  const status = STATUS_OPTIONS[selectedOptionIndex].value;
-
-  return {
-    title,
-    status,
-    body,
-    category_id: selectedCategory.id,
-    scheduled_time: scheduledTime,
-  };
 };
