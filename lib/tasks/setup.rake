@@ -57,7 +57,7 @@ def create_sample_data!
 
   Site.create!(is_password_protected:false,title:"Spinkart")
 
-  puts "Added default site setting."
+  puts "Created default site."
 end
 
 

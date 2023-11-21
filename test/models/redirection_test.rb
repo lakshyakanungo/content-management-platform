@@ -4,7 +4,8 @@ require "test_helper"
 
 class RedirectionTest < ActiveSupport::TestCase
   def setup
-    @redirection = Redirection.new(from: "/1", to: "/2")
+    @site = Site.create!(title: "Test title", is_password_protected: true, password: "abcdefg1")
+    @redirection = Redirection.new(from: "/1", to: "/2", site_id: @site.id)
   end
 
   def test_redirection_should_not_be_valid_and_saved_without_from_path
@@ -22,23 +23,23 @@ class RedirectionTest < ActiveSupport::TestCase
   def test_redirection_should_not_be_saved_if_from_path_not_unique
     @redirection.save!
 
-    test_redirection = Redirection.new(from: "/1", to: "/test")
+    test_redirection = Redirection.new(from: "/1", to: "/test", site_id: @site.id)
     assert_not test_redirection.valid?
 
     assert_includes test_redirection.errors.full_messages, "From has already been taken"
   end
 
   def test_redirection_should_not_be_saved_for_same_from_and_to_path
-    test_redirection = Redirection.new(from: "/test", to: "/test")
+    test_redirection = Redirection.new(from: "/test", to: "/test", site_id: @site.id)
     assert_not test_redirection.valid?
 
     assert_includes test_redirection.errors.full_messages, t("redirection.error.paths_equal")
   end
 
   def test_should_not_allow_cyclic_redirection
-    test_redirection1 = Redirection.create!(from: "/1", to: "/2")
-    test_redirection2 = Redirection.create!(from: "/2", to: "/3")
-    test_cyclic_redirection = Redirection.new(from: "/3", to: "/1")
+    test_redirection1 = Redirection.create!(from: "/1", to: "/2", site_id: @site.id)
+    test_redirection2 = Redirection.create!(from: "/2", to: "/3", site_id: @site.id)
+    test_cyclic_redirection = Redirection.new(from: "/3", to: "/1", site_id: @site.id)
 
     assert_not test_cyclic_redirection.valid?
 

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CategoryDeletionService
-  include ApiResponders
-
   attr_reader :category
 
   def initialize(id)

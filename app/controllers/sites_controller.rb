@@ -9,14 +9,12 @@ class SitesController < ApplicationController
 
   def update
     if site_params[:is_password_protected] == false
-      site_params.merge!(password_digest: nil)
+      site.update!(site_params.merge(password_digest: nil))
+    else
+      site.update!(site_params)
     end
 
-    @site.update!(site_params)
-
-    if site_params.has_key?(:password)
-      @site.regenerate_authentication_token
-    end
+    site.regenerate_authentication_token if site_params.has_key?(:password)
   end
 
   private

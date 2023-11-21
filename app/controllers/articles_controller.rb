@@ -3,8 +3,6 @@
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy restore_version]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
-  # TODO: See if this naming and code for merging and another class variable can be improved
-  before_action :merge_visits_in_params_for_draft, only: %i[update bulk_update]
 
   def index
     @draft_articles_count = current_user.articles.draft.count
@@ -34,16 +32,31 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    if @article_params_with_default_visits[:scheduled_time].present? &&
+    if article_params_with_default_visits[:scheduled_time].present? &&
       Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
-      ArticleUpdaterJob.set(wait_until: Time.parse(article_params[:scheduled_time]).to_f).perform_later(
-        @article,
-        @article_params_with_default_visits.except(:scheduled_time))
+
+      article_scheduler_service = ArticleSchedulerService.new @article
+      article_scheduler_service.process article_params_with_default_visits
       respond_with_success(t("successfully_scheduled"))
-    elsif
-      @article.update!(@article_params_with_default_visits.except(:scheduled_time))
+    else
+      @article.update!(article_params_with_default_visits.except(:scheduled_time))
       respond_with_success(t("successfully_updated", entity: "Article", count: 1))
     end
+  end
+
+  def bulk_update
+    @articles.update!(article_params_with_default_visits)
+    respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
+  end
+
+  def destroy
+    @article.destroy!
+    respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
+  end
+
+  def bulk_destroy
+    @articles.destroy_all
+    respond_with_success(t("successfully_deleted", entity: "Articles", count: 2))
   end
 
   def restore_version
@@ -66,21 +79,6 @@ class ArticlesController < ApplicationController
       .per(10)
   end
 
-  def destroy
-    @article.destroy!
-    respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
-  end
-
-  def bulk_destroy
-    @articles.destroy_all
-    respond_with_success(t("successfully_deleted", entity: "Articles", count: 2))
-  end
-
-  def bulk_update
-    @articles.update!(@article_params_with_default_visits)
-    respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
-  end
-
   private
 
     def article_params
@@ -95,8 +93,7 @@ class ArticlesController < ApplicationController
       @articles = current_user.articles.where(id: params[:ids])
     end
 
-    def merge_visits_in_params_for_draft
-      @article_params_with_default_visits = article_params[:status] == "draft" ?
-       article_params.merge({ visits: 0 }) : article_params
+    def article_params_with_default_visits
+      article_params[:status] == "draft" ? article_params.merge({ visits: 0 }) : article_params
     end
 end
