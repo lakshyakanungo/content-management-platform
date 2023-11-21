@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class RedirectionsController < ApplicationController
+  before_action :load_site
   before_action :load_redirection!, only: [:destroy, :update]
 
   def index
-    @redirections = Redirection.order(:created_at)
+    @redirections = site.redirections.order(:created_at)
   end
 
   def create
-    Redirection.create!(redirection_params)
+    site.redirections.create!(redirection_params)
   end
 
   def destroy
@@ -26,6 +27,6 @@ class RedirectionsController < ApplicationController
     end
 
     def load_redirection!
-      @redirection = Redirection.find(params[:id])
+      @redirection = site.redirections.find(params[:id])
     end
 end

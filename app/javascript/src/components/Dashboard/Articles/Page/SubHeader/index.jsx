@@ -36,7 +36,7 @@ const SubHeader = ({
 
   return (
     <NeetoSubHeader
-      className="w-11/12"
+      className="w-full"
       leftActionBlock={
         <div className="flex gap-x-3 items-center">
           {selectedArticleIds.length ? (

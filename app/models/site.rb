@@ -6,6 +6,8 @@ class Site < ApplicationRecord
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*\d).+\z/
 
+  has_many :redirections, dependent: :destroy
+
   has_secure_password(validations: false)
   has_secure_token :authentication_token
 

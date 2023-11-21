@@ -21,11 +21,7 @@ class HomeController < ApplicationController
       return url if url.starts_with?("/")
 
       uri = URI.parse(url)
-
-      if !uri.scheme.present?
-        URI.join("https:/", url).to_s
-      else
-        url
-      end
+      url = URI.join("https:/", url).to_s unless uri.scheme.present?
+      url
     end
 end

@@ -2,6 +2,7 @@
 
 require "test_helper"
 require "minitest/mock"
+require "sidekiq/testing"
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
@@ -37,6 +38,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     query = "a"
     status = "draft"
     category_id = [@category.id]
+    page = 1
 
     get(search_articles_path(title: query, status:, category_id:), headers:)
     assert_response :success
@@ -50,6 +52,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       .where("lower(title) LIKE ?", "%#{query}%")
       .includes(:category)
       .order(updated_at: :desc)
+      .page(page).per(9)
 
     actual_search_result_ids = search_articles.pluck("id").sort
     expected_search_result_ids = expected_search_results.pluck("id").sort
@@ -139,5 +142,28 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     expected_article_ids = expected_articles.pluck("id")
 
     assert_equal expected_article_ids, actual_article_ids
+  end
+
+  def test_article_update_should_get_job_enqueued_and_performed_successfully
+    Sidekiq::Testing.inline!
+    new_title = "Updated title"
+    article_params = {
+      article: {
+        title: new_title, status: "draft", category_id: @category.id,
+        body: "Test body", user_id: @user.id,
+        scheduled_time: 10.minutes.from_now
+      }
+    }
+
+    put(
+      article_path(
+        id: @article.id, params: article_params), headers:)
+    assert_response :success
+
+    assert_enqueued_with(
+      job: ArticleUpdaterJob, at: 10.minutes.from_now,
+      args: [@article, article_params.except(:scheduled_time)])
+    perform_enqueued_jobs
+    assert_performed_jobs 1
   end
 end
