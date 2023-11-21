@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.articles @search_results do |article|
+json.articles @filtered_articles_by_page do |article|
   json.extract! article,
     :author,
     :category_id,
@@ -10,4 +10,4 @@ json.articles @search_results do |article|
     :title
   json.category_name article.category.name
 end
-json.totalCount @search_results.total_count
+json.totalCount @filtered_articles_by_page.total_count

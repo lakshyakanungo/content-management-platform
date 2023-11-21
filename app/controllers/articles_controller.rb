@@ -10,16 +10,8 @@ class ArticlesController < ApplicationController
   end
 
   def search
-    query = params[:title].downcase
-
-    @search_results = current_user.articles
-      .by_status(params[:status])
-      .by_categories(params[:category_id])
-      .where("lower(title) LIKE ?", "%#{query}%")
-      .includes(:category)
-      .order(updated_at: :desc)
-      .page(params[:page])
-      .per(9)
+    filtered_articles = ArticleFilteringService.new.process(current_user, params)
+    @filtered_articles_by_page = filtered_articles.page(params[:page]).per(9)
   end
 
   def show
@@ -35,8 +27,8 @@ class ArticlesController < ApplicationController
     if article_params_with_default_visits[:scheduled_time].present? &&
       Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
 
-      article_scheduler_service = ArticleSchedulerService.new @article
-      article_scheduler_service.process article_params_with_default_visits
+      article_scheduler_service = ArticleSchedulerService.new(@article)
+      article_scheduler_service.process(article_params_with_default_visits)
       respond_with_success(t("successfully_scheduled"))
     else
       @article.update!(article_params_with_default_visits.except(:scheduled_time))

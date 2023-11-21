@@ -4,7 +4,7 @@
 # require "test_helper"
 # require "sidekiq/testing"
 
-# class ArticleUpdaterJobTest < ActiveJob::TestCase
+# class ArticleSchedulerServiceTest < ActiveSupport::TestCase
 #   def setup
 #     @user = create(:user)
 #     @category = Category.create!(name: "Test category", user_id: @user.id)
@@ -12,33 +12,23 @@
 #       title: "Test article", body: "<p>Test body</p>", status: "draft",
 #       user_id: @user.id,
 #       category_id: @category.id)
+#     @article_scheduler_service = ArticleSchedulerService.new @article
 #   end
 
-#   def test_article_update_should_get_enqueued_and_performed_successfully
+#   def test_process_should_enqueue_job
 #     new_title = "Updated title"
 #     article_params = {
 #       article: {
 #         title: new_title, status: "draft", category_id: @category.id,
 #         body: "Test body", user_id: @user.id,
-#         scheduled_time: Time.now.utc() + 1.minute
+#         scheduled_time: 10.minutes.from_now
 #       }
 #     }
-
-#     put(
-#       article_path(
-#         id: @article.id, params: article_params), headers:)
-#     assert_response :success
-
-#     assert_enqueued_with(job: ArticleUpdaterJob, args: [@article, article_params])
+#     @article_scheduler_service.process article_params
+#     assert_enqueued_with(
+#       job: ArticleUpdaterJob, at: 10.minutes.from_now,
+#       args: [@article, article_params.except(:scheduled_time)])
 #     perform_enqueued_jobs
 #     assert_performed_jobs 1
 #   end
-
-#   # def test_log_count_increments_on_running_task_logger
-#   #   Sidekiq::Testing.inline!
-#   #   assert_difference "Log.count", 1 do
-#   #     TaskLoggerJob.new.perform(@task)
-#   #   end
-#   # end
-
 # end
