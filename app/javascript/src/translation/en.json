@@ -38,7 +38,12 @@
               "draft": "Draft",
               "publish": "Publish"
             },
-            "deleteButtonLabel": "Delete"
+            "deleteButtonLabel": "Delete",
+            "alert": {
+              "title": "Confirm deletion?",
+              "message": "These articles can't be restored.",
+              "label": "Confirm deletion"
+            }
           }
         },
         "table": {
@@ -50,7 +55,12 @@
           "dropdown": {
             "publish": "Publish",
             "unpublish": "Unpublish",
-            "delete": "Delete"
+            "delete": "Delete",
+            "alert": {
+              "title": "Confirm article deletion?",
+              "message": "Article <0>{{title}}</0> can't be restored.",
+              "label": "Confirm deletion"
+            }
           }
         }
       },
