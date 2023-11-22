@@ -9,6 +9,7 @@ import euisApi from "apis/euis";
 import { useKeyDown } from "hooks/useKeyDown";
 
 import { SEARCH_SUFFIX } from "./constants";
+import Description from "./Description";
 
 const Search = ({ showSearchModal, setShowSearchModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +33,7 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
     try {
       const { data } = await euisApi.search(searchTerm);
       setArticles(data.articles);
+      // console.log(data.articles);
     } catch (error) {
       logger.log(error);
     }
@@ -82,19 +84,26 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
         />
       </Header>
       {articles.length > 0 && (
-        <Body>
-          <ul className="max-h-60 overflow-scroll">
+        <Body className="overflow-auto max-h-128">
+          <ul>
             {articles.map((article, index) => (
               <li
                 key={index}
                 className={`neeto-ui-text-gray-700 neeto-ui-text-transform-capitalize p-2 cursor-pointer hover:neeto-ui-bg-gray-200 ${
                   index === selectedArticleIndex
-                    ? "neeto-ui-bg-primary-500"
+                    ? "neeto-ui-bg-primary-500 neeto-ui-rounded neeto-ui-text-white"
                     : ""
                 }`}
                 onClick={() => handleClick(article)}
               >
-                {article.title}
+                <div className="flex flex-col">
+                  {/* <span>{article.body}</span> */}
+                  <Description
+                    searchTerm={searchTerm}
+                    text={article.body}
+                    title={article.title}
+                  />
+                </div>
               </li>
             ))}
           </ul>

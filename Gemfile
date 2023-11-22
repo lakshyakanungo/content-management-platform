@@ -48,6 +48,8 @@ gem "paper_trail"
 
 gem "kaminari"
 
+gem "nokogiri"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"

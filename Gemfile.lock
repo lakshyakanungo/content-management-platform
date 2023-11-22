@@ -342,6 +342,7 @@ DEPENDENCIES
   mail_interceptor
   minitest
   minitest-ci
+  nokogiri
   paper_trail
   pg
   pry-byebug
