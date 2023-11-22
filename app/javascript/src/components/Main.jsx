@@ -10,7 +10,7 @@ import { initializeLogger } from "common/logger";
 import { DASHBOARD_PATH, EUI_PATH } from "components/routeConstants";
 
 import Dashboard from "./Dashboard";
-import EUI from "./EUI";
+import EUI from "./EndUserInterface";
 
 import "../common/i18n";
 
