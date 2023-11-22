@@ -49,4 +49,10 @@ class Article < ApplicationRecord
         errors.add(:slug, I18n.t("article.slug.immutable"))
       end
     end
+
+    def get_scheduled_job_id
+      Sidekiq::ScheduledSet.new.find do |job|
+        job.args[0]["job_id"]
+      end
+    end
 end

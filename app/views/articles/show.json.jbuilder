@@ -11,4 +11,5 @@ json.article do
     :title
   json.category_name @article.category.name
   json.versions @article.versions
+  json.schedule @article.schedule
 end
