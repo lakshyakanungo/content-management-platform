@@ -130,6 +130,24 @@
       }
     },
     "settings": {
+      "navlink": {
+        "general": {
+          "label": "General",
+          "description": "Configure general settings of your EUI."
+        },
+        "redirection": {
+          "label": "Redirections",
+          "description": "Create and configure redirection rules."
+        },
+        "security": {
+          "label": "Security",
+          "description": "Secure knowledge base."
+        },
+        "categories": {
+          "label": "Manage categories",
+          "description": "Edit and reorder KB structure."
+        }
+      },
       "general": {
         "description": "Configure general attributes of knowledge base",
         "header": "General Settings",

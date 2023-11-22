@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 
-import Login from "components/EUI/Login";
+import Login from "components/EndUserInterface/Login";
 
 const PrivateRoute = ({
   component: Component,

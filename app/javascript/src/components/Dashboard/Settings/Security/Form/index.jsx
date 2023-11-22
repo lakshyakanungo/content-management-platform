@@ -15,8 +15,8 @@ import {
 } from "./utils";
 
 const Form = ({ fetchSite, setShowChangePasswordForm }) => {
-  const [hasMinError, setHasMinError] = useState(true);
-  const [hasMatchError, setHasMatchError] = useState(true);
+  const [isMinError, setIsMinError] = useState(true);
+  const [isMatchError, setIsMatchError] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const inputRef = useRef(null);
@@ -34,8 +34,8 @@ const Form = ({ fetchSite, setShowChangePasswordForm }) => {
 
   const handleReset = resetForm => {
     resetForm();
-    setHasMinError(true);
-    setHasMatchError(true);
+    setIsMinError(true);
+    setIsMatchError(true);
     setShowChangePasswordForm(true);
   };
 
@@ -44,7 +44,7 @@ const Form = ({ fetchSite, setShowChangePasswordForm }) => {
       formikProps={{
         initialValues: INITIAL_VALUES,
         validate: values =>
-          validateForm({ values, setHasMinError, setHasMatchError }),
+          validateForm({ values, setIsMinError, setIsMatchError }),
         onSubmit: handleSubmit,
       }}
     >
@@ -64,21 +64,21 @@ const Form = ({ fetchSite, setShowChangePasswordForm }) => {
               />
             }
           />
-          <div className={buildValidationClassName(hasMinError)}>
+          <div className={buildValidationClassName(isMinError)}>
             <span>
-              {hasMinError ? <Close size={16} /> : <Check size={16} />}
+              {isMinError ? <Close size={16} /> : <Check size={16} />}
             </span>
             <span>{t("dashboard.settings.security.form.lengthError")}</span>
           </div>
-          <div className={buildValidationClassName(hasMatchError)}>
+          <div className={buildValidationClassName(isMatchError)}>
             <span>
-              {hasMatchError ? <Close size={16} /> : <Check size={16} />}
+              {isMatchError ? <Close size={16} /> : <Check size={16} />}
             </span>
             <span>{t("dashboard.settings.security.form.strengthError")}</span>
           </div>
           <Button
             className="mr-2"
-            disabled={hasMinError || hasMatchError}
+            disabled={isMinError || isMatchError}
             label={t("dashboard.settings.security.form.button.save")}
             type="submit"
           />

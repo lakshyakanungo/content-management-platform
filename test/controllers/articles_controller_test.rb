@@ -200,10 +200,10 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     }
 
     get(
-      eui_article_path(slug: article.slug), headers: @headers)
+      public_article_path(slug: article.slug), headers: @headers)
     assert_response :success
     get(
-      eui_article_path(slug: article.slug), headers: @headers)
+      public_article_path(slug: article.slug), headers: @headers)
     assert_response :success
 
     assert_equal 2, article.reload.visits

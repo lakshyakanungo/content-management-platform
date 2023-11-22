@@ -5,7 +5,7 @@ import { Spinner } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import euisApi from "apis/euis";
+import articlesApi from "apis/public/articles";
 
 const ShowArticle = ({ setSelectedArticleId }) => {
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ const ShowArticle = ({ setSelectedArticleId }) => {
     try {
       const {
         data: { article },
-      } = await euisApi.show(slug);
+      } = await articlesApi.show(slug);
       setArticle(article);
       setSelectedArticleId(article.id);
     } catch (error) {

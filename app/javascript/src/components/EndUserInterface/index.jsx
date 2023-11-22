@@ -10,7 +10,7 @@ import { getFromLocalStorage } from "utils/storage";
 import Home from "./Home";
 import Login from "./Login";
 
-const EUI = () => {
+const EndUserInterface = () => {
   const [loading, setLoading] = useState(true);
   const [isPasswordProtected, setIsPasswordProtected] = useState(true);
   const [siteName, setSiteName] = useState("");
@@ -60,4 +60,4 @@ const EUI = () => {
   );
 };
 
-export default EUI;
+export default EndUserInterface;

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory, Route } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 
-import euisApi from "apis/euis";
+import articlesApi from "apis/public/articles";
 
 import { SEARCH_SUFFIX } from "./constants";
 import Search from "./Search";
@@ -28,7 +28,7 @@ const Home = ({ siteName }) => {
     try {
       const {
         data: { groupedArticles },
-      } = await euisApi.fetch();
+      } = await articlesApi.fetch();
       setArticlesByCategory(groupedArticles);
     } catch (error) {
       logger.log(error);

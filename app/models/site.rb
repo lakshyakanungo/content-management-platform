@@ -18,6 +18,6 @@ class Site < ApplicationRecord
     if: :has_authentication?
 
   def has_authentication?
-    is_password_protected == true && password.present?
+    is_password_protected && password.present?
   end
 end

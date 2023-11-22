@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resource :site, only: %i[show update]
     resource :session, only: :create
 
-    namespace :eui do
+    namespace :public do
       resources :articles, only: %i[index show], param: :slug do
         get "search", on: :collection
       end

@@ -15,21 +15,21 @@ export const buildValidationClassName = validation =>
     "neeto-ui-text-success-500": !validation,
   });
 
-export const validateForm = ({ values, setHasMinError, setHasMatchError }) => {
+export const validateForm = ({ values, setIsMinError, setIsMatchError }) => {
   try {
     YUP_VALIDATION_SCHEMA.validateSync(values, {
       abortEarly: false,
     });
-    setHasMinError(false);
-    setHasMatchError(false);
+    setIsMinError(false);
+    setIsMatchError(false);
   } catch (err) {
     const errorTypes = err.inner.map(error => error.type);
 
-    if (errorTypes.includes("min")) setHasMinError(true);
-    else setHasMinError(false);
+    if (errorTypes.includes("min")) setIsMinError(true);
+    else setIsMinError(false);
 
-    if (errorTypes.includes("matches")) setHasMatchError(true);
-    else setHasMatchError(false);
+    if (errorTypes.includes("matches")) setIsMatchError(true);
+    else setIsMatchError(false);
   }
 };
 

@@ -3,7 +3,7 @@ import Settings from "components/Dashboard/Settings";
 
 import Analytics from "./Dashboard/Analytics";
 import { Create, Edit } from "./Dashboard/Articles/Actions";
-import EUI from "./EUI";
+import EUI from "./EndUserInterface";
 
 export const DASHBOARD_PATH = "/";
 export const ARTICLES_PATH = "/articles";
