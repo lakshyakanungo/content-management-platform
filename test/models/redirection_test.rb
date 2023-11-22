@@ -79,4 +79,24 @@ class RedirectionTest < ActiveSupport::TestCase
       assert_not @redirection.valid?
     end
   end
+
+  def test_this_redirection_should_be_valid
+    test_redirection1 = Redirection.create!(from: "/1", to: "/2", site_id: @site.id)
+    test_redirection2 = Redirection.create!(from: "/3", to: "/4", site_id: @site.id)
+    test_redirection3 = Redirection.create!(from: "/4", to: "/1", site_id: @site.id)
+    test_redirection4 = Redirection.create!(from: "/2", to: "/5", site_id: @site.id)
+
+    assert test_redirection1.valid?
+    assert test_redirection2.valid?
+    assert test_redirection3.valid?
+    assert test_redirection4.valid?
+  end
+
+  def test_these_redirections_should_be_invalid
+    test_redirection1 = Redirection.create!(from: "/1", to: "/2", site_id: @site.id)
+    assert test_redirection1.valid?
+
+    test_redirection2 = Redirection.new(from: "/2", to: "/1", site_id: @site.id)
+    assert_not test_redirection2.valid?
+  end
 end
