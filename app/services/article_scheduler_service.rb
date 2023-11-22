@@ -9,13 +9,11 @@ class ArticleSchedulerService
 
   def process(article_params)
     job = ArticleUpdaterJob
-      .set(wait_until: Time.parse(article_params[:scheduled_time]).to_f)
+      .set(wait_until: DateTime.parse(article_params[:scheduled_time]))
       .perform_later(article, article_params.except(:scheduled_time))
 
-    puts "JOB SCHEDULED ID: ", job.provider_job_id
-    puts "type", job.provider_job_id.class
-    puts "JOB SCHEDULED : ", job.inspect
-
-    article.create_schedule!(time: DateTime.parse(article_params[:scheduled_time]), job_id: job.provider_job_id)
+    article.create_schedule!(
+      time: DateTime.parse(article_params[:scheduled_time]),
+      job_id: job.provider_job_id || job.job_id)
   end
 end
