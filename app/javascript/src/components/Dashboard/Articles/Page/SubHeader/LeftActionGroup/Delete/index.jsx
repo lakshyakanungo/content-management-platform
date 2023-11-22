@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { t } from "i18next";
 import { Delete as DeleteIcon } from "neetoicons";
 import { Button } from "neetoui";
 
 import articlesApi from "apis/articles";
+import {
+  PageContext,
+  SelectedArticlesContext,
+} from "components/Dashboard/Articles";
 
 import Alert from "./Alert";
 
-const Delete = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
+const Delete = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
+  const { refetch } = useContext(PageContext);
+  const { selectedArticleIds, setSelectedArticleIds } = useContext(
+    SelectedArticlesContext
+  );
 
   const handleBulkDelete = async ids => {
     try {

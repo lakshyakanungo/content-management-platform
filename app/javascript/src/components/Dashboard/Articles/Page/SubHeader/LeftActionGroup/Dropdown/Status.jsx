@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Dropdown } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
+import {
+  PageContext,
+  SelectedArticlesContext,
+} from "components/Dashboard/Articles";
 
-const Status = ({ selectedArticleIds, refetch, setSelectedArticleIds }) => {
+const Status = () => {
+  const { refetch } = useContext(PageContext);
+  const { selectedArticleIds, setSelectedArticleIds } = useContext(
+    SelectedArticlesContext
+  );
+
   const { Menu, MenuItem } = Dropdown;
 
   const { t } = useTranslation();

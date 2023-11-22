@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
@@ -11,15 +11,15 @@ import {
   ADD_CATEGORY_FORM_VALIDATION_SCHEMA,
 } from "./constants";
 
-const AddCategory = ({
-  fetchCategories,
-  showAddCategoryModal,
-  setShowAddCategoryModal,
-  setSelectedCategories,
-}) => {
+import { CategoryContext } from "..";
+
+const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
   const { Header, Body, Footer } = Modal;
 
   const { t } = useTranslation();
+
+  const { fetchCategories, setSelectedCategories } =
+    useContext(CategoryContext);
 
   const handleAddCategory = async ({ name }) => {
     try {

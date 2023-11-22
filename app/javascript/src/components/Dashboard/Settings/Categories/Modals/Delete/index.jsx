@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Modal } from "@bigbinary/neetoui";
 import { Select, Form, Button } from "@bigbinary/neetoui/formik";
@@ -9,14 +9,16 @@ import categoriesApi from "apis/categories";
 import { VALIDATION_SCHEMA } from "./constants";
 import Header from "./Header";
 
+import { CategoriesContext } from "../..";
+
 const Delete = ({
   category,
-  categories,
-  fetchCategories,
   showDeleteOverlay,
   setShowDeleteOverlay,
   hasMultipleCategories,
 }) => {
+  const { categories, fetchCategories } = useContext(CategoriesContext);
+
   const { Body, Footer } = Modal;
 
   const { t } = useTranslation();

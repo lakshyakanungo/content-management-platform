@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
 import useDragAndDrop from "hooks/useDragAndDrop";
+
+import { CategoriesContext } from ".";
 
 import DeleteAlert from "./DeleteAlert";
 import Dropdown from "./Dropdown";
@@ -11,16 +13,11 @@ import EditModal from "./Modals/Edit";
 
 import MenuSquare from "../../../../../../assets/images/MenuSquare";
 
-const ListItem = ({
-  index,
-  moveListItem,
-  category,
-  categories,
-  fetchCategories,
-  handleReorder,
-}) => {
+const ListItem = ({ index, moveListItem, category, handleReorder }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteOverlay, setShowDeleteOverlay] = useState(false);
+
+  const { categories } = useContext(CategoriesContext);
 
   const { t } = useTranslation();
 
@@ -56,7 +53,6 @@ const ListItem = ({
         {showEditModal && (
           <EditModal
             category={category}
-            fetchCategories={fetchCategories}
             setShowEditModal={setShowEditModal}
             showEditModal={showEditModal}
           />
@@ -64,9 +60,7 @@ const ListItem = ({
         {showDeleteOverlay &&
           (category.articlesCount > 0 ? (
             <DeleteModal
-              categories={categories}
               category={category}
-              fetchCategories={fetchCategories}
               hasMultipleCategories={categories.length > 1}
               setShowDeleteOverlay={setShowDeleteOverlay}
               showDeleteOverlay={showDeleteOverlay}
@@ -74,7 +68,6 @@ const ListItem = ({
           ) : (
             <DeleteAlert
               category={category}
-              fetchCategories={fetchCategories}
               setShowDeleteOverlay={setShowDeleteOverlay}
               showDeleteOverlay={showDeleteOverlay}
             />

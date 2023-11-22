@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 
 import { Tag } from "neetoui";
 import { useTranslation } from "react-i18next";
@@ -8,18 +8,14 @@ import NeetoSubHeader from "neetomolecules/SubHeader";
 import Columns from "./Columns";
 import LeftActionGroup from "./LeftActionGroup";
 
+import { CategoryContext, SelectedArticlesContext } from "../..";
 import { buildArticlesColumnData } from "../Table/utils";
 
 const SubHeader = ({
-  selectedArticleIds,
-  categories,
   handleDelete,
   handleStatusChange,
-  selectedCategories,
-  setSelectedCategories,
+  setCurrentPageNumber,
   setVisibleTableColumns,
-  refetch,
-  setSelectedArticleIds,
   totalArticlesCount,
 }) => {
   const columns = useMemo(
@@ -27,11 +23,19 @@ const SubHeader = ({
     []
   );
 
+  const { categories, selectedCategories, setSelectedCategories } =
+    useContext(CategoryContext);
+
+  const { selectedArticleIds, setSelectedArticleIds } = useContext(
+    SelectedArticlesContext
+  );
+
   const { t } = useTranslation();
 
   const handleTagClose = category => {
     setSelectedCategories(prev => prev.filter(item => item !== category));
     setSelectedArticleIds([]);
+    setCurrentPageNumber(1);
   };
 
   return (
@@ -42,9 +46,6 @@ const SubHeader = ({
           {selectedArticleIds.length ? (
             <LeftActionGroup
               categories={categories}
-              refetch={refetch}
-              selectedArticleIds={selectedArticleIds}
-              setSelectedArticleIds={setSelectedArticleIds}
               totalArticlesCount={totalArticlesCount}
             />
           ) : (
