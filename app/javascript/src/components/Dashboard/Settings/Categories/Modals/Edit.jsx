@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
@@ -8,12 +8,11 @@ import categoriesApi from "apis/categories";
 
 import { FORM_VALIDATION_SCHEMA } from "./constants";
 
-const Edit = ({
-  category,
-  fetchCategories,
-  showEditModal,
-  setShowEditModal,
-}) => {
+import { CategoriesContext } from "..";
+
+const Edit = ({ category, showEditModal, setShowEditModal }) => {
+  const { fetchCategories } = useContext(CategoriesContext);
+
   const { Header, Body, Footer } = Modal;
 
   const { t } = useTranslation();

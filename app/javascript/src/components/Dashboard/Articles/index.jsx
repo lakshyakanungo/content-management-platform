@@ -9,6 +9,11 @@ import Menu from "./Menu";
 import Page from "./Page";
 import { updateQueryParameters } from "./utils";
 
+const CategoryContext = React.createContext();
+const MenuContext = React.createContext();
+const PageContext = React.createContext();
+const SelectedArticlesContext = React.createContext();
+
 const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(true);
@@ -67,34 +72,40 @@ const Articles = () => {
   }
 
   return (
-    <>
-      <Menu
-        activeMenuState={activeMenuState}
-        articleCounts={articleCounts}
-        categories={categories}
-        fetchCategories={fetchCategories}
-        selectedCategories={selectedCategories}
-        setActiveMenuState={setActiveMenuState}
-        setCurrentPageNumber={setCurrentPageNumber}
-        setSelectedArticleIds={setSelectedArticleIds}
-        setSelectedCategories={setSelectedCategories}
-        showMenu={showMenu}
-      />
-      <Page
-        activeMenuState={activeMenuState}
-        categories={categories}
-        currentPageNumber={currentPageNumber}
-        refetch={fetchArticlesCountAndCategories}
-        selectedArticleIds={selectedArticleIds}
-        selectedCategories={selectedCategories}
-        setCurrentPageNumber={setCurrentPageNumber}
-        setSelectedArticleIds={setSelectedArticleIds}
-        setSelectedCategories={setSelectedCategories}
-        setShowMenu={setShowMenu}
-        showMenu={showMenu}
-      />
-    </>
+    <PageContext.Provider
+      value={{
+        currentPageNumber,
+        setCurrentPageNumber,
+        refetch: fetchArticlesCountAndCategories,
+      }}
+    >
+      <MenuContext.Provider
+        value={{ showMenu, setShowMenu, activeMenuState, setActiveMenuState }}
+      >
+        <CategoryContext.Provider
+          value={{
+            categories,
+            selectedCategories,
+            setSelectedCategories,
+            fetchCategories,
+          }}
+        >
+          <SelectedArticlesContext.Provider
+            value={{ selectedArticleIds, setSelectedArticleIds }}
+          >
+            <Menu
+              articleCounts={articleCounts}
+              setCurrentPageNumber={setCurrentPageNumber}
+              setSelectedArticleIds={setSelectedArticleIds}
+            />
+            <Page />
+          </SelectedArticlesContext.Provider>
+        </CategoryContext.Provider>
+      </MenuContext.Provider>
+    </PageContext.Provider>
   );
 };
 
 export default Articles;
+
+export { PageContext, MenuContext, CategoryContext, SelectedArticlesContext };

@@ -1,11 +1,16 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 
 import categoriesApi from "apis/categories";
+
+import { CategoriesContext } from ".";
 
 import ListItem from "./ListItem";
 import { swapItemsInArray } from "./utils";
 
-const List = ({ categories, setCategories, fetchCategories }) => {
+const List = () => {
+  const { categories, setCategories, fetchCategories } =
+    useContext(CategoriesContext);
+
   const handleReorder = async ({ category, finalPosition }) => {
     try {
       await categoriesApi.update({
@@ -34,9 +39,7 @@ const List = ({ categories, setCategories, fetchCategories }) => {
     <ul className="flex flex-col gap-2">
       {categories.map((category, index) => (
         <ListItem
-          categories={categories}
           category={category}
-          fetchCategories={fetchCategories}
           handleReorder={handleReorder}
           index={index}
           key={category.id}

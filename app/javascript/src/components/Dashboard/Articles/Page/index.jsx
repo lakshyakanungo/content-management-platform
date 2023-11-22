@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
@@ -12,23 +12,18 @@ import Empty from "./Empty";
 import SubHeader from "./SubHeader";
 import Table from "./Table";
 
-const Page = ({
-  activeMenuState,
-  showMenu,
-  setShowMenu,
-  categories,
-  currentPageNumber,
-  setCurrentPageNumber,
-  refetch,
-  selectedCategories,
-  setSelectedCategories,
-  selectedArticleIds,
-  setSelectedArticleIds,
-}) => {
+import { CategoryContext, MenuContext, PageContext } from "..";
+
+const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
   const [totalArticlesCount, setTotalArticlesCount] = useState(0);
+
+  const { selectedCategories } = useContext(CategoryContext);
+  const { showMenu, setShowMenu, activeMenuState } = useContext(MenuContext);
+  const { currentPageNumber, setCurrentPageNumber, refetch } =
+    useContext(PageContext);
 
   const { t } = useTranslation();
 
@@ -102,14 +97,9 @@ const Page = ({
         }}
       />
       <SubHeader
-        categories={categories}
         handleDelete={handleDelete}
         handleStatusChange={handleStatusChange}
-        refetch={refetch}
-        selectedArticleIds={selectedArticleIds}
-        selectedCategories={selectedCategories}
-        setSelectedArticleIds={setSelectedArticleIds}
-        setSelectedCategories={setSelectedCategories}
+        setCurrentPageNumber={setCurrentPageNumber}
         setVisibleTableColumns={setVisibleTableColumns}
         totalArticlesCount={totalArticlesCount}
       />
@@ -117,10 +107,6 @@ const Page = ({
         <Table
           articles={articles}
           columnData={visibleTableColumns}
-          currentPageNumber={currentPageNumber}
-          selectedArticleIds={selectedArticleIds}
-          setCurrentPageNumber={setCurrentPageNumber}
-          setSelectedArticleIds={setSelectedArticleIds}
           totalArticlesCount={totalArticlesCount}
         />
       ) : (

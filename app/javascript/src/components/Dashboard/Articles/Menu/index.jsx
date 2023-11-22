@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
@@ -12,15 +12,10 @@ import AddCategoryModal from "./AddCategory";
 import { MENU_ARTICLE_STATES } from "./constants";
 import { getMenuArticlesCount, handleKeyEvent } from "./utils";
 
+import { CategoryContext, MenuContext } from "..";
+
 const Menu = ({
-  showMenu,
-  categories,
-  activeMenuState,
-  setActiveMenuState,
-  selectedCategories,
-  setSelectedCategories,
   articleCounts,
-  fetchCategories,
   setSelectedArticleIds,
   setCurrentPageNumber,
 }) => {
@@ -28,6 +23,12 @@ const Menu = ({
   const [categoriesDisplayed, setCategoriesDisplayed] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+
+  const { categories, selectedCategories, setSelectedCategories } =
+    useContext(CategoryContext);
+
+  const { showMenu, activeMenuState, setActiveMenuState } =
+    useContext(MenuContext);
 
   const { Block, SubTitle, Search } = MenuBar;
 
@@ -44,6 +45,7 @@ const Menu = ({
       setSelectedCategories(prev => [...prev, categoryClicked]);
     }
     setSelectedArticleIds([]);
+    setCurrentPageNumber(1);
   };
 
   const fetchSearchResults = async () => {
@@ -138,8 +140,6 @@ const Menu = ({
             ))}
       </MenuBar>
       <AddCategoryModal
-        fetchCategories={fetchCategories}
-        setSelectedCategories={setSelectedCategories}
         setShowAddCategoryModal={setShowAddCategoryModal}
         showAddCategoryModal={showAddCategoryModal}
       />

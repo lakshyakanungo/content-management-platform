@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Alert as NeetoAlert } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
 
 import categoriesApi from "apis/categories";
 
-const Alert = ({
-  fetchCategories,
-  category,
-  showDeleteOverlay,
-  setShowDeleteOverlay,
-}) => {
+import { CategoriesContext } from ".";
+
+const Alert = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
+  const { fetchCategories } = useContext(CategoriesContext);
+
   const { t } = useTranslation();
 
   const handleSubmit = async ({ selectedCategory }) => {
