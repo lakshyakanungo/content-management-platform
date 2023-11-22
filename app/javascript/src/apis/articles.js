@@ -45,6 +45,11 @@ const show = id => axios.get(`/articles/${id}`);
 
 const destroy = id => axios.delete(`/articles/${id}`);
 
+const deleteScheduledJob = id =>
+  axios.delete(`/articles/delete_scheduled_job/`, {
+    params: { id },
+  });
+
 const bulkDelete = ids =>
   axios.delete(`/articles/bulk_destroy/`, {
     data: { ids },
@@ -65,6 +70,7 @@ const articlesApi = {
   update,
   restore,
   destroy,
+  deleteScheduledJob,
   bulkDelete,
   bulkUpdate,
 };

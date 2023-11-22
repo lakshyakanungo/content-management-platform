@@ -5,7 +5,12 @@ import { formatDate } from "utils";
 
 import DeleteAlert from "./DeleteAlert";
 
-const Details = ({ article, showScheduleDetails, setShowScheduleDetails }) => {
+const Details = ({
+  article,
+  showScheduleDetails,
+  setShowScheduleDetails,
+  refetch,
+}) => {
   const { Header, Body, Footer } = Modal;
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
@@ -28,6 +33,8 @@ const Details = ({ article, showScheduleDetails, setShowScheduleDetails }) => {
         />
       </Footer>
       <DeleteAlert
+        article={article}
+        refetch={refetch}
         setShowDeleteAlert={setShowDeleteAlert}
         showDeleteAlert={showDeleteAlert}
       />

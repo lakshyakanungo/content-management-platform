@@ -11,14 +11,14 @@
 
 .ProseMirror .is-editor-empty:first-child::before {
   content: attr(data-placeholder);
-  float: left;
-  color: #ced4da;
+  display: block;
+  // float: left;
+  color: #373b40;
   pointer-events: none;
-  height: 0;
+  height: 40px;
 }
-
-.ProseMirror .is-empty::before {
-  content: attr(data-placeholder);
+.ProseMirror .is-editor-empty:first-child::after {
+  content: "Add description here";
   float: left;
   color: #ced4da;
   pointer-events: none;

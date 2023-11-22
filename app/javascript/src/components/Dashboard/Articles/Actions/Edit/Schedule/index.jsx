@@ -3,11 +3,13 @@ import React, { useEffect } from "react";
 import { Modal, DatePicker } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
+import { formatDate } from "utils";
 
 const Schedule = ({
   showScheduleModal,
   setShowScheduleModal,
   formikProps,
+  isScheduled,
   setIsScheduled,
 }) => {
   const { t } = useTranslation();
@@ -26,10 +28,9 @@ const Schedule = ({
       onClose={() => setShowScheduleModal(false)}
     >
       <h2>{t("dashboard.articles.actions.edit.scheduleUpdate.title")}</h2>
-      {/* TODO: Add logic to not allow to set this for a past value */}
       <DatePicker
         showTime
-        className="w-52"
+        className="w-52 mb-4"
         disabledDate={current => dayjs().add(-1, "days") >= current}
         label={t("dashboard.articles.actions.edit.scheduleUpdate.label")}
         labelProps={{ className: "mt-4" }}
@@ -40,6 +41,11 @@ const Schedule = ({
         )}
         onChange={time => formikProps.setFieldValue("time", time)}
       />
+      {isScheduled && (
+        <span className="neeto-ui-text-error-500">
+          Will be scheduled for update at {formatDate(time)}
+        </span>
+      )}
     </Modal>
   );
 };

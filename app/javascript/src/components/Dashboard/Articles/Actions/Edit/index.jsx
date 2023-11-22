@@ -162,6 +162,7 @@ const Edit = () => {
                       />
                       <Schedule
                         formikProps={props}
+                        isScheduled={isScheduled}
                         setIsScheduled={setIsScheduled}
                         setShowScheduleModal={setShowScheduleModal}
                         showScheduleModal={showScheduleModal}
@@ -177,6 +178,7 @@ const Edit = () => {
                       />
                       <ScheduleDetails
                         article={article}
+                        refetch={fetchArticleAndCategories}
                         setShowScheduleDetails={setShowScheduleDetails}
                         showScheduleDetails={showScheduleDetails}
                       />
