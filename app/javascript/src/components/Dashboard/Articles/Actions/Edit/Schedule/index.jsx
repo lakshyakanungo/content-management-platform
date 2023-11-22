@@ -30,7 +30,7 @@ const Schedule = ({
       <h2>{t("dashboard.articles.actions.edit.scheduleUpdate.title")}</h2>
       <DatePicker
         showTime
-        className="w-52 mb-4"
+        className="w-52 mb-3"
         disabledDate={current => dayjs().add(-1, "days") >= current}
         label={t("dashboard.articles.actions.edit.scheduleUpdate.label")}
         labelProps={{ className: "mt-4" }}
@@ -42,8 +42,10 @@ const Schedule = ({
         onChange={time => formikProps.setFieldValue("time", time)}
       />
       {isScheduled && (
-        <span className="neeto-ui-text-error-500">
-          Will be scheduled for update at {formatDate(time)}
+        <span>
+          {t("dashboard.articles.actions.edit.scheduleUpdate.time", {
+            time: formatDate(time),
+          })}
         </span>
       )}
     </Modal>

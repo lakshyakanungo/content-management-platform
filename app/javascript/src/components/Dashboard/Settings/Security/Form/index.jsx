@@ -14,7 +14,7 @@ import {
   validateForm,
 } from "./utils";
 
-const Form = ({ fetchSite }) => {
+const Form = ({ fetchSite, setShowChangePasswordForm }) => {
   const [hasMinError, setHasMinError] = useState(true);
   const [hasMatchError, setHasMatchError] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -36,6 +36,7 @@ const Form = ({ fetchSite }) => {
     resetForm();
     setHasMinError(true);
     setHasMatchError(true);
+    setShowChangePasswordForm(true);
   };
 
   return (
@@ -82,6 +83,7 @@ const Form = ({ fetchSite }) => {
             type="submit"
           />
           <Button
+            disabled={false}
             label={t("dashboard.settings.security.form.button.cancel")}
             style="text"
             type="reset"

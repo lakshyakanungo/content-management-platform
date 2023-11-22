@@ -84,7 +84,19 @@
         "edit": {
           "category": { "placeholder": "Search category" },
           "versionHistoryButton": { "label": "View version history" },
-          "schedule": { "label": "Schedule update" },
+          "schedule": {
+            "label": "Schedule update",
+            "alert": {
+              "title": "Confirm Scheduled update deletion?",
+              "message": "The changes made in the scheduled update will be lost and can't be restored",
+              "label": "Confirm deletion"
+            },
+            "details": {
+              "header": "An update is scheduled",
+              "subheader": "Article will be updated at {{time}}",
+              "label": "Cancel scheduled update"
+            }
+          },
           "cancelButton": "Cancel",
           "versionHistory": {
             "title": "Version History",
@@ -106,7 +118,8 @@
           "scheduleUpdate": {
             "title": "Schedule update",
             "label": "Select time to schedule article update",
-            "placeholder": "Select time"
+            "placeholder": "Select time",
+            "time": "Will be scheduled for update at {{time}}"
           }
         },
         "editor": {
@@ -169,15 +182,16 @@
         "to": "TO",
         "form": {
           "validations": {
-            "required": "Required",
             "from": {
               "valid": "From path URL must be valid",
               "duplicate": "Duplicate value not allowed in From path URL",
-              "start": "From path url must start with /"
+              "start": "From path url must start with /",
+              "required": "From path is required"
             },
             "to": {
               "valid": "To path url must be valid",
-              "different": "From path url and To path url should be different"
+              "different": "From path url and To path url should be different",
+              "required": "To path is required"
             }
           }
         },
@@ -185,8 +199,16 @@
         "row": {
           "dropdown": {
             "edit": "Edit",
-            "delete": "Delete"
+            "delete": "Delete",
+            "alert": {
+              "title": "Confirm deletion of redirection?",
+              "message": "This can't be restored once deleted.",
+              "label": "Confirm deletion"
+            }
           }
+        },
+        "formRow": {
+          "placeholder": { "from": "From path url", "to": "To path url" }
         }
       },
       "categories": {

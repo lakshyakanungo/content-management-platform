@@ -75,7 +75,10 @@ const Security = () => {
             setShowChangePasswordForm={setShowChangePasswordForm}
           />
         ) : (
-          <Form fetchSite={fetchSite} />
+          <Form
+            fetchSite={fetchSite}
+            setShowChangePasswordForm={setShowChangePasswordForm}
+          />
         ))}
     </Layout>
   );

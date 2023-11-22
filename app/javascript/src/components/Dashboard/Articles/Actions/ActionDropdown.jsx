@@ -26,9 +26,6 @@ const ActionDropdown = ({
       <Menu className="flex flex-col">
         {STATUS_OPTIONS.map((option, index) => (
           <MenuItem.Button
-            // TODO: Fixed action dropdown select without validation.
-            // Check and then remove comment and refactor formikProps to just handle submit if possible
-            // disabled={!formikProps.isValid}
             key={option.value}
             className={buildActionItemClassName({
               selectedOptionIndex,
