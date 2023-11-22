@@ -11,10 +11,10 @@ const search = searchTerm =>
     },
   });
 
-const euisApi = {
+const articlesApi = {
   fetch,
   show,
   search,
 };
 
-export default euisApi;
+export default articlesApi;

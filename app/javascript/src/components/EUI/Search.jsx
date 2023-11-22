@@ -5,7 +5,7 @@ import { Input, Modal } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import euisApi from "apis/euis";
+import articlesApi from "apis/public/articles";
 import { useKeyDown } from "hooks/useKeyDown";
 
 import { SEARCH_SUFFIX } from "./constants";
@@ -31,9 +31,8 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
 
   const fetchArticles = async () => {
     try {
-      const { data } = await euisApi.search(searchTerm);
+      const { data } = await articlesApi.search(searchTerm);
       setArticles(data.articles);
-      // console.log(data.articles);
     } catch (error) {
       logger.log(error);
     }
