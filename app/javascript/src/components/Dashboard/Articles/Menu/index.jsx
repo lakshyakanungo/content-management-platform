@@ -22,6 +22,7 @@ const Menu = ({
   articleCounts,
   fetchCategories,
   setSelectedArticleIds,
+  setCurrentPageNumber,
 }) => {
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [categoriesDisplayed, setCategoriesDisplayed] = useState([]);
@@ -67,6 +68,7 @@ const Menu = ({
   const handleMenuStateChange = state => {
     setActiveMenuState(state);
     setSelectedArticleIds([]);
+    setCurrentPageNumber(1);
   };
 
   useEffect(() => {

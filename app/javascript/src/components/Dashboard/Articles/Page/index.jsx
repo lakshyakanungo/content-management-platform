@@ -17,6 +17,8 @@ const Page = ({
   showMenu,
   setShowMenu,
   categories,
+  currentPageNumber,
+  setCurrentPageNumber,
   refetch,
   selectedCategories,
   setSelectedCategories,
@@ -26,7 +28,6 @@ const Page = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [totalArticlesCount, setTotalArticlesCount] = useState(0);
 
   const { t } = useTranslation();

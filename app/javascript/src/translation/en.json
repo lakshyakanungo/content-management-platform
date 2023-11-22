@@ -112,7 +112,8 @@
             "details": {
               "title": "Version History",
               "subtitle": "Category: <0>{{name}}</0>",
-              "button": { "restore": "Restore version", "cancel": "Cancel" }
+              "button": { "restore": "Restore version", "cancel": "Cancel" },
+              "categoryDeleted": "Category of this version has been deleted"
             }
           },
           "scheduleUpdate": {

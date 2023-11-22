@@ -47,19 +47,27 @@ const Details = ({
           <h4 className="text-center">
             {t("dashboard.articles.actions.edit.versionHistory.details.title")}
           </h4>
-          <span>
-            <Trans
-              components={[<b key={1} />]}
-              i18nKey="dashboard.articles.actions.edit.versionHistory.details.subtitle"
-              values={{ name: categoryName }}
-            />
-          </span>
+          {categoryName ? (
+            <span>
+              <Trans
+                components={[<b key={1} />]}
+                i18nKey="dashboard.articles.actions.edit.versionHistory.details.subtitle"
+                values={{ name: categoryName }}
+              />
+            </span>
+          ) : (
+            <span className="neeto-ui-text-error-500">
+              {t(
+                "dashboard.articles.actions.edit.versionHistory.details.categoryDeleted"
+              )}
+            </span>
+          )}
         </div>
       </Header>
       <Body className="overflow-auto max-h-128">
         <EditorContent content={article.body} />
       </Body>
-      {!isCurrentVersion && (
+      {!isCurrentVersion && categoryName && (
         <Footer className="mt-6">
           <Button
             className="mr-2"
