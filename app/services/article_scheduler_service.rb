@@ -14,6 +14,6 @@ class ArticleSchedulerService
 
     article.create_schedule!(
       time: DateTime.parse(article_params[:scheduled_time]),
-      job_id: job.provider_job_id || job.job_id)
+      job_id: job.provider_job_id)
   end
 end
