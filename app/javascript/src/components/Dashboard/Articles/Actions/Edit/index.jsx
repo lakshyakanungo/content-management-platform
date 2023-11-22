@@ -14,6 +14,7 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import Schedule from "./Schedule";
+import ScheduleDetails from "./Schedule/Details";
 import VersionHistory from "./VersionHistory";
 
 import ActionDropdown from "../ActionDropdown";
@@ -28,6 +29,7 @@ const Edit = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [showScheduleDetails, setShowScheduleDetails] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
 
   const history = useHistory();
@@ -64,6 +66,7 @@ const Edit = () => {
         data: { article },
       } = await articlesApi.show(id);
       setArticle(article);
+      // console.log(article);
     } catch (error) {
       logger.log(error);
     }
@@ -146,19 +149,39 @@ const Edit = () => {
                     )}
                     onClick={() => setShowVersionHistory(true)}
                   />
-                  <Button
-                    className="neeto-ui-text-primary-800"
-                    label={t("dashboard.articles.actions.edit.schedule.label")}
-                    style="link"
-                    type="button"
-                    onClick={() => setShowScheduleModal(true)}
-                  />
-                  <Schedule
-                    formikProps={props}
-                    setIsScheduled={setIsScheduled}
-                    setShowScheduleModal={setShowScheduleModal}
-                    showScheduleModal={showScheduleModal}
-                  />
+                  {!article.schedule ? (
+                    <>
+                      <Button
+                        className="neeto-ui-text-primary-800"
+                        style="link"
+                        type="button"
+                        label={t(
+                          "dashboard.articles.actions.edit.schedule.label"
+                        )}
+                        onClick={() => setShowScheduleModal(true)}
+                      />
+                      <Schedule
+                        formikProps={props}
+                        setIsScheduled={setIsScheduled}
+                        setShowScheduleModal={setShowScheduleModal}
+                        showScheduleModal={showScheduleModal}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        className="neeto-ui-text-primary-800"
+                        label="Update is scheduled"
+                        style="text"
+                        onClick={() => setShowScheduleDetails(true)}
+                      />
+                      <ScheduleDetails
+                        article={article}
+                        setShowScheduleDetails={setShowScheduleDetails}
+                        showScheduleDetails={showScheduleDetails}
+                      />
+                    </>
+                  )}
                 </div>
                 <div className="flex gap-3">
                   <FormikButton
