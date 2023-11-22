@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy restore_version]
+  before_action :load_article!, only: %i[show update destroy restore_version delete_scheduled_job]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
   def index
@@ -27,12 +27,12 @@ class ArticlesController < ApplicationController
     if article_params_with_default_visits[:scheduled_time].present? &&
       Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
 
-      if @article.schedule.present?
-        respond_with_error(
-          "Article already scheduled for update.
-         Delete previously scheduled article update to add a new one.")
-        return
-      end
+      # if @article.schedule.present?
+      #   respond_with_error(
+      #     "Article already scheduled for update.
+      #    Delete previously scheduled article update to add a new one.")
+      #   return
+      # end
 
       article_scheduler_service = ArticleSchedulerService.new(@article)
       article_scheduler_service.process(article_params_with_default_visits)
@@ -51,6 +51,17 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
+  end
+
+  def delete_scheduled_job
+    # puts params, "PARAMS"
+    job_id = @article.schedule.job_id
+    # puts job_id, "JOB_ID"
+    job = Sidekiq::ScheduledSet.new.find_job(job_id)
+    # puts job, "JOB"
+    job.delete
+    @article.schedule.delete
+    respond_with_success(t("article.schedule.deleted"))
   end
 
   def bulk_destroy

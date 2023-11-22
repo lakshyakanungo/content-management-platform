@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         put "restore_version"
         get "analytics"
         put "schedule_update"
+        delete "delete_scheduled_job"
       end
     end
     resources :categories, except: %i[show new edit] do

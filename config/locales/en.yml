@@ -18,6 +18,8 @@ en:
     slug:
       immutable: "is immutable!"
     restored: "Article version restored"
+    schedule:
+      deleted: "Scheduled update deleted successfully."
   category:
     delete:
       error: "Can't delete General category!"

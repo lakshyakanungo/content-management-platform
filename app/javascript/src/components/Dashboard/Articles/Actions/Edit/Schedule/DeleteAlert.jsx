@@ -2,8 +2,23 @@ import React from "react";
 
 import { Alert } from "@bigbinary/neetoui";
 
-const DeleteAlert = ({ showDeleteAlert, setShowDeleteAlert }) => {
-  const handleDelete = () => {};
+import articlesApi from "apis/articles";
+
+const DeleteAlert = ({
+  article,
+  showDeleteAlert,
+  setShowDeleteAlert,
+  refetch,
+}) => {
+  const handleDelete = async () => {
+    try {
+      await articlesApi.deleteScheduledJob(article.id);
+      setShowDeleteAlert(false);
+      refetch();
+    } catch (error) {
+      logger.log(error);
+    }
+  };
 
   return (
     <Alert
