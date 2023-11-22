@@ -18,10 +18,16 @@ const Editor = ({ editorRef, ...otherProps }) => {
       mentions={EDITOR_MENTIONS}
       name="editor"
       placeholder={t("dashboard.articles.actions.editor.placeholder")}
+      // placeholder={`Add title here\nAdd description here`}
       ref={editorRef}
       rows={25}
       {...otherProps}
       className="px-4"
+      // extensions={[
+      //   Placeholder.configure({
+      //     placeholder: "My Custom Placeholder",
+      //   }),
+      // ]}
     />
   );
 };

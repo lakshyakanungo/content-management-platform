@@ -56,7 +56,7 @@ export const buildArticlesColumnData = ({
     ellipsis: {
       showTitle: false,
     },
-    width: 5,
+    width: 10,
   },
   {
     title: t("dashboard.articles.page.table.lastPublishedAt"),
