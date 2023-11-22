@@ -27,13 +27,6 @@ class ArticlesController < ApplicationController
     if article_params_with_default_visits[:scheduled_time].present? &&
       Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
 
-      # if @article.schedule.present?
-      #   respond_with_error(
-      #     "Article already scheduled for update.
-      #    Delete previously scheduled article update to add a new one.")
-      #   return
-      # end
-
       article_scheduler_service = ArticleSchedulerService.new(@article)
       article_scheduler_service.process(article_params_with_default_visits)
       respond_with_success(t("successfully_scheduled"))

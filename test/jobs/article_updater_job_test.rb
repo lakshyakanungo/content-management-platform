@@ -1,44 +1,36 @@
 # frozen_string_literal: true
-# # frozen_string_literal: true
 
-# require "test_helper"
-# require "sidekiq/testing"
+require "test_helper"
+require "sidekiq/testing"
 
-# class ArticleUpdaterJobTest < ActiveJob::TestCase
-#   def setup
-#     @user = create(:user)
-#     @category = Category.create!(name: "Test category", user_id: @user.id)
-#     @article = Article.create!(
-#       title: "Test article", body: "<p>Test body</p>", status: "draft",
-#       user_id: @user.id,
-#       category_id: @category.id)
-#   end
+class ArticleUpdaterJobTest < ActiveJob::TestCase
+  def setup
+    @user = create(:user)
+    @category = Category.create!(name: "Test category", user_id: @user.id)
+    @article = Article.create!(
+      title: "Test article", body: "<p>Test body</p>", status: "draft",
+      user_id: @user.id,
+      category_id: @category.id)
+    @article.create_schedule!(time: Time.now.utc, job_id: "test")
+  end
 
-#   def test_article_update_should_get_enqueued_and_performed_successfully
-#     new_title = "Updated title"
-#     article_params = {
-#       article: {
-#         title: new_title, status: "draft", category_id: @category.id,
-#         body: "Test body", user_id: @user.id,
-#         scheduled_time: Time.now.utc() + 1.minute
-#       }
-#     }
+  def test_article_gets_updated_by_job
+    article_params = {
+      title: "New title"
+    }
+    ArticleUpdaterJob.perform_now(@article, article_params)
+    assert_equal "New title", @article.reload.title
+  end
 
-#     put(
-#       article_path(
-#         id: @article.id, params: article_params), headers:)
-#     assert_response :success
+  def test_article_gets_removed_from_schedule_after_performing_job
+    assert @article.schedule.present?
+    assert_difference -> { Schedule.count }, -1 do
+      article_params = {
+        title: "New title"
+      }
+      ArticleUpdaterJob.perform_now(@article, article_params)
+    end
 
-#     assert_enqueued_with(job: ArticleUpdaterJob, args: [@article, article_params])
-#     perform_enqueued_jobs
-#     assert_performed_jobs 1
-#   end
-
-#   # def test_log_count_increments_on_running_task_logger
-#   #   Sidekiq::Testing.inline!
-#   #   assert_difference "Log.count", 1 do
-#   #     TaskLoggerJob.new.perform(@task)
-#   #   end
-#   # end
-
-# end
+    assert_nil @article.reload.schedule
+  end
+end
