@@ -22,11 +22,13 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    category_deletion_service = CategoryDeletionService.new params[:id]
-    if category_deletion_service.process category_params[:move_into_category_id]
-      respond_with_success(t("category.delete.success"))
-    else
+    category_deletion_service = CategoryDeletionService.new(params[:id], current_user)
+    category_deletion_service.process(category_params[:move_into_category_id])
+
+    if category_deletion_service.has_error
       respond_with_error(t("category.delete.error"))
+    else
+      respond_with_success(t("category.delete.success"))
     end
   end
 

@@ -12,13 +12,13 @@ class CategoryDeletionServiceTest < ActiveSupport::TestCase
     final_category = Category.create!(name: "Final category", user_id: @user.id)
 
     initial_category_count = Category.count
-    CategoryDeletionService.new(@category.id).process(final_category.id)
+    CategoryDeletionService.new(@category.id, @user).process(final_category.id)
 
     assert_equal Category.count, initial_category_count - 1
   end
 
   def test_process_when_only_one_category
-    CategoryDeletionService.new(@category.id).process(nil)
+    CategoryDeletionService.new(@category.id, @user).process(nil)
     assert_equal Category.count, 1
     assert_equal Category.first.name, "General"
   end

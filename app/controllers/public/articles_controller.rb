@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Eui::ArticlesController < ApplicationController
+class Public::ArticlesController < ApplicationController
   include Authenticable
 
   def index

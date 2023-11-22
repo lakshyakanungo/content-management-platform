@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
+class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
     @category = Category.create!(name: "Test category", user_id: @user.id)
@@ -22,7 +22,7 @@ class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_grouped_articles
-    get(eui_articles_path, headers: @headers)
+    get(public_articles_path, headers: @headers)
     assert_response :success
     response_json = response_body
 
@@ -49,7 +49,7 @@ class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_search_results_should_list_articles
     search_term = "ru"
 
-    get(search_eui_articles_path(search_term:), headers: @headers)
+    get(search_public_articles_path(search_term:), headers: @headers)
     assert_response :success
     response_json = response_body
 
@@ -66,7 +66,7 @@ class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_respond_with_article
     get(
-      eui_article_path(slug: @article.slug), headers: @headers)
+      public_article_path(slug: @article.slug), headers: @headers)
     assert_response :success
 
     response_json = response_body

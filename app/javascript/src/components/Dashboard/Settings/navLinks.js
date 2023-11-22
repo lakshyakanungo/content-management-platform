@@ -1,3 +1,5 @@
+import i18n from "common/i18n";
+
 import Categories from "./Categories";
 import General from "./General";
 import Redirection from "./Redirection";
@@ -6,29 +8,29 @@ import Security from "./Security";
 export const SETTINGS_NAVLINKS = [
   {
     key: "general",
-    label: "General",
-    description: "Configure general settings of your EUI.",
+    label: i18n.t("dashboard.settings.navlink.general.label"),
+    description: i18n.t("dashboard.settings.navlink.general.description"),
     path: "/settings?tab=general",
     component: General,
   },
   {
     key: "redirection",
-    label: "Redirections",
-    description: "Create and configure redirection rules.",
+    label: i18n.t("dashboard.settings.navlink.redirection.label"),
+    description: i18n.t("dashboard.settings.navlink.redirection.description"),
     path: "/settings?tab=redirection",
     component: Redirection,
   },
   {
     key: "password",
-    label: "Security",
-    description: "Secure knowledge base.",
+    label: i18n.t("dashboard.settings.navlink.security.label"),
+    description: i18n.t("dashboard.settings.navlink.security.description"),
     path: "/settings?tab=password",
     component: Security,
   },
   {
     key: "categories",
-    label: "Manage categories",
-    description: "Edit and reorder KB structure.",
+    label: i18n.t("dashboard.settings.navlink.categories.label"),
+    description: i18n.t("dashboard.settings.navlink.categories.description"),
     path: "/settings?tab=categories",
     component: Categories,
   },
