@@ -8,8 +8,9 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import articlesApi from "apis/public/articles";
 import { useKeyDown } from "hooks/useKeyDown";
 
-import { SEARCH_SUFFIX } from "./constants";
-import Description from "./Description";
+import ListItem from "./ListItem";
+
+import { SEARCH_SUFFIX } from "../constants";
 
 const Search = ({ showSearchModal, setShowSearchModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,19 +91,16 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
                 key={index}
                 className={`neeto-ui-text-gray-700 neeto-ui-text-transform-capitalize p-2 cursor-pointer hover:neeto-ui-bg-gray-200 ${
                   index === selectedArticleIndex
-                    ? "neeto-ui-bg-primary-500 neeto-ui-rounded neeto-ui-text-white"
+                    ? "neeto-ui-bg-gray-200 neeto-ui-rounded neeto-ui-text-white"
                     : ""
                 }`}
                 onClick={() => handleClick(article)}
               >
-                <div className="flex flex-col">
-                  {/* <span>{article.body}</span> */}
-                  <Description
-                    searchTerm={searchTerm}
-                    text={article.body}
-                    title={article.title}
-                  />
-                </div>
+                <ListItem
+                  searchTerm={searchTerm}
+                  text={article.body}
+                  title={article.title}
+                />
               </li>
             ))}
           </ul>

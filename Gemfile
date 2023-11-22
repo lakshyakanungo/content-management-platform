@@ -36,7 +36,6 @@ gem "email_validator"
 gem "bootsnap", ">= 1.9.4", require: false
 
 # Background jobs
-# TODO: Check if this version ok, because in LRRB its <7
 gem "sidekiq", "<8"
 
 # Add ons
