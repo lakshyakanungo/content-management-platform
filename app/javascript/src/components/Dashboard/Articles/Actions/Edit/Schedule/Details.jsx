@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Button, Modal } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 import { formatDate } from "utils";
 
 import DeleteAlert from "./DeleteAlert";
@@ -11,6 +12,7 @@ const Details = ({
   setShowScheduleDetails,
   refetch,
 }) => {
+  const { t } = useTranslation();
   const { Header, Body, Footer } = Modal;
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
@@ -20,14 +22,16 @@ const Details = ({
       onClose={() => setShowScheduleDetails(false)}
     >
       <Header>
-        <h2>An update is scheduled</h2>
+        <h2>{t("dashboard.articles.actions.edit.schedule.details.header")}</h2>
       </Header>
       <Body>
-        Article will be updated at {formatDate(article.schedule.time)}
+        {t("dashboard.articles.actions.edit.schedule.details.subheader", {
+          time: formatDate(article.schedule.time),
+        })}
       </Body>
       <Footer>
         <Button
-          label="Cancel scheduled update"
+          label={t("dashboard.articles.actions.edit.schedule.details.label")}
           style="danger"
           onClick={() => setShowDeleteAlert(true)}
         />

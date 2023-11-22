@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Alert } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 
@@ -10,6 +11,8 @@ const DeleteAlert = ({
   setShowDeleteAlert,
   refetch,
 }) => {
+  const { t } = useTranslation();
+
   const handleDelete = async () => {
     try {
       await articlesApi.deleteScheduledJob(article.id);
@@ -23,9 +26,11 @@ const DeleteAlert = ({
   return (
     <Alert
       isOpen={showDeleteAlert}
-      message="The changes made in the scheduled update will be lost and can't be restored"
-      submitButtonLabel="Confirm deletion"
-      title="Confirm Scheduled update deletion?"
+      message={t("dashboard.articles.actions.edit.schedule.alert.message")}
+      title={t("dashboard.articles.actions.edit.schedule.alert.title")}
+      submitButtonLabel={t(
+        "dashboard.articles.actions.edit.schedule.alert.label"
+      )}
       onClose={() => setShowDeleteAlert(false)}
       onSubmit={handleDelete}
     />

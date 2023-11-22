@@ -94,7 +94,7 @@ const Redirection = () => {
         <div>
           <Button
             className="mt-2"
-            disabled={showNewRedirection}
+            disabled={showNewRedirection || editingRow !== ""}
             icon={Plus}
             iconPosition="left"
             label={t("dashboard.settings.redirections.newButtonLabel")}

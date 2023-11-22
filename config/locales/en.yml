@@ -30,3 +30,6 @@ en:
       to: "To path is not valid"
       cyclic: "Cyclic redirections not allowed"
       paths_equal: "To and From paths cannot be equal"
+  site:
+    update:
+      success: "Site has been updated successfully"

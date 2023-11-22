@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { truncate } from "@bigbinary/neeto-commons-frontend/pure";
 import { MenuHorizontal } from "neetoicons";
@@ -11,8 +11,11 @@ import {
   FROM_PATH_TRUNCATE_LENGTH,
   TO_PATH_TRUNCATE_LENGTH,
 } from "./constants";
+import DeleteAlert from "./DeleteAlert";
 
 const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
   const { Menu, MenuItem } = Dropdown;
 
   const { t } = useTranslation();
@@ -54,12 +57,20 @@ const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
             <MenuItem.Button onClick={handleEdit}>
               {t("dashboard.settings.redirections.row.dropdown.edit")}
             </MenuItem.Button>
-            <MenuItem.Button style="danger" onClick={handleDelete}>
+            <MenuItem.Button
+              style="danger"
+              onClick={() => setShowDeleteAlert(true)}
+            >
               {t("dashboard.settings.redirections.row.dropdown.delete")}
             </MenuItem.Button>
           </Menu>
         </Dropdown>
       </span>
+      <DeleteAlert
+        handleDelete={handleDelete}
+        setShowDeleteAlert={setShowDeleteAlert}
+        showDeleteAlert={showDeleteAlert}
+      />
     </div>
   );
 };

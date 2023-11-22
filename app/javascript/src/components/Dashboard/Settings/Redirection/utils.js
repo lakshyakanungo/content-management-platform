@@ -40,7 +40,9 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
   yup.object().shape({
     fromUrl: yup
       .string()
-      .required(t("dashboard.settings.redirections.form.validations.required"))
+      .required(
+        t("dashboard.settings.redirections.form.validations.from.required")
+      )
       .test(
         "should-start-with-forward-slash",
         t("dashboard.settings.redirections.form.validations.from.start"),
@@ -58,11 +60,8 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
       ),
     toUrl: yup
       .string()
-      .required(t("dashboard.settings.redirections.form.validations.required"))
-      .test(
-        "to-path-url-and-from-path-url-should-be-different",
-        t("dashboard.settings.redirections.form.validations.to.different"),
-        (_, context) => context.originalValue !== context.parent.fromUrl
+      .required(
+        t("dashboard.settings.redirections.form.validations.to.required")
       )
       .test(
         "valid-to-path-url",
