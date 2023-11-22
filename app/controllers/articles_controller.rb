@@ -24,20 +24,20 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    if article_params_with_default_visits[:scheduled_time].present? &&
+    if params_with_default_visits_for_draft[:scheduled_time].present? &&
       Time.parse(article_params[:scheduled_time]).to_f > Time.now.to_f
 
       article_scheduler_service = ArticleSchedulerService.new(@article)
-      article_scheduler_service.process(article_params_with_default_visits)
+      article_scheduler_service.process(params_with_default_visits_for_draft)
       respond_with_success(t("successfully_scheduled"))
     else
-      @article.update!(article_params_with_default_visits.except(:scheduled_time))
+      @article.update!(params_with_default_visits_for_draft.except(:scheduled_time))
       respond_with_success(t("successfully_updated", entity: "Article", count: 1))
     end
   end
 
   def bulk_update
-    @articles.update!(article_params_with_default_visits)
+    @articles.update!(params_with_default_visits_for_draft)
     respond_with_success(t("successfully_updated", entity: "Articles", count: 2))
   end
 
@@ -47,11 +47,8 @@ class ArticlesController < ApplicationController
   end
 
   def delete_scheduled_job
-    # puts params, "PARAMS"
     job_id = @article.schedule.job_id
-    # puts job_id, "JOB_ID"
     job = Sidekiq::ScheduledSet.new.find_job(job_id)
-    # puts job, "JOB"
     job.delete
     @article.schedule.delete
     respond_with_success(t("article.schedule.deleted"))
@@ -79,7 +76,7 @@ class ArticlesController < ApplicationController
       .includes(:category)
       .order(visits: sort_order)
       .page(params[:page])
-      .per(10)
+      .per(9)
   end
 
   private
@@ -96,7 +93,7 @@ class ArticlesController < ApplicationController
       @articles = current_user.articles.where(id: params[:ids])
     end
 
-    def article_params_with_default_visits
+    def params_with_default_visits_for_draft
       article_params[:status] == "draft" ? article_params.merge({ visits: 0 }) : article_params
     end
 end

@@ -60,7 +60,7 @@ const Analytics = () => {
         className="px-2"
         columnData={buildColumnData}
         currentPageNumber={currentPageNumber}
-        defaultPageSize={10}
+        defaultPageSize={9}
         handlePageChange={page => setCurrentPageNumber(page)}
         rowClassName={buildRowClassName}
         rowData={articles}

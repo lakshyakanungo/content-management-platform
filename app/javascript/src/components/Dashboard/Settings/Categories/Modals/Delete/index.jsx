@@ -65,22 +65,24 @@ const Delete = ({
       >
         {({ dirty }) => (
           <>
-            <Body className="w-11/12">
-              <Select
-                isClearable
-                isSearchable
-                className="neeto-ui-text-gray-500 neeto-ui-font-normal"
-                name="selectedCategory"
-                optionRemapping={{ label: "name", value: "id" }}
-                options={categoryMoveOptions}
-                label={t(
-                  "dashboard.settings.categories.modal.delete.selectLabel"
-                )}
-                placeholder={t(
-                  "dashboard.settings.categories.modal.delete.selectPlaceholder"
-                )}
-              />
-            </Body>
+            {hasMultipleCategories && (
+              <Body className="w-11/12">
+                <Select
+                  isClearable
+                  isSearchable
+                  className="neeto-ui-text-gray-500 neeto-ui-font-normal"
+                  name="selectedCategory"
+                  optionRemapping={{ label: "name", value: "id" }}
+                  options={categoryMoveOptions}
+                  label={t(
+                    "dashboard.settings.categories.modal.delete.selectLabel"
+                  )}
+                  placeholder={t(
+                    "dashboard.settings.categories.modal.delete.selectPlaceholder"
+                  )}
+                />
+              </Body>
+            )}
             <Footer>
               <Button
                 className="mr-2"
@@ -93,6 +95,7 @@ const Delete = ({
               />
               <Button
                 disabled={!dirty && hasMultipleCategories}
+                loading={false}
                 style="text"
                 type="reset"
                 label={t(

@@ -30,5 +30,5 @@ export const renderCategoryName = (article, categories) => {
     category => category.id === article.categoryId
   );
 
-  return category.name;
+  return category?.name;
 };
