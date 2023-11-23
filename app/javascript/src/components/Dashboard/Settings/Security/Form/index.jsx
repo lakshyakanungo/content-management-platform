@@ -4,7 +4,9 @@ import { Check, Close } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
+import { resetAuthTokens } from "apis/axios";
 import siteApi from "apis/site";
+import { setToLocalStorage } from "utils/storage";
 
 import { INITIAL_VALUES } from "./constants";
 import {
@@ -27,6 +29,8 @@ const Form = ({ fetchSite, setShowChangePasswordForm }) => {
     try {
       await siteApi.update({ password, is_password_protected: true });
       fetchSite();
+      resetAuthTokens();
+      setToLocalStorage("authToken", null);
     } catch (error) {
       logger.log(error);
     }
