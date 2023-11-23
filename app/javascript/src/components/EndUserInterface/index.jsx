@@ -39,9 +39,11 @@ const EndUserInterface = () => {
   }, []);
 
   if (loading || isPageLoading) {
-    <div className="h-screen">
-      <PageLoader />
-    </div>;
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
   }
 
   return (
