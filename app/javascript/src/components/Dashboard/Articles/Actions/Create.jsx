@@ -10,7 +10,8 @@ import categoriesApi from "apis/categories";
 
 import ActionDropdown from "./ActionDropdown";
 import { FORM_VALIDATION_SCHEMA } from "./constants";
-import Editor from "./Editor";
+// import Editor from "./Editor";
+import CreateEditor from "./CreateEditor";
 import { parseData } from "./utils";
 
 const Create = () => {
@@ -113,7 +114,7 @@ const Create = () => {
                 </div>
               </div>
             </div>
-            <Editor editorRef={editorRef} />
+            <CreateEditor ref={editorRef} />
           </>
         )}
       </Form>

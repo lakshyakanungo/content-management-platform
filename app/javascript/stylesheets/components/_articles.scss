@@ -9,18 +9,17 @@
   }
 }
 
-.ProseMirror .is-editor-empty:first-child::before {
+.ProseMirror h1.is-empty:nth-child(1)::before {
   content: attr(data-placeholder);
-  display: absolute;
   float: left;
-  color: #101010;
+  color: #6b6a6a;
   pointer-events: none;
-  height: 40px;
+  height: 0;
 }
-.ProseMirror .is-editor-empty:first-child::after {
-  content: "Add description here";
+.ProseMirror > p.is-empty:nth-child(2):nth-last-child(2):before {
+  content: attr(data-placeholder);
   float: left;
-  color: #68737d;
+  color: #8c8a8a;
   pointer-events: none;
-  height: 0px;
+  height: 0;
 }
