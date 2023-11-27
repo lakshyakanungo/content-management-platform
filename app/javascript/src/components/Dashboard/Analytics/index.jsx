@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import Header from "@bigbinary/neeto-molecules/Header";
-import { Spinner, Table } from "@bigbinary/neetoui";
+import SubHeader from "@bigbinary/neeto-molecules/SubHeader";
+import { Button, Spinner, Table } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 import articlesApi from "apis/articles";
+import { ANALYTICS_REPORT_PATH } from "components/routeConstants";
 
 import { buildColumnData, buildRowClassName } from "./utils";
 
@@ -16,6 +19,8 @@ const Analytics = () => {
   const [totalArticles, setTotalArticles] = useState(0);
 
   const { t } = useTranslation();
+
+  const history = useHistory();
 
   const fetchArticles = async () => {
     try {
@@ -55,6 +60,15 @@ const Analytics = () => {
   return (
     <div className="mx-8 my-4 w-full">
       <Header className="" title={t("dashboard.analytics.title")} />
+      <SubHeader
+        rightActionBlock={
+          // TODO: Add this to translation
+          <Button
+            label="Download report"
+            onClick={() => history.push(ANALYTICS_REPORT_PATH)}
+          />
+        }
+      />
       <Table
         preserveTableStateInQuery
         className="px-2"

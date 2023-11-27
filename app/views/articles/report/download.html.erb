@@ -1,0 +1,13 @@
+<div class="mb-4 font-bold">Your articles:</div>
+<div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
+  <% @articles.each do |article| %>
+  <div class="flexrow w-full mb-4">
+    <div class="ml-4">
+      <div class="mb-1 flex justify-around">
+        <span class="text-gray-500"><%= article.title %></span>
+        <span class="text-gray-500"><%= article.visits %></span>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

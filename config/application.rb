@@ -7,6 +7,8 @@ require "rails/all"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+# Load dotenv file
+Dotenv::Railtie.load
 
 module Scribble
   class Application < Rails::Application

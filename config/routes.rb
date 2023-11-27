@@ -13,6 +13,9 @@ Rails.application.routes.draw do
         get "analytics"
         put "schedule_update"
         delete "delete_scheduled_job"
+        resource :report, only: :create, module: :articles do
+          get :download, on: :collection
+        end
       end
     end
     resources :categories, except: %i[show new edit] do
