@@ -11,7 +11,9 @@ class Articles::ReportsController < ApplicationController
       respond_with_error(t("not_found", entity: "report"), :not_found) and return
     end
 
-    send_data current_user.report.download, filename: pdf_file_name, content_type: "application/pdf"
+    data = Base64.encode64(current_user.report.download)
+    send_data data, filename: pdf_file_name, content_type: "application/pdf"
+
   end
 
   private

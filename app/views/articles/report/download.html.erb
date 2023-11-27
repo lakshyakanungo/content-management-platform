@@ -2,10 +2,11 @@
 <div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
   <% @articles.each do |article| %>
   <div class="flexrow w-full mb-4">
-    <div class="ml-4">
-      <div class="mb-1 flex justify-around">
-        <span class="text-gray-500"><%= article.title %></span>
-        <span class="text-gray-500"><%= article.visits %></span>
+    <div class="mx-4">
+      <div class="mb-1 w-full flex justify-around">
+        <span class="text-gray-800 font-bold w-1/2"><%= article.title %></span>
+        <span class="text-gray-500 w-1/4"><%= article.category.name %></span>
+        <div class="text-gray-500 w-1/4"><%= article.visits %></div>
       </div>
     </div>
   </div>
