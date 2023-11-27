@@ -8,13 +8,9 @@ import { STATUS_OPTIONS } from "./constants";
 const extractTitle = jsonOfEditorContent =>
   jsonOfEditorContent.content[0].content[0].text;
 
-export const buildSelectClassName = props =>
+export const buildSelectClassName = () =>
   classNames(
-    "neeto-ui-text-gray-500 neeto-ui-font-normal flex flex-row gap-2 items-center",
-    {
-      "w-72": props.isValid,
-      "w-96": !props.isValid,
-    }
+    "neeto-ui-text-gray-500 neeto-ui-font-normal flex flex-row gap-2 items-center w-72"
   );
 
 export const buildActionItemClassName = ({ selectedOptionIndex, index }) =>

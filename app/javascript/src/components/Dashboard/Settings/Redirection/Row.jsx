@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 
-import { truncate } from "@bigbinary/neeto-commons-frontend/pure";
 import { MenuHorizontal } from "neetoicons";
 import { Dropdown, Tooltip } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 import redirectionsApi from "apis/redirections";
 
-import {
-  FROM_PATH_TRUNCATE_LENGTH,
-  TO_PATH_TRUNCATE_LENGTH,
-} from "./constants";
+import { URL_TRUNCATE_LENGTH } from "./constants";
 import DeleteAlert from "./DeleteAlert";
+import { buildFullUrl, FormattedUrl } from "./utils";
 
 const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -34,21 +31,21 @@ const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
   return (
     <div className="neeto-ui-bg-white grid grid-cols-12 gap-4 justify-between p-2 my-2 items-center">
       <Tooltip
-        content={redirection.from}
-        disabled={redirection.from.length < FROM_PATH_TRUNCATE_LENGTH}
+        content={buildFullUrl(redirection.from)}
+        disabled={buildFullUrl(redirection.from).length < URL_TRUNCATE_LENGTH}
         position="top"
       >
         <div className="col-span-5 mr-4">
-          {truncate(redirection.from, FROM_PATH_TRUNCATE_LENGTH)}
+          <FormattedUrl url={redirection.from} />
         </div>
       </Tooltip>
       <Tooltip
-        content={redirection.to}
-        disabled={redirection.to.length < TO_PATH_TRUNCATE_LENGTH}
+        content={buildFullUrl(redirection.to)}
+        disabled={buildFullUrl(redirection.to).length < URL_TRUNCATE_LENGTH}
         position="top"
       >
         <span className="col-span-5 neeto-ui-text-gray-700">
-          {truncate(redirection.to, TO_PATH_TRUNCATE_LENGTH)}
+          <FormattedUrl url={redirection.to} />
         </span>
       </Tooltip>
       <span className="col-span-2 text-right">
