@@ -5,7 +5,7 @@ class ReportsWorker
 
   def perform(user_id, report_path)
     current_user = User.find(user_id)
-    articles = current_user.articles.published
+    articles = current_user.articles.published.includes(:category).order(visits: :desc)
 
     html_report = ApplicationController.render(
       assigns: {
