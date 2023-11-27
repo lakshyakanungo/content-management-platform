@@ -1,54 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
-import { Modal, DatePicker } from "@bigbinary/neetoui";
-import dayjs from "dayjs";
+import { Button, Modal } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "utils";
 
-const Schedule = ({
-  showScheduleModal,
-  setShowScheduleModal,
-  formikProps,
-  isScheduled,
-  setIsScheduled,
-}) => {
+import DeleteAlert from "./DeleteAlert";
+
+const Schedule = ({ article, showSchedule, setShowSchedule, refetch }) => {
   const { t } = useTranslation();
-
-  const time = formikProps.values.time;
-
-  useEffect(() => {
-    if (time) setIsScheduled(true);
-    else setIsScheduled(false);
-  }, [time]);
+  const { Header, Body, Footer } = Modal;
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   return (
-    <Modal
-      className="p-4"
-      isOpen={showScheduleModal}
-      onClose={() => setShowScheduleModal(false)}
-    >
-      <h2>{t("dashboard.articles.actions.edit.scheduleUpdate.title")}</h2>
-      <DatePicker
-        showTime
-        className="w-52 mb-3"
-        disabledDate={current => dayjs().add(-1, "days") >= current}
-        label={t("dashboard.articles.actions.edit.scheduleUpdate.label")}
-        labelProps={{ className: "mt-4" }}
-        name="time"
-        value={time}
-        placeholder={t(
-          "dashboard.articles.actions.edit.scheduleUpdate.placeholder"
-        )}
-        onChange={time => formikProps.setFieldValue("time", time)}
+    <Modal isOpen={showSchedule} onClose={() => setShowSchedule(false)}>
+      <Header>
+        <h2>{t("dashboard.articles.actions.edit.schedule.details.header")}</h2>
+      </Header>
+      <Body>
+        {t("dashboard.articles.actions.edit.schedule.details.subheader", {
+          time: formatDate(article.schedule.time),
+        })}
+      </Body>
+      <Footer>
+        <Button
+          label={t("dashboard.articles.actions.edit.schedule.details.label")}
+          style="danger"
+          onClick={() => setShowDeleteAlert(true)}
+        />
+      </Footer>
+      <DeleteAlert
+        article={article}
+        refetch={refetch}
+        setShowDeleteAlert={setShowDeleteAlert}
+        showDeleteAlert={showDeleteAlert}
       />
-      {isScheduled && (
-        <span>
-          {t("dashboard.articles.actions.edit.scheduleUpdate.time", {
-            time: formatDate(time),
-          })}
-        </span>
-      )}
     </Modal>
   );
 };
+
 export default Schedule;

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { Spinner, Typography, Button } from "@bigbinary/neetoui";
+import { Spinner, Typography, Button, DatePicker } from "@bigbinary/neetoui";
+import dayjs from "dayjs";
 import {
   Form,
   Select as FormikSelect,
@@ -14,7 +15,6 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import Schedule from "./Schedule";
-import ScheduleDetails from "./Schedule/Details";
 import VersionHistory from "./VersionHistory";
 
 import ActionDropdown from "../ActionDropdown";
@@ -28,8 +28,7 @@ const Edit = () => {
   const [categories, setCategories] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
-  const [showScheduleDetails, setShowScheduleDetails] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
 
   const history = useHistory();
@@ -41,6 +40,11 @@ const Edit = () => {
 
   const getDefaultCategory = () =>
     categories.find(category => category.id === article.categoryId);
+
+  const handleScheduleChange = ({ time, props }) => {
+    props.setFieldValue("time", time);
+    setIsScheduled(!!time);
+  };
 
   const handleEdit = async values => {
     try {
@@ -66,7 +70,6 @@ const Edit = () => {
         data: { article },
       } = await articlesApi.show(id);
       setArticle(article);
-      // console.log(article);
     } catch (error) {
       logger.log(error);
     }
@@ -124,7 +127,7 @@ const Edit = () => {
                     isSearchable
                     validateOnBlur
                     validateOnChange
-                    className={buildSelectClassName(props)}
+                    className={buildSelectClassName()}
                     name="selectedCategory"
                     optionRemapping={{ label: "name", value: "id" }}
                     options={categories}
@@ -150,37 +153,32 @@ const Edit = () => {
                     onClick={() => setShowVersionHistory(true)}
                   />
                   {!article.schedule ? (
-                    <>
-                      <Button
-                        className="neeto-ui-text-primary-800"
-                        style="link"
-                        type="button"
-                        label={t(
-                          "dashboard.articles.actions.edit.schedule.label"
-                        )}
-                        onClick={() => setShowScheduleModal(true)}
-                      />
-                      <Schedule
-                        formikProps={props}
-                        isScheduled={isScheduled}
-                        setIsScheduled={setIsScheduled}
-                        setShowScheduleModal={setShowScheduleModal}
-                        showScheduleModal={showScheduleModal}
-                      />
-                    </>
+                    <DatePicker
+                      showTime
+                      className="w-48"
+                      name="time"
+                      value={props.values.time}
+                      disabledDate={current =>
+                        dayjs().add(-1, "days") >= current
+                      }
+                      placeholder={t(
+                        "dashboard.articles.actions.edit.scheduleUpdate.placeholder"
+                      )}
+                      onChange={time => handleScheduleChange({ time, props })}
+                    />
                   ) : (
                     <>
                       <Button
                         className="neeto-ui-text-primary-800"
                         label="Update is scheduled"
                         style="text"
-                        onClick={() => setShowScheduleDetails(true)}
+                        onClick={() => setShowSchedule(true)}
                       />
-                      <ScheduleDetails
+                      <Schedule
                         article={article}
                         refetch={fetchArticleAndCategories}
-                        setShowScheduleDetails={setShowScheduleDetails}
-                        showScheduleDetails={showScheduleDetails}
+                        setShowSchedule={setShowSchedule}
+                        showSchedule={showSchedule}
                       />
                     </>
                   )}
