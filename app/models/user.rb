@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :articles, dependent: :destroy
   has_many :categories, dependent: :destroy
+  has_one_attached :report
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }
   validates :email, presence: true,
