@@ -33,3 +33,4 @@ en:
   site:
     update:
       success: "Site has been updated successfully"
+  in_progress: "%{action} is getting generated!"
