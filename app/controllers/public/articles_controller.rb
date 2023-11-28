@@ -3,6 +3,8 @@
 class Public::ArticlesController < ApplicationController
   include Authenticable
 
+  after_action :increase_article_visits!, only: :show
+
   def index
     articles = current_user.articles.published
       .includes(:category)
@@ -12,7 +14,6 @@ class Public::ArticlesController < ApplicationController
 
   def show
     @article = current_user.articles.published.find_by!(slug: params[:slug])
-    @article.update!(visits: @article.visits + 1)
   end
 
   def search
@@ -20,5 +21,11 @@ class Public::ArticlesController < ApplicationController
 
     @search_results = current_user.articles.published
       .where("lower(title) LIKE :search_term OR lower(body) LIKE :search_term", search_term: "%#{search_term}%")
+  end
+
+  private
+
+  def increase_article_visits!
+    @article.update!(visits: @article.visits + 1)
   end
 end
