@@ -8,6 +8,7 @@ import "lib/dayjs"; // eslint-disable-line
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import { DASHBOARD_PATH, EUI_PATH } from "components/routeConstants";
+import { setToLocalStorage } from "utils/storage";
 
 import Dashboard from "./Dashboard";
 import EUI from "./EndUserInterface";
@@ -22,6 +23,7 @@ const Main = () => {
     initializeLogger();
     registerIntercepts();
     setAuthHeaders(setLoading);
+    setToLocalStorage("authUserId", 1);
   }, []);
 
   if (loading) {

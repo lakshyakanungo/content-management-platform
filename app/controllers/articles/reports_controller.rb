@@ -2,8 +2,7 @@
 
 class Articles::ReportsController < ApplicationController
   def create
-    ReportsWorker.perform_async(current_user.id, report_file_path.to_s)
-    respond_with_success(t("in_progress", action: "Report generation"))
+    ReportsWorker.perform_async(current_user.id)
   end
 
   def download

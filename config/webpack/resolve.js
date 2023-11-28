@@ -17,6 +17,7 @@ module.exports = {
     neetomolecules: "@bigbinary/neeto-molecules",
     utils: absolutePath("src/utils"),
     lib: absolutePath("src/lib"),
+    channels: absolutePath("src/channels"),
   },
   extensions: [
     ".ts",
