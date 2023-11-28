@@ -34,3 +34,8 @@ en:
     update:
       success: "Site has been updated successfully"
   in_progress: "%{action} is getting generated!"
+  report:
+    render: "Rendering the report"
+    generate: "Generating the PDF report"
+    upload: "Uploading to server"
+    attach: "Attaching the report to the user"

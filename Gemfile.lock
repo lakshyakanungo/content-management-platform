@@ -292,6 +292,8 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redis (5.0.7)
+      redis-client (>= 0.9.0)
     redis-client (0.16.0)
       connection_pool
     regexp_parser (2.8.1)
@@ -420,6 +422,7 @@ DEPENDENCIES
   puma
   rails (~> 7.0.5)
   react-rails
+  redis
   rubocop
   rubocop-rails
   ruby_audit

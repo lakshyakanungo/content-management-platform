@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 import Container from "@bigbinary/neeto-molecules/Container";
-import { Button, Toastr } from "@bigbinary/neetoui";
+import { Button } from "@bigbinary/neetoui";
 
 import articlesApi from "apis/articles";
+import createConsumer from "channels/consumer";
+import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
+import ProgressBar from "components/commons/ProgressBar";
 
 const DownloadReport = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
+
+  const consumer = createConsumer();
 
   const generatePdf = async () => {
     try {
@@ -57,21 +64,9 @@ const DownloadReport = () => {
   }
 
   const downloadPdf = async () => {
+    setIsLoading(true);
     try {
-      Toastr.success("Downloading report...");
       const response = await articlesApi.download();
-
-      // DOUBT 1 : The response.data is empty if I pass { responseType: "blob" } in the
-      // api connector for download action.
-      // But still its getting shown in the network. Not able to understand that
-      // why is response.data empty then.
-      // console.log(response);
-
-      // const blob = new Blob([response.data], { type: "application/pdf" });
-
-      // DOUBT 2 : The pdf getting saved is showing up empty.
-      //  But still it has the correct size.
-      // saveAs(blob, "analytics_report.pdf");
       solution1(response.data);
     } catch (error) {
       logger.error(error);
@@ -81,17 +76,37 @@ const DownloadReport = () => {
   };
 
   useEffect(() => {
-    generatePdf();
+    subscribeToReportDownloadChannel({
+      consumer,
+      setMessage,
+      setProgress,
+      generatePdf,
+    });
+
+    return () => {
+      consumer.disconnect();
+    };
   }, []);
 
-  const message = isLoading
-    ? "Report is being generated..."
-    : "Report downloaded!";
+  useEffect(() => {
+    if (progress === 100) {
+      setIsLoading(false);
+      setMessage("Report is ready to be downloaded");
+    }
+  }, [progress]);
 
   return (
     <Container>
-      <h1>{message}</h1>
-      <Button label="Download" onClick={downloadPdf} />
+      <div className="mx-auto mt-48 w-3/6 space-y-6 rounded-md border-2 p-4 text-center">
+        <h1>{message}</h1>
+        <ProgressBar progress={progress} />
+        <Button
+          disabled={isLoading}
+          label="Download"
+          loading={isLoading}
+          onClick={downloadPdf}
+        />
+      </div>
     </Container>
   );
 };

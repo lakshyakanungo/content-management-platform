@@ -17,11 +17,10 @@ const search = ({
     },
   });
 
-const analytics = (currentPageNumber, orderBy) =>
+const analytics = currentPageNumber =>
   axios.get("/articles/analytics", {
     params: {
       page: currentPageNumber,
-      order_by: orderBy,
     },
   });
 
