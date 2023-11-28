@@ -49,6 +49,17 @@ gem "kaminari"
 
 gem "nokogiri"
 
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
+
+# Required by Active Storage to use the GCS
+gem "google-cloud-storage"
+
+# To load the environment variables
+gem "dotenv-rails"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"

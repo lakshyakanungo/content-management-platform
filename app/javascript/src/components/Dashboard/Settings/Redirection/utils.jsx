@@ -1,7 +1,12 @@
+import React from "react";
+
+import { truncate } from "@bigbinary/neeto-commons-frontend/pure";
 import { t } from "i18next";
 import * as yup from "yup";
 
 import {
+  HOST_NAME,
+  URL_TRUNCATE_LENGTH,
   VALID_FROM_PATH_REGEX,
   VALID_TO_FULL_URL_REGEX,
   VALID_TO_PATH_URL_REGEX,
@@ -69,3 +74,22 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
         value => checkValidToPath(value)
       ),
   });
+
+export const buildFullUrl = url => {
+  if (url.startsWith("/")) return `${HOST_NAME}${url}`;
+
+  return url;
+};
+
+export const FormattedUrl = ({ url }) => {
+  if (url.startsWith("/")) {
+    return (
+      <div>
+        <span className="text-gray-500 mx-0">{HOST_NAME}</span>
+        {truncate(url, URL_TRUNCATE_LENGTH - HOST_NAME.length)}
+      </div>
+    );
+  }
+
+  return truncate(url, URL_TRUNCATE_LENGTH);
+};

@@ -119,7 +119,7 @@
           "scheduleUpdate": {
             "title": "Schedule update",
             "label": "Select time to schedule article update",
-            "placeholder": "Select time",
+            "placeholder": "Schedule an update",
             "time": "Will be scheduled for update at {{time}}"
           }
         },

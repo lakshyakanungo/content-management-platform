@@ -61,6 +61,11 @@ const bulkUpdate = ({ ids, payload }) =>
     article: payload,
   });
 
+const generatePdf = () => axios.post("/articles/report", {});
+
+const download = () => axios.get("/articles/report/download");
+// axios.get("/articles/report/download", { responseType: "blob" });
+
 const articlesApi = {
   fetch,
   search,
@@ -73,6 +78,8 @@ const articlesApi = {
   deleteScheduledJob,
   bulkDelete,
   bulkUpdate,
+  generatePdf,
+  download,
 };
 
 export default articlesApi;
