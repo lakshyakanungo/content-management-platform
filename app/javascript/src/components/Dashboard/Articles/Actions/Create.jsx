@@ -10,7 +10,6 @@ import categoriesApi from "apis/categories";
 
 import ActionDropdown from "./ActionDropdown";
 import { FORM_VALIDATION_SCHEMA } from "./constants";
-// import Editor from "./Editor";
 import Editor from "./Editor";
 import { parseData } from "./utils";
 
