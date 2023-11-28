@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { EditorContent } from "@bigbinary/neeto-editor";
+import Header from "@bigbinary/neeto-molecules/Header";
 import { Spinner } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -43,6 +44,7 @@ const ShowArticle = ({ setSelectedArticleId }) => {
 
   return (
     <div className="w-4/5 px-12 py-4">
+      <Header title={article.title} />
       <EditorContent content={article.body} />
     </div>
   );

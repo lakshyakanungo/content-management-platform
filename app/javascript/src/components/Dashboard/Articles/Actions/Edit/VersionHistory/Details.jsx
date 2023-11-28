@@ -65,6 +65,7 @@ const Details = ({
         </div>
       </Header>
       <Body className="overflow-auto max-h-128">
+        <h2>{article.title}</h2>
         <EditorContent content={article.body} />
       </Body>
       {!isCurrentVersion && categoryName && (

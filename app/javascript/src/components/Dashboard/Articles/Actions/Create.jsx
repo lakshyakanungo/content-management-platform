@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Spinner } from "@bigbinary/neetoui";
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
@@ -11,7 +11,7 @@ import categoriesApi from "apis/categories";
 import ActionDropdown from "./ActionDropdown";
 import { FORM_VALIDATION_SCHEMA } from "./constants";
 // import Editor from "./Editor";
-import CreateEditor from "./CreateEditor";
+import Editor from "./Editor";
 import { parseData } from "./utils";
 
 const Create = () => {
@@ -21,15 +21,13 @@ const Create = () => {
 
   const history = useHistory();
 
-  const editorRef = useRef(null);
-
   const { t } = useTranslation();
 
-  const handleCreate = async ({ selectedCategory }) => {
+  const handleCreate = async ({ selectedCategory, editor }) => {
     try {
       const data = parseData({
+        editor,
         selectedCategory,
-        editorRef,
         selectedOptionIndex,
       });
 
@@ -71,9 +69,13 @@ const Create = () => {
         formikProps={{
           initialValues: {
             selectedCategory: null,
-            editor: "<p></p>",
+            editor: {
+              title: "",
+              description: "<p></p>",
+            },
           },
           onSubmit: handleCreate,
+          enableReinitialize: true,
           validationSchema: FORM_VALIDATION_SCHEMA,
         }}
       >
@@ -114,7 +116,7 @@ const Create = () => {
                 </div>
               </div>
             </div>
-            <CreateEditor ref={editorRef} />
+            <Editor />
           </>
         )}
       </Form>

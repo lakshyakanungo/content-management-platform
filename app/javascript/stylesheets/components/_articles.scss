@@ -9,17 +9,14 @@
   }
 }
 
-.ProseMirror h1.is-empty:nth-child(1)::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #6b6a6a;
-  pointer-events: none;
-  height: 0;
+.editor-input {
+  border: thin solid rgb(var(--neeto-ui-gray-300));
+  border-top: none;
+  border-bottom: none;
 }
-.ProseMirror > p.is-empty:nth-child(2):nth-last-child(2):before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #8c8a8a;
-  pointer-events: none;
-  height: 0;
+.editor-input input {
+  font-weight: bold;
+  color: #6b6a6a;
+  height: 52px !important ;
+  font-size: 40px !important;
 }

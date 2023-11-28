@@ -11,9 +11,8 @@ export const buildListItemClassName = ({ article, selectedArticleId }) =>
 export const getFirstArticle = articlesByCategories =>
   articlesByCategories[0][1][0];
 
-export const getLinesFromBody = ({ text, title, searchTerm }) => {
-  const body = text.split(title)[1];
-  const lines = body.split(".");
+export const getLinesFromBody = ({ text, searchTerm }) => {
+  const lines = text.split(".");
 
   return lines.filter(line => line.includes(searchTerm)).slice(0, 3);
 };

@@ -5,9 +5,6 @@ import { Check } from "neetoicons";
 
 import { STATUS_OPTIONS } from "./constants";
 
-const extractTitle = jsonOfEditorContent =>
-  jsonOfEditorContent.content[0].content[0].text;
-
 export const buildSelectClassName = () =>
   classNames(
     "neeto-ui-text-gray-500 neeto-ui-font-normal flex flex-row gap-2 items-center w-72"
@@ -35,13 +32,15 @@ export const renderActionDropdownLabel = (selectedOptionIndex, isScheduled) => {
 
 export const parseData = ({
   selectedCategory,
-  editorRef,
+  editor,
   selectedOptionIndex,
 }) => {
-  const body = editorRef.current.editor.getHTML();
-  const jsonOfContent = editorRef.current.editor.getJSON();
-  const title = extractTitle(jsonOfContent);
   const status = STATUS_OPTIONS[selectedOptionIndex].value;
 
-  return { title, status, body, category_id: selectedCategory.id };
+  return {
+    title: editor.title,
+    status,
+    body: editor.description,
+    category_id: selectedCategory.id,
+  };
 };
