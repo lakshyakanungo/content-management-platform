@@ -71,10 +71,9 @@ class ArticlesController < ApplicationController
   end
 
   def analytics
-    sort_order = params[:order_by] == "ascend" ? "asc" : "desc"
     @articles = current_user.articles.published
       .includes(:category)
-      .order(visits: sort_order)
+      .order(visits: "desc")
       .page(params[:page])
       .per(9)
   end

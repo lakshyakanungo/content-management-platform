@@ -15,7 +15,6 @@ const Analytics = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [orderBy, setOrderBy] = useState("descend");
   const [totalArticles, setTotalArticles] = useState(0);
 
   const { t } = useTranslation();
@@ -27,7 +26,7 @@ const Analytics = () => {
       setLoading(true);
       const {
         data: { articles, totalCount },
-      } = await articlesApi.analytics(currentPageNumber, orderBy);
+      } = await articlesApi.analytics(currentPageNumber);
       setArticles(articles);
       setTotalArticles(totalCount);
     } catch (error) {
@@ -37,17 +36,9 @@ const Analytics = () => {
     }
   };
 
-  const handleTableChange = (pagination, sorter) => {
-    setCurrentPageNumber(pagination.current);
-    if (sorter.order && orderBy !== sorter.order) {
-      setOrderBy(sorter.order);
-      setCurrentPageNumber(1);
-    }
-  };
-
   useEffect(() => {
     fetchArticles();
-  }, [currentPageNumber, orderBy]);
+  }, [currentPageNumber]);
 
   if (loading) {
     return (
@@ -79,9 +70,7 @@ const Analytics = () => {
         rowClassName={buildRowClassName}
         rowData={articles}
         totalCount={totalArticles}
-        onChange={(pagination, _, sorter) =>
-          handleTableChange(pagination, sorter)
-        }
+        onChange={pagination => setCurrentPageNumber(pagination.current)}
       />
     </div>
   );
