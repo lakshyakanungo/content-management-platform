@@ -3,7 +3,7 @@ import React from "react";
 import { HighlightedLine, getLinesFromBody } from "../utils";
 
 const ListItem = ({ text, searchTerm, title }) => {
-  const lines = getLinesFromBody({ text, title, searchTerm });
+  const lines = getLinesFromBody({ text, searchTerm });
 
   return (
     <div className="flex flex-col">

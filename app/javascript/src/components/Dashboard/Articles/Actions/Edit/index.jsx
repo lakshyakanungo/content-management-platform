@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Spinner, Typography, Button, DatePicker } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
@@ -34,8 +34,6 @@ const Edit = () => {
   const history = useHistory();
   const { id } = useParams();
 
-  const editorRef = useRef(null);
-
   const { t } = useTranslation();
 
   const getDefaultCategory = () =>
@@ -46,17 +44,17 @@ const Edit = () => {
     setIsScheduled(!!time);
   };
 
-  const handleEdit = async values => {
+  const handleEdit = async ({ selectedCategory, editor, time }) => {
     try {
       const data = parseData({
-        selectedCategory: values.selectedCategory,
-        editorRef,
+        selectedCategory,
+        editor,
         selectedOptionIndex,
       });
 
       await articlesApi.update({
         id,
-        payload: { ...data, scheduled_time: values.time },
+        payload: { ...data, scheduled_time: time },
       });
       history.push("/articles");
     } catch (error) {
@@ -110,8 +108,11 @@ const Edit = () => {
         formikProps={{
           initialValues: {
             selectedCategory: getDefaultCategory(),
-            editor: article.body,
-            date: "",
+            time: "",
+            editor: {
+              title: article.title,
+              description: article.body,
+            },
           },
           onSubmit: handleEdit,
           validationSchema: FORM_VALIDATION_SCHEMA,
@@ -200,7 +201,7 @@ const Edit = () => {
                 </div>
               </div>
             </div>
-            <Editor editorRef={editorRef} />
+            <Editor />
           </>
         )}
       </Form>

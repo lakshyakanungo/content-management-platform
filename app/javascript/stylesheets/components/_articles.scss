@@ -9,18 +9,14 @@
   }
 }
 
-.ProseMirror .is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  display: absolute;
-  float: left;
-  color: #101010;
-  pointer-events: none;
-  height: 40px;
+.editor-input {
+  border: thin solid rgb(var(--neeto-ui-gray-300));
+  border-top: none;
+  border-bottom: none;
 }
-.ProseMirror .is-editor-empty:first-child::after {
-  content: "Add description here";
-  float: left;
-  color: #68737d;
-  pointer-events: none;
-  height: 0px;
+.editor-input input {
+  font-weight: bold;
+  color: #6b6a6a;
+  height: 52px !important ;
+  font-size: 40px !important;
 }

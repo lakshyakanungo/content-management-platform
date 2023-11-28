@@ -13,7 +13,6 @@ class Articles::ReportsController < ApplicationController
 
     data = Base64.encode64(current_user.report.download)
     send_data data, filename: pdf_file_name, content_type: "application/pdf"
-
   end
 
   private
