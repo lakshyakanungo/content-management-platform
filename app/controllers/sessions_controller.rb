@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  before_action :load_site
-
   def create
     authenticated = site.authenticate(session_params[:password])
 

@@ -39,3 +39,5 @@ en:
     generate: "Generating the PDF report"
     upload: "Uploading to server"
     attach: "Attaching the report to the user"
+  errors:
+    default_category_deletion: "Can't delete General category!"

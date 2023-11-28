@@ -12,8 +12,4 @@ class ApplicationController < ActionController::Base
   def site
     @site = Site.first
   end
-
-  def load_site
-    site
-  end
 end

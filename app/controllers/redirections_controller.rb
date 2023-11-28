@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RedirectionsController < ApplicationController
-  before_action :load_site
   before_action :load_redirection!, only: [:destroy, :update]
 
   def index

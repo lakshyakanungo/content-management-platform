@@ -3,17 +3,17 @@
 class Public::ArticlesController < ApplicationController
   include Authenticable
 
+  after_action :increase_article_visits!, only: :show
+
   def index
-    @grouped_articles = current_user.articles.published
+    articles = current_user.articles.published
       .includes(:category)
       .order("categories.position")
-      .select(:id, :title, :slug, :category_id)
-      .group_by { |article| article.category.name }.to_a
+    @articles_carrier = Public::ArticlesCarrier.new articles
   end
 
   def show
     @article = current_user.articles.published.find_by!(slug: params[:slug])
-    @article.update!(visits: @article.visits + 1)
   end
 
   def search
@@ -21,5 +21,11 @@ class Public::ArticlesController < ApplicationController
 
     @search_results = current_user.articles.published
       .where("lower(title) LIKE :search_term OR lower(body) LIKE :search_term", search_term: "%#{search_term}%")
+  end
+
+  private
+
+  def increase_article_visits!
+    @article.update!(visits: @article.visits + 1)
   end
 end

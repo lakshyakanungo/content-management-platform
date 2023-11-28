@@ -37,4 +37,8 @@ class SitesController < ApplicationController
         "Site"
       end
     end
+
+    def load_site
+      site
+    end
 end
