@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-json.grouped_articles @grouped_articles
+json.grouped_articles @articles_carrier.grouped_by_category

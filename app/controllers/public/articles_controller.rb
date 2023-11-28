@@ -4,11 +4,10 @@ class Public::ArticlesController < ApplicationController
   include Authenticable
 
   def index
-    @grouped_articles = current_user.articles.published
+    articles = current_user.articles.published
       .includes(:category)
       .order("categories.position")
-      .select(:id, :title, :slug, :category_id)
-      .group_by { |article| article.category.name }.to_a
+    @articles_carrier = Public::ArticlesCarrier.new articles
   end
 
   def show
