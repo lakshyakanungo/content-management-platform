@@ -193,6 +193,7 @@ const Edit = () => {
                     onClick={() => history.push("/articles")}
                   />
                   <ActionDropdown
+                    article={article}
                     formikProps={props}
                     isScheduled={isScheduled}
                     selectedOptionIndex={selectedOptionIndex}

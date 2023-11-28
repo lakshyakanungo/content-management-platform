@@ -10,17 +10,23 @@ import {
 } from "./utils";
 
 const ActionDropdown = ({
+  article,
   setSelectedOptionIndex,
   selectedOptionIndex,
   formikProps,
   isScheduled,
 }) => {
   const { Menu, MenuItem } = NeetoActionDropdown;
+  const dropdownValue = STATUS_OPTIONS[selectedOptionIndex].value;
+  const isDisabled = article?.status === dropdownValue && !formikProps.dirty;
 
   return (
     <NeetoActionDropdown
       label={renderActionDropdownLabel(selectedOptionIndex, isScheduled)}
-      value={STATUS_OPTIONS[selectedOptionIndex].value}
+      value={dropdownValue}
+      buttonProps={{
+        disabled: isDisabled,
+      }}
       onClick={formikProps.handleSubmit}
     >
       <Menu className="flex flex-col">
