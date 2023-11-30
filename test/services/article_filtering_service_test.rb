@@ -36,10 +36,10 @@ class ArticleFilteringServiceTest < ActiveSupport::TestCase
       category_id:
     }
 
-    actual_filtered_articles = ArticleFilteringService.new.process(@user, test_params)
+    actual_filtered_articles = ArticleFilteringService.new(@user, test_params).process
 
     query = title.downcase
-    expected_filtered_articles = Article
+    expected_filtered_articles = @user.articles
       .where(status:)
       .where(category_id:)
       .where("lower(title) LIKE ?", "%#{query}%")

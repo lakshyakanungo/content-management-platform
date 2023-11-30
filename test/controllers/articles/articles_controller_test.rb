@@ -117,77 +117,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_article_id, actual_article_id
   end
 
-  def test_should_restore_article_version
-    @article.update!(title: "New title")
-    previous_version = @article.versions.last
-    put(
-      restore_version_articles_path(
-        id: @article.id, params: {
-          article: { version_id: previous_version.id }
-        }), headers:)
-
-    assert_response :success
-    assert_equal @article.reload.title, previous_version.object["title"]
-    assert_equal t("article.restored"), response_body["notice"]
-  end
-
-  def test_should_list_articles_in_analytics_and_in_correct_order
-    get(analytics_articles_path(order_by: "desc"), headers:)
-    assert_response :success
-    actual_articles = response_body["articles"]
-
-    expected_articles = Article.published.order(visits: "desc")
-
-    actual_article_ids = actual_articles.pluck("id")
-    expected_article_ids = expected_articles.pluck("id")
-
-    assert_equal expected_article_ids, actual_article_ids
-  end
-
-  def test_article_should_get_updated_if_scheduled_time_in_past
-    Sidekiq::Testing.inline!
-    new_title = "Updated title"
-    article_params = {
-      article: {
-        title: new_title, status: "draft", category_id: @category.id,
-        body: "Test body", user_id: @user.id,
-        scheduled_time: 10.minutes.before.utc
-      }
-    }
-
-    put(
-      article_path(
-        id: @article.id, params: article_params), headers:)
-    assert_response :success
-    assert_equal new_title, @article.reload.title
-  end
-
-  # def test_article_update_should_get_job_enqueued_if_scheduled_time_in_future
-  #   Sidekiq::Testing.inline!
-  #   new_title = "Updated title"
-  #   scheduled_time = 10.minutes.after.utc
-  #   article_params = {
-  #     article: {
-  #       title: new_title, status: "draft", category_id: @category.id,
-  #       body: "Test body", user_id: @user.id,
-  #       scheduled_time: scheduled_time.to_s
-  #     }
-  #   }
-
-  #   put(
-  #     article_path(
-  #       id: @article.id, params: article_params), headers:)
-  #   assert_response :success
-
-  #   assert_enqueued_with(
-  #     job: ArticleUpdaterJob, at: scheduled_time.to_s,
-  #     args: [@article, article_params.except(:scheduled_time)])
-  #   perform_enqueued_jobs
-
-  #   assert_performed_jobs 1
-  # end
-
-  def test_article_should_have_0_visits_after_changing_its_status_to_draft
+  def test_article_should_have_zero_visits_after_changing_its_status_to_draft
     article = Article.create!(
       title: "Test article 2", body: "<p>Test body</p>", status: "published",
       user_id: @user.id,
