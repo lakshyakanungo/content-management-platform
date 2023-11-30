@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy restore_version delete_scheduled_job]
+class Articles::ArticlesController < ApplicationController
+  before_action :load_article!, only: %i[show update destroy]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
   def index
@@ -46,36 +46,9 @@ class ArticlesController < ApplicationController
     respond_with_success(t("successfully_deleted", entity: "Article", count: 1))
   end
 
-  def delete_scheduled_job
-    job_id = @article.schedule.job_id
-    job = Sidekiq::ScheduledSet.new.find_job(job_id)
-    job.delete
-    @article.schedule.delete
-    respond_with_success(t("article.schedule.deleted"))
-  end
-
   def bulk_destroy
     @articles.destroy_all
     respond_with_success(t("successfully_deleted", entity: "Articles", count: 2))
-  end
-
-  def restore_version
-    version = @article.versions.find(article_params[:version_id]).reify
-    @article.update!(
-      version.attributes.slice("title", "body", "category_id").merge(
-        {
-          status: "draft",
-          paper_trail_event: "restore"
-        }))
-    respond_with_success(t("article.restored"))
-  end
-
-  def analytics
-    @articles = current_user.articles.published
-      .includes(:category)
-      .order(visits: "desc")
-      .page(params[:page])
-      .per(9)
   end
 
   private

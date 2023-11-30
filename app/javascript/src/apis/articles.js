@@ -63,7 +63,6 @@ const bulkUpdate = ({ ids, payload }) =>
 const generatePdf = () => axios.post("/articles/report", {});
 
 const download = () => axios.get("/articles/report/download");
-// axios.get("/articles/report/download", { responseType: "blob" });
 
 const articlesApi = {
   fetch,
