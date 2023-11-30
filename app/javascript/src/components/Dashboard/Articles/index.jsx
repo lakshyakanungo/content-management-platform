@@ -15,6 +15,7 @@ const PageContext = React.createContext();
 
 const Articles = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
+
   const { activeMenuState } = useMenuStore();
   const { currentPageNumber, setCurrentPageNumber } = usePageStore();
 
