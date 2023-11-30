@@ -4,7 +4,7 @@ import { EditorContent } from "@bigbinary/neeto-editor";
 import { Button, Modal } from "@bigbinary/neetoui";
 import { Trans, useTranslation } from "react-i18next";
 
-import articlesApi from "apis/articles";
+import { useRestoreVersion } from "hooks/reactQuery/articles/actions/edit/useRestoreVersion";
 
 import { renderCategoryName } from "./utils";
 
@@ -16,6 +16,11 @@ const Details = ({
   setShowVersionHistory,
   refetch,
 }) => {
+  const { mutate: handleRestore } = useRestoreVersion({
+    refetch,
+    setShowVersionHistory,
+  });
+
   const { t } = useTranslation();
 
   const { Header, Body, Footer } = Modal;
@@ -24,16 +29,6 @@ const Details = ({
   const article = isCurrentVersion ? version : version.object;
 
   const categoryName = renderCategoryName(article, categories);
-
-  const restoreVersion = async () => {
-    try {
-      await articlesApi.restore({ id: article.id, versionId: version.id });
-      refetch();
-      setShowVersionHistory(false);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
 
   return (
     <Modal
@@ -76,7 +71,7 @@ const Details = ({
             label={t(
               "dashboard.articles.actions.edit.versionHistory.details.button.restore"
             )}
-            onClick={restoreVersion}
+            onClick={() => handleRestore({ article, version })}
           />
           <Button
             style="text"

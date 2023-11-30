@@ -4,14 +4,14 @@ import { useMutation, useQuery } from "react-query";
 import categoriesApi from "apis/categories";
 import queryClient from "utils/queryClient";
 
-const fetchCategories = async () => await categoriesApi.fetch();
-
 const onMutation = () =>
   queryClient.invalidateQueries(["dashboard.categories"]);
 
 const handleAddCategory = async ({ name }) => {
   await categoriesApi.create({ name });
 };
+
+export const fetchCategories = async () => await categoriesApi.fetch();
 
 export const useFetchCategories = () =>
   useQuery(["dashboard.categories"], fetchCategories, {
