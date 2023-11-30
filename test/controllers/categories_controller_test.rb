@@ -4,8 +4,8 @@ require "test_helper"
 
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
+    @current_user = create(:user)
+    @category = Category.create!(name: "Test category", user_id: @current_user.id)
   end
 
   def test_should_list_all_categories_ordered_by_position
@@ -14,7 +14,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     response_json = response_body
     all_categories = response_json["categories"]
 
-    expected_categories_ids = Category.order(:position).pluck(:id)
+    expected_categories_ids = @current_user.categories.order(:position).pluck(:id)
 
     actual_categories_ids = all_categories.pluck("id")
 
@@ -30,7 +30,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
     search_categories = response_json["categories"]
 
-    expected_search_results = Category.where("lower(name) LIKE ?", "%#{query}%").pluck(:id).sort
+    expected_search_results = @current_user.categories.where("lower(name) LIKE ?", "%#{query}%").pluck(:id).sort
 
     actual_search_results = search_categories.pluck("id").sort
 
@@ -40,7 +40,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def test_should_create_valid_category
     post(
       categories_path,
-      params: { category: { name: "New category", user_id: @user.id } },
+      params: { category: { name: "New category", user_id: @current_user.id } },
       headers:)
     assert_response :success
   end
@@ -56,7 +56,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_position_after_reordering
-    test_category = Category.create!(name: "New category", user_id: @user.id)
+    test_category = Category.create!(name: "New category", user_id: @current_user.id)
     current_position = test_category.position
 
     new_position = 1
@@ -69,7 +69,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_destroy_category
-    new_category = Category.create!(name: "New", user_id: @user.id)
+    new_category = Category.create!(name: "New", user_id: @current_user.id)
     assert_difference "Category.count", -1 do
       delete(
         category_path(id: @category.id, params: { category: { move_into_category_id: new_category.id } }),

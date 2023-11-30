@@ -187,7 +187,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   #   assert_performed_jobs 1
   # end
 
-  def test_article_should_have_0_visits_after_changing_its_status_to_draft
+  def test_article_should_have_zero_visits_after_changing_its_status_to_draft
     article = Article.create!(
       title: "Test article 2", body: "<p>Test body</p>", status: "published",
       user_id: @user.id,

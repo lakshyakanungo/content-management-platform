@@ -14,7 +14,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     response_json = response_body
     all_redirections = response_json["redirections"]
 
-    expected_redirections_ids = Redirection.order(:created_at).pluck(:id)
+    expected_redirections_ids = @site.redirections.order(:created_at).pluck(:id)
 
     actual_redirections_ids = all_redirections.pluck("id")
 
