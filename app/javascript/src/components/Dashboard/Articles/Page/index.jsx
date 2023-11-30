@@ -9,6 +9,8 @@ import {
   useHandleDelete,
   useHandleStatusChange,
 } from "hooks/reactQuery/articles/page/useUpdate";
+import { useMenuStore } from "hooks/zustand/useMenuStore";
+import { usePageStore } from "hooks/zustand/usePageStore";
 import Container from "neetomolecules/Container";
 import Header from "neetomolecules/Header";
 
@@ -16,7 +18,7 @@ import Empty from "./Empty";
 import SubHeader from "./SubHeader";
 import Table from "./Table";
 
-import { CategoryContext, MenuContext, PageContext } from "..";
+import { CategoryContext, PageContext } from "..";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,9 +27,10 @@ const Page = () => {
   const [totalArticlesCount, setTotalArticlesCount] = useState(0);
 
   const { selectedCategories } = useContext(CategoryContext);
-  const { showMenu, setShowMenu, activeMenuState } = useContext(MenuContext);
-  const { currentPageNumber, setCurrentPageNumber, refetch } =
-    useContext(PageContext);
+  const { refetch } = useContext(PageContext);
+
+  const { showMenu, activeMenuState, setShowMenu } = useMenuStore();
+  const { currentPageNumber, setCurrentPageNumber } = usePageStore();
 
   const { mutate: handleStatusChange } = useHandleStatusChange({ refetch });
   const { mutate: handleDelete } = useHandleDelete({ refetch });

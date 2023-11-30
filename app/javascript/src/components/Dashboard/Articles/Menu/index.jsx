@@ -7,32 +7,29 @@ import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
 
 import { useCategorySearch } from "hooks/reactQuery/menu/useCategorySearch";
+import { useMenuStore } from "hooks/zustand/useMenuStore";
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 import AddCategoryModal from "./AddCategory";
 import { MENU_ARTICLE_STATES } from "./constants";
 import { getMenuArticlesCount, handleKeyEvent } from "./utils";
 
-import { CategoryContext, MenuContext } from "..";
+import { CategoryContext } from "..";
 
-const Menu = ({
-  articleCounts,
-  setSelectedArticleIds,
-  setCurrentPageNumber,
-}) => {
+const Menu = ({ articleCounts, setCurrentPageNumber }) => {
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
 
   const { categories, selectedCategories, setSelectedCategories } =
     useContext(CategoryContext);
+  const { showMenu, activeMenuState, setActiveMenuState } = useMenuStore();
+  const { setSelectedArticleIds } = useSelectedArticlesStore();
 
   const { data: categoriesDisplayed, refetch: fetchSearchResults } =
     useCategorySearch({
       searchTerm,
     });
-
-  const { showMenu, activeMenuState, setActiveMenuState } =
-    useContext(MenuContext);
 
   const { Block, SubTitle, Search } = MenuBar;
 
