@@ -13,7 +13,6 @@ import Login from "./Login";
 const EndUserInterface = () => {
   const [loading, setLoading] = useState(true);
   const { data: site, isFetching } = useFetchSite();
-  // const { mutate: updateSite } = useUpdateSite()
 
   const authToken = getFromLocalStorage("authToken");
   const isAuthenticated = !!authToken;

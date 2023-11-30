@@ -3,15 +3,6 @@ import { useQuery } from "react-query";
 
 import articlesApi from "apis/articles";
 
-// TODO: See of this file is needed.? Is it necessary to use react query for all api call?
-
-// const { data, isFetching, refetch } = useFetchSearchResults({
-//   searchTerm,
-//   activeMenuState,
-//   selectedCategories,
-//   currentPageNumber,
-// });
-
 const fetchSearchResults = async ({
   searchTerm,
   activeMenuState,
