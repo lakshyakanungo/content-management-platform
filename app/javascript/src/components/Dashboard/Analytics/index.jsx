@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Header from "@bigbinary/neeto-molecules/Header";
 import SubHeader from "@bigbinary/neeto-molecules/SubHeader";
@@ -6,46 +6,33 @@ import { Button, Spinner, Table } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import articlesApi from "apis/articles";
+import ErrorPage from "components/commons/ErrorPage";
 import { ANALYTICS_REPORT_PATH } from "components/routeConstants";
+import { useFetchArticleAnalytics } from "hooks/reactQuery/analytics/useArticles";
 
 import { buildColumnData, buildRowClassName } from "./utils";
 
 const Analytics = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [totalArticles, setTotalArticles] = useState(0);
 
   const { t } = useTranslation();
 
   const history = useHistory();
 
-  const fetchArticles = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { articles, totalCount },
-      } = await articlesApi.analytics(currentPageNumber);
-      setArticles(articles);
-      setTotalArticles(totalCount);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, isLoading, isError, error } = useFetchArticleAnalytics({
+    currentPageNumber,
+  });
 
-  useEffect(() => {
-    fetchArticles();
-  }, [currentPageNumber]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
       </div>
     );
+  }
+
+  if (isError) {
+    return <ErrorPage error={error} />;
   }
 
   return (
@@ -68,8 +55,8 @@ const Analytics = () => {
         defaultPageSize={9}
         handlePageChange={page => setCurrentPageNumber(page)}
         rowClassName={buildRowClassName}
-        rowData={articles}
-        totalCount={totalArticles}
+        rowData={data.articles}
+        totalCount={data.totalCount}
         onChange={pagination => setCurrentPageNumber(pagination.current)}
       />
     </div>

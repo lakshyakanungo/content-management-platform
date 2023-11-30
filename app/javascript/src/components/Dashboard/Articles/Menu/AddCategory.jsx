@@ -4,7 +4,7 @@ import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
+import { useAddCategory } from "hooks/reactQuery/category/useCategory";
 
 import {
   ADD_CATEGORY_FORM_INITIAL_VALUE,
@@ -21,17 +21,11 @@ const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
   const { fetchCategories, setSelectedCategories } =
     useContext(CategoryContext);
 
-  const handleAddCategory = async ({ name }) => {
-    try {
-      await categoriesApi.create({ name });
-      fetchCategories();
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setShowAddCategoryModal(false);
-      setSelectedCategories([]);
-    }
-  };
+  const { mutate: handleAddCategory } = useAddCategory({
+    setSelectedCategories,
+    setShowAddCategoryModal,
+    refetch: fetchCategories,
+  });
 
   const handleReset = () => {
     setShowAddCategoryModal(false);

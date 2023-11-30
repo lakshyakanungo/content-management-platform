@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Plus } from "neetoicons";
 import { Button, Spinner } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import redirectionsApi from "apis/redirections";
+import { useFetchRedirections } from "hooks/reactQuery/settings/redirection/useRedirection";
 
 import FormRow from "./FormRow";
 import Row from "./Row";
@@ -12,32 +12,16 @@ import Row from "./Row";
 import Layout from "../Layout";
 
 const Redirection = () => {
-  const [redirections, setRedirections] = useState([]);
   const [showNewRedirection, setShowNewRedirection] = useState(false);
   const [editingRow, setEditingRow] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const { data, isFetching } = useFetchRedirections();
 
   const { t } = useTranslation();
 
-  const fetchRedirections = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { redirections },
-      } = await redirectionsApi.fetch();
-      setRedirections(redirections);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const redirections = data?.redirections;
 
-  useEffect(() => {
-    fetchRedirections();
-  }, []);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
@@ -67,7 +51,6 @@ const Redirection = () => {
               <FormRow
                 isEdit
                 data={redirection}
-                fetchRedirections={fetchRedirections}
                 key={redirection.id}
                 redirections={redirections}
                 handleClose={() => {
@@ -76,7 +59,6 @@ const Redirection = () => {
               />
             ) : (
               <Row
-                fetchRedirections={fetchRedirections}
                 key={redirection.id}
                 redirection={redirection}
                 setEditingRow={setEditingRow}
@@ -86,7 +68,6 @@ const Redirection = () => {
         </div>
         {showNewRedirection && (
           <FormRow
-            fetchRedirections={fetchRedirections}
             handleClose={() => setShowNewRedirection(false)}
             redirections={redirections}
           />

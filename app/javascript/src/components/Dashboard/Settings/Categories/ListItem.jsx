@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
+import { useReorderCategory } from "hooks/reactQuery/settings/category/useCategory";
 import useDragAndDrop from "hooks/useDragAndDrop";
-
-import { CategoriesContext } from ".";
 
 import DeleteAlert from "./DeleteAlert";
 import Dropdown from "./Dropdown";
@@ -13,13 +12,13 @@ import EditModal from "./Modals/Edit";
 
 import MenuSquare from "../../../../../../assets/images/MenuSquare";
 
-const ListItem = ({ index, moveListItem, category, handleReorder }) => {
+const ListItem = ({ index, moveListItem, category }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteOverlay, setShowDeleteOverlay] = useState(false);
 
-  const { categories } = useContext(CategoriesContext);
-
   const { t } = useTranslation();
+
+  const { mutate: handleReorder } = useReorderCategory();
 
   const dragDropRef = useDragAndDrop({
     index,
@@ -61,7 +60,6 @@ const ListItem = ({ index, moveListItem, category, handleReorder }) => {
           (category.articlesCount > 0 ? (
             <DeleteModal
               category={category}
-              hasMultipleCategories={categories.length > 1}
               setShowDeleteOverlay={setShowDeleteOverlay}
               showDeleteOverlay={showDeleteOverlay}
             />

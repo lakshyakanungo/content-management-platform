@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Button, Spinner } from "@bigbinary/neetoui";
 import { Plus } from "neetoicons";
@@ -6,7 +6,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
+import { useFetchCategories } from "hooks/reactQuery/settings/category/useCategory";
 
 import List from "./List";
 import AddCategoryModal from "./Modals/Create";
@@ -16,30 +16,14 @@ import Layout from "../Layout";
 const CategoriesContext = React.createContext();
 
 const Categories = () => {
-  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
 
+  const { isLoading } = useFetchCategories({ setCategories });
+
   const { t } = useTranslation();
 
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories: results },
-      } = await categoriesApi.fetch();
-      setCategories(results);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
@@ -71,16 +55,13 @@ const Categories = () => {
       </div>
       {showAddCategoryModal && (
         <AddCategoryModal
-          fetchCategories={fetchCategories}
           setShowAddCategoryModal={setShowAddCategoryModal}
           showAddCategoryModal={showAddCategoryModal}
         />
       )}
       <div>
         <DndProvider backend={HTML5Backend}>
-          <CategoriesContext.Provider
-            value={{ categories, setCategories, fetchCategories }}
-          >
+          <CategoriesContext.Provider value={{ categories, setCategories }}>
             <List />
           </CategoriesContext.Provider>
         </DndProvider>

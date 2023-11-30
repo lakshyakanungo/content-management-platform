@@ -1,32 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Alert as NeetoAlert } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
-
-import { CategoriesContext } from ".";
+import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategory";
 
 const Alert = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
-  const { fetchCategories } = useContext(CategoriesContext);
+  const { mutate: handleDelete } = useDeleteCategory({ setShowDeleteOverlay });
 
   const { t } = useTranslation();
-
-  const handleSubmit = async ({ selectedCategory }) => {
-    try {
-      await categoriesApi.destroy({
-        id: category.id,
-        payload: {
-          id: category.id,
-          move_into_category_id: selectedCategory?.id,
-        },
-      });
-      fetchCategories();
-      setShowDeleteOverlay(false);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
 
   return (
     <NeetoAlert
@@ -41,7 +23,7 @@ const Alert = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
         />
       }
       onClose={() => setShowDeleteOverlay(false)}
-      onSubmit={handleSubmit}
+      onSubmit={() => handleDelete({ category })}
     />
   );
 };

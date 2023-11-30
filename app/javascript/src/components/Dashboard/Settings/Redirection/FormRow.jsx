@@ -4,37 +4,14 @@ import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { Check, Close } from "neetoicons";
 import { useTranslation } from "react-i18next";
 
-import redirectionsApi from "apis/redirections";
+import { useUpdateRedirection } from "hooks/reactQuery/settings/redirection/useRedirection";
 
 import { buildFormInitialValues, buildFormValidationSchema } from "./utils";
 
-const FormRow = ({
-  isEdit = false,
-  data,
-  handleClose,
-  fetchRedirections,
-  redirections,
-}) => {
+const FormRow = ({ isEdit = false, data, handleClose, redirections }) => {
+  const { mutate: updateRedirection } = useUpdateRedirection();
+
   const { t } = useTranslation();
-
-  const handleSubmit = async ({ fromUrl, toUrl }) => {
-    const payload = { from: fromUrl, to: toUrl };
-
-    try {
-      if (isEdit) {
-        await redirectionsApi.update({
-          id: data.id,
-          payload,
-        });
-      } else {
-        await redirectionsApi.create(payload);
-      }
-      fetchRedirections();
-      handleClose();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
 
   return (
     <Form
@@ -45,7 +22,8 @@ const FormRow = ({
           isEdit,
           data,
         }),
-        onSubmit: handleSubmit,
+        onSubmit: ({ fromUrl, toUrl }) =>
+          updateRedirection({ fromUrl, toUrl, isEdit, handleClose, data }),
       }}
     >
       <div className="neeto-ui-bg-white grid grid-cols-12 justify-between p-2 gap-2 items-start">

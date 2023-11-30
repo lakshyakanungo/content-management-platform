@@ -5,6 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import {
+  useHandleDelete,
+  useHandleStatusChange,
+} from "hooks/reactQuery/articles/page/useUpdate";
 import Container from "neetomolecules/Container";
 import Header from "neetomolecules/Header";
 
@@ -24,6 +28,9 @@ const Page = () => {
   const { showMenu, setShowMenu, activeMenuState } = useContext(MenuContext);
   const { currentPageNumber, setCurrentPageNumber, refetch } =
     useContext(PageContext);
+
+  const { mutate: handleStatusChange } = useHandleStatusChange({ refetch });
+  const { mutate: handleDelete } = useHandleDelete({ refetch });
 
   const { t } = useTranslation();
 
@@ -45,27 +52,6 @@ const Page = () => {
       });
       setArticles(articles);
       setTotalArticlesCount(totalCount);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const handleStatusChange = async ({ id, status }) => {
-    try {
-      await articlesApi.update({
-        id,
-        payload: { status },
-      });
-      refetch();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const handleDelete = async id => {
-    try {
-      await articlesApi.destroy(id);
-      refetch();
     } catch (error) {
       logger.log(error);
     }

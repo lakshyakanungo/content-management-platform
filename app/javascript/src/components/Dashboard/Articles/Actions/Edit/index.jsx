@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Spinner, Typography, Button, DatePicker } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
+import { useFetchArticleAndCategories } from "hooks/reactQuery/articles/actions/edit/useEditArticle";
 
 import Schedule from "./Schedule";
 import VersionHistory from "./VersionHistory";
@@ -23,9 +23,6 @@ import Editor from "../Editor";
 import { buildSelectClassName, parseData } from "../utils";
 
 const Edit = () => {
-  const [loading, setLoading] = useState(true);
-  const [article, setArticle] = useState({});
-  const [categories, setCategories] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showSchedule, setShowSchedule] = useState(false);
@@ -33,6 +30,15 @@ const Edit = () => {
 
   const history = useHistory();
   const { id } = useParams();
+
+  const [
+    { data: article, isFetching: isFetchingArticle, refetch: refetchArticle },
+    {
+      data: categories,
+      isFetching: isFetchingCategories,
+      refetch: refetchCategories,
+    },
+  ] = useFetchArticleAndCategories({ id });
 
   const { t } = useTranslation();
 
@@ -62,39 +68,12 @@ const Edit = () => {
     }
   };
 
-  const fetchArticle = async () => {
-    try {
-      const {
-        data: { article },
-      } = await articlesApi.show(id);
-      setArticle(article);
-    } catch (error) {
-      logger.log(error);
-    }
+  const fetchArticleAndCategories = () => {
+    refetchArticle();
+    refetchCategories();
   };
 
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await categoriesApi.fetch();
-      setCategories(categories);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const fetchArticleAndCategories = async () => {
-    setLoading(true);
-    await Promise.all([fetchArticle(), fetchCategories()]);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchArticleAndCategories();
-  }, []);
-
-  if (loading) {
+  if (isFetchingArticle || isFetchingCategories) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />

@@ -6,7 +6,7 @@ import { Search as SearchIcon, Plus } from "neetoicons";
 import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
+import { useCategorySearch } from "hooks/reactQuery/menu/useCategorySearch";
 
 import AddCategoryModal from "./AddCategory";
 import { MENU_ARTICLE_STATES } from "./constants";
@@ -20,12 +20,16 @@ const Menu = ({
   setCurrentPageNumber,
 }) => {
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
-  const [categoriesDisplayed, setCategoriesDisplayed] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
 
   const { categories, selectedCategories, setSelectedCategories } =
     useContext(CategoryContext);
+
+  const { data: categoriesDisplayed, refetch: fetchSearchResults } =
+    useCategorySearch({
+      searchTerm,
+    });
 
   const { showMenu, activeMenuState, setActiveMenuState } =
     useContext(MenuContext);
@@ -48,21 +52,9 @@ const Menu = ({
     setCurrentPageNumber(1);
   };
 
-  const fetchSearchResults = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await categoriesApi.search({ name: searchTerm });
-      setCategoriesDisplayed(categories);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
   const handleCollapse = () => {
     setIsSearchCollapsed(true);
     setSearchTerm("");
-    setCategoriesDisplayed([]);
   };
 
   const handleKeyDown = event => handleKeyEvent(event, handleCollapse);
@@ -119,6 +111,7 @@ const Menu = ({
           onCollapse={handleCollapse}
           onKeyDown={handleKeyDown}
         />
+        {/* TODO: Utilise ramda here for includes and more in this file */}
         {searchTerm.length
           ? categoriesDisplayed.map(category => (
               <Block

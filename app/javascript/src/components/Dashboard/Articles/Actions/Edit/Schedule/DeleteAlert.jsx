@@ -3,7 +3,7 @@ import React from "react";
 import { Alert } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 
-import articlesApi from "apis/articles";
+import { useDeleteSchedule } from "hooks/reactQuery/articles/actions/edit/useDeleteSchedule";
 
 const DeleteAlert = ({
   article,
@@ -13,15 +13,10 @@ const DeleteAlert = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleDelete = async () => {
-    try {
-      await articlesApi.deleteScheduledJob(article.id);
-      setShowDeleteAlert(false);
-      refetch();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const { mutate: handleDelete } = useDeleteSchedule({
+    article,
+    refetch,
+  });
 
   return (
     <Alert

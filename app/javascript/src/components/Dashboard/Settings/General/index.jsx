@@ -1,49 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Spinner } from "@bigbinary/neetoui";
 import { Form, Input as FormikInput, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import siteApi from "apis/site";
+import {
+  useFetchSite,
+  useUpdateSite,
+} from "hooks/reactQuery/settings/general/useSite";
 
 import { VALIDATION_SCHEMA } from "./constants";
 
 import Layout from "../Layout";
 
 const General = () => {
-  const [siteName, setSiteName] = useState("");
-  const [loading, setLoading] = useState(true);
+  const { data: site, isFetching } = useFetchSite();
+  const { mutate: updateSite } = useUpdateSite();
 
   const { t } = useTranslation();
 
-  const fetchSiteName = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { title },
-      } = await siteApi.fetch();
-      setSiteName(title);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async ({ siteName }) => {
-    try {
-      await siteApi.update({ title: siteName });
-      fetchSiteName();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSiteName();
-  }, []);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
@@ -60,10 +36,10 @@ const General = () => {
       <Form
         formikProps={{
           initialValues: {
-            siteName,
+            siteName: site.title,
           },
           validationSchema: VALIDATION_SCHEMA,
-          onSubmit: handleSubmit,
+          onSubmit: updateSite,
         }}
       >
         {({ resetForm }) => (
