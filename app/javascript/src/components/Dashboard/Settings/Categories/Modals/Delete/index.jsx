@@ -4,40 +4,23 @@ import { Modal } from "@bigbinary/neetoui";
 import { Select, Form, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
+import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategory";
 
 import { VALIDATION_SCHEMA } from "./constants";
 import Header from "./Header";
 
 import { CategoriesContext } from "../..";
 
-const Delete = ({
-  category,
-  showDeleteOverlay,
-  setShowDeleteOverlay,
-  hasMultipleCategories,
-}) => {
-  const { categories, fetchCategories } = useContext(CategoriesContext);
+const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
+  const { categories } = useContext(CategoriesContext);
 
   const { Body, Footer } = Modal;
 
   const { t } = useTranslation();
 
-  const handleSubmit = async ({ selectedCategory }) => {
-    try {
-      await categoriesApi.destroy({
-        id: category.id,
-        payload: {
-          id: category.id,
-          move_into_category_id: selectedCategory?.id,
-        },
-      });
-      fetchCategories();
-      setShowDeleteOverlay(false);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const { mutate: handleDelete } = useDeleteCategory({ setShowDeleteOverlay });
+
+  const hasMultipleCategories = categories.length > 1;
 
   const categoryMoveOptions = categories.filter(
     item => item.id !== category.id
@@ -62,7 +45,8 @@ const Delete = ({
             selectedCategory: null,
           },
           validationSchema: VALIDATION_SCHEMA,
-          onSubmit: handleSubmit,
+          onSubmit: ({ selectedCategory }) =>
+            handleDelete({ category, selectedCategory }),
         }}
       >
         {({ dirty }) => (

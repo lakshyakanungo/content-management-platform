@@ -4,32 +4,21 @@ import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
+import { useAddCategory } from "hooks/reactQuery/settings/category/useCategory";
 
 import {
   CREATE_CATEGORY_FORM_INITIAL_VALUE,
   FORM_VALIDATION_SCHEMA,
 } from "./constants";
 
-const Create = ({
-  fetchCategories,
-  showAddCategoryModal,
-  setShowAddCategoryModal,
-}) => {
+const Create = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
   const { Header, Body, Footer } = Modal;
 
   const { t } = useTranslation();
 
-  const handleAddCategory = async ({ name }) => {
-    try {
-      await categoriesApi.create({ name });
-      fetchCategories();
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setShowAddCategoryModal(false);
-    }
-  };
+  const { mutate: handleAddCategory } = useAddCategory({
+    setShowAddCategoryModal,
+  });
 
   return (
     <Modal

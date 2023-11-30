@@ -1,34 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import categoriesApi from "apis/categories";
+import { useEditCategory } from "hooks/reactQuery/settings/category/useCategory";
 
 import { FORM_VALIDATION_SCHEMA } from "./constants";
 
-import { CategoriesContext } from "..";
-
 const Edit = ({ category, showEditModal, setShowEditModal }) => {
-  const { fetchCategories } = useContext(CategoriesContext);
-
   const { Header, Body, Footer } = Modal;
 
   const { t } = useTranslation();
 
-  const handleEdit = async ({ name }) => {
-    try {
-      await categoriesApi.update({
-        id: category.id,
-        payload: { name },
-      });
-      fetchCategories();
-      setShowEditModal(false);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const { mutate: handleEdit } = useEditCategory({ setShowEditModal });
 
   return (
     <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
@@ -41,7 +26,7 @@ const Edit = ({ category, showEditModal, setShowEditModal }) => {
         formikProps={{
           initialValues: { name: category.name },
           validationSchema: FORM_VALIDATION_SCHEMA,
-          onSubmit: handleEdit,
+          onSubmit: ({ name }) => handleEdit({ name, category }),
         }}
       >
         <Body>
