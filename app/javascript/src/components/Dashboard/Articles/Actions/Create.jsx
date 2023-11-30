@@ -1,60 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Spinner } from "@bigbinary/neetoui";
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
+import { useCreateArticle } from "hooks/reactQuery/articles/actions/create/useCreateArticle";
+import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
 
 import ActionDropdown from "./ActionDropdown";
 import { FORM_VALIDATION_SCHEMA } from "./constants";
 import Editor from "./Editor";
-import { parseData } from "./utils";
 
 const Create = () => {
-  const [loading, setLoading] = useState(true);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-  const [categories, setCategories] = useState([]);
 
   const history = useHistory();
 
+  const { data: categories, isFetching } = useFetchCategories();
+  const { mutate: handleCreate } = useCreateArticle({ history });
+
   const { t } = useTranslation();
 
-  const handleCreate = async ({ selectedCategory, editor }) => {
-    try {
-      const data = parseData({
-        editor,
-        selectedCategory,
-        selectedOptionIndex,
-      });
-
-      await articlesApi.create({ payload: data });
-      history.push("/articles");
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await categoriesApi.fetch();
-      setCategories(categories);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
@@ -73,7 +41,8 @@ const Create = () => {
               description: "<p></p>",
             },
           },
-          onSubmit: handleCreate,
+          onSubmit: ({ editor, selectedCategory }) =>
+            handleCreate({ editor, selectedCategory, selectedOptionIndex }),
           enableReinitialize: true,
           validationSchema: FORM_VALIDATION_SCHEMA,
         }}
