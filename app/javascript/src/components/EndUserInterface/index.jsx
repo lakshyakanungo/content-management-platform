@@ -4,7 +4,7 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { Route, Switch } from "react-router-dom";
 
 import { setAuthHeaders } from "apis/axios";
-import siteApi from "apis/site";
+import { useFetchSite } from "hooks/reactQuery/endUserInterface/useSite";
 import { getFromLocalStorage } from "utils/storage";
 
 import Home from "./Home";
@@ -12,33 +12,17 @@ import Login from "./Login";
 
 const EndUserInterface = () => {
   const [loading, setLoading] = useState(true);
-  const [isPasswordProtected, setIsPasswordProtected] = useState(true);
-  const [siteName, setSiteName] = useState("");
-  const [isPageLoading, setIsPageLoading] = useState(true);
+  const { data: site, isFetching } = useFetchSite();
+  // const { mutate: updateSite } = useUpdateSite()
 
   const authToken = getFromLocalStorage("authToken");
   const isAuthenticated = !!authToken;
 
-  const fetchSite = async () => {
-    try {
-      const {
-        data: { isPasswordProtected, title },
-      } = await siteApi.fetch();
-      setIsPasswordProtected(isPasswordProtected);
-      setSiteName(title);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setIsPageLoading(false);
-    }
-  };
-
   useEffect(() => {
     setAuthHeaders(setLoading);
-    fetchSite();
   }, []);
 
-  if (loading || isPageLoading) {
+  if (loading || isFetching) {
     return (
       <div className="h-screen">
         <PageLoader />
@@ -49,14 +33,14 @@ const EndUserInterface = () => {
   return (
     <div className="h-screen w-full flex flex-col">
       <Switch>
-        {isPasswordProtected && !isAuthenticated && (
+        {site.isPasswordProtected && !isAuthenticated && (
           <Route
             exact
             path="/eui/login"
-            render={() => <Login siteName={siteName} />}
+            render={() => <Login siteName={site.title} />}
           />
         )}
-        <Route path="/eui" render={() => <Home siteName={siteName} />} />
+        <Route path="/eui" render={() => <Home siteName={site.title} />} />
       </Switch>
     </div>
   );
