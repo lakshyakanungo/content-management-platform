@@ -10,7 +10,7 @@ class ArticlesController < ApplicationController
   end
 
   def search
-    filtered_articles = ArticleFilteringService.new.process(current_user, params)
+    filtered_articles = ArticleFilteringService.new(current_user, params).process
     @filtered_articles_by_page = filtered_articles.page(params[:page]).per(9)
   end
 
