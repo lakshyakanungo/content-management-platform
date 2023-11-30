@@ -317,6 +317,12 @@
         "lastPublishedAt": "Last Published At",
         "category": "Category",
         "visits": "Visits"
+      },
+      "download": "Download report",
+      "report": {
+        "ready": "Report is ready to be downloaded",
+        "download": "Download",
+        "name": "analytics_report.pdf"
       }
     }
   },

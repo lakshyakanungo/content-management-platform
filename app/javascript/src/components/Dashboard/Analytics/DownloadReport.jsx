@@ -2,72 +2,33 @@ import React, { useEffect, useState } from "react";
 
 import Container from "@bigbinary/neeto-molecules/Container";
 import { Button } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 
 import articlesApi from "apis/articles";
 import createConsumer from "channels/consumer";
 import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
 import ProgressBar from "components/commons/ProgressBar";
+import { useGeneratePdf } from "hooks/reactQuery/analytics/useArticles";
+
+import { DOWNLOAD_READY_MESSAGE } from "./constants";
+import { savePdf } from "./utils";
 
 const DownloadReport = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
 
+  const { mutate: generatePdf } = useGeneratePdf();
+
   const consumer = createConsumer();
 
-  const generatePdf = async () => {
-    try {
-      await articlesApi.generatePdf();
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  function solution1(base64Data) {
-    const arrBuffer = base64ToArrayBuffer(base64Data);
-
-    // It is necessary to create a new blob object with mime-type explicitly set
-    // otherwise only Chrome works like it should
-    const newBlob = new Blob([arrBuffer], { type: "application/pdf" });
-
-    // IE doesn't allow using a blob object directly as link href
-    // instead it is necessary to use msSaveOrOpenBlob
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveOrOpenBlob(newBlob);
-
-      return;
-    }
-
-    // For other browsers:
-    // Create a link pointing to the ObjectURL containing the blob.
-    const data = window.URL.createObjectURL(newBlob);
-
-    const link = document.createElement("a");
-    document.body.appendChild(link); //required in FF, optional for Chrome
-    link.href = data;
-    link.download = "analytics_report.pdf";
-    link.click();
-    window.URL.revokeObjectURL(data);
-    link.remove();
-  }
-
-  function base64ToArrayBuffer(data) {
-    const binaryString = window.atob(data);
-    const binaryLen = binaryString.length;
-    const bytes = new Uint8Array(binaryLen);
-    for (let i = 0; i < binaryLen; i++) {
-      const ascii = binaryString.charCodeAt(i);
-      bytes[i] = ascii;
-    }
-
-    return bytes;
-  }
+  const { t } = useTranslation();
 
   const downloadPdf = async () => {
     setIsLoading(true);
     try {
       const response = await articlesApi.download();
-      solution1(response.data);
+      savePdf(response.data);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -91,7 +52,7 @@ const DownloadReport = () => {
   useEffect(() => {
     if (progress === 100) {
       setIsLoading(false);
-      setMessage("Report is ready to be downloaded");
+      setMessage(DOWNLOAD_READY_MESSAGE);
     }
   }, [progress]);
 
@@ -102,7 +63,7 @@ const DownloadReport = () => {
         <ProgressBar progress={progress} />
         <Button
           disabled={isLoading}
-          label="Download"
+          label={t("dashboard.analytics.report.download")}
           loading={isLoading}
           onClick={downloadPdf}
         />

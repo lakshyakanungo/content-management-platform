@@ -1,14 +1,23 @@
 import { prop } from "ramda";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 import articlesApi from "apis/articles";
+import queryClient from "utils/queryClient";
+
+const onMutation = () => queryClient.invalidateQueries(["generatePdf"]);
 
 export const useFetchArticleAnalytics = ({ currentPageNumber }) =>
   useQuery(
-    ["articles", currentPageNumber],
+    ["analytics", currentPageNumber],
     async () => await articlesApi.analytics(currentPageNumber),
     {
       select: prop("data"),
       onError: error => logger.log(error),
     }
   );
+
+export const useGeneratePdf = () =>
+  useMutation(["generatePdf"], async () => await articlesApi.generatePdf(), {
+    onSuccess: onMutation,
+    onError: error => logger.log(error),
+  });

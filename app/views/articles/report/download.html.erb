@@ -1,14 +1,24 @@
-<div class="mb-4 font-bold">Your articles:</div>
+<div class="mb-4 font-bold">Analytics of published articles:</div>
+<br>
 <div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
-  <% @articles.each do |article| %>
-  <div class="flexrow w-full mb-4">
-    <div class="mx-4">
-      <div class="mb-1 w-full flex justify-around">
-        <span class="text-gray-800 font-bold w-1/2"><%= article.title %></span>
-        <span class="text-gray-500 w-1/4"><%= article.category.name %></span>
-        <div class="text-gray-500 w-1/4"><%= article.visits %></div>
+  <hr>
+  <table>
+    <tr>
+        <th style="border-top: solid 1px #fff">TITLE</th>
+        <th>CATEGORY</th>
+        <th>VISITS</th>
+    </tr>
+    <% @articles.each_with_index do |article,index| %>
+    <tr>
+      <div class="flexrow w-full mb-4">
+        <div style="width: 100%;">
+          <td style="width: 60%;"><%= article.title %></td>
+          <td style="text-align: center; width: 20%;"><%= article.category.name %></td>
+          <td style="text-align: center; width: 20%;"><%= article.visits %></td>
+        </div>
       </div>
-    </div>
-  </div>
-  <% end %>
+    </tr>
+    <% end %>
+  </table>
+  <hr>
 </div>
