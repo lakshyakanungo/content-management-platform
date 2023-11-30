@@ -20,9 +20,19 @@ export const useFetchCategories = () =>
     refetchOnMount: "always",
   });
 
-export const useAddCategory = ({ setShowAddCategoryModal }) =>
+export const useAddCategory = ({
+  setShowAddCategoryModal,
+  refetch,
+  setSelectedCategories,
+}) =>
   useMutation(handleAddCategory, {
-    onSuccess: onMutation,
+    onSuccess: () => {
+      onMutation();
+      refetch();
+    },
     onError: error => logger.log(error),
-    onSettled: () => setShowAddCategoryModal(false),
+    onSettled: () => {
+      setShowAddCategoryModal(false);
+      setSelectedCategories([]);
+    },
   });
