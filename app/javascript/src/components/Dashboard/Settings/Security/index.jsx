@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Spinner, Switch } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 
-import siteApi from "apis/site";
+import {
+  useFetchSiteSecurity,
+  useUpdateSiteSecurity,
+} from "hooks/reactQuery/settings/security/useSecurity";
 
 import ChangePassword from "./ChangePassword";
 import Form from "./Form";
@@ -11,47 +14,24 @@ import Form from "./Form";
 import Layout from "../Layout";
 
 const Security = () => {
-  const [loading, setLoading] = useState(true);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(true);
 
+  const { isFetching, refetch } = useFetchSiteSecurity({
+    setIsPasswordRequired,
+    setShowChangePasswordForm,
+  });
+
+  const { mutate: updateSecurity } = useUpdateSiteSecurity();
+
   const { t } = useTranslation();
 
-  const fetchSite = async () => {
-    try {
-      setLoading(true);
-      const { data } = await siteApi.fetch();
-      const { isPasswordProtected } = data;
-      setIsPasswordRequired(isPasswordProtected);
-      setShowChangePasswordForm(isPasswordProtected);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const updateSecurity = async value => {
-    try {
-      await siteApi.update({
-        is_password_protected: value,
-      });
-      fetchSite();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
   const handleToggle = () => {
-    if (isPasswordRequired) updateSecurity(!isPasswordRequired);
+    if (isPasswordRequired) updateSecurity();
     else setIsPasswordRequired(true);
   };
 
-  useEffect(() => {
-    fetchSite();
-  }, []);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
@@ -75,10 +55,7 @@ const Security = () => {
             setShowChangePasswordForm={setShowChangePasswordForm}
           />
         ) : (
-          <Form
-            fetchSite={fetchSite}
-            setShowChangePasswordForm={setShowChangePasswordForm}
-          />
+          <Form refetch={refetch} />
         ))}
     </Layout>
   );

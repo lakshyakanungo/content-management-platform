@@ -4,29 +4,22 @@ import { MenuHorizontal } from "neetoicons";
 import { Dropdown, Tooltip } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import redirectionsApi from "apis/redirections";
+import { useDeleteRedirection } from "hooks/reactQuery/settings/redirection/useRedirection";
 
 import { URL_TRUNCATE_LENGTH } from "./constants";
 import DeleteAlert from "./DeleteAlert";
 import { buildFullUrl, FormattedUrl } from "./utils";
 
-const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
+const Row = ({ redirection, setEditingRow }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
+  const { mutate: deleteRedirection } = useDeleteRedirection();
 
   const { Menu, MenuItem } = Dropdown;
 
   const { t } = useTranslation();
 
   const handleEdit = () => setEditingRow(redirection.id);
-
-  const handleDelete = async () => {
-    try {
-      await redirectionsApi.destroy(redirection.id);
-      fetchRedirections();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
 
   return (
     <div className="neeto-ui-bg-white grid grid-cols-12 gap-4 justify-between p-2 my-2 items-center">
@@ -64,7 +57,7 @@ const Row = ({ redirection, setEditingRow, fetchRedirections }) => {
         </Dropdown>
       </span>
       <DeleteAlert
-        handleDelete={handleDelete}
+        handleDelete={() => deleteRedirection({ redirection })}
         setShowDeleteAlert={setShowDeleteAlert}
         showDeleteAlert={showDeleteAlert}
       />

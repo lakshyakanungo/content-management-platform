@@ -4,9 +4,7 @@ import { Check, Close } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { resetAuthTokens } from "apis/axios";
-import siteApi from "apis/site";
-import { setToLocalStorage } from "utils/storage";
+import { useUpdatePassword } from "hooks/reactQuery/settings/security/useSecurity";
 
 import { INITIAL_VALUES } from "./constants";
 import {
@@ -16,32 +14,16 @@ import {
   validateForm,
 } from "./utils";
 
-const Form = ({ fetchSite, setShowChangePasswordForm }) => {
+const Form = ({ refetch }) => {
   const [isMinError, setIsMinError] = useState(true);
   const [isMatchError, setIsMatchError] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+  const { mutate: updatePassword } = useUpdatePassword();
+
   const inputRef = useRef(null);
 
   const { t } = useTranslation();
-
-  const handleSubmit = async ({ password }) => {
-    try {
-      await siteApi.update({ password, is_password_protected: true });
-      fetchSite();
-      resetAuthTokens();
-      setToLocalStorage("authToken", null);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const handleReset = resetForm => {
-    resetForm();
-    setIsMinError(true);
-    setIsMatchError(true);
-    setShowChangePasswordForm(true);
-  };
 
   return (
     <NeetoForm
@@ -49,52 +31,44 @@ const Form = ({ fetchSite, setShowChangePasswordForm }) => {
         initialValues: INITIAL_VALUES,
         validate: values =>
           validateForm({ values, setIsMinError, setIsMatchError }),
-        onSubmit: handleSubmit,
+        onSubmit: updatePassword,
       }}
     >
-      {({ resetForm }) => (
-        <>
-          <Input
-            className="mb-4"
-            label={t("dashboard.settings.security.form.inputLabel")}
-            name="password"
-            placeholder={t("dashboard.settings.security.form.placeholder")}
-            ref={inputRef}
-            type="password"
-            suffix={
-              <TogglePassword
-                isPasswordVisible={isPasswordVisible}
-                onClick={() => handleToggle({ inputRef, setIsPasswordVisible })}
-              />
-            }
+      <Input
+        className="mb-4"
+        label={t("dashboard.settings.security.form.inputLabel")}
+        name="password"
+        placeholder={t("dashboard.settings.security.form.placeholder")}
+        ref={inputRef}
+        type="password"
+        suffix={
+          <TogglePassword
+            isPasswordVisible={isPasswordVisible}
+            onClick={() => handleToggle({ inputRef, setIsPasswordVisible })}
           />
-          <div className={buildValidationClassName(isMinError)}>
-            <span>
-              {isMinError ? <Close size={16} /> : <Check size={16} />}
-            </span>
-            <span>{t("dashboard.settings.security.form.lengthError")}</span>
-          </div>
-          <div className={buildValidationClassName(isMatchError)}>
-            <span>
-              {isMatchError ? <Close size={16} /> : <Check size={16} />}
-            </span>
-            <span>{t("dashboard.settings.security.form.strengthError")}</span>
-          </div>
-          <Button
-            className="mr-2"
-            disabled={isMinError || isMatchError}
-            label={t("dashboard.settings.security.form.button.save")}
-            type="submit"
-          />
-          <Button
-            disabled={false}
-            label={t("dashboard.settings.security.form.button.cancel")}
-            style="text"
-            type="reset"
-            onClick={() => handleReset(resetForm)}
-          />
-        </>
-      )}
+        }
+      />
+      <div className={buildValidationClassName(isMinError)}>
+        <span>{isMinError ? <Close size={16} /> : <Check size={16} />}</span>
+        <span>{t("dashboard.settings.security.form.lengthError")}</span>
+      </div>
+      <div className={buildValidationClassName(isMatchError)}>
+        <span>{isMatchError ? <Close size={16} /> : <Check size={16} />}</span>
+        <span>{t("dashboard.settings.security.form.strengthError")}</span>
+      </div>
+      <Button
+        className="mr-2"
+        disabled={isMinError || isMatchError}
+        label={t("dashboard.settings.security.form.button.save")}
+        type="submit"
+      />
+      <Button
+        disabled={false}
+        label={t("dashboard.settings.security.form.button.cancel")}
+        style="text"
+        type="reset"
+        onClick={refetch}
+      />
     </NeetoForm>
   );
 };
