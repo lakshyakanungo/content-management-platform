@@ -6,9 +6,8 @@ import { Button, Spinner, Table } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import ErrorPage from "components/commons/ErrorPage";
 import { ANALYTICS_REPORT_PATH } from "components/routeConstants";
-import { useFetchArticleAnalytics } from "hooks/reactQuery/analytics/useArticles";
+import { useFetchArticleAnalytics } from "hooks/reactQuery/analytics/useAnalytics";
 
 import { buildColumnData, buildRowClassName } from "./utils";
 
@@ -19,7 +18,7 @@ const Analytics = () => {
 
   const history = useHistory();
 
-  const { data, isLoading, isError, error } = useFetchArticleAnalytics({
+  const { data, isLoading } = useFetchArticleAnalytics({
     currentPageNumber,
   });
 
@@ -31,18 +30,13 @@ const Analytics = () => {
     );
   }
 
-  if (isError) {
-    return <ErrorPage error={error} />;
-  }
-
   return (
     <div className="mx-8 my-4 w-full">
       <Header className="" title={t("dashboard.analytics.title")} />
       <SubHeader
         rightActionBlock={
-          // TODO: Add this to translation
           <Button
-            label="Download report"
+            label={t("dashboard.analytics.download")}
             onClick={() => history.push(ANALYTICS_REPORT_PATH)}
           />
         }
