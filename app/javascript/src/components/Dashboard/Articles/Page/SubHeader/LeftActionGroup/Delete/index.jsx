@@ -4,11 +4,11 @@ import { t } from "i18next";
 import { Delete as DeleteIcon } from "neetoicons";
 import { Button } from "neetoui";
 
-import articlesApi from "apis/articles";
 import {
   PageContext,
   SelectedArticlesContext,
 } from "components/Dashboard/Articles";
+import { useBulkDelete } from "hooks/reactQuery/articles/page/useBulkUpdate";
 
 import Alert from "./Alert";
 
@@ -20,15 +20,10 @@ const Delete = () => {
     SelectedArticlesContext
   );
 
-  const handleBulkDelete = async ids => {
-    try {
-      await articlesApi.bulkDelete(ids);
-      setSelectedArticleIds([]);
-      refetch();
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const { mutate: handleBulkDelete } = useBulkDelete({
+    refetch,
+    setSelectedArticleIds,
+  });
 
   return (
     <>
