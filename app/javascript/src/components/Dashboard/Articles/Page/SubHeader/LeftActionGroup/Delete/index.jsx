@@ -4,11 +4,9 @@ import { t } from "i18next";
 import { Delete as DeleteIcon } from "neetoicons";
 import { Button } from "neetoui";
 
-import {
-  PageContext,
-  SelectedArticlesContext,
-} from "components/Dashboard/Articles";
+import { PageContext } from "components/Dashboard/Articles";
 import { useBulkDelete } from "hooks/reactQuery/articles/page/useBulkUpdate";
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 import Alert from "./Alert";
 
@@ -16,9 +14,8 @@ const Delete = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const { refetch } = useContext(PageContext);
-  const { selectedArticleIds, setSelectedArticleIds } = useContext(
-    SelectedArticlesContext
-  );
+  const { selectedArticleIds, setSelectedArticleIds } =
+    useSelectedArticlesStore();
 
   const { mutate: handleBulkDelete } = useBulkDelete({
     refetch,

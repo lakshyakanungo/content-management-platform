@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Trans } from "react-i18next";
 
-import { SelectedArticlesContext } from "components/Dashboard/Articles";
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 import DeleteArticleButton from "./Delete";
 import {
@@ -11,7 +11,7 @@ import {
 } from "./Dropdown";
 
 const LeftActionGroup = ({ categories, totalArticlesCount }) => {
-  const { selectedArticleIds } = useContext(SelectedArticlesContext);
+  const { selectedArticleIds } = useSelectedArticlesStore();
 
   return (
     <div className="flex gap-x-3 items-center	">

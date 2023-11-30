@@ -3,17 +3,14 @@ import React, { useContext } from "react";
 import { Dropdown } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import {
-  PageContext,
-  SelectedArticlesContext,
-} from "components/Dashboard/Articles";
+import { PageContext } from "components/Dashboard/Articles";
 import { useBulkStatusChange } from "hooks/reactQuery/articles/page/useBulkUpdate";
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 const Status = () => {
   const { refetch } = useContext(PageContext);
-  const { selectedArticleIds, setSelectedArticleIds } = useContext(
-    SelectedArticlesContext
-  );
+  const { selectedArticleIds, setSelectedArticleIds } =
+    useSelectedArticlesStore();
 
   const { mutate: handleBulkStatusChange } = useBulkStatusChange({
     refetch,

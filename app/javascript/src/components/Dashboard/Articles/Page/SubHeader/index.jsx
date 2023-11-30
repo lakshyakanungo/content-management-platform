@@ -3,12 +3,13 @@ import React, { useContext, useMemo } from "react";
 import { Tag } from "neetoui";
 import { useTranslation } from "react-i18next";
 
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 import NeetoSubHeader from "neetomolecules/SubHeader";
 
 import Columns from "./Columns";
 import LeftActionGroup from "./LeftActionGroup";
 
-import { CategoryContext, SelectedArticlesContext } from "../..";
+import { CategoryContext } from "../..";
 import { buildArticlesColumnData } from "../Table/utils";
 
 const SubHeader = ({
@@ -26,9 +27,8 @@ const SubHeader = ({
   const { categories, selectedCategories, setSelectedCategories } =
     useContext(CategoryContext);
 
-  const { selectedArticleIds, setSelectedArticleIds } = useContext(
-    SelectedArticlesContext
-  );
+  const { selectedArticleIds, setSelectedArticleIds } =
+    useSelectedArticlesStore();
 
   const { t } = useTranslation();
 
