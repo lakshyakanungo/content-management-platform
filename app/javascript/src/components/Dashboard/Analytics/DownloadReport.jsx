@@ -4,7 +4,7 @@ import Container from "@bigbinary/neeto-molecules/Container";
 import { Button } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 
-import articlesApi from "apis/articles";
+import analyticsApi from "apis/articles/analytics";
 import createConsumer from "channels/consumer";
 import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
 import ProgressBar from "components/commons/ProgressBar";
@@ -27,7 +27,7 @@ const DownloadReport = () => {
   const downloadPdf = async () => {
     setIsLoading(true);
     try {
-      const response = await articlesApi.download();
+      const response = await analyticsApi.download();
       savePdf(response.data);
     } catch (error) {
       logger.error(error);

@@ -17,13 +17,6 @@ const search = ({
     },
   });
 
-const analytics = currentPageNumber =>
-  axios.get("/articles/analytics", {
-    params: {
-      page: currentPageNumber,
-    },
-  });
-
 const create = ({ payload }) =>
   axios.post("/articles", {
     article: payload,
@@ -34,20 +27,9 @@ const update = ({ id, payload }) =>
     article: payload,
   });
 
-const restore = ({ id, versionId }) =>
-  axios.put(`/articles/restore_version/`, {
-    id,
-    article: { version_id: versionId },
-  });
-
 const show = id => axios.get(`/articles/${id}`);
 
 const destroy = id => axios.delete(`/articles/${id}`);
-
-const deleteScheduledJob = id =>
-  axios.delete(`/articles/delete_scheduled_job/`, {
-    params: { id },
-  });
 
 const bulkDelete = ids =>
   axios.delete(`/articles/bulk_destroy/`, {
@@ -60,24 +42,15 @@ const bulkUpdate = ({ ids, payload }) =>
     article: payload,
   });
 
-const generatePdf = () => axios.post("/articles/report", {});
-
-const download = () => axios.get("/articles/report/download");
-
 const articlesApi = {
   fetch,
   search,
-  analytics,
   create,
   show,
   update,
-  restore,
   destroy,
-  deleteScheduledJob,
   bulkDelete,
   bulkUpdate,
-  generatePdf,
-  download,
 };
 
 export default articlesApi;

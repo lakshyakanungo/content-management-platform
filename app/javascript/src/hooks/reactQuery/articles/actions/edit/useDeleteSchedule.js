@@ -1,10 +1,9 @@
 import { useMutation } from "react-query";
 
-import articlesApi from "apis/articles";
+import schedulesApi from "apis/articles/schedule";
 import queryClient from "utils/queryClient";
 
-const handleDelete = async article =>
-  await articlesApi.deleteScheduledJob(article.id);
+const handleDelete = async article => await schedulesApi.destroy(article.id);
 
 const onMutation = () =>
   queryClient.invalidateQueries(["dashboard.article", "dashboard.categories"]);
