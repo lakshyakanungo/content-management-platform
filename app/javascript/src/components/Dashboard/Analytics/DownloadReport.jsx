@@ -8,7 +8,7 @@ import articlesApi from "apis/articles";
 import createConsumer from "channels/consumer";
 import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
 import ProgressBar from "components/commons/ProgressBar";
-import { useGeneratePdf } from "hooks/reactQuery/analytics/useArticles";
+import { useGeneratePdf } from "hooks/reactQuery/analytics/useAnalytics";
 
 import { DOWNLOAD_READY_MESSAGE } from "./constants";
 import { savePdf } from "./utils";

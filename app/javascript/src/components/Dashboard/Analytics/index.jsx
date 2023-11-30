@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 import { ANALYTICS_REPORT_PATH } from "components/routeConstants";
-import { useFetchArticleAnalytics } from "hooks/reactQuery/analytics/useArticles";
+import { useFetchArticleAnalytics } from "hooks/reactQuery/analytics/useAnalytics";
 
 import { buildColumnData, buildRowClassName } from "./utils";
 
