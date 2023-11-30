@@ -1,9 +1,40 @@
 import React from "react";
 
+import { isEditorEmpty } from "@bigbinary/neeto-editor";
 import classNames from "classnames";
 import { Check } from "neetoicons";
+import { pluck } from "ramda";
+import * as yup from "yup";
+
+import i18n from "common/i18n";
 
 import { STATUS_OPTIONS } from "./constants";
+
+export const buildFormValidationSchema = options =>
+  yup.object().shape({
+    selectedCategory: yup
+      .object()
+      .shape({
+        name: yup.string().oneOf(pluck("name", options)),
+        id: yup.string().oneOf(pluck("id", options)),
+      })
+      .nullable()
+      .required(
+        i18n.t("dashboard.articles.actions.editor.validation.category")
+      ),
+    editor: yup.object({
+      title: yup
+        .string()
+        .required(i18n.t("dashboard.articles.actions.editor.validation.title")),
+      description: yup
+        .string()
+        .test(
+          "title",
+          i18n.t("dashboard.articles.actions.editor.validation.description"),
+          value => !isEditorEmpty(value)
+        ),
+    }),
+  });
 
 export const buildSelectClassName = () =>
   classNames(

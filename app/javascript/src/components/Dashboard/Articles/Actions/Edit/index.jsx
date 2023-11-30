@@ -18,9 +18,12 @@ import Schedule from "./Schedule";
 import VersionHistory from "./VersionHistory";
 
 import ActionDropdown from "../ActionDropdown";
-import { FORM_VALIDATION_SCHEMA } from "../constants";
 import Editor from "../Editor";
-import { buildSelectClassName, parseData } from "../utils";
+import {
+  buildFormValidationSchema,
+  buildSelectClassName,
+  parseData,
+} from "../utils";
 
 const Edit = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -94,7 +97,7 @@ const Edit = () => {
             },
           },
           onSubmit: handleEdit,
-          validationSchema: FORM_VALIDATION_SCHEMA,
+          validationSchema: buildFormValidationSchema(categories),
         }}
       >
         {props => (
