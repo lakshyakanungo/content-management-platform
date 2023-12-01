@@ -2,22 +2,30 @@ import { prop } from "ramda";
 import { useQuery, useMutation } from "react-query";
 
 import analyticsApi from "apis/articles/analytics";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const onMutation = () => queryClient.invalidateQueries(["generatePdf"]);
+const { ARTICLE_ANALYTICS, GENERATE_PDF, DOWNLOAD_PDF } = QUERY_KEYS;
 
-export const useFetchArticleAnalytics = ({ currentPageNumber }) =>
+const onMutation = () => queryClient.invalidateQueries([GENERATE_PDF]);
+
+export const useFetchArticleAnalytics = currentPageNumber =>
   useQuery(
-    ["analytics", currentPageNumber],
-    async () => await analyticsApi.fetch(currentPageNumber),
+    [ARTICLE_ANALYTICS, currentPageNumber],
+    () => analyticsApi.fetch(currentPageNumber),
     {
       select: prop("data"),
-      onError: error => logger.log(error),
     }
   );
 
 export const useGeneratePdf = () =>
-  useMutation(["generatePdf"], async () => await analyticsApi.generatePdf(), {
+  useMutation([GENERATE_PDF], () => analyticsApi.generatePdf(), {
     onSuccess: onMutation,
-    onError: error => logger.log(error),
+  });
+
+export const useDownloadPdf = onSuccess =>
+  useQuery([DOWNLOAD_PDF], () => analyticsApi.download(), {
+    select: prop("data"),
+    onSuccess,
+    enabled: false,
   });

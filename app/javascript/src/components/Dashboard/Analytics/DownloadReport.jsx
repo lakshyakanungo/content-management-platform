@@ -4,11 +4,13 @@ import Container from "@bigbinary/neeto-molecules/Container";
 import { Button } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 
-import analyticsApi from "apis/articles/analytics";
 import createConsumer from "channels/consumer";
 import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
 import ProgressBar from "components/commons/ProgressBar";
-import { useGeneratePdf } from "hooks/reactQuery/analytics/useAnalytics";
+import {
+  useDownloadPdf,
+  useGeneratePdf,
+} from "hooks/reactQuery/analytics/useAnalytics";
 
 import { DOWNLOAD_READY_MESSAGE } from "./constants";
 import { savePdf } from "./utils";
@@ -19,22 +21,15 @@ const DownloadReport = () => {
   const [message, setMessage] = useState("");
 
   const { mutate: generatePdf } = useGeneratePdf();
+  const { isLoading: isDownloading, refetch: downloadPdf } = useDownloadPdf(
+    data => {
+      savePdf(data);
+    }
+  );
 
   const consumer = createConsumer();
 
   const { t } = useTranslation();
-
-  const downloadPdf = async () => {
-    setIsLoading(true);
-    try {
-      const response = await analyticsApi.download();
-      savePdf(response.data);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     subscribeToReportDownloadChannel({
@@ -62,9 +57,9 @@ const DownloadReport = () => {
         <h1>{message}</h1>
         <ProgressBar progress={progress} />
         <Button
-          disabled={isLoading}
+          disabled={isLoading || isDownloading}
           label={t("dashboard.analytics.report.download")}
-          loading={isLoading}
+          loading={isLoading || isDownloading}
           onClick={downloadPdf}
         />
       </div>

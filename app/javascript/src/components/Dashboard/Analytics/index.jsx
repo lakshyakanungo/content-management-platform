@@ -18,9 +18,8 @@ const Analytics = () => {
 
   const history = useHistory();
 
-  const { data, isLoading } = useFetchArticleAnalytics({
-    currentPageNumber,
-  });
+  const { data: { articles, totalCount } = {}, isLoading } =
+    useFetchArticleAnalytics(currentPageNumber);
 
   if (isLoading) {
     return (
@@ -49,8 +48,8 @@ const Analytics = () => {
         defaultPageSize={9}
         handlePageChange={page => setCurrentPageNumber(page)}
         rowClassName={buildRowClassName}
-        rowData={data.articles}
-        totalCount={data.totalCount}
+        rowData={articles}
+        totalCount={totalCount}
         onChange={pagination => setCurrentPageNumber(pagination.current)}
       />
     </div>
