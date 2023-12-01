@@ -18,7 +18,17 @@ const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
 
   const { t } = useTranslation();
 
-  const { mutate: handleDelete } = useDeleteCategory({ setShowDeleteOverlay });
+  const { mutate: handleDelete } = useDeleteCategory({
+    onSuccess: () => setShowDeleteOverlay(false),
+  });
+
+  const handleSubmit = ({ selectedCategory }) =>
+    handleDelete({
+      id: category.id,
+      payload: {
+        move_into_category_id: selectedCategory.id,
+      },
+    });
 
   const hasMultipleCategories = categories.length > 1;
 
@@ -45,8 +55,7 @@ const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
             selectedCategory: null,
           },
           validationSchema: buildValidationSchema(categoryMoveOptions),
-          onSubmit: ({ selectedCategory }) =>
-            handleDelete({ category, selectedCategory }),
+          onSubmit: handleSubmit,
         }}
       >
         {({ dirty }) => (
