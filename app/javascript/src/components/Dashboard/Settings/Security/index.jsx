@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import {
   useFetchSiteSecurity,
-  useUpdateSiteSecurity,
+  useUpdateSecurity,
 } from "hooks/reactQuery/settings/security/useSecurity";
 
 import ChangePassword from "./ChangePassword";
@@ -18,16 +18,18 @@ const Security = () => {
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(true);
 
   const { isFetching, refetch } = useFetchSiteSecurity({
-    setIsPasswordRequired,
-    setShowChangePasswordForm,
+    onSuccess: data => {
+      setIsPasswordRequired(data.isPasswordProtected);
+      setShowChangePasswordForm(data.isPasswordProtected);
+    },
   });
 
-  const { mutate: updateSecurity } = useUpdateSiteSecurity();
+  const { mutate: updateSecurity } = useUpdateSecurity();
 
   const { t } = useTranslation();
 
   const handleToggle = () => {
-    if (isPasswordRequired) updateSecurity();
+    if (isPasswordRequired) updateSecurity({ is_password_protected: false });
     else setIsPasswordRequired(true);
   };
 

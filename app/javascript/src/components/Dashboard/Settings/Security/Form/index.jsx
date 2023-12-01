@@ -4,7 +4,9 @@ import { Check, Close } from "neetoicons";
 import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
+import { resetAuthTokens } from "apis/axios";
 import { useUpdatePassword } from "hooks/reactQuery/settings/security/useSecurity";
+import { setToLocalStorage } from "utils/storage";
 
 import { INITIAL_VALUES } from "./constants";
 import {
@@ -19,11 +21,19 @@ const Form = ({ refetch }) => {
   const [isMatchError, setIsMatchError] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const { mutate: updatePassword } = useUpdatePassword();
+  const { mutate: updatePassword } = useUpdatePassword({
+    onSuccess: () => {
+      resetAuthTokens();
+      setToLocalStorage("authToken", null);
+    },
+  });
 
   const inputRef = useRef(null);
 
   const { t } = useTranslation();
+
+  const handleSubmit = ({ password }) =>
+    updatePassword({ password, is_password_protected: true });
 
   return (
     <NeetoForm
@@ -31,7 +41,7 @@ const Form = ({ refetch }) => {
         initialValues: INITIAL_VALUES,
         validate: values =>
           validateForm({ values, setIsMinError, setIsMatchError }),
-        onSubmit: updatePassword,
+        onSubmit: handleSubmit,
       }}
     >
       <Input

@@ -2,23 +2,18 @@ import { prop } from "ramda";
 import { useMutation, useQuery } from "react-query";
 
 import siteApi from "apis/site";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const fetchSite = async () => await siteApi.fetch();
-
-const onMutation = () => queryClient.invalidateQueries(["site"]);
-
-const updateSite = async ({ siteName }) =>
-  await siteApi.update({ title: siteName });
+const { SITE } = QUERY_KEYS;
 
 export const useFetchSite = () =>
-  useQuery(["site"], fetchSite, {
+  useQuery([SITE], siteApi.fetch, {
     select: prop("data"),
-    onError: error => logger.log(error),
   });
 
 export const useUpdateSite = () =>
-  useMutation(updateSite, {
-    onSuccess: onMutation,
+  useMutation(siteApi.update, {
+    onSuccess: () => queryClient.invalidateQueries([SITE]),
     onError: error => logger.log(error),
   });
