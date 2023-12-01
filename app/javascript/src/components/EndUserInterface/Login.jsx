@@ -3,25 +3,14 @@ import React from "react";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import authApi from "apis/auth";
-import { setToLocalStorage } from "utils/storage";
+import { useAuth } from "hooks/reactQuery/endUserInterface/useAuth";
 
 import { LOGIN_FORM_INITIAL_VALUE } from "./constants";
 
 const Login = ({ siteName }) => {
-  const { t } = useTranslation();
+  const { mutate: handleAuthentication } = useAuth();
 
-  const handleSubmit = async ({ password }) => {
-    try {
-      const {
-        data: { authenticationToken },
-      } = await authApi.authenticate({ password });
-      setToLocalStorage("authToken", authenticationToken);
-      window.location.href = "/eui";
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const { t } = useTranslation();
 
   return (
     <>
@@ -39,7 +28,7 @@ const Login = ({ siteName }) => {
           <Form
             formikProps={{
               initialValues: LOGIN_FORM_INITIAL_VALUE,
-              onSubmit: handleSubmit,
+              onSubmit: handleAuthentication,
             }}
           >
             <Input

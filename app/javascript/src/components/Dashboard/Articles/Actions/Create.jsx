@@ -9,8 +9,8 @@ import { useCreateArticle } from "hooks/reactQuery/articles/actions/create/useCr
 import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
 
 import ActionDropdown from "./ActionDropdown";
-import { FORM_VALIDATION_SCHEMA } from "./constants";
 import Editor from "./Editor";
+import { buildFormValidationSchema } from "./utils";
 
 const Create = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -44,7 +44,7 @@ const Create = () => {
           onSubmit: ({ editor, selectedCategory }) =>
             handleCreate({ editor, selectedCategory, selectedOptionIndex }),
           enableReinitialize: true,
-          validationSchema: FORM_VALIDATION_SCHEMA,
+          validationSchema: buildFormValidationSchema(categories),
         }}
       >
         {props => (

@@ -4,7 +4,6 @@ import articlesApi from "apis/articles";
 import { parseData } from "components/Dashboard/Articles/Actions/utils";
 import queryClient from "utils/queryClient";
 
-// TODO: refactor these
 const handleCreate = async ({
   selectedCategory,
   editor,

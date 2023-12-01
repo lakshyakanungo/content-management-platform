@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 
 import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategory";
 
-import { VALIDATION_SCHEMA } from "./constants";
 import Header from "./Header";
+import { buildValidationSchema } from "./utils";
 
 import { CategoriesContext } from "../..";
 
@@ -44,7 +44,7 @@ const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
             showSelect: hasMultipleCategories,
             selectedCategory: null,
           },
-          validationSchema: VALIDATION_SCHEMA,
+          validationSchema: buildValidationSchema(categoryMoveOptions),
           onSubmit: ({ selectedCategory }) =>
             handleDelete({ category, selectedCategory }),
         }}

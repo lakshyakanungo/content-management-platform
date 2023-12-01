@@ -43,17 +43,8 @@ def create_sample_data!
   create_user! email: 'oliver@example.com', name: 'Oliver'
   puts 'Done! Olvier with email "oliver@example.com" is the default user'
 
-  Constants::CATEGORIES.each do |category|
-    User.first.categories.create! category
-  end
-
-  puts "Added sample categories."
-
-  Constants::ARTICLES.each do |article|
-    User.first.articles.create! article
-  end
-
-  puts "Added sample articles."
+  CategorySeederService.new.process
+  ArticleSeederService.new.process
 
   Site.create!(is_password_protected:false,title:"Spinkart")
 

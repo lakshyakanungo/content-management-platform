@@ -124,7 +124,11 @@
           }
         },
         "editor": {
-          "validation": "Article title is required",
+          "validation": {
+            "title": "Article title is required",
+            "description": "Article description is required",
+            "category": "Category is required"
+          },
           "placeholder": "Add title here"
         }
       }

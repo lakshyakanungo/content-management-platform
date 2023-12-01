@@ -108,11 +108,10 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
           onCollapse={handleCollapse}
           onKeyDown={handleKeyDown}
         />
-        {/* TODO: Utilise ramda here for includes and more in this file */}
         {searchTerm.length
           ? categoriesDisplayed.map(category => (
               <Block
-                active={selectedCategories.includes(category)}
+                active={includes(category, selectedCategories)}
                 count={category.articlesCount}
                 key={category.id}
                 label={category.name}
@@ -121,7 +120,7 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
             ))
           : categories.map(category => (
               <Block
-                active={selectedCategories.includes(category)}
+                active={includes(category, selectedCategories)}
                 count={category.articlesCount}
                 key={category.id}
                 label={category.name}

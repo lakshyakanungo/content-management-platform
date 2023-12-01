@@ -1,23 +1,3 @@
-import { isEditorEmpty } from "@bigbinary/neeto-editor";
-import * as yup from "yup";
-
-import i18n from "common/i18n";
-
-export const FORM_VALIDATION_SCHEMA = yup.object().shape({
-  selectedCategory: yup.object().nullable().required("Category is required"),
-  editor: yup.object({
-    title: yup
-      .string()
-      .required(i18n.t("dashboard.articles.actions.editor.validation")),
-    description: yup.string().test(
-      "title",
-      // TODO: Add translations
-      "Article description is required",
-      value => !isEditorEmpty(value)
-    ),
-  }),
-});
-
 export const STATUS_OPTIONS = [
   { label: "Save as draft", value: "draft" },
   { label: "Publish", value: "published" },
