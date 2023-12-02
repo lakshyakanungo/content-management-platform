@@ -1,15 +1,16 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { Tag } from "neetoui";
 import { useTranslation } from "react-i18next";
 
+import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
+import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
 import NeetoSubHeader from "neetomolecules/SubHeader";
 
 import Columns from "./Columns";
 import LeftActionGroup from "./LeftActionGroup";
 
-import { CategoryContext } from "../..";
 import { buildArticlesColumnData } from "../Table/utils";
 
 const SubHeader = ({
@@ -19,21 +20,26 @@ const SubHeader = ({
   setVisibleTableColumns,
   totalArticlesCount,
 }) => {
+  const { data: { categories = [] } = {} } = useFetchCategories();
+
+  const { selectedCategories, setSelectedCategories } =
+    useSelectedCategoriesStore();
+
+  const { selectedArticleIds, setSelectedArticleIds } =
+    useSelectedArticlesStore();
+
   const columns = useMemo(
     () => buildArticlesColumnData({ handleStatusChange, handleDelete }),
     []
   );
 
-  const { categories, selectedCategories, setSelectedCategories } =
-    useContext(CategoryContext);
-
-  const { selectedArticleIds, setSelectedArticleIds } =
-    useSelectedArticlesStore();
-
   const { t } = useTranslation();
 
   const handleTagClose = category => {
-    setSelectedCategories(prev => prev.filter(item => item !== category));
+    const updatedCategories = selectedCategories.filter(
+      item => item !== category
+    );
+    setSelectedCategories(updatedCategories);
     setSelectedArticleIds([]);
     setCurrentPageNumber(1);
   };

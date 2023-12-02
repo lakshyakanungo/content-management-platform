@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
@@ -6,26 +6,27 @@ import { Search as SearchIcon, Plus } from "neetoicons";
 import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
 
+import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
 import { useCategorySearch } from "hooks/reactQuery/menu/useCategorySearch";
 import { useMenuStore } from "hooks/zustand/useMenuStore";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
+import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
 
 import AddCategoryModal from "./AddCategory";
 import { MENU_ARTICLE_STATES } from "./constants";
 import { getMenuArticlesCount, handleKeyEvent } from "./utils";
-
-import { CategoryContext } from "..";
 
 const Menu = ({ articleCounts, setCurrentPageNumber }) => {
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
 
-  const { categories, selectedCategories, setSelectedCategories } =
-    useContext(CategoryContext);
   const { showMenu, activeMenuState, setActiveMenuState } = useMenuStore();
   const { setSelectedArticleIds } = useSelectedArticlesStore();
+  const { selectedCategories, setSelectedCategories } =
+    useSelectedCategoriesStore();
 
+  const { data: { categories = [] } = {} } = useFetchCategories();
   const { data: { categories: categoriesDisplayed = [] } = {} } =
     useCategorySearch({ searchTerm, isSearchCollapsed });
 
@@ -35,13 +36,12 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
 
   const handleCategoryClick = categoryClicked => {
     if (includes(categoryClicked, selectedCategories)) {
-      setSelectedCategories(prev =>
-        prev.filter(
-          selectedCategory => !equals(selectedCategory, categoryClicked)
-        )
+      const updatedCategories = selectedCategories.filter(
+        selectedCategory => !equals(selectedCategory, categoryClicked)
       );
+      setSelectedCategories(updatedCategories);
     } else {
-      setSelectedCategories(prev => [...prev, categoryClicked]);
+      setSelectedCategories([...selectedCategories, categoryClicked]);
     }
     setSelectedArticleIds([]);
     setCurrentPageNumber(1);
