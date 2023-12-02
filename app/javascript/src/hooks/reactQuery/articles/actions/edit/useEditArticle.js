@@ -1,25 +1,26 @@
 import { path } from "ramda";
-import { useQueries } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import articlesApi from "apis/articles";
-import { fetchCategories } from "hooks/reactQuery/category/useCategory";
+import { QUERY_KEYS } from "constants/query";
+import queryClient from "utils/queryClient";
 
-export const fetchArticle = async id => await articlesApi.show(id);
+const { ARTICLE, ARTICLES_COUNT, ARTICLE_ANALYTICS, ARTICLE_SEARCH_RESULTS } =
+  QUERY_KEYS;
 
-export const useFetchArticleAndCategories = ({ id }) =>
-  useQueries([
-    {
-      queryKey: ["dashboard.article"],
-      queryFn: () => fetchArticle(id),
-      select: path(["data", "article"]),
-      onError: error => logger.log(error),
-      refetchOnMount: "always",
+export const useFetchArticle = id =>
+  useQuery([ARTICLE], () => articlesApi.show(id), {
+    select: path(["data"]),
+    refetchOnMount: "always",
+  });
+
+export const useEditArticle = options =>
+  useMutation(articlesApi.update, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([ARTICLE]);
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([ARTICLE_ANALYTICS]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      options.onSuccess();
     },
-    {
-      queryKey: ["dashboard.categories"],
-      queryFn: fetchCategories,
-      select: path(["data", "categories"]),
-      onError: error => logger.log(error),
-      refetchOnMount: "always",
-    },
-  ]);
+  });

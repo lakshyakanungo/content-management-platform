@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
-
-import { useFetchArticlesCountAndCategories } from "hooks/reactQuery/articles/useArticleCountAndCategories";
+import { useFetchArticlesCountAndCategories } from "hooks/reactQuery/articles/useArticles";
 import { useMenuStore } from "hooks/zustand/useMenuStore";
 import { usePageStore } from "hooks/zustand/usePageStore";
 
@@ -11,7 +9,6 @@ import Page from "./Page";
 import { updateQueryParameters } from "./utils";
 
 const CategoryContext = React.createContext();
-const PageContext = React.createContext();
 
 const Articles = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -20,55 +17,32 @@ const Articles = () => {
   const { currentPageNumber, setCurrentPageNumber } = usePageStore();
 
   const [
-    {
-      data: articleCounts,
-      refetch: fetchArticlesCount,
-      isFetching: isFetchingArticlesCount,
-    },
-    {
-      data: categories,
-      refetch: fetchCategories,
-      isFetching: isFetchingCategories,
-    },
+    { data: { counts: articleCounts = {} } = {} },
+    { data: { categories = [] } = {}, refetch: fetchCategories },
   ] = useFetchArticlesCountAndCategories();
-
-  const fetchArticlesCountAndCategories = () => {
-    fetchArticlesCount();
-    fetchCategories();
-  };
 
   useEffect(() => {
     updateQueryParameters({ activeMenuState, currentPageNumber });
   }, [activeMenuState, currentPageNumber]);
 
-  if (isFetchingArticlesCount || isFetchingCategories) {
-    return <PageLoader />;
-  }
-
   return (
-    <PageContext.Provider
+    <CategoryContext.Provider
       value={{
-        refetch: fetchArticlesCountAndCategories,
+        categories,
+        selectedCategories,
+        setSelectedCategories,
+        fetchCategories,
       }}
     >
-      <CategoryContext.Provider
-        value={{
-          categories,
-          selectedCategories,
-          setSelectedCategories,
-          fetchCategories,
-        }}
-      >
-        <Menu
-          articleCounts={articleCounts}
-          setCurrentPageNumber={setCurrentPageNumber}
-        />
-        <Page />
-      </CategoryContext.Provider>
-    </PageContext.Provider>
+      <Menu
+        articleCounts={articleCounts}
+        setCurrentPageNumber={setCurrentPageNumber}
+      />
+      <Page />
+    </CategoryContext.Provider>
   );
 };
 
 export default Articles;
 
-export { PageContext, CategoryContext };
+export { CategoryContext };

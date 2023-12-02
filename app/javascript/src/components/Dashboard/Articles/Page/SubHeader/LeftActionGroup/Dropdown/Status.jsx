@@ -1,25 +1,28 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Dropdown } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import { PageContext } from "components/Dashboard/Articles";
 import { useBulkStatusChange } from "hooks/reactQuery/articles/page/useBulkUpdate";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 const Status = () => {
-  const { refetch } = useContext(PageContext);
   const { selectedArticleIds, setSelectedArticleIds } =
     useSelectedArticlesStore();
 
-  const { mutate: handleBulkStatusChange } = useBulkStatusChange({
-    refetch,
-    setSelectedArticleIds,
+  const { mutate: updateBulkStatus } = useBulkStatusChange({
+    onSuccess: () => setSelectedArticleIds([]),
   });
 
   const { Menu, MenuItem } = Dropdown;
 
   const { t } = useTranslation();
+
+  const handleClick = status =>
+    updateBulkStatus({
+      ids: selectedArticleIds,
+      payload: { status },
+    });
 
   return (
     <Dropdown
@@ -31,18 +34,10 @@ const Status = () => {
       )}
     >
       <Menu>
-        <MenuItem.Button
-          onClick={() =>
-            handleBulkStatusChange({ status: "draft", selectedArticleIds })
-          }
-        >
+        <MenuItem.Button onClick={() => handleClick("draft")}>
           {t("dashboard.articles.page.subheader.leftActionGroup.status.draft")}
         </MenuItem.Button>
-        <MenuItem.Button
-          onClick={() =>
-            handleBulkStatusChange({ status: "published", selectedArticleIds })
-          }
-        >
+        <MenuItem.Button onClick={() => handleClick("published")}>
           {t(
             "dashboard.articles.page.subheader.leftActionGroup.status.publish"
           )}

@@ -1,20 +1,19 @@
 import { useMutation } from "react-query";
 
 import versionsApi from "apis/articles/versions";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const onMutation = () =>
-  queryClient.invalidateQueries(["dashboard.article", "dashboard.categories"]);
+const { ARTICLES_COUNT, ARTICLE_SEARCH_RESULTS, CATEGORIES, ARTICLE } =
+  QUERY_KEYS;
 
-const handleRestore = async ({ article, version }) =>
-  await versionsApi.restore({ id: article.id, versionId: version.id });
-
-export const useRestoreVersion = ({ refetch, setShowVersionHistory }) =>
-  useMutation(handleRestore, {
+export const useRestoreVersion = options =>
+  useMutation(versionsApi.restore, {
     onSuccess: () => {
-      onMutation();
-      setShowVersionHistory(false);
-      refetch();
+      queryClient.invalidateQueries([ARTICLE]);
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([CATEGORIES]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      options.onSuccess();
     },
-    onError: error => logger.log(error),
   });

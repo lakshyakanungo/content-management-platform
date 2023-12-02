@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 
-import { Button } from "neetoui";
+import { Button, Spinner } from "neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import articlesApi from "apis/articles";
+import { useFetchSearchResults } from "hooks/reactQuery/articles/page/useSearch";
 import {
   useHandleDelete,
   useHandleStatusChange,
@@ -18,51 +18,42 @@ import Empty from "./Empty";
 import SubHeader from "./SubHeader";
 import Table from "./Table";
 
-import { CategoryContext, PageContext } from "..";
+import { CategoryContext } from "..";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [articles, setArticles] = useState([]);
   const [visibleTableColumns, setVisibleTableColumns] = useState([]);
-  const [totalArticlesCount, setTotalArticlesCount] = useState(0);
 
   const { selectedCategories } = useContext(CategoryContext);
-  const { refetch } = useContext(PageContext);
 
   const { showMenu, activeMenuState, setShowMenu } = useMenuStore();
   const { currentPageNumber, setCurrentPageNumber } = usePageStore();
 
-  const { mutate: handleStatusChange } = useHandleStatusChange({ refetch });
-  const { mutate: handleDelete } = useHandleDelete({ refetch });
+  const selectedCategoriesIds = selectedCategories.map(category => category.id);
+  const query = searchTerm.trim();
+
+  const { data: { articles = [], totalCount = 0 } = {}, isLoading } =
+    useFetchSearchResults({
+      searchTerm: query,
+      selectedCategoriesIds,
+      activeMenuState,
+      currentPageNumber,
+    });
+
+  const { mutate: handleStatusChange } = useHandleStatusChange();
+  const { mutate: handleDelete } = useHandleDelete();
 
   const { t } = useTranslation();
 
   const history = useHistory();
 
-  const fetchSearchResults = async () => {
-    try {
-      const selectedCategoriesIds = selectedCategories.map(
-        category => category.id
-      );
-      const query = searchTerm.trim();
-      const {
-        data: { articles, totalCount },
-      } = await articlesApi.search({
-        searchTerm: query,
-        selectedCategoriesIds,
-        activeMenuState,
-        currentPageNumber,
-      });
-      setArticles(articles);
-      setTotalArticlesCount(totalCount);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSearchResults();
-  }, [searchTerm, selectedCategories, activeMenuState, currentPageNumber]);
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <Container>
@@ -90,13 +81,13 @@ const Page = () => {
         handleStatusChange={handleStatusChange}
         setCurrentPageNumber={setCurrentPageNumber}
         setVisibleTableColumns={setVisibleTableColumns}
-        totalArticlesCount={totalArticlesCount}
+        totalArticlesCount={totalCount}
       />
       {articles.length ? (
         <Table
           articles={articles}
           columnData={visibleTableColumns}
-          totalArticlesCount={totalArticlesCount}
+          totalArticlesCount={totalCount}
         />
       ) : (
         <Empty

@@ -14,11 +14,9 @@ const Details = ({
   setShowVersionDetails,
   categories,
   setShowVersionHistory,
-  refetch,
 }) => {
-  const { mutate: handleRestore } = useRestoreVersion({
-    refetch,
-    setShowVersionHistory,
+  const { mutate: restoreVersion } = useRestoreVersion({
+    onSuccess: () => setShowVersionHistory(false),
   });
 
   const { t } = useTranslation();
@@ -29,6 +27,9 @@ const Details = ({
   const article = isCurrentVersion ? version : version.object;
 
   const categoryName = renderCategoryName(article, categories);
+
+  const handleRestore = () =>
+    restoreVersion({ id: article.id, versionId: version.id });
 
   return (
     <Modal
@@ -71,7 +72,7 @@ const Details = ({
             label={t(
               "dashboard.articles.actions.edit.versionHistory.details.button.restore"
             )}
-            onClick={() => handleRestore({ article, version })}
+            onClick={handleRestore}
           />
           <Button
             style="text"

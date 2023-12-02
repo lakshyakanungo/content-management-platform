@@ -6,7 +6,7 @@ import { formatDate } from "utils";
 
 import DeleteAlert from "./DeleteAlert";
 
-const Schedule = ({ article, showSchedule, setShowSchedule, refetch }) => {
+const Schedule = ({ article, showSchedule, setShowSchedule }) => {
   const { t } = useTranslation();
   const { Header, Body, Footer } = Modal;
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -30,7 +30,6 @@ const Schedule = ({ article, showSchedule, setShowSchedule, refetch }) => {
       </Footer>
       <DeleteAlert
         article={article}
-        refetch={refetch}
         setShowDeleteAlert={setShowDeleteAlert}
         showDeleteAlert={showDeleteAlert}
       />

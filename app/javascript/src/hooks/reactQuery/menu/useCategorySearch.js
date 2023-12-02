@@ -2,13 +2,17 @@ import { path } from "ramda";
 import { useQuery } from "react-query";
 
 import categoriesApi from "apis/categories";
+import { QUERY_KEYS } from "constants/query";
 
-const fetchSearchResults = async ({ searchTerm }) =>
-  await categoriesApi.search({ name: searchTerm });
+const { CATEGORY_SEARCH } = QUERY_KEYS;
 
-export const useCategorySearch = ({ searchTerm }) =>
-  useQuery(["categories.search"], () => fetchSearchResults({ searchTerm }), {
-    select: path(["data", "categories"]),
-    onError: error => logger.log(error),
-    refetchOnMount: "always",
-  });
+export const useCategorySearch = ({ searchTerm, isSearchCollapsed }) =>
+  useQuery(
+    [CATEGORY_SEARCH, searchTerm, isSearchCollapsed],
+    () => categoriesApi.search({ name: searchTerm }),
+    {
+      select: path(["data"]),
+      refetchOnMount: "always",
+      enabled: !isSearchCollapsed,
+    }
+  );

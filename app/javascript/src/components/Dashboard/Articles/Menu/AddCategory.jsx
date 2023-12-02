@@ -18,13 +18,13 @@ const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
 
   const { t } = useTranslation();
 
-  const { fetchCategories, setSelectedCategories } =
-    useContext(CategoryContext);
+  const { setSelectedCategories } = useContext(CategoryContext);
 
   const { mutate: handleAddCategory } = useAddCategory({
-    setSelectedCategories,
-    setShowAddCategoryModal,
-    refetch: fetchCategories,
+    onSettled: () => {
+      setShowAddCategoryModal(false);
+      setSelectedCategories([]);
+    },
   });
 
   const handleReset = () => {

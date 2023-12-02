@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import { Typography } from "@bigbinary/neetoui";
@@ -26,10 +26,8 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
   const { showMenu, activeMenuState, setActiveMenuState } = useMenuStore();
   const { setSelectedArticleIds } = useSelectedArticlesStore();
 
-  const { data: categoriesDisplayed, refetch: fetchSearchResults } =
-    useCategorySearch({
-      searchTerm,
-    });
+  const { data: { categories: categoriesDisplayed = [] } = {} } =
+    useCategorySearch({ searchTerm, isSearchCollapsed });
 
   const { Block, SubTitle, Search } = MenuBar;
 
@@ -61,10 +59,6 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
     setSelectedArticleIds([]);
     setCurrentPageNumber(1);
   };
-
-  useEffect(() => {
-    if (!isSearchCollapsed) fetchSearchResults();
-  }, [searchTerm]);
 
   return (
     <>
