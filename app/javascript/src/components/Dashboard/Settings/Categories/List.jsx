@@ -1,13 +1,9 @@
-import React, { useCallback, useContext } from "react";
-
-import { CategoriesContext } from ".";
+import React, { useCallback } from "react";
 
 import ListItem from "./ListItem";
 import { swapItemsInArray } from "./utils";
 
-const List = () => {
-  const { categories, setCategories } = useContext(CategoriesContext);
-
+const List = ({ categories, setCategories }) => {
   const moveCategoryListItem = useCallback(
     (dragIndex, hoverIndex) => {
       const dragItem = categories[dragIndex];

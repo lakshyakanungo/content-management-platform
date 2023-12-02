@@ -15,6 +15,12 @@ const Dropdown = ({ record, handleStatusChange, handleDelete }) => {
 
   const { id, status } = record;
 
+  const handleStatusClick = status =>
+    handleStatusChange({
+      id,
+      payload: { status },
+    });
+
   return (
     <>
       <NeetoDropdown
@@ -26,15 +32,11 @@ const Dropdown = ({ record, handleStatusChange, handleDelete }) => {
       >
         <Menu>
           {status === "draft" ? (
-            <MenuItem.Button
-              onClick={() => handleStatusChange({ id, status: "published" })}
-            >
+            <MenuItem.Button onClick={() => handleStatusClick("published")}>
               {t("dashboard.articles.page.table.dropdown.publish")}
             </MenuItem.Button>
           ) : (
-            <MenuItem.Button
-              onClick={() => handleStatusChange({ id, status: "draft" })}
-            >
+            <MenuItem.Button onClick={() => handleStatusClick("draft")}>
               {t("dashboard.articles.page.table.dropdown.unpublish")}
             </MenuItem.Button>
           )}

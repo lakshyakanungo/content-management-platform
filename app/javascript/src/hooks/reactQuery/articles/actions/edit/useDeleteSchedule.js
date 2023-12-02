@@ -1,18 +1,12 @@
 import { useMutation } from "react-query";
 
 import schedulesApi from "apis/articles/schedule";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const handleDelete = async article => await schedulesApi.destroy(article.id);
+const { ARTICLE } = QUERY_KEYS;
 
-const onMutation = () =>
-  queryClient.invalidateQueries(["dashboard.article", "dashboard.categories"]);
-
-export const useDeleteSchedule = ({ article, refetch }) =>
-  useMutation(() => handleDelete(article), {
-    onSuccess: () => {
-      onMutation();
-      refetch();
-    },
-    onError: error => logger.log(error),
+export const useDeleteSchedule = () =>
+  useMutation(schedulesApi.destroy, {
+    onSuccess: () => queryClient.invalidateQueries([ARTICLE]),
   });

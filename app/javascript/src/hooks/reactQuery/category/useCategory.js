@@ -2,37 +2,19 @@ import { path } from "ramda";
 import { useMutation, useQuery } from "react-query";
 
 import categoriesApi from "apis/categories";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const onMutation = () =>
-  queryClient.invalidateQueries(["dashboard.categories"]);
-
-const handleAddCategory = async ({ name }) => {
-  await categoriesApi.create({ name });
-};
-
-export const fetchCategories = async () => await categoriesApi.fetch();
+const { CATEGORIES } = QUERY_KEYS;
 
 export const useFetchCategories = () =>
-  useQuery(["dashboard.categories"], fetchCategories, {
-    select: path(["data", "categories"]),
-    onError: error => logger.log(error),
+  useQuery([CATEGORIES], categoriesApi.fetch, {
+    select: path(["data"]),
     refetchOnMount: "always",
   });
 
-export const useAddCategory = ({
-  setShowAddCategoryModal,
-  refetch,
-  setSelectedCategories,
-}) =>
-  useMutation(handleAddCategory, {
-    onSuccess: () => {
-      onMutation();
-      refetch();
-    },
-    onError: error => logger.log(error),
-    onSettled: () => {
-      setShowAddCategoryModal(false);
-      setSelectedCategories([]);
-    },
+export const useAddCategory = options =>
+  useMutation(categoriesApi.create, {
+    onSuccess: () => queryClient.invalidateQueries([CATEGORIES]),
+    onSettled: options?.onSettled,
   });

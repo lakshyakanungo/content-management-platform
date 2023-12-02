@@ -2,48 +2,35 @@ import { path } from "ramda";
 import { useQuery } from "react-query";
 
 import articlesApi from "apis/articles";
+import { QUERY_KEYS } from "constants/query";
 
-const fetchSearchResults = async ({
-  searchTerm,
-  activeMenuState,
-  currentPageNumber,
-  selectedCategories,
-}) => {
-  const selectedCategoriesIds = selectedCategories.map(category => category.id);
-  const query = searchTerm.trim();
-
-  return await articlesApi.search({
-    searchTerm: query,
-    selectedCategoriesIds,
-    activeMenuState,
-    currentPageNumber,
-  });
-};
+const { ARTICLE_SEARCH_RESULTS } = QUERY_KEYS;
 
 export const useFetchSearchResults = ({
   searchTerm,
+  selectedCategoriesIds,
   activeMenuState,
   currentPageNumber,
-  selectedCategories,
 }) =>
   useQuery(
     [
-      "dashboard.articles.search",
+      ARTICLE_SEARCH_RESULTS,
       searchTerm,
+      selectedCategoriesIds,
       activeMenuState,
       currentPageNumber,
-      selectedCategories,
     ],
     () =>
-      fetchSearchResults({
+      articlesApi.search({
         searchTerm,
+        selectedCategoriesIds,
         activeMenuState,
-        selectedCategories,
         currentPageNumber,
       }),
     {
       select: path(["data"]),
-      onError: error => logger.log(error),
       refetchOnMount: "always",
+      staleTime: 10000,
+      keepPreviousData: true,
     }
   );

@@ -13,7 +13,9 @@ const Edit = ({ category, showEditModal, setShowEditModal }) => {
 
   const { t } = useTranslation();
 
-  const { mutate: handleEdit } = useEditCategory({ setShowEditModal });
+  const { mutate: handleEdit } = useEditCategory({
+    onSuccess: () => setShowEditModal(false),
+  });
 
   return (
     <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
@@ -26,7 +28,11 @@ const Edit = ({ category, showEditModal, setShowEditModal }) => {
         formikProps={{
           initialValues: { name: category.name },
           validationSchema: FORM_VALIDATION_SCHEMA,
-          onSubmit: ({ name }) => handleEdit({ name, category }),
+          onSubmit: ({ name }) =>
+            handleEdit({
+              id: category.id,
+              payload: { name },
+            }),
         }}
       >
         <Body>

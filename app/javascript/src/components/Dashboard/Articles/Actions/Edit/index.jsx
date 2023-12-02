@@ -11,8 +11,11 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-import articlesApi from "apis/articles";
-import { useFetchArticleAndCategories } from "hooks/reactQuery/articles/actions/edit/useEditArticle";
+import {
+  useEditArticle,
+  useFetchArticle,
+} from "hooks/reactQuery/articles/actions/edit/useEditArticle";
+import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
 
 import Schedule from "./Schedule";
 import VersionHistory from "./VersionHistory";
@@ -34,14 +37,15 @@ const Edit = () => {
   const history = useHistory();
   const { id } = useParams();
 
-  const [
-    { data: article, isFetching: isFetchingArticle, refetch: refetchArticle },
-    {
-      data: categories,
-      isFetching: isFetchingCategories,
-      refetch: refetchCategories,
-    },
-  ] = useFetchArticleAndCategories({ id });
+  const { data: { article = {} } = {}, isFetching: isFetchingArticle } =
+    useFetchArticle(id);
+
+  const { data: { categories = [] } = {}, isFetching: isFetchingCategories } =
+    useFetchCategories();
+
+  const { mutate: editArticle } = useEditArticle({
+    onSuccess: () => history.push("/articles"),
+  });
 
   const { t } = useTranslation();
 
@@ -53,27 +57,17 @@ const Edit = () => {
     setIsScheduled(!!time);
   };
 
-  const handleEdit = async ({ selectedCategory, editor, time }) => {
-    try {
-      const data = parseData({
-        selectedCategory,
-        editor,
-        selectedOptionIndex,
-      });
+  const handleEdit = ({ selectedCategory, editor, time }) => {
+    const data = parseData({
+      selectedCategory,
+      editor,
+      selectedOptionIndex,
+    });
 
-      await articlesApi.update({
-        id,
-        payload: { ...data, scheduled_time: time },
-      });
-      history.push("/articles");
-    } catch (error) {
-      logger.log(error);
-    }
-  };
-
-  const fetchArticleAndCategories = () => {
-    refetchArticle();
-    refetchCategories();
+    editArticle({
+      id,
+      payload: { ...data, scheduled_time: time },
+    });
   };
 
   if (isFetchingArticle || isFetchingCategories) {
@@ -159,7 +153,6 @@ const Edit = () => {
                       />
                       <Schedule
                         article={article}
-                        refetch={fetchArticleAndCategories}
                         setShowSchedule={setShowSchedule}
                         showSchedule={showSchedule}
                       />
@@ -191,7 +184,6 @@ const Edit = () => {
       <VersionHistory
         article={article}
         categories={categories}
-        refetch={fetchArticleAndCategories}
         setShowVersionHistory={setShowVersionHistory}
         showVersionHistory={showVersionHistory}
       />

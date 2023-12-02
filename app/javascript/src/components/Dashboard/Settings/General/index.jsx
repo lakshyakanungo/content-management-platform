@@ -19,6 +19,8 @@ const General = () => {
 
   const { t } = useTranslation();
 
+  const handleSubmit = ({ siteName }) => updateSite({ title: siteName });
+
   if (isFetching) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
@@ -39,7 +41,7 @@ const General = () => {
             siteName: site.title,
           },
           validationSchema: VALIDATION_SCHEMA,
-          onSubmit: updateSite,
+          onSubmit: handleSubmit,
         }}
       >
         {({ resetForm }) => (

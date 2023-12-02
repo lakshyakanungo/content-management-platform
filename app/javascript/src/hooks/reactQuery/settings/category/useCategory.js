@@ -2,77 +2,41 @@ import { path } from "ramda";
 import { useMutation, useQuery } from "react-query";
 
 import categoriesApi from "apis/categories";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const fetchCategories = async () => await categoriesApi.fetch();
+const { CATEGORIES } = QUERY_KEYS;
 
-const onMutation = () => queryClient.invalidateQueries(["categories"]);
-
-const handleAddCategory = async ({ name }) => {
-  await categoriesApi.create({ name });
-};
-
-const handleReorder = async ({ category, finalPosition }) => {
-  await categoriesApi.update({
-    id: category.id,
-    payload: { position: finalPosition },
-  });
-};
-
-const handleEdit = async ({ name, category }) => {
-  await categoriesApi.update({
-    id: category.id,
-    payload: { name },
-  });
-};
-
-const handleDelete = async ({ category, selectedCategory }) => {
-  await categoriesApi.destroy({
-    id: category.id,
-    payload: {
-      id: category.id,
-      move_into_category_id: selectedCategory?.id,
-    },
-  });
-};
-
-export const useFetchCategories = ({ setCategories }) =>
-  useQuery(["categories"], fetchCategories, {
+export const useFetchCategories = options =>
+  useQuery([CATEGORIES], categoriesApi.fetch, {
+    onSuccess: options?.onSuccess,
     select: path(["data", "categories"]),
-    onError: error => logger.log(error),
-    onSuccess: data => {
-      setCategories(data);
-    },
     refetchOnMount: "always",
   });
 
-export const useAddCategory = ({ setShowAddCategoryModal }) =>
-  useMutation(handleAddCategory, {
-    onSuccess: onMutation,
-    onError: error => logger.log(error),
-    onSettled: () => setShowAddCategoryModal(false),
+export const useAddCategory = options =>
+  useMutation(categoriesApi.create, {
+    onSuccess: () => queryClient.invalidateQueries([CATEGORIES]),
+    onSettled: options?.onSettled,
   });
 
 export const useReorderCategory = () =>
-  useMutation(handleReorder, {
-    onSuccess: onMutation,
-    onError: error => logger.log(error),
+  useMutation(categoriesApi.update, {
+    onSuccess: () => queryClient.invalidateQueries([CATEGORIES]),
   });
 
-export const useEditCategory = ({ setShowEditModal }) =>
-  useMutation(handleEdit, {
+export const useEditCategory = options =>
+  useMutation(categoriesApi.update, {
     onSuccess: () => {
-      onMutation();
-      setShowEditModal(false);
+      queryClient.invalidateQueries([CATEGORIES]);
+      options?.onSuccess?.();
     },
-    onError: error => logger.log(error),
   });
 
-export const useDeleteCategory = ({ setShowDeleteOverlay }) =>
-  useMutation(handleDelete, {
+export const useDeleteCategory = options =>
+  useMutation(categoriesApi.destroy, {
     onSuccess: () => {
-      onMutation();
-      setShowDeleteOverlay(false);
+      queryClient.invalidateQueries([CATEGORIES]);
+      options?.onSuccess?.();
     },
-    onError: error => logger.log(error),
   });

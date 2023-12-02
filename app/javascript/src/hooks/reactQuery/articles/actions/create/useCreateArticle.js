@@ -1,30 +1,17 @@
 import { useMutation } from "react-query";
 
 import articlesApi from "apis/articles";
-import { parseData } from "components/Dashboard/Articles/Actions/utils";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const handleCreate = async ({
-  selectedCategory,
-  editor,
-  selectedOptionIndex,
-}) => {
-  const data = parseData({
-    editor,
-    selectedCategory,
-    selectedOptionIndex,
-  });
+const { ARTICLES_COUNT, ARTICLE_SEARCH_RESULTS, CATEGORIES } = QUERY_KEYS;
 
-  await articlesApi.create({ payload: data });
-};
-
-const onMutation = () => queryClient.invalidateQueries(["article.create"]);
-
-export const useCreateArticle = ({ history }) =>
-  useMutation(handleCreate, {
+export const useCreateArticle = options =>
+  useMutation(articlesApi.create, {
     onSuccess: () => {
-      onMutation();
-      history.push("/articles");
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([CATEGORIES]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      options.onSuccess();
     },
-    onError: error => logger.log(error),
   });

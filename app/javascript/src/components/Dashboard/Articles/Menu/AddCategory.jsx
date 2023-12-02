@@ -1,30 +1,29 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import { useAddCategory } from "hooks/reactQuery/category/useCategory";
+import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
 
 import {
   ADD_CATEGORY_FORM_INITIAL_VALUE,
   ADD_CATEGORY_FORM_VALIDATION_SCHEMA,
 } from "./constants";
 
-import { CategoryContext } from "..";
-
 const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
   const { Header, Body, Footer } = Modal;
 
   const { t } = useTranslation();
 
-  const { fetchCategories, setSelectedCategories } =
-    useContext(CategoryContext);
+  const { setSelectedCategories } = useSelectedCategoriesStore();
 
   const { mutate: handleAddCategory } = useAddCategory({
-    setSelectedCategories,
-    setShowAddCategoryModal,
-    refetch: fetchCategories,
+    onSettled: () => {
+      setShowAddCategoryModal(false);
+      setSelectedCategories([]);
+    },
   });
 
   const handleReset = () => {
@@ -63,6 +62,7 @@ const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
         <Footer>
           <Button className="mr-2" label="Add" type="submit" />
           <Button
+            disabled={false}
             label={t("dashboard.articles.menu.addCategory.buttonLabel")}
             style="text"
             type="reset"

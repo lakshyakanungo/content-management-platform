@@ -1,37 +1,24 @@
 import { useMutation } from "react-query";
 
 import articlesApi from "apis/articles";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const onMutation = () =>
-  queryClient.invalidateQueries([
-    "dashboard.articles.count",
-    "dashboard.categories",
-  ]);
+const { ARTICLES_COUNT, ARTICLE_SEARCH_RESULTS, CATEGORIES } = QUERY_KEYS;
 
-const handleStatusChange = async ({ id, status }) => {
-  await articlesApi.update({
-    id,
-    payload: { status },
-  });
-};
-
-const handleDelete = async id => await articlesApi.destroy(id);
-
-export const useHandleStatusChange = ({ refetch }) =>
-  useMutation(handleStatusChange, {
+export const useHandleStatusChange = () =>
+  useMutation(articlesApi.update, {
     onSuccess: () => {
-      onMutation();
-      refetch();
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
     },
-    onError: error => logger.log(error),
   });
 
-export const useHandleDelete = ({ refetch }) =>
-  useMutation(handleDelete, {
+export const useHandleDelete = () =>
+  useMutation(articlesApi.destroy, {
     onSuccess: () => {
-      onMutation();
-      refetch();
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([CATEGORIES]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
     },
-    onError: error => logger.log(error),
   });

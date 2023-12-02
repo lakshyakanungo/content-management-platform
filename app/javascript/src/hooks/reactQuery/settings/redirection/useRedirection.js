@@ -2,50 +2,33 @@ import { prop } from "ramda";
 import { useMutation, useQuery } from "react-query";
 
 import redirectionsApi from "apis/redirections";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const fetchRedirections = async () => await redirectionsApi.fetch();
-
-const onMutation = () => queryClient.invalidateQueries(["redirection"]);
-
-const updateRedirection = async ({
-  fromUrl,
-  toUrl,
-  isEdit,
-  handleClose,
-  data,
-}) => {
-  const payload = { from: fromUrl, to: toUrl };
-
-  if (isEdit) {
-    await redirectionsApi.update({
-      id: data.id,
-      payload,
-    });
-  } else {
-    await redirectionsApi.create(payload);
-  }
-  handleClose();
-};
-
-const deleteRedirection = async ({ redirection }) => {
-  await redirectionsApi.destroy(redirection.id);
-};
+const { REDIRECTIONS } = QUERY_KEYS;
 
 export const useFetchRedirections = () =>
-  useQuery(["redirection"], fetchRedirections, {
+  useQuery([REDIRECTIONS], redirectionsApi.fetch, {
     select: prop("data"),
-    onError: error => logger.log(error),
   });
 
-export const useUpdateRedirection = () =>
-  useMutation(updateRedirection, {
-    onSuccess: onMutation,
-    onError: error => logger.log(error),
+export const useCreateRedirection = options =>
+  useMutation(redirectionsApi.create, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([REDIRECTIONS]);
+      options?.onSuccess?.();
+    },
+  });
+
+export const useUpdateRedirection = options =>
+  useMutation(redirectionsApi.update, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([REDIRECTIONS]);
+      options?.onSuccess?.();
+    },
   });
 
 export const useDeleteRedirection = () =>
-  useMutation(deleteRedirection, {
-    onSuccess: onMutation,
-    onError: error => logger.log(error),
+  useMutation(redirectionsApi.destroy, {
+    onSuccess: () => queryClient.invalidateQueries([REDIRECTIONS]),
   });

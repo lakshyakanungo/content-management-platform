@@ -12,7 +12,6 @@ const VersionHistory = ({
   categories,
   showVersionHistory,
   setShowVersionHistory,
-  refetch,
 }) => {
   const [version, setVersion] = useState({});
   const [showVersionDetails, setShowVersionDetails] = useState(false);
@@ -82,7 +81,6 @@ const VersionHistory = ({
       {showVersionDetails && (
         <Details
           categories={categories}
-          refetch={refetch}
           setShowVersionDetails={setShowVersionDetails}
           setShowVersionHistory={setShowVersionHistory}
           showVersionDetails={showVersionDetails}

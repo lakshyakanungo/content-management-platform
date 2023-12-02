@@ -1,24 +1,27 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Dropdown } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import { PageContext } from "components/Dashboard/Articles";
 import { useBulkCategoryChange } from "hooks/reactQuery/articles/page/useBulkUpdate";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 const Category = ({ categories }) => {
-  const { refetch } = useContext(PageContext);
   const { selectedArticleIds, setSelectedArticleIds } =
     useSelectedArticlesStore();
 
-  const { mutate: handleBulkCategoryChange } = useBulkCategoryChange({
-    refetch,
-    setSelectedArticleIds,
+  const { mutate: updateBulkCategory } = useBulkCategoryChange({
+    onSuccess: () => setSelectedArticleIds([]),
   });
 
   const { Menu, MenuItem } = Dropdown;
   const { t } = useTranslation();
+
+  const handleClick = category =>
+    updateBulkCategory({
+      ids: selectedArticleIds,
+      payload: { category_id: category.id },
+    });
 
   return (
     <Dropdown
@@ -33,12 +36,7 @@ const Category = ({ categories }) => {
         {categories.map(category => (
           <MenuItem.Button
             key={category.id}
-            onClick={() =>
-              handleBulkCategoryChange({
-                categoryId: category.id,
-                selectedArticleIds,
-              })
-            }
+            onClick={() => handleClick(category)}
           >
             {category.name}
           </MenuItem.Button>

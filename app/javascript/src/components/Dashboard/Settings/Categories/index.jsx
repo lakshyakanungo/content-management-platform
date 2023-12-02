@@ -13,13 +13,13 @@ import AddCategoryModal from "./Modals/Create";
 
 import Layout from "../Layout";
 
-const CategoriesContext = React.createContext();
-
 const Categories = () => {
-  const [categories, setCategories] = useState([]);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
+  const [categories, setCategories] = useState([]);
 
-  const { isLoading } = useFetchCategories({ setCategories });
+  const { isLoading } = useFetchCategories({
+    onSuccess: data => setCategories(data),
+  });
 
   const { t } = useTranslation();
 
@@ -61,9 +61,7 @@ const Categories = () => {
       )}
       <div>
         <DndProvider backend={HTML5Backend}>
-          <CategoriesContext.Provider value={{ categories, setCategories }}>
-            <List />
-          </CategoriesContext.Provider>
+          <List categories={categories} setCategories={setCategories} />
         </DndProvider>
       </div>
     </Layout>
@@ -71,5 +69,3 @@ const Categories = () => {
 };
 
 export default Categories;
-
-export { CategoriesContext };

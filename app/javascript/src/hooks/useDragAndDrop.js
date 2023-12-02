@@ -11,7 +11,11 @@ const useDragAndDrop = ({ index, category, moveListItem, handleReorder }) => {
     }),
     end: item => {
       if (item.index !== item.position - 1) {
-        handleReorder({ category, finalPosition: item.index + 1 });
+        const finalPosition = item.index + 1;
+        handleReorder({
+          id: category.id,
+          payload: { position: finalPosition },
+        });
       }
     },
   });

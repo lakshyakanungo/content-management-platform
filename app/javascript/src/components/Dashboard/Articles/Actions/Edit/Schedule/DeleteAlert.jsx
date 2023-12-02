@@ -5,18 +5,10 @@ import { useTranslation } from "react-i18next";
 
 import { useDeleteSchedule } from "hooks/reactQuery/articles/actions/edit/useDeleteSchedule";
 
-const DeleteAlert = ({
-  article,
-  showDeleteAlert,
-  setShowDeleteAlert,
-  refetch,
-}) => {
+const DeleteAlert = ({ article, showDeleteAlert, setShowDeleteAlert }) => {
   const { t } = useTranslation();
 
-  const { mutate: handleDelete } = useDeleteSchedule({
-    article,
-    refetch,
-  });
+  const { mutate: handleDelete } = useDeleteSchedule();
 
   return (
     <Alert
@@ -27,7 +19,7 @@ const DeleteAlert = ({
         "dashboard.articles.actions.edit.schedule.alert.label"
       )}
       onClose={() => setShowDeleteAlert(false)}
-      onSubmit={handleDelete}
+      onSubmit={() => handleDelete(article.id)}
     />
   );
 };

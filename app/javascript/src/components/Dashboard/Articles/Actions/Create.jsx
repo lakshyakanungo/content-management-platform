@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { Spinner } from "@bigbinary/neetoui";
 import { Form, Select as FormikSelect, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -10,25 +9,29 @@ import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
 
 import ActionDropdown from "./ActionDropdown";
 import Editor from "./Editor";
-import { buildFormValidationSchema } from "./utils";
+import { buildFormValidationSchema, parseData } from "./utils";
 
 const Create = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
 
   const history = useHistory();
 
-  const { data: categories, isFetching } = useFetchCategories();
-  const { mutate: handleCreate } = useCreateArticle({ history });
+  const { data: { categories = [] } = {} } = useFetchCategories();
+  const { mutate: handleCreate } = useCreateArticle({
+    onSuccess: () => history.push("/articles"),
+  });
 
   const { t } = useTranslation();
 
-  if (isFetching) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+  const handleSubmit = ({ selectedCategory, editor }) => {
+    const payload = parseData({
+      editor,
+      selectedCategory,
+      selectedOptionIndex,
+    });
+
+    handleCreate({ payload });
+  };
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -41,8 +44,7 @@ const Create = () => {
               description: "<p></p>",
             },
           },
-          onSubmit: ({ editor, selectedCategory }) =>
-            handleCreate({ editor, selectedCategory, selectedOptionIndex }),
+          onSubmit: handleSubmit,
           enableReinitialize: true,
           validationSchema: buildFormValidationSchema(categories),
         }}

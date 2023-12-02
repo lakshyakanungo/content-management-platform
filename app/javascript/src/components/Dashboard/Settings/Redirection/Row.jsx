@@ -57,7 +57,7 @@ const Row = ({ redirection, setEditingRow }) => {
         </Dropdown>
       </span>
       <DeleteAlert
-        handleDelete={() => deleteRedirection({ redirection })}
+        handleDelete={() => deleteRedirection(redirection.id)}
         setShowDeleteAlert={setShowDeleteAlert}
         showDeleteAlert={showDeleteAlert}
       />

@@ -1,58 +1,36 @@
 import { useMutation } from "react-query";
 
 import articlesApi from "apis/articles";
+import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const onMutation = () =>
-  queryClient.invalidateQueries([
-    "dashboard.articles.count",
-    "dashboard.categories",
-  ]);
+const { ARTICLES_COUNT, CATEGORIES, ARTICLE_SEARCH_RESULTS } = QUERY_KEYS;
 
-const handleBulkStatusChange = async ({ status, selectedArticleIds }) => {
-  await articlesApi.bulkUpdate({
-    ids: selectedArticleIds,
-    payload: { status },
-  });
-};
-
-const handleBulkCategoryChange = async ({ categoryId, selectedArticleIds }) => {
-  await articlesApi.bulkUpdate({
-    ids: selectedArticleIds,
-    payload: { category_id: categoryId },
-  });
-};
-
-const handleBulkDelete = async ids => {
-  await articlesApi.bulkDelete(ids);
-};
-
-export const useBulkStatusChange = ({ refetch, setSelectedArticleIds }) =>
-  useMutation(handleBulkStatusChange, {
+export const useBulkStatusChange = options =>
+  useMutation(articlesApi.bulkUpdate, {
     onSuccess: () => {
-      onMutation();
-      refetch();
-      setSelectedArticleIds([]);
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      options.onSuccess();
     },
-    onError: error => logger.log(error),
   });
 
-export const useBulkCategoryChange = ({ refetch, setSelectedArticleIds }) =>
-  useMutation(handleBulkCategoryChange, {
+export const useBulkCategoryChange = options =>
+  useMutation(articlesApi.bulkUpdate, {
     onSuccess: () => {
-      onMutation();
-      refetch();
-      setSelectedArticleIds([]);
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([CATEGORIES]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      options.onSuccess();
     },
-    onError: error => logger.log(error),
   });
 
-export const useBulkDelete = ({ refetch, setSelectedArticleIds }) =>
-  useMutation(handleBulkDelete, {
+export const useBulkDelete = options =>
+  useMutation(articlesApi.bulkDelete, {
     onSuccess: () => {
-      onMutation();
-      refetch();
-      setSelectedArticleIds([]);
+      queryClient.invalidateQueries([ARTICLES_COUNT]);
+      queryClient.invalidateQueries([CATEGORIES]);
+      queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      options.onSuccess();
     },
-    onError: error => logger.log(error),
   });

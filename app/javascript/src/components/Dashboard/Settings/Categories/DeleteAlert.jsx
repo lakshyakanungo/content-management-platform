@@ -6,9 +6,19 @@ import { Trans, useTranslation } from "react-i18next";
 import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategory";
 
 const Alert = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
-  const { mutate: handleDelete } = useDeleteCategory({ setShowDeleteOverlay });
+  const { mutate: handleDelete } = useDeleteCategory({
+    onSuccess: () => setShowDeleteOverlay(false),
+  });
 
   const { t } = useTranslation();
+
+  const handleEmptyCategoryDeletion = () =>
+    handleDelete({
+      id: category.id,
+      payload: {
+        move_into_category_id: null,
+      },
+    });
 
   return (
     <NeetoAlert
@@ -23,7 +33,7 @@ const Alert = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
         />
       }
       onClose={() => setShowDeleteOverlay(false)}
-      onSubmit={() => handleDelete({ category })}
+      onSubmit={handleEmptyCategoryDeletion}
     />
   );
 };
