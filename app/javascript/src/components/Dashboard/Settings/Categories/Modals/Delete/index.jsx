@@ -1,18 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Modal } from "@bigbinary/neetoui";
 import { Select, Form, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategory";
+import {
+  useDeleteCategory,
+  useFetchCategories,
+} from "hooks/reactQuery/settings/category/useCategory";
 
 import Header from "./Header";
 import { buildValidationSchema } from "./utils";
 
-import { CategoriesContext } from "../..";
-
 const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
-  const { categories } = useContext(CategoriesContext);
+  const { data: categories = [] } = useFetchCategories();
 
   const { Body, Footer } = Modal;
 
@@ -89,7 +90,7 @@ const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
                 )}
               />
               <Button
-                disabled={!dirty && hasMultipleCategories}
+                disabled={false}
                 loading={false}
                 style="text"
                 type="reset"

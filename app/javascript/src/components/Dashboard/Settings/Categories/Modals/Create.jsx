@@ -56,6 +56,7 @@ const Create = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
             type="submit"
           />
           <Button
+            disabled={false}
             style="text"
             type="reset"
             label={t(

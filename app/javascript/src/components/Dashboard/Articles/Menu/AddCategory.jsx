@@ -62,6 +62,7 @@ const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
         <Footer>
           <Button className="mr-2" label="Add" type="submit" />
           <Button
+            disabled={false}
             label={t("dashboard.articles.menu.addCategory.buttonLabel")}
             style="text"
             type="reset"
