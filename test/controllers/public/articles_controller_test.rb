@@ -5,12 +5,12 @@ require "test_helper"
 class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
+    @category = create(:category,user_id:@user.id)
     @article = Article.create!(
       title: "Test article", body: "<p>Test body</p>", status: "published",
       user_id: @user.id,
       category_id: @category.id)
-    @site = Site.create!(title: "Test title", is_password_protected: false)
+    @site = create(:site)
     @headers = set_headers(@site)
   end
 

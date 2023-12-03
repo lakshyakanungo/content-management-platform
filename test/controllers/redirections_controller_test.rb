@@ -4,7 +4,7 @@ require "test_helper"
 
 class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = Site.create!(title: "Test title", is_password_protected: true, password: "abcdefg1")
+    @site = create(:site)
     @redirection = @site.redirections.create!(from: "/test", to: "https://spinkart.scribbl.com")
   end
 

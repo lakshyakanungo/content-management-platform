@@ -5,7 +5,7 @@ require "test_helper"
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @current_user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @current_user.id)
+    @category = create(:category, user_id: @current_user.id)
   end
 
   def test_should_list_all_categories_ordered_by_position
@@ -56,7 +56,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_position_after_reordering
-    test_category = Category.create!(name: "New category", user_id: @current_user.id)
+    test_category = create(:category, user_id: @current_user.id)
     current_position = test_category.position
 
     new_position = 1
@@ -69,7 +69,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_destroy_category
-    new_category = Category.create!(name: "New", user_id: @current_user.id)
+    new_category = create(:category, user_id: @current_user.id)
     assert_difference "Category.count", -1 do
       delete(
         category_path(id: @category.id, params: { category: { move_into_category_id: new_category.id } }),

@@ -4,7 +4,7 @@ require "test_helper"
 
 class SitesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = Site.create!(title: "Test title", is_password_protected: true, password: "abcdefg1")
+    @site = create(:site)
   end
 
   def test_should_respond_with_site

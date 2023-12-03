@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Articles::ArticlesController < ApplicationController
+class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
   before_action :load_multiple_articles, only: %i[bulk_destroy bulk_update]
 
@@ -25,7 +25,7 @@ class Articles::ArticlesController < ApplicationController
 
   def update
     if params_with_default_visits_for_draft[:scheduled_time].present? &&
-      Time.zone.parse(article_params[:scheduled_time]).to_f > Time.zone.now.to_f
+       Time.zone.parse(article_params[:scheduled_time]).to_f > Time.zone.now.to_f
 
       article_scheduler_service = ArticleSchedulerService.new(@article)
       article_scheduler_service.process(params_with_default_visits_for_draft)

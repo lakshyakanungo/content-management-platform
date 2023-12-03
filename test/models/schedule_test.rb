@@ -5,11 +5,8 @@ require "test_helper"
 class ScheduleTest < ActiveSupport::TestCase
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
-    @article = Article.create!(
-      title: "Test article", body: "<p>Test body</p>", status: "draft",
-      user_id: @user.id,
-      category_id: @category.id)
+    @category = create(:category, user_id: @user.id)
+    @article = create(:article, user_id: @user.id, category_id: @category.id)
     @schedule = @article.create_schedule!(time: 10.minutes.from_now, job_id: "xyz")
   end
 

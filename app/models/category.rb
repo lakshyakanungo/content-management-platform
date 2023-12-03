@@ -5,6 +5,7 @@ class Category < ApplicationRecord
 
   MAX_NAME_LENGTH = 255
   VALID_NAME_REGEX = /\A.*[a-zA-Z0-9].*\z/i
+  DEFAULT_CATEGORY_NAME = "General"
 
   belongs_to :user, counter_cache: true
   has_many :articles, dependent: :destroy

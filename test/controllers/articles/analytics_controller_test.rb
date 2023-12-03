@@ -7,15 +7,15 @@ require "sidekiq/testing"
 class Articles::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
+    @category = create(:category, user_id: @user.id)
     @article = Article.create!(
-      title: "Test article", body: "<p>Test body</p>", status: "draft",
+      title: "Test article", body: "<p>Test body</p>", status: "published",
       user_id: @user.id,
       category_id: @category.id)
   end
 
   def test_should_list_articles_in_analytics_and_in_correct_order
-    get(analytics_articles_path(order_by: "desc"), headers:)
+    get(articles_analytics_path, headers:)
     assert_response :success
     actual_articles = response_body["articles"]
 

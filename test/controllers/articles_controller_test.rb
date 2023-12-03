@@ -7,11 +7,8 @@ require "sidekiq/testing"
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
-    @article = Article.create!(
-      title: "Test article", body: "<p>Test body</p>", status: "draft",
-      user_id: @user.id,
-      category_id: @category.id)
+    @category = create(:category, user_id: @user.id)
+    @article = create(:article, user_id: @user.id, category_id: @category.id)
   end
 
   def test_should_list_correct_articles_count
@@ -76,10 +73,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_articles_fields_are_updatable
-    new_article = Article.create!(
-      title: "Test article 2", body: "<p>Test body</p>", status: "draft",
-      user_id: @user.id,
-      category_id: @category.id)
+    new_article = create(:article, user_id: @user.id, category_id: @category.id)
 
     new_title = "Updated title"
     article_params = {

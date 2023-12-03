@@ -5,11 +5,11 @@ require "test_helper"
 class CategoryTest < ActiveSupport::TestCase
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
+    @category = create(:category, user_id: @user.id)
   end
 
   def test_values_of_created_at_and_updated_at
-    category = Category.new(name: "This is a test category", user_id: @user.id,)
+    category = build(:category, user_id: @user.id)
     assert_nil category.created_at
     assert_nil category.updated_at
 
@@ -52,7 +52,7 @@ class CategoryTest < ActiveSupport::TestCase
 
   def test_category_count_increases_on_saving
     assert_difference ["Category.count"] do
-      Category.create!(name: "New", user_id: @user.id)
+      @category = create(:category, user_id: @user.id)
     end
   end
 
@@ -68,8 +68,7 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   def test_duplicate_name_should_not_be_allowed
-    another_test_category = Category.create!(name: "Another name", user_id: @user.id)
-
+    another_test_category = create(:category, user_id: @user.id)
     assert_raises ActiveRecord::RecordInvalid do
       another_test_category.update!(name: @category.name)
     end
@@ -77,7 +76,7 @@ class CategoryTest < ActiveSupport::TestCase
 
   def test_new_category_should_be_inserted_at_last_position
     current_count = Category.count
-    new_category = Category.create!(name: "New category", user_id: @user.id)
+    new_category = create(:category, user_id: @user.id)
 
     assert_equal new_category.position, current_count + 1
   end

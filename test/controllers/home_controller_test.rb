@@ -4,7 +4,7 @@ require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = Site.create!(title: "Test title", is_password_protected: true, password: "abcdefg1")
+    @site = create(:site)
   end
 
   def test_should_get_successfully_from_root_url

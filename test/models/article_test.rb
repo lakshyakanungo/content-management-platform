@@ -5,17 +5,12 @@ require "test_helper"
 class ArticleTest < ActiveSupport::TestCase
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
-    @article = Article.create!(
-      title: "Test article", body: "<p>Test body</p>", status: "draft",
-      user_id: @user.id,
-      category_id: @category.id)
+    @category = create(:category, user_id: @user.id)
+    @article = create(:article, user_id: @user.id, category_id: @category.id)
   end
 
   def test_values_of_created_at_and_updated_at
-    article = Article.new(
-      title: "This is a test article", category_id: @category.id, user_id: @user.id,
-      body: "Random content")
+    article = build(:article, user_id: @user.id, category_id: @category.id)
     assert_nil article.created_at
     assert_nil article.updated_at
 
@@ -64,10 +59,7 @@ class ArticleTest < ActiveSupport::TestCase
 
   def test_article_count_increases_on_saving
     assert_difference ["Article.count"] do
-      Article.create!(
-        title: "Test article 2", body: "<p>Test body</p>", status: "draft",
-        user_id: @user.id,
-        category_id: @category.id)
+      create(:article, user_id: @user.id, category_id: @category.id)
     end
   end
 
