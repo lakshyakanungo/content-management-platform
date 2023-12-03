@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "sidekiq/api"
+
 class Articles::SchedulesController < ApplicationController
   before_action :load_article!
 

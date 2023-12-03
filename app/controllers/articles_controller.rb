@@ -24,11 +24,8 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    if params_with_default_visits_for_draft[:scheduled_time].present? &&
-       Time.zone.parse(article_params[:scheduled_time]).to_f > Time.zone.now.to_f
-
-      article_scheduler_service = ArticleSchedulerService.new(@article)
-      article_scheduler_service.process(params_with_default_visits_for_draft)
+    if params_with_default_visits_for_draft[:scheduled_time].present?
+      ArticleSchedulingService.new(@article, params_with_default_visits_for_draft).process
       respond_with_success(t("successfully_scheduled"))
     else
       @article.update!(params_with_default_visits_for_draft.except(:scheduled_time))
