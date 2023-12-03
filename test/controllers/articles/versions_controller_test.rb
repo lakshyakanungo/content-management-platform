@@ -25,4 +25,20 @@ class Articles::VersionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @article.reload.title, previous_version.object["title"]
     assert_equal t("article.restored"), response_body["notice"]
   end
+
+  def test_should_not_restore_version_with_deleted_category
+    new_category = create(:category, user_id: @user.id)
+    @article.update!(category_id: new_category.id)
+    @article.update!(category_id: @category.id)
+
+    @article.reload
+    new_category.delete
+    version_with_category_deleted = @article.versions.last
+    put(
+      articles_restore_version_path(
+        id: @article.id, params: {
+          article: { version_id: version_with_category_deleted.id }
+        }), headers:)
+    assert_response :unprocessable_entity
+  end
 end
