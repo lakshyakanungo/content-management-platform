@@ -19,12 +19,13 @@ class CategoriesController < ApplicationController
 
   def update
     @category.update!(category_params)
+    respond_with_success(t("successfully_updated", entity: "Category", count: 1))
   end
 
   def destroy
     category_deletion_service = CategoryDeletionService.new(params[:id], current_user)
     category_deletion_service.process(category_params[:move_into_category_id])
-    respond_with_success(t("category.delete.success"))
+    respond_with_success(t("successfully_deleted", entity: "Category", count: 1))
   end
 
   private

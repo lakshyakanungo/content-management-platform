@@ -15,7 +15,7 @@ class Articles::AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_articles_in_analytics_and_in_correct_order
-    get(analytics_articles_path(order_by: "desc"), headers:)
+    get(articles_analytics_path, headers:)
     assert_response :success
     actual_articles = response_body["articles"]
 

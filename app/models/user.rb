@@ -15,11 +15,11 @@ class User < ApplicationRecord
     length: { maximum: MAX_EMAIL_LENGTH },
     format: { with: VALID_EMAIL_REGEX }
 
-  before_save :to_lowercase_email
+  before_save :lowercase_email
 
   private
 
-    def to_lowercase_email
+    def lowercase_email
       email.downcase!
     end
 end

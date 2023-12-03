@@ -18,7 +18,7 @@ class CategoryDeletionService
       check_for_default_category_deletion!
 
       if last_category?
-        new_category = current_user.categories.create!(name: "General")
+        new_category = current_user.categories.create!(name: Category::DEFAULT_CATEGORY_NAME)
         move_articles(new_category.id)
       else
         move_articles(final_category_id)
@@ -36,7 +36,7 @@ class CategoryDeletionService
     end
 
     def default_category_deletion?
-      last_category? && category.name == "General"
+      last_category? && category.name == Category::DEFAULT_CATEGORY_NAME
     end
 
     def last_category?

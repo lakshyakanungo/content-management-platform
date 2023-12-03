@@ -20,6 +20,6 @@ class CategoryDeletionServiceTest < ActiveSupport::TestCase
   def test_process_when_only_one_category
     CategoryDeletionService.new(@category.id, @user).process(nil)
     assert_equal Category.count, 1
-    assert_equal Category.first.name, "General"
+    assert_equal Category.first.name, Category::DEFAULT_CATEGORY_NAME
   end
 end

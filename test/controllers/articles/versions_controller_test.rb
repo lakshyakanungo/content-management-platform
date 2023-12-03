@@ -16,9 +16,10 @@ class Articles::VersionsControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_restore_article_version
     @article.update!(title: "New title")
+    @article.reload
     previous_version = @article.versions.last
     put(
-      restore_version_articles_path(
+      articles_restore_version_path(
         id: @article.id, params: {
           article: { version_id: previous_version.id }
         }), headers:)
