@@ -7,11 +7,8 @@ require "sidekiq/testing"
 class Articles::SchedulesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
-    @category = Category.create!(name: "Test category", user_id: @user.id)
-    @article = Article.create!(
-      title: "Test article", body: "<p>Test body</p>", status: "draft",
-      user_id: @user.id,
-      category_id: @category.id)
+    @category = create(:category, user_id: @user.id)
+    @article = create(:article, user_id: @user.id, category_id: @category.id)
   end
 
   def test_article_should_get_updated_if_scheduled_time_in_past
