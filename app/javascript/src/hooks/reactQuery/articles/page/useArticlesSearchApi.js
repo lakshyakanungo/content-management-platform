@@ -29,7 +29,7 @@ export const useFetchSearchResults = ({
       }),
     {
       select: path(["data"]),
-      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
       staleTime: 10000,
       keepPreviousData: true,
     }

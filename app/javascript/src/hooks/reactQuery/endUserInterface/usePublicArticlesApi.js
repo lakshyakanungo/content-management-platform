@@ -3,8 +3,9 @@ import { useQuery } from "react-query";
 
 import articlesApi from "apis/public/articles";
 import { QUERY_KEYS } from "constants/query";
+import queryClient from "utils/queryClient";
 
-const { EUI, EUI_ARTICLE, EUI_SEARCH } = QUERY_KEYS;
+const { EUI, EUI_ARTICLE, EUI_SEARCH, ARTICLE_ANALYTICS } = QUERY_KEYS;
 
 export const useFetchArticlesByCategory = options =>
   useQuery([EUI], articlesApi.fetch, {
@@ -17,7 +18,8 @@ export const useFetchArticle = (slug, options) =>
   useQuery([EUI_ARTICLE, slug], () => articlesApi.show(slug), {
     select: prop("data"),
     onSuccess: data => {
-      options?.onSuccess?.(data);
+      queryClient.invalidateQueries([ARTICLE_ANALYTICS]),
+        options?.onSuccess?.(data);
     },
     onError: options?.onError,
     keepPreviousData: true,

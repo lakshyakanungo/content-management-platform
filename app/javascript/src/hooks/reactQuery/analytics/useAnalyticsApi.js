@@ -15,6 +15,8 @@ export const useFetchArticleAnalytics = currentPageNumber =>
     () => analyticsApi.fetch(currentPageNumber),
     {
       select: prop("data"),
+      staleTime: 10000,
+      refetchOnWindowFocus: "always",
     }
   );
 
