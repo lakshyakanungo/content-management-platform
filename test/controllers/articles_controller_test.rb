@@ -5,6 +5,8 @@ require "minitest/mock"
 require "sidekiq/testing"
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
+  include SidekiqHelper
+
   def setup
     @user = create(:user)
     @category = create(:category, user_id: @user.id)
@@ -146,5 +148,28 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_equal 0, article.reload.visits
+  end
+
+  def test_article_enqueued_for_scheduled_update_and_article_gets_updated
+    new_article = create(:article, user_id: @user.id, category_id: @category.id)
+
+    new_title = "Updated title"
+    article_params = {
+      article: {
+        title: new_title, status: "published", category_id: @category.id,
+        body: "Test body", user_id: @user.id, scheduled_time: Time.zone.now + 10.minutes
+      }
+    }
+
+    scheduled_articles_count = ArticleSchedulingWorker.jobs.size
+
+    patch(article_path(new_article), params: article_params, headers:)
+
+    assert_response :success
+    assert_equal scheduled_articles_count + 1, ArticleSchedulingWorker.jobs.size
+
+    ArticleSchedulingWorker.drain
+    new_article.reload
+    assert_equal new_title, new_article.title
   end
 end
