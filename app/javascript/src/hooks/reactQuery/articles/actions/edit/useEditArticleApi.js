@@ -5,8 +5,13 @@ import articlesApi from "apis/articles";
 import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const { ARTICLE, ARTICLES_COUNT, ARTICLE_ANALYTICS, ARTICLE_SEARCH_RESULTS } =
-  QUERY_KEYS;
+const {
+  ARTICLE,
+  ARTICLES_COUNT,
+  ARTICLE_ANALYTICS,
+  ARTICLE_SEARCH_RESULTS,
+  EUI,
+} = QUERY_KEYS;
 
 export const useFetchArticle = id =>
   useQuery([ARTICLE], () => articlesApi.show(id), {
@@ -21,6 +26,7 @@ export const useEditArticle = options =>
       queryClient.invalidateQueries([ARTICLES_COUNT]);
       queryClient.invalidateQueries([ARTICLE_ANALYTICS]);
       queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      queryClient.invalidateQueries([EUI]);
       options.onSuccess();
     },
   });

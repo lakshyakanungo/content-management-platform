@@ -5,39 +5,32 @@ import { Input, Modal } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import articlesApi from "apis/public/articles";
+import { useSearch } from "hooks/reactQuery/endUserInterface/usePublicArticlesApi";
 import { useKeyDown } from "hooks/useKeyDown";
 
-import ListItem from "./ListItem";
+import SearchItem from "./Item";
 
 import { SEARCH_SUFFIX } from "../constants";
+import { buildSearchItemClassName } from "../utils";
 
 const Search = ({ showSearchModal, setShowSearchModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState([]);
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(0);
 
-  const { t } = useTranslation();
+  useSearch(searchTerm, {
+    onSuccess: ({ articles }) => setArticles(articles),
+  });
 
   useKeyDown(() => setShowSearchModal(true), "Slash");
   useKeyDown(() => {
     setShowSearchModal(false);
     setSearchTerm("");
-    setArticles([]);
   }, "Escape");
 
-  const history = useHistory();
-
   const { Header, Body } = Modal;
-
-  const fetchArticles = async () => {
-    try {
-      const { data } = await articlesApi.search(searchTerm);
-      setArticles(data.articles);
-    } catch (error) {
-      logger.log(error);
-    }
-  };
+  const history = useHistory();
+  const { t } = useTranslation();
 
   const handleClick = article => {
     history.push(`${article.slug}`);
@@ -61,7 +54,6 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
 
   useEffect(() => {
     if (searchTerm === "") setArticles([]);
-    else fetchArticles();
   }, [searchTerm]);
 
   return (
@@ -89,14 +81,13 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
             {articles.map((article, index) => (
               <li
                 key={index}
-                className={`neeto-ui-text-gray-700 neeto-ui-text-transform-capitalize p-2 cursor-pointer hover:neeto-ui-bg-gray-200 ${
-                  index === selectedArticleIndex
-                    ? "neeto-ui-bg-gray-200 neeto-ui-rounded neeto-ui-text-white"
-                    : ""
-                }`}
+                className={buildSearchItemClassName(
+                  index,
+                  selectedArticleIndex
+                )}
                 onClick={() => handleClick(article)}
               >
-                <ListItem
+                <SearchItem
                   searchTerm={searchTerm}
                   text={article.body}
                   title={article.title}

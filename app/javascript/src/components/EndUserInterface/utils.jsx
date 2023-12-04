@@ -9,6 +9,15 @@ export const buildListItemClassName = ({ article, selectedArticleId }) =>
     "neeto-ui-text-gray-600": selectedArticleId !== article.id,
   });
 
+export const buildSearchItemClassName = (index, selectedArticleIndex) =>
+  classNames(
+    "neeto-ui-text-gray-700 neeto-ui-text-transform-capitalize p-2 cursor-pointer hover:neeto-ui-bg-gray-200 ",
+    {
+      "neeto-ui-bg-gray-200 neeto-ui-rounded neeto-ui-text-white":
+        index === selectedArticleIndex,
+    }
+  );
+
 export const getFirstArticle = articlesByCategories =>
   articlesByCategories[0][1][0];
 

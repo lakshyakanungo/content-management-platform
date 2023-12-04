@@ -4,7 +4,7 @@ import versionsApi from "apis/articles/versions";
 import { QUERY_KEYS } from "constants/query";
 import queryClient from "utils/queryClient";
 
-const { ARTICLES_COUNT, ARTICLE_SEARCH_RESULTS, CATEGORIES, ARTICLE } =
+const { ARTICLES_COUNT, ARTICLE_SEARCH_RESULTS, CATEGORIES, ARTICLE, EUI } =
   QUERY_KEYS;
 
 export const useRestoreVersion = options =>
@@ -14,6 +14,7 @@ export const useRestoreVersion = options =>
       queryClient.invalidateQueries([ARTICLES_COUNT]);
       queryClient.invalidateQueries([CATEGORIES]);
       queryClient.invalidateQueries([ARTICLE_SEARCH_RESULTS]);
+      queryClient.invalidateQueries([EUI]);
       options.onSuccess();
     },
   });

@@ -2,6 +2,7 @@ import React from "react";
 
 import TableWrapper from "@bigbinary/neeto-molecules/TableWrapper";
 import { Table as NeetoUITable } from "neetoui";
+import { includes } from "ramda";
 
 import { usePageStore } from "hooks/zustand/usePageStore";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
@@ -19,7 +20,7 @@ const Table = ({ articles = [], columnData = [], totalArticlesCount }) => {
     selectedKeysInCurrentPage.forEach(key => selectedArticleIdsSet.add(key));
     const keysUnselected = currentPageKeys.filter(
       key =>
-        !selectedKeysInCurrentPage.includes(key) &&
+        !includes(key, selectedKeysInCurrentPage) &&
         selectedArticleIdsSet.has(key)
     );
     keysUnselected.forEach(key => selectedArticleIdsSet.delete(key));

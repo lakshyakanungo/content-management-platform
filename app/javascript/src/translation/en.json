@@ -130,6 +130,10 @@
             "category": "Category is required"
           },
           "placeholder": "Add title here"
+        },
+        "save": {
+          "draft": "Save as draft",
+          "publish": "Publish"
         }
       }
     },

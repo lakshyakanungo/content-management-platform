@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory, Route } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 
-import articlesApi from "apis/public/articles";
+import { useFetchArticlesByCategory } from "hooks/reactQuery/endUserInterface/usePublicArticlesApi";
 
 import { SEARCH_SUFFIX } from "./constants";
 import Search from "./Search";
@@ -14,8 +14,6 @@ import ShowArticle from "./ShowArticle";
 import { buildListItemClassName, getFirstArticle } from "./utils";
 
 const Home = ({ siteName }) => {
-  const [loading, setLoading] = useState(true);
-  const [articlesByCategory, setArticlesByCategory] = useState([]);
   const [selectedArticleId, setSelectedArticleId] = useState("");
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [activeAccordianIndex, setActiveAccordianIndex] = useState(0);
@@ -25,18 +23,8 @@ const Home = ({ siteName }) => {
   const match = useRouteMatch("/eui/:slug");
   const slug = match?.params?.slug;
 
-  const fetchArticlesByCategory = async () => {
-    try {
-      const {
-        data: { groupedArticles },
-      } = await articlesApi.fetch();
-      setArticlesByCategory(groupedArticles);
-    } catch (error) {
-      logger.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: { groupedArticles: articlesByCategory = [] } = {}, isLoading } =
+    useFetchArticlesByCategory();
 
   const routeToArticle = () => {
     if (slug) {
@@ -48,14 +36,10 @@ const Home = ({ siteName }) => {
   };
 
   useEffect(() => {
-    fetchArticlesByCategory();
-  }, []);
-
-  useEffect(() => {
     if (articlesByCategory.length !== 0) routeToArticle();
   }, [articlesByCategory, slug]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />
@@ -97,7 +81,10 @@ const Home = ({ siteName }) => {
                         article,
                         selectedArticleId,
                       })}
-                      onClick={() => history.push(`/eui/${article.slug}`)}
+                      onClick={() => {
+                        history.push(`/eui/${article.slug}`);
+                        setSelectedArticleId(article.id);
+                      }}
                     >
                       {article.title}
                     </li>
