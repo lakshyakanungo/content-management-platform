@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { EditorContent } from "@bigbinary/neeto-editor";
 import Header from "@bigbinary/neeto-molecules/Header";
@@ -6,7 +6,7 @@ import { Spinner } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import articlesApi from "apis/public/articles";
+import { useFetchArticle } from "hooks/reactQuery/endUserInterface/usePublicArticlesApi";
 
 import { findActiveAccordianIndex } from "./utils";
 
@@ -15,35 +15,22 @@ const ShowArticle = ({
   setActiveAccordianIndex,
   articlesByCategory,
 }) => {
-  const [loading, setLoading] = useState(true);
-  const [article, setArticle] = useState({});
-
   const { slug } = useParams();
   const history = useHistory();
 
-  const fetchArticle = async () => {
-    try {
-      const {
-        data: { article },
-      } = await articlesApi.show(slug);
-      setArticle(article);
+  const { data: { article = {} } = {}, isLoading } = useFetchArticle(slug, {
+    onSuccess: ({ article }) => {
       setSelectedArticleId(article.id);
       setActiveAccordianIndex(
         findActiveAccordianIndex(articlesByCategory, article)
       );
-    } catch (error) {
-      logger.log(error);
+    },
+    onError: () => {
       history.replace("/eui");
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
 
-  useEffect(() => {
-    fetchArticle();
-  }, [slug]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Spinner />

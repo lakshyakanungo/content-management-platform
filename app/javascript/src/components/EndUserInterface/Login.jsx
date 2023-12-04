@@ -4,11 +4,17 @@ import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "hooks/reactQuery/endUserInterface/useAuthApi";
+import { setToLocalStorage } from "utils/storage";
 
 import { LOGIN_FORM_INITIAL_VALUE } from "./constants";
 
 const Login = ({ siteName }) => {
-  const { mutate: handleAuthentication } = useAuth();
+  const { mutate: handleAuthentication } = useAuth({
+    onSuccess: ({ data }) => {
+      setToLocalStorage("authToken", data.authenticationToken);
+      window.location.href = "/eui";
+    },
+  });
 
   const { t } = useTranslation();
 

@@ -1,6 +1,11 @@
+import i18n from "common/i18n";
+
 export const STATUS_OPTIONS = [
-  { label: "Save as draft", value: "draft" },
-  { label: "Publish", value: "published" },
+  { label: i18n.t("dashboard.articles.actions.save.draft"), value: "draft" },
+  {
+    label: i18n.t("dashboard.articles.actions.save.publish"),
+    value: "published",
+  },
 ];
 
 export const EDITOR_ADDONS = [
