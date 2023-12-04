@@ -3,7 +3,7 @@ import React from "react";
 import { Dropdown } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import { useBulkStatusChange } from "hooks/reactQuery/articles/page/useBulkUpdate";
+import { useBulkStatusChange } from "hooks/reactQuery/articles/page/useBulkUpdateArticlesApi";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 const Status = () => {

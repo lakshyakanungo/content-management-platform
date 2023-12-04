@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import {
   useCreateRedirection,
   useUpdateRedirection,
-} from "hooks/reactQuery/settings/redirection/useRedirection";
+} from "hooks/reactQuery/settings/redirection/useRedirectionsApi";
 
 import { buildFormInitialValues, buildFormValidationSchema } from "./utils";
 

@@ -5,7 +5,7 @@ import { Form as NeetoForm, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import { resetAuthTokens } from "apis/axios";
-import { useUpdatePassword } from "hooks/reactQuery/settings/security/useSecurity";
+import { useUpdatePassword } from "hooks/reactQuery/settings/security/useSiteApi";
 import { setToLocalStorage } from "utils/storage";
 
 import { INITIAL_VALUES } from "./constants";

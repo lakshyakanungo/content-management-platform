@@ -3,7 +3,7 @@ import React from "react";
 import { Alert as NeetoAlert } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
 
-import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategory";
+import { useDeleteCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
 
 const Alert = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
   const { mutate: handleDelete } = useDeleteCategory({

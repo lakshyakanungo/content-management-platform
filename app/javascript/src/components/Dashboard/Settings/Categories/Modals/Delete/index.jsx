@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import {
   useDeleteCategory,
   useFetchCategories,
-} from "hooks/reactQuery/settings/category/useCategory";
+} from "hooks/reactQuery/settings/category/useCategoriesApi";
 
 import Header from "./Header";
 import { buildValidationSchema } from "./utils";

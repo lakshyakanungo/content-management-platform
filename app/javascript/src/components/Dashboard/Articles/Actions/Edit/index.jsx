@@ -14,8 +14,8 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import {
   useEditArticle,
   useFetchArticle,
-} from "hooks/reactQuery/articles/actions/edit/useEditArticle";
-import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
+} from "hooks/reactQuery/articles/actions/edit/useEditArticleApi";
+import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 
 import Schedule from "./Schedule";
 import VersionHistory from "./VersionHistory";

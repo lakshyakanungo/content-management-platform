@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import {
   useFetchSite,
   useUpdateSite,
-} from "hooks/reactQuery/settings/general/useSite";
+} from "hooks/reactQuery/settings/general/useSiteApi";
 
 import { VALIDATION_SCHEMA } from "./constants";
 

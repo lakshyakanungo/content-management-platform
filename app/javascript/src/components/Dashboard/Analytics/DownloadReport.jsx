@@ -10,7 +10,7 @@ import ProgressBar from "components/commons/ProgressBar";
 import {
   useDownloadPdf,
   useGeneratePdf,
-} from "hooks/reactQuery/analytics/useAnalytics";
+} from "hooks/reactQuery/analytics/useAnalyticsApi";
 
 import { DOWNLOAD_READY_MESSAGE } from "./constants";
 import { savePdf } from "./utils";

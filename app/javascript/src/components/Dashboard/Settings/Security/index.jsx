@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import {
   useFetchSiteSecurity,
   useUpdateSecurity,
-} from "hooks/reactQuery/settings/security/useSecurity";
+} from "hooks/reactQuery/settings/security/useSiteApi";
 
 import ChangePassword from "./ChangePassword";
 import Form from "./Form";

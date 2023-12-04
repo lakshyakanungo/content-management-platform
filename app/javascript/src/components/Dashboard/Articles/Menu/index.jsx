@@ -6,8 +6,8 @@ import { Search as SearchIcon, Plus } from "neetoicons";
 import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
 
-import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
-import { useCategorySearch } from "hooks/reactQuery/menu/useCategorySearch";
+import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
+import { useCategorySearch } from "hooks/reactQuery/menu/useCategoriesApi";
 import { useMenuStore } from "hooks/zustand/useMenuStore";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";

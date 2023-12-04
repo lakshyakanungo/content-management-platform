@@ -4,8 +4,8 @@ import { Form, Select as FormikSelect, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import { useCreateArticle } from "hooks/reactQuery/articles/actions/create/useCreateArticle";
-import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
+import { useCreateArticle } from "hooks/reactQuery/articles/actions/create/useCreateArticleApi";
+import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 
 import ActionDropdown from "./ActionDropdown";
 import Editor from "./Editor";

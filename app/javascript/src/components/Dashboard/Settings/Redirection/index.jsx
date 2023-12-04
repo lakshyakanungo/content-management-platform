@@ -4,7 +4,7 @@ import { Plus } from "neetoicons";
 import { Button, Spinner } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import { useFetchRedirections } from "hooks/reactQuery/settings/redirection/useRedirection";
+import { useFetchRedirections } from "hooks/reactQuery/settings/redirection/useRedirectionsApi";
 
 import FormRow from "./FormRow";
 import Row from "./Row";

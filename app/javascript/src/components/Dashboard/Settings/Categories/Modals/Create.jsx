@@ -4,7 +4,7 @@ import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { useAddCategory } from "hooks/reactQuery/settings/category/useCategory";
+import { useAddCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
 
 import {
   CREATE_CATEGORY_FORM_INITIAL_VALUE,
