@@ -20,9 +20,7 @@ class CategoriesController < ApplicationController
   def update
     @category.update!(category_params)
     respond_with_success(
-      t(
-        "successfully_updated", entity: "Category",
-        count: 1)) unless category_params[:position].present?
+      t("successfully_updated", entity: "Category", count: 1)) unless category_params[:position].present?
   end
 
   def destroy
