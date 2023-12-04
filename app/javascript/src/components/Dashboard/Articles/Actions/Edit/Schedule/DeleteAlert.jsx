@@ -3,7 +3,7 @@ import React from "react";
 import { Alert } from "@bigbinary/neetoui";
 import { useTranslation } from "react-i18next";
 
-import { useDeleteSchedule } from "hooks/reactQuery/articles/actions/edit/useDeleteSchedule";
+import { useDeleteSchedule } from "hooks/reactQuery/articles/actions/edit/useSchedulesApi";
 
 const DeleteAlert = ({ article, showDeleteAlert, setShowDeleteAlert }) => {
   const { t } = useTranslation();

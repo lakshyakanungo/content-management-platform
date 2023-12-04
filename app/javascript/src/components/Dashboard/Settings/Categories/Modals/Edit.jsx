@@ -4,7 +4,7 @@ import { Modal, Typography } from "@bigbinary/neetoui";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { useEditCategory } from "hooks/reactQuery/settings/category/useCategory";
+import { useEditCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
 
 import { FORM_VALIDATION_SCHEMA } from "./constants";
 

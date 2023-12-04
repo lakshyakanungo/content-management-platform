@@ -6,7 +6,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useTranslation } from "react-i18next";
 
-import { useFetchCategories } from "hooks/reactQuery/settings/category/useCategory";
+import { useFetchCategories } from "hooks/reactQuery/settings/category/useCategoriesApi";
 
 import List from "./List";
 import AddCategoryModal from "./Modals/Create";

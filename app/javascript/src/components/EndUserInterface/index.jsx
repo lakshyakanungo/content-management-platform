@@ -4,7 +4,7 @@ import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { Route, Switch } from "react-router-dom";
 
 import { setAuthHeaders } from "apis/axios";
-import { useFetchSite } from "hooks/reactQuery/endUserInterface/useSite";
+import { useFetchSite } from "hooks/reactQuery/endUserInterface/useSiteApi";
 import { getFromLocalStorage } from "utils/storage";
 
 import Home from "./Home";

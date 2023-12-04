@@ -4,13 +4,14 @@ import { Button, Spinner } from "neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import { useFetchSearchResults } from "hooks/reactQuery/articles/page/useSearch";
+import { useFetchSearchResults } from "hooks/reactQuery/articles/page/useArticlesSearchApi";
 import {
   useHandleDelete,
   useHandleStatusChange,
-} from "hooks/reactQuery/articles/page/useUpdate";
+} from "hooks/reactQuery/articles/page/useUpdateArticlesApi";
 import { useMenuStore } from "hooks/zustand/useMenuStore";
 import { usePageStore } from "hooks/zustand/usePageStore";
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
 import Container from "neetomolecules/Container";
 import Header from "neetomolecules/Header";
@@ -25,7 +26,9 @@ const Page = () => {
 
   const { showMenu, activeMenuState, setShowMenu } = useMenuStore();
   const { currentPageNumber, setCurrentPageNumber } = usePageStore();
-  const { selectedCategories } = useSelectedCategoriesStore();
+  const { selectedCategories, setSelectedCategories } =
+    useSelectedCategoriesStore();
+  const { setSelectedArticleIds } = useSelectedArticlesStore();
 
   const selectedCategoriesIds = selectedCategories.map(category => category.id);
   const query = searchTerm.trim();
@@ -45,6 +48,12 @@ const Page = () => {
 
   const history = useHistory();
 
+  const handleAddArticle = () => {
+    setSelectedArticleIds([]);
+    setSelectedCategories([]);
+    history.push("/articles/new");
+  };
+
   if (isLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
@@ -62,7 +71,7 @@ const Page = () => {
             icon="ri-add-line"
             label={t("dashboard.articles.page.header.buttonLabel")}
             size="small"
-            onClick={() => history.push("/articles/new")}
+            onClick={handleAddArticle}
           />
         }
         menuBarToggle={() => {

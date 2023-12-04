@@ -8,7 +8,13 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 import articlesApi from "apis/public/articles";
 
-const ShowArticle = ({ setSelectedArticleId }) => {
+import { findActiveAccordianIndex } from "./utils";
+
+const ShowArticle = ({
+  setSelectedArticleId,
+  setActiveAccordianIndex,
+  articlesByCategory,
+}) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
 
@@ -22,6 +28,9 @@ const ShowArticle = ({ setSelectedArticleId }) => {
       } = await articlesApi.show(slug);
       setArticle(article);
       setSelectedArticleId(article.id);
+      setActiveAccordianIndex(
+        findActiveAccordianIndex(articlesByCategory, article)
+      );
     } catch (error) {
       logger.log(error);
       history.replace("/eui");

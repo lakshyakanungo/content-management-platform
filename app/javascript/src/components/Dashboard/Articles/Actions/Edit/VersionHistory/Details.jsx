@@ -4,7 +4,7 @@ import { EditorContent } from "@bigbinary/neeto-editor";
 import { Button, Modal } from "@bigbinary/neetoui";
 import { Trans, useTranslation } from "react-i18next";
 
-import { useRestoreVersion } from "hooks/reactQuery/articles/actions/edit/useRestoreVersion";
+import { useRestoreVersion } from "hooks/reactQuery/articles/actions/edit/useVersionsApi";
 
 import { renderCategoryName } from "./utils";
 

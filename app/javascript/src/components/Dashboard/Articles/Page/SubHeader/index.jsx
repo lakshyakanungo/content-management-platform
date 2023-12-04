@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { Tag } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import { useFetchCategories } from "hooks/reactQuery/category/useCategory";
+import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
 import NeetoSubHeader from "neetomolecules/SubHeader";

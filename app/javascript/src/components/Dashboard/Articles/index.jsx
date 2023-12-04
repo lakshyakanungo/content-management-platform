@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { useFetchArticlesCount } from "hooks/reactQuery/articles/useArticles";
+import { useFetchArticlesCount } from "hooks/reactQuery/articles/useArticlesApi";
 import { useMenuStore } from "hooks/zustand/useMenuStore";
 import { usePageStore } from "hooks/zustand/usePageStore";
 

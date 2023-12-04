@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Delete as DeleteIcon } from "neetoicons";
 import { Button } from "neetoui";
 
-import { useBulkDelete } from "hooks/reactQuery/articles/page/useBulkUpdate";
+import { useBulkDelete } from "hooks/reactQuery/articles/page/useBulkUpdateArticlesApi";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 
 import Alert from "./Alert";

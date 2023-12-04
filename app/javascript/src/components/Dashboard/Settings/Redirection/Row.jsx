@@ -4,7 +4,7 @@ import { MenuHorizontal } from "neetoicons";
 import { Dropdown, Tooltip } from "neetoui";
 import { useTranslation } from "react-i18next";
 
-import { useDeleteRedirection } from "hooks/reactQuery/settings/redirection/useRedirection";
+import { useDeleteRedirection } from "hooks/reactQuery/settings/redirection/useRedirectionsApi";
 
 import { URL_TRUNCATE_LENGTH } from "./constants";
 import DeleteAlert from "./DeleteAlert";

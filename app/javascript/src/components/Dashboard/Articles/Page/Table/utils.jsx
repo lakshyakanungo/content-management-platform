@@ -6,12 +6,21 @@ import { Button } from "neetoui";
 import { useHistory } from "react-router-dom";
 import { formatDate } from "utils";
 
+import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
+import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
+
 import Dropdown from "./Dropdown";
 
 const Title = ({ record }) => {
   const history = useHistory();
+  const { setSelectedArticleIds } = useSelectedArticlesStore();
+  const { setSelectedCategories } = useSelectedCategoriesStore();
 
-  const handleClick = () => history.push(`/articles/edit/${record.id}`);
+  const handleClick = () => {
+    setSelectedArticleIds([]);
+    setSelectedCategories([]);
+    history.push(`/articles/edit/${record.id}`);
+  };
 
   return (
     <Button style="link" onClick={handleClick}>

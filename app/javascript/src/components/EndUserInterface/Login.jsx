@@ -3,7 +3,7 @@ import React from "react";
 import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { useAuth } from "hooks/reactQuery/endUserInterface/useAuth";
+import { useAuth } from "hooks/reactQuery/endUserInterface/useAuthApi";
 
 import { LOGIN_FORM_INITIAL_VALUE } from "./constants";
 

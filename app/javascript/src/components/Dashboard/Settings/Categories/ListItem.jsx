@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import { useReorderCategory } from "hooks/reactQuery/settings/category/useCategory";
+import { useReorderCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
 import useDragAndDrop from "hooks/useDragAndDrop";
 
 import DeleteAlert from "./DeleteAlert";

@@ -18,6 +18,7 @@ const Home = ({ siteName }) => {
   const [articlesByCategory, setArticlesByCategory] = useState([]);
   const [selectedArticleId, setSelectedArticleId] = useState("");
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [activeAccordianIndex, setActiveAccordianIndex] = useState(0);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -78,7 +79,10 @@ const Home = ({ siteName }) => {
       </div>
       <div className="flex-grow flex w-full">
         <div className="w-1/5 p-6 border neeto-ui-border-gray-100">
-          <Accordion className="flex flex-col gap-4" defaultActiveKey={0}>
+          <Accordion
+            className="flex flex-col gap-4"
+            defaultActiveKey={activeAccordianIndex}
+          >
             {articlesByCategory.map(([categoryName, articles]) => (
               <Accordion.Item
                 key={categoryName}
@@ -106,7 +110,11 @@ const Home = ({ siteName }) => {
         <Route
           path="/eui/:slug"
           render={() => (
-            <ShowArticle setSelectedArticleId={setSelectedArticleId} />
+            <ShowArticle
+              articlesByCategory={articlesByCategory}
+              setActiveAccordianIndex={setActiveAccordianIndex}
+              setSelectedArticleId={setSelectedArticleId}
+            />
           )}
         />
         <Search
