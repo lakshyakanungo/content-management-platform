@@ -1,6 +1,7 @@
 import React from "react";
 
 import classNames from "classnames";
+import { includes } from "ramda";
 
 export const buildListItemClassName = ({ article, selectedArticleId }) =>
   classNames("neeto-ui-font-medium cursor-pointer", {
@@ -33,4 +34,14 @@ export const HighlightedLine = ({ line, highlight }) => {
       ))}
     </span>
   );
+};
+
+export const findActiveAccordianIndex = (articlesByCategory, article) => {
+  const indexOfCategory = articlesByCategory.findIndex(([_, articles]) => {
+    const ids = articles.map(article => article.id);
+
+    return includes(article.id, ids);
+  });
+
+  return indexOfCategory;
 };
