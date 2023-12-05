@@ -12,9 +12,9 @@ import { useHistory, useParams } from "react-router-dom";
 import { isPresent } from "utils";
 
 import {
-  useEditArticle,
+  useUpdateArticle,
   useFetchArticle,
-} from "hooks/reactQuery/articles/actions/edit/useEditArticleApi";
+} from "hooks/reactQuery/articles/actions/edit/useArticlesApi";
 import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 
 import Schedule from "./Schedule";
@@ -43,7 +43,7 @@ const Edit = () => {
   const { data: { categories = [] } = {}, isFetching: isFetchingCategories } =
     useFetchCategories();
 
-  const { mutate: editArticle } = useEditArticle({
+  const { mutate: editArticle } = useUpdateArticle({
     onSuccess: () => history.push("/articles"),
   });
 

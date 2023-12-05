@@ -19,7 +19,7 @@ export const useFetchArticle = id =>
     refetchOnMount: "always",
   });
 
-export const useEditArticle = options =>
+export const useUpdateArticle = options =>
   useMutation(articlesApi.update, {
     onSuccess: () => {
       queryClient.invalidateQueries([ARTICLE]);
