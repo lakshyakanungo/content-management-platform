@@ -3,7 +3,7 @@ import React from "react";
 import { Close, Plus } from "neetoicons";
 import { Button } from "neetoui";
 
-import EmptyLogo from "../../../../assets/images/Empty";
+import EmptyLogo from "images/Empty";
 
 const EmptyState = ({
   title,

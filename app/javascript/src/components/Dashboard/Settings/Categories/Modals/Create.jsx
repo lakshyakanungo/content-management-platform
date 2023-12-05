@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Modal, Typography } from "@bigbinary/neetoui";
-import { Form, Input, Button } from "@bigbinary/neetoui/formik";
+import { Modal, Typography } from "neetoui";
+import { Form, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import { useAddCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";

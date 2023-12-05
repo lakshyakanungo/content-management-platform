@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Alert } from "@bigbinary/neetoui";
+import { Alert } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 const DeleteAlert = ({ showDeleteAlert, setShowDeleteAlert, handleDelete }) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Modal } from "@bigbinary/neetoui";
+import { Button, Modal } from "neetoui";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "utils";
 

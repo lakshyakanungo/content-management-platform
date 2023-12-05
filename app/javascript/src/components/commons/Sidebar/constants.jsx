@@ -3,8 +3,7 @@ import React from "react";
 import { Notes, Settings, ExternalLink, NeetoAnalytics } from "neetoicons";
 
 import i18n from "common/i18n";
-
-import Logo from "../../../../../assets/images/Logo";
+import Logo from "images/Logo";
 
 export const APP_NAME = "Scribble";
 

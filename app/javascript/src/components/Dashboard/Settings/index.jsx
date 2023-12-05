@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
+
+import MenuBar from "neetomolecules/MenuBar";
 
 import { SETTINGS_NAVLINKS } from "./navLinks";
 import { getActiveNavLink } from "./utils";

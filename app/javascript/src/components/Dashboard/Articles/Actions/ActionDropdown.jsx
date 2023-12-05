@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ActionDropdown as NeetoActionDropdown } from "@bigbinary/neetoui";
+import { ActionDropdown as NeetoActionDropdown } from "neetoui";
 
 import { STATUS_OPTIONS } from "./constants";
 import {

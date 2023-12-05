@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Modal } from "@bigbinary/neetoui";
-import { Select, Form, Button } from "@bigbinary/neetoui/formik";
+import { Modal } from "neetoui";
+import { Select, Form, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import {

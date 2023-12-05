@@ -1,8 +1,9 @@
 import React from "react";
 
-import { truncate } from "@bigbinary/neeto-commons-frontend/pure";
 import { t } from "i18next";
 import * as yup from "yup";
+
+import { truncate } from "neetocommonsfrontend/pure";
 
 import {
   HOST_NAME,

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { Route, Switch } from "react-router-dom";
 
 import { setAuthHeaders } from "apis/axios";
 import { useFetchSite } from "hooks/reactQuery/endUserInterface/useSiteApi";
+import PageLoader from "neetomolecules/PageLoader";
 import { getFromLocalStorage } from "utils/storage";
 
 import Home from "./Home";

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Dropdown as NeetoDropdown } from "@bigbinary/neetoui";
 import { MenuVertical } from "neetoicons";
+import { Dropdown as NeetoDropdown } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 const Dropdown = ({ setShowEditModal, setShowDeleteOverlay }) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Pane, Typography } from "@bigbinary/neetoui";
+import { Button, Pane, Typography } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
 import { formatDate } from "utils";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { Check, Close } from "neetoicons";
+import { Form, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import {

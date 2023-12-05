@@ -1,7 +1,7 @@
 import React from "react";
 
-import { FormikEditor } from "@bigbinary/neeto-editor";
-import { Input } from "@bigbinary/neetoui/formik";
+import { FormikEditor } from "neetoeditor";
+import { Input } from "neetoui/formik";
 
 import { EDITOR_ADDONS, EDITOR_MENTIONS } from "./constants";
 

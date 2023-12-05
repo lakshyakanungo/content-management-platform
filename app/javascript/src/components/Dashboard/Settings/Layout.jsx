@@ -1,6 +1,6 @@
 import React from "react";
 
-import Container from "@bigbinary/neeto-molecules/Container";
+import Container from "neetomolecules/Container";
 
 import { buildLayoutClassName } from "./utils";
 

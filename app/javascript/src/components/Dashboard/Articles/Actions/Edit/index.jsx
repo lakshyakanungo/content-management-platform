@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 
-import { Spinner, Typography, Button, DatePicker } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
+import { Spinner, Typography, Button, DatePicker } from "neetoui";
 import {
   Form,
   Select as FormikSelect,
   Button as FormikButton,
 } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom";
 
 import {
   useEditArticle,

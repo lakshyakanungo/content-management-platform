@@ -1,7 +1,7 @@
 import React from "react";
 
-import { isEditorEmpty } from "@bigbinary/neeto-editor";
 import classNames from "classnames";
+import { isEditorEmpty } from "neetoeditor";
 import { Check } from "neetoicons";
 import { pluck } from "ramda";
 import * as yup from "yup";

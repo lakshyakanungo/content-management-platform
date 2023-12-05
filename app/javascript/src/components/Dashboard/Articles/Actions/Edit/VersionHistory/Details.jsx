@@ -1,7 +1,7 @@
 import React from "react";
 
-import { EditorContent } from "@bigbinary/neeto-editor";
-import { Button, Modal } from "@bigbinary/neetoui";
+import { EditorContent } from "neetoeditor";
+import { Button, Modal } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
 
 import { useRestoreVersion } from "hooks/reactQuery/articles/actions/edit/useVersionsApi";

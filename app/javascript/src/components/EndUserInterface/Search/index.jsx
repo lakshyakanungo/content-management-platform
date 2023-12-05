@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { Search as SearchIcon } from "@bigbinary/neeto-icons";
-import { Input, Modal } from "@bigbinary/neetoui";
+import { Search as SearchIcon } from "neetoicons";
+import { Input, Modal } from "neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 

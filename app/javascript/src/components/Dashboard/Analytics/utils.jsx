@@ -1,22 +1,12 @@
 import React from "react";
 
-import { Button } from "@bigbinary/neetoui";
 import classNames from "classnames";
 import { formatDate } from "utils";
 
 import i18n from "common/i18n";
 
 import { PDF_FILENAME } from "./constants";
-
-const Title = ({ record }) => {
-  const handleClick = () => window.open(`/eui/${record.slug}`, "_blank");
-
-  return (
-    <Button className="text-left" style="link" onClick={handleClick}>
-      {record.title}
-    </Button>
-  );
-};
+import Title from "./Title";
 
 const base64ToArrayBuffer = data => {
   const binaryString = window.atob(data);

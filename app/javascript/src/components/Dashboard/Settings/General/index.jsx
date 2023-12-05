@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Spinner } from "@bigbinary/neetoui";
-import { Form, Input as FormikInput, Button } from "@bigbinary/neetoui/formik";
+import { Spinner } from "neetoui";
+import { Form, Input as FormikInput, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import {

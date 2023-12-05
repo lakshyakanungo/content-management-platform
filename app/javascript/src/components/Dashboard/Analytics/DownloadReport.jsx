@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Container from "@bigbinary/neeto-molecules/Container";
-import { Button } from "@bigbinary/neetoui";
+import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 import createConsumer from "channels/consumer";
@@ -11,6 +10,7 @@ import {
   useDownloadPdf,
   useGeneratePdf,
 } from "hooks/reactQuery/analytics/useAnalyticsApi";
+import Container from "neetomolecules/Container";
 
 import { DOWNLOAD_READY_MESSAGE } from "./constants";
 import { savePdf } from "./utils";
