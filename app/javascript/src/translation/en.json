@@ -120,7 +120,8 @@
             "title": "Schedule update",
             "label": "Select time to schedule article update",
             "placeholder": "Schedule an update",
-            "time": "Will be scheduled for update at {{time}}"
+            "time": "Will be scheduled for update at {{time}}",
+            "scheduledLabel": "Update is scheduled"
           }
         },
         "editor": {
@@ -129,11 +130,18 @@
             "description": "Article description is required",
             "category": "Category is required"
           },
-          "placeholder": "Add title here"
+          "placeholder": {
+            "title": "Add title here.",
+            "description": "Add description here."
+          }
         },
         "save": {
           "draft": "Save as draft",
-          "publish": "Publish"
+          "publish": "Publish",
+          "scheduled": {
+            "draft": "Schedule draft",
+            "publish": "Schedule publish"
+          }
         }
       }
     },

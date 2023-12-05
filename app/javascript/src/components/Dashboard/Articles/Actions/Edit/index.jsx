@@ -146,8 +146,10 @@ const Edit = () => {
                     <>
                       <Button
                         className="neeto-ui-text-primary-800"
-                        label="Update is scheduled"
                         style="text"
+                        label={t(
+                          "dashboard.articles.actions.edit.scheduleUpdate.scheduledLabel"
+                        )}
                         onClick={() => setShowSchedule(true)}
                       />
                       <Schedule

@@ -58,7 +58,9 @@ export const renderActionItemPrefix = ({ selectedOptionIndex, index }) => (
 export const renderActionDropdownLabel = (selectedOptionIndex, isScheduled) => {
   if (!isScheduled) return STATUS_OPTIONS[selectedOptionIndex].label;
 
-  return selectedOptionIndex === 0 ? "Schedule draft" : "Schedule publish";
+  return selectedOptionIndex === 0
+    ? i18n.t("dashboard.articles.actions.save.scheduled.draft")
+    : i18n.t("dashboard.articles.actions.save.scheduled.publish");
 };
 
 export const parseData = ({
