@@ -3,6 +3,8 @@ const path = require("path");
 const absolutePath = basePath =>
   path.resolve(__dirname, "..", "..", `app/javascript/${basePath}`);
 
+const imagesPath = path.resolve(__dirname, "..", "..", "app/assets/images");
+
 module.exports = {
   alias: {
     apis: absolutePath("src/apis"),
@@ -15,9 +17,12 @@ module.exports = {
     neetoui: "@bigbinary/neetoui",
     neetoicons: "@bigbinary/neeto-icons",
     neetomolecules: "@bigbinary/neeto-molecules",
+    neetoeditor: "@bigbinary/neeto-editor",
     utils: absolutePath("src/utils"),
     lib: absolutePath("src/lib"),
     channels: absolutePath("src/channels"),
+    neetocommonsfrontend: "@bigbinary/neeto-commons-frontend",
+    images: imagesPath,
   },
   extensions: [
     ".ts",

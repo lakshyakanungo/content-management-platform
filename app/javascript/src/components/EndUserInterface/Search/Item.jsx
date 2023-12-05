@@ -1,6 +1,6 @@
 import React from "react";
 
-import { HighlightedLine, getLinesFromBody } from "../utils";
+import { getLinesFromBody, renderHighlightedLine } from "../utils";
 
 const ListItem = ({ text, searchTerm, title }) => {
   const lines = getLinesFromBody({ text, searchTerm });
@@ -8,11 +8,11 @@ const ListItem = ({ text, searchTerm, title }) => {
   return (
     <div className="flex flex-col">
       <span className="font-bold">
-        <HighlightedLine highlight={searchTerm} line={title} />
+        {renderHighlightedLine({ line: title, highlight: searchTerm })}
       </span>
       {lines.map((line, index) => (
         <span className="neeto-ui-text-gray-600 neeto-ui-text-xs" key={index}>
-          <HighlightedLine highlight={searchTerm} line={line} />
+          {renderHighlightedLine({ line, highlight: searchTerm })}
         </span>
       ))}
     </div>

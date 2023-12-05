@@ -1,8 +1,11 @@
 import React from "react";
 
-import { truncate } from "@bigbinary/neeto-commons-frontend/pure";
 import { t } from "i18next";
+import { includes } from "ramda";
+import { isPresent } from "utils";
 import * as yup from "yup";
+
+import { truncate } from "neetocommonsfrontend/pure";
 
 import {
   HOST_NAME,
@@ -16,7 +19,7 @@ const getFromPaths = redirections =>
   redirections.map(redirection => redirection.from);
 
 const checkValidToPath = path => {
-  if (!path) return true;
+  if (!isPresent(path)) return true;
 
   if (path.startsWith("/")) return VALID_TO_PATH_URL_REGEX.test(path);
 
@@ -33,17 +36,17 @@ const checkDuplicateValuesInFromPaths = ({
     return true;
   }
 
-  return !getFromPaths(redirections).includes(value);
+  return !includes(value, getFromPaths(redirections));
 };
 
 export const buildFormInitialValues = ({ isEdit, data }) => ({
-  fromUrl: isEdit ? data.from : "",
-  toUrl: isEdit ? data.to : "",
+  from: isEdit ? data.from : "",
+  to: isEdit ? data.to : "",
 });
 
 export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
   yup.object().shape({
-    fromUrl: yup
+    from: yup
       .string()
       .required(
         t("dashboard.settings.redirections.form.validations.from.required")
@@ -63,7 +66,7 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
         VALID_FROM_PATH_REGEX,
         t("dashboard.settings.redirections.form.validations.from.valid")
       ),
-    toUrl: yup
+    to: yup
       .string()
       .required(
         t("dashboard.settings.redirections.form.validations.to.required")
@@ -81,7 +84,7 @@ export const buildFullUrl = url => {
   return url;
 };
 
-export const FormattedUrl = ({ url }) => {
+export const renderRedirection = url => {
   if (url.startsWith("/")) {
     return (
       <div>

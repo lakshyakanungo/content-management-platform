@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import Header from "@bigbinary/neeto-molecules/Header";
-import SubHeader from "@bigbinary/neeto-molecules/SubHeader";
-import { Button, Spinner, Table } from "@bigbinary/neetoui";
+import { Button, Spinner, Table } from "neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 import { ANALYTICS_REPORT_PATH } from "components/routeConstants";
 import { useFetchArticleAnalytics } from "hooks/reactQuery/analytics/useAnalyticsApi";
+import Header from "neetomolecules/Header";
+import SubHeader from "neetomolecules/SubHeader";
 
 import { buildColumnData, buildRowClassName } from "./utils";
 

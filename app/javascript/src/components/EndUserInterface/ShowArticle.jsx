@@ -1,12 +1,11 @@
 import React from "react";
 
-import { EditorContent } from "@bigbinary/neeto-editor";
-import Header from "@bigbinary/neeto-molecules/Header";
-import { Spinner } from "@bigbinary/neetoui";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { EditorContent } from "neetoeditor";
+import { Spinner } from "neetoui";
+import { useParams, useHistory } from "react-router-dom";
 
 import { useFetchArticle } from "hooks/reactQuery/endUserInterface/usePublicArticlesApi";
+import Header from "neetomolecules/Header";
 
 import { findActiveAccordianIndex } from "./utils";
 

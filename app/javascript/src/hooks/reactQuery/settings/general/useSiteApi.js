@@ -15,5 +15,4 @@ export const useFetchSite = () =>
 export const useUpdateSite = () =>
   useMutation(siteApi.update, {
     onSuccess: () => queryClient.invalidateQueries([SITE]),
-    onError: error => logger.log(error),
   });

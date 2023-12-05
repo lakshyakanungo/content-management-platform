@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
-import { Spinner, Typography, Button, DatePicker } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
+import { Spinner, Typography, Button, DatePicker } from "neetoui";
 import {
   Form,
   Select as FormikSelect,
   Button as FormikButton,
 } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom";
+import { isPresent } from "utils";
 
 import {
-  useEditArticle,
+  useUpdateArticle,
   useFetchArticle,
-} from "hooks/reactQuery/articles/actions/edit/useEditArticleApi";
+} from "hooks/reactQuery/articles/actions/edit/useArticlesApi";
 import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 
 import Schedule from "./Schedule";
@@ -43,7 +43,7 @@ const Edit = () => {
   const { data: { categories = [] } = {}, isFetching: isFetchingCategories } =
     useFetchCategories();
 
-  const { mutate: editArticle } = useEditArticle({
+  const { mutate: editArticle } = useUpdateArticle({
     onSuccess: () => history.push("/articles"),
   });
 
@@ -129,7 +129,7 @@ const Edit = () => {
                     )}
                     onClick={() => setShowVersionHistory(true)}
                   />
-                  {!article.schedule ? (
+                  {!isPresent(article.schedule) ? (
                     <DatePicker
                       showTime
                       className="w-48"
@@ -147,8 +147,10 @@ const Edit = () => {
                     <>
                       <Button
                         className="neeto-ui-text-primary-800"
-                        label="Update is scheduled"
                         style="text"
+                        label={t(
+                          "dashboard.articles.actions.edit.scheduleUpdate.scheduledLabel"
+                        )}
                         onClick={() => setShowSchedule(true)}
                       />
                       <Schedule

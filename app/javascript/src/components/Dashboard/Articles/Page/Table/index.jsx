@@ -1,11 +1,11 @@
 import React from "react";
 
-import TableWrapper from "@bigbinary/neeto-molecules/TableWrapper";
 import { Table as NeetoUITable } from "neetoui";
 import { includes } from "ramda";
 
 import { usePageStore } from "hooks/zustand/usePageStore";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
+import TableWrapper from "neetomolecules/TableWrapper";
 
 import { buildRowClassName } from "./utils";
 

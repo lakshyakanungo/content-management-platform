@@ -13,7 +13,7 @@ export const useFetchCategories = () =>
     refetchOnMount: "always",
   });
 
-export const useAddCategory = options =>
+export const useCreateCategory = options =>
   useMutation(categoriesApi.create, {
     onSuccess: () => queryClient.invalidateQueries([CATEGORIES]),
     onSettled: options?.onSettled,

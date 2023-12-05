@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Modal } from "@bigbinary/neetoui";
 import { Warning } from "neetoicons";
+import { Modal } from "neetoui";
 import { useTranslation, Trans } from "react-i18next";
 
 const Header = ({ category, hasMultipleCategories }) => {

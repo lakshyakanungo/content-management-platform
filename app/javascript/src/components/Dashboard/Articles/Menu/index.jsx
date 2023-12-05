@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 
-import MenuBar from "@bigbinary/neeto-molecules/MenuBar";
-import { Typography } from "@bigbinary/neetoui";
 import { Search as SearchIcon, Plus } from "neetoicons";
+import { Typography } from "neetoui";
 import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
+import { isPresent } from "utils";
 
 import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 import { useCategorySearch } from "hooks/reactQuery/menu/useCategoriesApi";
 import { useMenuStore } from "hooks/zustand/useMenuStore";
 import { useSelectedArticlesStore } from "hooks/zustand/useSelectedArticlesStore";
 import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
+import MenuBar from "neetomolecules/MenuBar";
 
 import AddCategoryModal from "./AddCategory";
 import { MENU_ARTICLE_STATES } from "./constants";
@@ -102,7 +103,7 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
           onCollapse={handleCollapse}
           onKeyDown={handleKeyDown}
         />
-        {searchTerm.length
+        {isPresent(searchTerm)
           ? categoriesDisplayed.map(category => (
               <Block
                 active={includes(category, selectedCategories)}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Spinner, Switch } from "@bigbinary/neetoui";
+import { Spinner, Switch } from "neetoui";
 import { useTranslation } from "react-i18next";
 
 import {

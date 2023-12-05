@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-import PageLoader from "@bigbinary/neeto-molecules/PageLoader";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "lib/dayjs"; // eslint-disable-line
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
+import "common/i18n";
 import { initializeLogger } from "common/logger";
 import { DASHBOARD_PATH, EUI_PATH } from "components/routeConstants";
+import PageLoader from "neetomolecules/PageLoader";
 import { setToLocalStorage } from "utils/storage";
 
 import Dashboard from "./Dashboard";
 import EUI from "./EndUserInterface";
-
-import "../common/i18n";
 
 const Main = () => {
   const [loading, setLoading] = useState(true);

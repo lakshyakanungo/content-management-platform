@@ -1,8 +1,9 @@
 import React from "react";
 
-import { EditorContent } from "@bigbinary/neeto-editor";
-import { Button, Modal } from "@bigbinary/neetoui";
+import { EditorContent } from "neetoeditor";
+import { Button, Modal } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
+import { isPresent } from "utils";
 
 import { useRestoreVersion } from "hooks/reactQuery/articles/actions/edit/useVersionsApi";
 
@@ -23,7 +24,7 @@ const Details = ({
 
   const { Header, Body, Footer } = Modal;
 
-  const isCurrentVersion = !version.object;
+  const isCurrentVersion = !isPresent(version.object);
   const article = isCurrentVersion ? version : version.object;
 
   const categoryName = renderCategoryName(article, categories);
@@ -43,7 +44,7 @@ const Details = ({
           <h4 className="text-center">
             {t("dashboard.articles.actions.edit.versionHistory.details.title")}
           </h4>
-          {categoryName ? (
+          {isPresent(categoryName) ? (
             <span>
               <Trans
                 components={[<b key={1} />]}
@@ -64,7 +65,7 @@ const Details = ({
         <h2>{article.title}</h2>
         <EditorContent content={article.body} />
       </Body>
-      {!isCurrentVersion && categoryName && (
+      {!isCurrentVersion && isPresent(categoryName) && (
         <Footer className="mt-6">
           <Button
             className="mr-2"

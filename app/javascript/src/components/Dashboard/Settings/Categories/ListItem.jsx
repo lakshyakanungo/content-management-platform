@@ -4,13 +4,12 @@ import { useTranslation } from "react-i18next";
 
 import { useReorderCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
 import useDragAndDrop from "hooks/useDragAndDrop";
+import MenuSquare from "images/MenuSquare";
 
 import DeleteAlert from "./DeleteAlert";
 import Dropdown from "./Dropdown";
 import DeleteModal from "./Modals/Delete";
 import EditModal from "./Modals/Edit";
-
-import MenuSquare from "../../../../../../assets/images/MenuSquare";
 
 const ListItem = ({ index, moveListItem, category }) => {
   const [showEditModal, setShowEditModal] = useState(false);

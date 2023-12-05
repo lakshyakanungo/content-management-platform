@@ -27,7 +27,7 @@ export const getLinesFromBody = ({ text, searchTerm }) => {
   return lines.filter(line => line.includes(searchTerm)).slice(0, 3);
 };
 
-export const HighlightedLine = ({ line, highlight }) => {
+export const renderHighlightedLine = ({ line, highlight }) => {
   const parts = line.split(new RegExp(`(${highlight})`, "gi"));
 
   return (

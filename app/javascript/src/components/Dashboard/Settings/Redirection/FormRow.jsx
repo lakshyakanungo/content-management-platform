@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Form, Input, Button } from "@bigbinary/neetoui/formik";
 import { Check, Close } from "neetoicons";
+import { Form, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -22,8 +22,8 @@ const FormRow = ({ isEdit = false, data, handleClose, redirections }) => {
 
   const { t } = useTranslation();
 
-  const handleSubmit = ({ fromUrl, toUrl }) => {
-    const payload = { from: fromUrl, to: toUrl };
+  const handleSubmit = ({ from, to }) => {
+    const payload = { from, to };
     if (isEdit) {
       updateRedirection({
         id: data.id,
@@ -49,14 +49,14 @@ const FormRow = ({ isEdit = false, data, handleClose, redirections }) => {
       <div className="neeto-ui-bg-white grid grid-cols-12 justify-between p-2 gap-2 items-start">
         <Input
           className="col-span-5"
-          name="fromUrl"
+          name="from"
           placeholder={t(
             "dashboard.settings.redirections.formRow.placeholder.from"
           )}
         />
         <Input
           className="col-span-5"
-          name="toUrl"
+          name="to"
           placeholder={t(
             "dashboard.settings.redirections.formRow.placeholder.to"
           )}

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import { Search as SearchIcon } from "@bigbinary/neeto-icons";
+import { Search as SearchIcon } from "neetoicons";
 import { Accordion, Input, Spinner } from "neetoui";
 import { useTranslation } from "react-i18next";
-import { useHistory, Route } from "react-router-dom";
-import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, Route, useRouteMatch } from "react-router-dom";
 
 import { useFetchArticlesByCategory } from "hooks/reactQuery/endUserInterface/usePublicArticlesApi";
 

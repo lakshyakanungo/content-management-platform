@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { Search as SearchIcon } from "@bigbinary/neeto-icons";
-import { Input, Modal } from "@bigbinary/neetoui";
+import { Search as SearchIcon } from "neetoicons";
+import { Input, Modal } from "neetoui";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { isPresent } from "utils";
 
 import { useSearch } from "hooks/reactQuery/endUserInterface/usePublicArticlesApi";
 import { useKeyDown } from "hooks/useKeyDown";
@@ -15,12 +16,9 @@ import { buildSearchItemClassName } from "../utils";
 
 const Search = ({ showSearchModal, setShowSearchModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [articles, setArticles] = useState([]);
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(0);
 
-  useSearch(searchTerm, {
-    onSuccess: ({ articles }) => setArticles(articles),
-  });
+  const { data: { articles = [] } = {} } = useSearch(searchTerm);
 
   useKeyDown(() => setShowSearchModal(true), "Slash");
   useKeyDown(() => {
@@ -52,10 +50,6 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
     }
   };
 
-  useEffect(() => {
-    if (searchTerm === "") setArticles([]);
-  }, [searchTerm]);
-
   return (
     <Modal
       className="my-6"
@@ -75,7 +69,7 @@ const Search = ({ showSearchModal, setShowSearchModal }) => {
           onChange={event => setSearchTerm(event.target.value)}
         />
       </Header>
-      {articles.length > 0 && (
+      {articles.length > 0 && isPresent(searchTerm) && (
         <Body className="overflow-auto max-h-128">
           <ul>
             {articles.map((article, index) => (

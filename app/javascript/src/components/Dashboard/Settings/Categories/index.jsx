@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { Button, Spinner } from "@bigbinary/neetoui";
 import { Plus } from "neetoicons";
+import { Button, Spinner } from "neetoui";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useTranslation } from "react-i18next";
