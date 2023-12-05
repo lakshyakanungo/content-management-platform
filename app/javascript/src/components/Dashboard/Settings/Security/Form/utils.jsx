@@ -43,12 +43,12 @@ export const handleToggle = ({ inputRef, setIsPasswordVisible }) => {
   }
 };
 
-export const TogglePassword = ({ isPasswordVisible, onClick }) => (
+export const renderEyeToggle = ({ isPasswordVisible, handleToggle }) => (
   <span>
     {isPasswordVisible ? (
-      <EyeOpen onClick={onClick} />
+      <EyeOpen onClick={handleToggle} />
     ) : (
-      <EyeClosed onClick={onClick} />
+      <EyeClosed onClick={handleToggle} />
     )}
   </span>
 );

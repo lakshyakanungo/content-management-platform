@@ -4,6 +4,7 @@ import { Search as SearchIcon, Plus } from "neetoicons";
 import { Typography } from "neetoui";
 import { includes, equals } from "ramda";
 import { useTranslation } from "react-i18next";
+import { isPresent } from "utils";
 
 import { useFetchCategories } from "hooks/reactQuery/category/useCategoriesApi";
 import { useCategorySearch } from "hooks/reactQuery/menu/useCategoriesApi";
@@ -102,7 +103,7 @@ const Menu = ({ articleCounts, setCurrentPageNumber }) => {
           onCollapse={handleCollapse}
           onKeyDown={handleKeyDown}
         />
-        {searchTerm.length
+        {isPresent(searchTerm)
           ? categoriesDisplayed.map(category => (
               <Block
                 active={includes(category, selectedCategories)}

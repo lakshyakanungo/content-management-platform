@@ -10,9 +10,9 @@ import { setToLocalStorage } from "utils/storage";
 
 import { INITIAL_VALUES } from "./constants";
 import {
-  TogglePassword,
   buildValidationClassName,
   handleToggle,
+  renderEyeToggle,
   validateForm,
 } from "./utils";
 
@@ -51,12 +51,10 @@ const Form = ({ refetch }) => {
         placeholder={t("dashboard.settings.security.form.placeholder")}
         ref={inputRef}
         type="password"
-        suffix={
-          <TogglePassword
-            isPasswordVisible={isPasswordVisible}
-            onClick={() => handleToggle({ inputRef, setIsPasswordVisible })}
-          />
-        }
+        suffix={renderEyeToggle({
+          isPasswordVisible,
+          handleToggle: () => handleToggle({ inputRef, setIsPasswordVisible }),
+        })}
       />
       <div className={buildValidationClassName(isMinError)}>
         <span>{isMinError ? <Close size={16} /> : <Check size={16} />}</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Route, Switch } from "react-router-dom";
+import { isPresent } from "utils";
 
 import { setAuthHeaders } from "apis/axios";
 import { useFetchSite } from "hooks/reactQuery/endUserInterface/useSiteApi";
@@ -15,7 +16,7 @@ const EndUserInterface = () => {
   const { data: site, isFetching } = useFetchSite();
 
   const authToken = getFromLocalStorage("authToken");
-  const isAuthenticated = !!authToken;
+  const isAuthenticated = isPresent(authToken);
 
   useEffect(() => {
     setAuthHeaders(setLoading);

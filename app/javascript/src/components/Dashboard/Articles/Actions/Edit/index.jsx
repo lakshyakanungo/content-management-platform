@@ -9,6 +9,7 @@ import {
 } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
+import { isPresent } from "utils";
 
 import {
   useEditArticle,
@@ -128,7 +129,7 @@ const Edit = () => {
                     )}
                     onClick={() => setShowVersionHistory(true)}
                   />
-                  {!article.schedule ? (
+                  {!isPresent(article.schedule) ? (
                     <DatePicker
                       showTime
                       className="w-48"

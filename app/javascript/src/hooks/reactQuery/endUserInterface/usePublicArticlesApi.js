@@ -1,5 +1,6 @@
 import { prop } from "ramda";
 import { useQuery } from "react-query";
+import { isPresent } from "utils";
 
 import articlesApi from "apis/public/articles";
 import { QUERY_KEYS } from "constants/query";
@@ -26,9 +27,9 @@ export const useFetchArticle = (slug, options) =>
     staleTime: 10000,
   });
 
-export const useSearch = (searchTerm, options) =>
+export const useSearch = searchTerm =>
   useQuery([EUI_SEARCH, searchTerm], () => articlesApi.search(searchTerm), {
     select: prop("data"),
-    onSuccess: options?.onSuccess,
-    enabled: searchTerm !== "",
+    enabled: isPresent(searchTerm),
+    keepPreviousData: true,
   });

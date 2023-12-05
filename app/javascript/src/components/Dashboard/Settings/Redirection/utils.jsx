@@ -1,6 +1,8 @@
 import React from "react";
 
 import { t } from "i18next";
+import { includes } from "ramda";
+import { isPresent } from "utils";
 import * as yup from "yup";
 
 import { truncate } from "neetocommonsfrontend/pure";
@@ -17,7 +19,7 @@ const getFromPaths = redirections =>
   redirections.map(redirection => redirection.from);
 
 const checkValidToPath = path => {
-  if (!path) return true;
+  if (!isPresent(path)) return true;
 
   if (path.startsWith("/")) return VALID_TO_PATH_URL_REGEX.test(path);
 
@@ -34,7 +36,7 @@ const checkDuplicateValuesInFromPaths = ({
     return true;
   }
 
-  return !getFromPaths(redirections).includes(value);
+  return !includes(value, getFromPaths(redirections));
 };
 
 export const buildFormInitialValues = ({ isEdit, data }) => ({
