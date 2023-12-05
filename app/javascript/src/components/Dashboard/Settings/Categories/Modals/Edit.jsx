@@ -4,7 +4,7 @@ import { Modal, Typography } from "neetoui";
 import { Form, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { useEditCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
+import { useUpdateCategory } from "hooks/reactQuery/settings/category/useCategoriesApi";
 
 import { FORM_VALIDATION_SCHEMA } from "./constants";
 
@@ -13,7 +13,7 @@ const Edit = ({ category, showEditModal, setShowEditModal }) => {
 
   const { t } = useTranslation();
 
-  const { mutate: handleEdit } = useEditCategory({
+  const { mutate: handleEdit } = useUpdateCategory({
     onSuccess: () => setShowEditModal(false),
   });
 

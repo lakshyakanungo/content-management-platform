@@ -14,7 +14,7 @@ export const useFetchCategories = options =>
     refetchOnMount: "always",
   });
 
-export const useAddCategory = options =>
+export const useCreateCategory = options =>
   useMutation(categoriesApi.create, {
     onSuccess: () => queryClient.invalidateQueries([CATEGORIES]),
     onSettled: options?.onSettled,
@@ -25,7 +25,7 @@ export const useReorderCategory = () =>
     onSuccess: () => queryClient.invalidateQueries([CATEGORIES]),
   });
 
-export const useEditCategory = options =>
+export const useUpdateCategory = options =>
   useMutation(categoriesApi.update, {
     onSuccess: () => {
       queryClient.invalidateQueries([CATEGORIES]);

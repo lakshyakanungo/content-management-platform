@@ -4,7 +4,7 @@ import { Modal, Typography } from "neetoui";
 import { Form, Input, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 
-import { useAddCategory } from "hooks/reactQuery/category/useCategoriesApi";
+import { useCreateCategory } from "hooks/reactQuery/category/useCategoriesApi";
 import { useSelectedCategoriesStore } from "hooks/zustand/useSelectedCategoriesStore";
 
 import {
@@ -19,7 +19,7 @@ const AddCategory = ({ showAddCategoryModal, setShowAddCategoryModal }) => {
 
   const { setSelectedCategories } = useSelectedCategoriesStore();
 
-  const { mutate: handleAddCategory } = useAddCategory({
+  const { mutate: handleAddCategory } = useCreateCategory({
     onSettled: () => {
       setShowAddCategoryModal(false);
       setSelectedCategories([]);
