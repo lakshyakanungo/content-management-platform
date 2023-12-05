@@ -8,7 +8,7 @@ import { useDeleteRedirection } from "hooks/reactQuery/settings/redirection/useR
 
 import { URL_TRUNCATE_LENGTH } from "./constants";
 import DeleteAlert from "./DeleteAlert";
-import { buildFullUrl, FormattedUrl } from "./utils";
+import { buildFullUrl, renderRedirection } from "./utils";
 
 const Row = ({ redirection, setEditingRow }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -29,7 +29,7 @@ const Row = ({ redirection, setEditingRow }) => {
         position="top"
       >
         <div className="col-span-5 mr-4">
-          <FormattedUrl url={redirection.from} />
+          {renderRedirection(redirection.from)}
         </div>
       </Tooltip>
       <Tooltip
@@ -38,7 +38,7 @@ const Row = ({ redirection, setEditingRow }) => {
         position="top"
       >
         <span className="col-span-5 neeto-ui-text-gray-700">
-          <FormattedUrl url={redirection.to} />
+          {renderRedirection(redirection.to)}
         </span>
       </Tooltip>
       <span className="col-span-2 text-right">

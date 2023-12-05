@@ -15,11 +15,10 @@ const Redirection = () => {
   const [showNewRedirection, setShowNewRedirection] = useState(false);
   const [editingRow, setEditingRow] = useState("");
 
-  const { data, isFetching } = useFetchRedirections();
+  const { data: { redirections = [] } = {}, isFetching } =
+    useFetchRedirections();
 
   const { t } = useTranslation();
-
-  const redirections = data?.redirections;
 
   if (isFetching) {
     return (

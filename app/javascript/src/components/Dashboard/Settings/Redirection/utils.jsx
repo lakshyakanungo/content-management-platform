@@ -38,13 +38,13 @@ const checkDuplicateValuesInFromPaths = ({
 };
 
 export const buildFormInitialValues = ({ isEdit, data }) => ({
-  fromUrl: isEdit ? data.from : "",
-  toUrl: isEdit ? data.to : "",
+  from: isEdit ? data.from : "",
+  to: isEdit ? data.to : "",
 });
 
 export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
   yup.object().shape({
-    fromUrl: yup
+    from: yup
       .string()
       .required(
         t("dashboard.settings.redirections.form.validations.from.required")
@@ -64,7 +64,7 @@ export const buildFormValidationSchema = ({ redirections, isEdit, data }) =>
         VALID_FROM_PATH_REGEX,
         t("dashboard.settings.redirections.form.validations.from.valid")
       ),
-    toUrl: yup
+    to: yup
       .string()
       .required(
         t("dashboard.settings.redirections.form.validations.to.required")
@@ -82,7 +82,7 @@ export const buildFullUrl = url => {
   return url;
 };
 
-export const FormattedUrl = ({ url }) => {
+export const renderRedirection = url => {
   if (url.startsWith("/")) {
     return (
       <div>
