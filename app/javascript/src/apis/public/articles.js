@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/public/articles");
+const fetch = () => axios.get("api/v1/public/articles");
 
-const show = slug => axios.get(`/public/articles/${slug}`);
+const show = slug => axios.get(`api/v1/public/articles/${slug}`);
 
 const search = searchTerm =>
-  axios.get(`/public/articles/search`, {
+  axios.get(`api/v1/public/articles/search`, {
     params: {
       search_term: searchTerm,
     },
