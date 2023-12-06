@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class Seeder::CategorySeederService
-  def process(site)
-    Constants::CATEGORIES.each do |category|
-      User.first.categories.create! category.merge(site_id: site.id)
+  include FactoryBot::Syntax::Methods
+
+  def process(user, site)
+    5.times do
+      create(:category, user_id: user.id, site_id: site.id)
     end
 
-    puts "Added sample categories."
+    puts "Added sample categories"
   end
 end

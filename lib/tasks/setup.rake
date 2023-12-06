@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative "constants"
 
 desc "drops the db, creates db, migrates db and populates sample data"
 task setup: [:environment, "db:drop", "db:create", "db:migrate"] do
@@ -9,7 +8,7 @@ end
 desc "Populates sample data without resetting the database first"
 task populate_sample_data: [:environment] do
   create_sample_data!
-  puts "sample data has been added."
+  puts "Sample data has been added."
 end
 
 desc "Populates sample data without after resetting the database"
@@ -39,21 +38,5 @@ def delete_all_records_from_all_tables
 end
 
 def create_sample_data!
-  puts 'Seeding with sample data...'
-  create_user! email: 'oliver@example.com', name: 'Oliver'
-  puts 'Done! Olvier with email "oliver@example.com" is the default user'
-
-  user = User.first
-  Site.create!(is_password_protected:false,title:"Spinkart",user_id:user.id)
-  puts "Created default site."
-
-  site = Site.first
-  Seeder::CategorySeederService.new.process site
-  Seeder::ArticleSeederService.new.process
-
-end
-
-
-def create_user!(options = {})
-  User.create! options
+  Seeder::BaseDataSeederService.new.process
 end
