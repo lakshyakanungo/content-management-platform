@@ -11,7 +11,7 @@ class Api::V1::Articles::VersionsController < ApplicationController
           status: "draft",
           paper_trail_event: "restore"
         }))
-    respond_with_success(t("article.restored"))
+    respond_with_success(t("successfully_restored", entity: "Article version"))
   end
 
   private
