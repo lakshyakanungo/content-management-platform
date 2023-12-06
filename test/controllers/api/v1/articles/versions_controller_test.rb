@@ -24,7 +24,7 @@ class Api::V1::Articles::VersionsControllerTest < ActionDispatch::IntegrationTes
 
     assert_response :success
     assert_equal @article.reload.title, previous_version.object["title"]
-    assert_equal t("article.restored"), response_body["notice"]
+    assert_equal t("successfully_restored", entity: "Article version"), response_body["notice"]
   end
 
   def test_should_not_restore_version_with_deleted_category
