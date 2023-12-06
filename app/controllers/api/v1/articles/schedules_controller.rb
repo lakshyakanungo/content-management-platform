@@ -5,12 +5,12 @@ require "sidekiq/api"
 class Api::V1::Articles::SchedulesController < ApplicationController
   before_action :load_article!
 
-  def delete
+  def destroy
     job_id = @article.schedule.job_id
     job = Sidekiq::ScheduledSet.new.find_job(job_id)
     job.delete
     @article.schedule.delete
-    respond_with_success(t("article.schedule.deleted"))
+    respond_with_success(t("successfully_deleted", entity: "Scheduled update", count: 1))
   end
 
   private

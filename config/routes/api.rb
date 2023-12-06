@@ -6,7 +6,7 @@ namespace :api do
       namespace :articles do
         put "restore_version", to: "versions#restore"
         get "analytics", to: "analytics#index"
-        delete "delete_scheduled_job", to: "schedules#delete"
+        delete "delete_scheduled_job", to: "schedules#destroy"
         resource :report, only: :create do
           get :download, on: :collection
         end
