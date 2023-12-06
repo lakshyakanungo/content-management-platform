@@ -5,8 +5,9 @@ require "test_helper"
 class ArticleFilteringServiceTest < ActiveSupport::TestCase
   def setup
     @user = create(:user)
-    @category1 = Category.create!(name: "Test category", user_id: @user.id)
-    @category2 = Category.create!(name: "Test category 2", user_id: @user.id)
+    @site = create(:site, user_id: @user.id)
+    @category1 = Category.create!(name: "Test category", user_id: @user.id, site_id: @site.id)
+    @category2 = Category.create!(name: "Test category 2", user_id: @user.id, site_id: @site.id)
     Article.create!(
       title: "Test article", body: "<p>Test body</p>", status: "draft",
       user_id: @user.id,

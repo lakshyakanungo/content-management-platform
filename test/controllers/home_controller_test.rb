@@ -4,7 +4,8 @@ require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = create(:site)
+    @user = create(:user)
+    @site = create(:site, user_id: @user.id)
   end
 
   def test_should_get_successfully_from_root_url

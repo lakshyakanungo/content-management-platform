@@ -4,7 +4,8 @@ require "test_helper"
 
 class RedirectionTest < ActiveSupport::TestCase
   def setup
-    @site = Site.create!(title: "Test title", is_password_protected: true, password: "abcdefg1")
+    @user = create(:user)
+    @site = Site.create!(title: "Test title", is_password_protected: true, password: "abcdefg1", user_id: @user.id)
     @redirection = Redirection.new(from: "/1", to: "/2", site_id: @site.id)
   end
 

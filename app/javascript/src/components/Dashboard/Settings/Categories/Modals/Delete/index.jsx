@@ -3,6 +3,7 @@ import React from "react";
 import { Modal } from "neetoui";
 import { Select, Form, Button } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
+import { isPresent } from "utils";
 
 import {
   useDeleteCategory,
@@ -27,7 +28,9 @@ const Delete = ({ category, showDeleteOverlay, setShowDeleteOverlay }) => {
     handleDelete({
       id: category.id,
       payload: {
-        move_into_category_id: selectedCategory.id,
+        move_into_category_id: isPresent(selectedCategory)
+          ? selectedCategory.id
+          : null,
       },
     });
 

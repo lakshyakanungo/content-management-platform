@@ -4,7 +4,8 @@ require "test_helper"
 
 class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = Site.create!(title: "Test title", is_password_protected: true, password: "welcome1")
+    @user = create(:user)
+    @site = Site.create!(title: "Test title", is_password_protected: true, password: "welcome1", user_id: @user.id)
   end
 
   def test_should_authenticate_valid_password

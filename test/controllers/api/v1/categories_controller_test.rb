@@ -5,7 +5,8 @@ require "test_helper"
 class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @current_user = create(:user)
-    @category = create(:category, user_id: @current_user.id)
+    @site = create(:site, user_id: @current_user.id)
+    @category = create(:category, user_id: @current_user.id, site_id: @site.id)
   end
 
   def test_should_list_all_categories_ordered_by_position
@@ -56,7 +57,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_position_after_reordering
-    test_category = create(:category, user_id: @current_user.id)
+    test_category = create(:category, user_id: @current_user.id, site_id: @site.id)
     current_position = test_category.position
 
     new_position = 1
@@ -69,7 +70,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_destroy_category
-    new_category = create(:category, user_id: @current_user.id)
+    new_category = create(:category, user_id: @current_user.id, site_id: @site.id)
     assert_difference "Category.count", -1 do
       delete(
         api_v1_category_path(id: @category.id, params: { category: { move_into_category_id: new_category.id } }),

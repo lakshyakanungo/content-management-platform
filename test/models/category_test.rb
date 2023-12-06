@@ -5,11 +5,12 @@ require "test_helper"
 class CategoryTest < ActiveSupport::TestCase
   def setup
     @user = create(:user)
-    @category = create(:category, user_id: @user.id)
+    @site = create(:site, user_id: @user.id)
+    @category = create(:category, user_id: @user.id, site_id: @site.id)
   end
 
   def test_values_of_created_at_and_updated_at
-    category = build(:category, user_id: @user.id)
+    category = build(:category, user_id: @user.id, site_id: @site.id)
     assert_nil category.created_at
     assert_nil category.updated_at
 
@@ -25,6 +26,12 @@ class CategoryTest < ActiveSupport::TestCase
     @category.user_id = nil
     assert_not @category.save
     assert_includes @category.errors.full_messages, "User must exist"
+  end
+
+  def test_category_should_not_be_valid_without_site
+    @category.site_id = nil
+    assert_not @category.save
+    assert_includes @category.errors.full_messages, "Site must exist"
   end
 
   def test_category_name_should_not_exceed_maximum_length
@@ -52,7 +59,7 @@ class CategoryTest < ActiveSupport::TestCase
 
   def test_category_count_increases_on_saving
     assert_difference ["Category.count"] do
-      @category = create(:category, user_id: @user.id)
+      @category = create(:category, user_id: @user.id, site_id: @site.id)
     end
   end
 
@@ -68,7 +75,7 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   def test_duplicate_name_should_not_be_allowed
-    another_test_category = create(:category, user_id: @user.id)
+    another_test_category = create(:category, user_id: @user.id, site_id: @site.id)
     assert_raises ActiveRecord::RecordInvalid do
       another_test_category.update!(name: @category.name)
     end
@@ -76,7 +83,7 @@ class CategoryTest < ActiveSupport::TestCase
 
   def test_new_category_should_be_inserted_at_last_position
     current_count = Category.count
-    new_category = create(:category, user_id: @user.id)
+    new_category = create(:category, user_id: @user.id, site_id: @site.id)
 
     assert_equal new_category.position, current_count + 1
   end

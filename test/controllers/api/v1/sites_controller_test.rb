@@ -4,7 +4,8 @@ require "test_helper"
 
 class Api::V1::SitesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @site = create(:site)
+    @user = create(:user)
+    @site = create(:site, user_id: @user.id)
   end
 
   def test_should_respond_with_site
