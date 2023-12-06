@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class CategoryDeletionService
-  attr_reader :category, :current_user
+  attr_reader :category, :current_user, :site
 
-  def initialize(id, current_user)
+  def initialize(id, current_user, site)
     @current_user = current_user
+    @site = site
     @category = Category.find(id)
   end
 
@@ -18,7 +19,7 @@ class CategoryDeletionService
       check_for_default_category_deletion!
 
       if last_category?
-        new_category = current_user.categories.create!(name: Category::DEFAULT_CATEGORY_NAME)
+        new_category = site.categories.create!(name: Category::DEFAULT_CATEGORY_NAME, user_id: current_user.id)
         move_articles(new_category.id)
       else
         move_articles(final_category_id)
@@ -40,6 +41,6 @@ class CategoryDeletionService
     end
 
     def last_category?
-      current_user.categories.count == 1
+      site.categories.count == 1
     end
 end

@@ -43,12 +43,14 @@ def create_sample_data!
   create_user! email: 'oliver@example.com', name: 'Oliver'
   puts 'Done! Olvier with email "oliver@example.com" is the default user'
 
-  Seeder::CategorySeederService.new.process
+  user = User.first
+  Site.create!(is_password_protected:false,title:"Spinkart",user_id:user.id)
+  puts "Created default site."
+
+  site = Site.first
+  Seeder::CategorySeederService.new.process site
   Seeder::ArticleSeederService.new.process
 
-  Site.create!(is_password_protected:false,title:"Spinkart")
-
-  puts "Created default site."
 end
 
 

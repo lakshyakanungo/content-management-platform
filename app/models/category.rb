@@ -8,6 +8,7 @@ class Category < ApplicationRecord
   DEFAULT_CATEGORY_NAME = "General"
 
   belongs_to :user, counter_cache: true
+  belongs_to :site
   has_many :articles, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }, format: { with: VALID_NAME_REGEX },
