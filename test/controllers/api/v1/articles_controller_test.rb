@@ -9,7 +9,8 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = create(:user)
-    @category = create(:category, user_id: @user.id)
+    @site = create(:site, user_id: @user.id)
+    @category = create(:category, user_id: @user.id, site_id: @site.id)
     @article = create(:article, user_id: @user.id, category_id: @category.id)
   end
 
@@ -118,7 +119,7 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
       title: "Test article 2", body: "<p>Test body</p>", status: "published",
       user_id: @user.id,
       category_id: @category.id)
-    site = Site.create!(title: "Test title", is_password_protected: false)
+    site = Site.create!(title: "Test title", is_password_protected: false, user_id: @user.id)
     @headers = {
       Accept: "application/json",
       "Content_Type" => "application/json",

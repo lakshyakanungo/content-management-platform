@@ -4,7 +4,8 @@ require "test_helper"
 
 class SiteTest < ActiveSupport::TestCase
   def setup
-    @site = create(:site)
+    @user = create(:user)
+    @site = Site.create!(title: "spinkart", user_id: @user.id, is_password_protected: true)
   end
 
   def test_site_title_should_not_exceed_maximum_length

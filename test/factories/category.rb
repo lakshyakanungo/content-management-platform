@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :category do
     user
+    site
     name { Faker::Name.name }
   end
 end

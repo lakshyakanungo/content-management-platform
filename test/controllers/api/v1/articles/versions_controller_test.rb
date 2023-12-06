@@ -7,7 +7,8 @@ require "sidekiq/testing"
 class Api::V1::Articles::VersionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:user)
-    @category = create(:category, user_id: @user.id)
+    @site = create(:site, user_id: @user.id)
+    @category = create(:category, user_id: @user.id, site_id: @site.id)
     @article = create(:article, user_id: @user.id, category_id: @category.id)
   end
 
@@ -27,7 +28,7 @@ class Api::V1::Articles::VersionsControllerTest < ActionDispatch::IntegrationTes
   end
 
   def test_should_not_restore_version_with_deleted_category
-    new_category = create(:category, user_id: @user.id)
+    new_category = create(:category, user_id: @user.id, site_id: @site.id)
     @article.update!(category_id: new_category.id)
     @article.update!(category_id: @category.id)
 

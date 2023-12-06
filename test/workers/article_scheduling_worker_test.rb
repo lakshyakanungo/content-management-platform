@@ -9,7 +9,8 @@ class ArticleSchedulingWorkerTest < ActiveSupport::TestCase
 
   def setup
     @user = create(:user)
-    @category = create(:category, user_id: @user.id)
+    @site = create(:site, user_id: @user.id)
+    @category = create(:category, user_id: @user.id, site_id: @site.id)
     @article = Article.create!(
       title: "Test article", body: "<p>Test body</p>", status: "draft",
       user_id: @user.id,
