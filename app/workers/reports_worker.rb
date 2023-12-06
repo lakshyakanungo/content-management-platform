@@ -32,7 +32,7 @@ class ReportsWorker
         assigns: {
           articles:
         },
-        template: "articles/report/download",
+        template: "api/v1/articles/report/download",
         layout: "pdf")
     end
 

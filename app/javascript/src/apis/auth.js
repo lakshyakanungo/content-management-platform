@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authenticate = payload =>
-  axios.post("/session", {
+  axios.post("api/v1/session", {
     session: payload,
   });
 

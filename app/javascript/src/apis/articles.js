@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/articles");
+const fetch = () => axios.get("api/v1/articles");
 
 const search = ({
   searchTerm,
@@ -8,7 +8,7 @@ const search = ({
   activeMenuState,
   currentPageNumber,
 }) =>
-  axios.get("/articles/search", {
+  axios.get("api/v1/articles/search", {
     params: {
       title: searchTerm,
       category_id: selectedCategoriesIds,
@@ -18,26 +18,26 @@ const search = ({
   });
 
 const create = ({ payload }) =>
-  axios.post("/articles", {
+  axios.post("api/v1/articles", {
     article: payload,
   });
 
 const update = ({ id, payload }) =>
-  axios.put(`/articles/${id}`, {
+  axios.put(`api/v1/articles/${id}`, {
     article: payload,
   });
 
-const show = id => axios.get(`/articles/${id}`);
+const show = id => axios.get(`api/v1/articles/${id}`);
 
-const destroy = id => axios.delete(`/articles/${id}`);
+const destroy = id => axios.delete(`api/v1/articles/${id}`);
 
 const bulkDelete = ids =>
-  axios.delete(`/articles/bulk_destroy/`, {
+  axios.delete(`api/v1/articles/bulk_destroy/`, {
     data: { ids },
   });
 
 const bulkUpdate = ({ ids, payload }) =>
-  axios.put(`articles/bulk_update`, {
+  axios.put(`api/v1/articles/bulk_update`, {
     ids,
     article: payload,
   });

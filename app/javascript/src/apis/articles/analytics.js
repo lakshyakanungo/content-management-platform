@@ -1,15 +1,15 @@
 import axios from "axios";
 
 const fetch = currentPageNumber =>
-  axios.get("/articles/analytics", {
+  axios.get("api/v1/articles/analytics", {
     params: {
       page: currentPageNumber,
     },
   });
 
-const generatePdf = () => axios.post("/articles/report", {});
+const generatePdf = () => axios.post("api/v1/articles/report", {});
 
-const download = () => axios.get("/articles/report/download");
+const download = () => axios.get("api/v1/articles/report/download");
 
 const analyticsApi = {
   fetch,

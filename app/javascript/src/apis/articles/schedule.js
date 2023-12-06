@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const destroy = id =>
-  axios.delete(`/articles/delete_scheduled_job/`, {
+  axios.delete(`api/v1/articles/delete_scheduled_job/`, {
     params: { id },
   });
 

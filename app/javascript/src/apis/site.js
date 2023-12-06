@@ -1,14 +1,14 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/site");
+const fetch = () => axios.get("api/v1/site");
 
 const update = payload =>
-  axios.put("/site", {
+  axios.put("api/v1/site", {
     site: payload,
   });
 
 const authenticate = payload =>
-  axios.post("/site/authenticate", {
+  axios.post("api/v1/site/authenticate", {
     site: payload,
   });
 
