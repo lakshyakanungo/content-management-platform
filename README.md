@@ -26,13 +26,3 @@ bundle exec rails server -p 3000
 
 Visit http://localhost:3000 and login with email `oliver@example.com` and
 password `welcome`.
-
-## Replace Wheel with your project name
-
-Let's say that the project name is `Pump`. Execute the command below to replace
-all occurrences of `Wheel` with `Pump`.
-
-```bash
-perl -pi -w -e 's/Wheel/Pump/g;' $(git ls-files)
-perl -pi -w -e 's/wheel/Pump/g;' $(git ls-files)
-```
