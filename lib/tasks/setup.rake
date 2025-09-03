@@ -19,8 +19,8 @@ task reset_and_populate_sample_data: [:environment] do
     puts "Skipping deleting and populating sample data"
   else
     delete_all_records_from_all_tables
-    Rake::Task["populate_sample_data"].invoke
   end
+  Rake::Task["populate_sample_data"].invoke
 end
 
 #
