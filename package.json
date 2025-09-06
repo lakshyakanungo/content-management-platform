@@ -134,7 +134,7 @@
     "react_ujs": "2.6.2",
     "sass": "^1.65.1",
     "sass-loader": "^13.3.2",
-    "shakapacker": "^6.5.5",
+    "shakapacker": "7.1.0",
     "source-map-loader": "^4.0.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
