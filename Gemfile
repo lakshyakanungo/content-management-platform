@@ -64,6 +64,8 @@ gem "redis"
 
 gem 'concurrent-ruby', '1.3.4'
 
+gem 'mini_racer'
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"
