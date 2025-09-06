@@ -1,4 +1,4 @@
-const { webpackConfig, merge } = require("shakapacker");
+const { globalMutableWebpackConfig, merge } = require("shakapacker");
 const webpack = require("webpack");
 
 const customizeWebpackDefaultRules = require("./helpers/customize-default-rules");
@@ -28,7 +28,7 @@ const defaultRules = {
 };
 
 const customWebpackConfig = customizeWebpackDefaultRules(
-  webpackConfig,
+  globalMutableWebpackConfig,
   defaultRules
 );
 
