@@ -12,7 +12,7 @@ gem "sass-rails", ">= 6"
 gem "sprockets-rails"
 gem "uglifier", ">= 2.7.1"
 
-gem "shakapacker"
+gem "shakapacker", "~> 7.1.0"
 
 # React
 gem "react-rails"
@@ -61,6 +61,8 @@ gem "google-cloud-storage"
 gem "dotenv-rails"
 
 gem "redis"
+
+gem 'concurrent-ruby', '1.3.4'
 
 group :development, :test do
   # Rails integration for factory-bot
