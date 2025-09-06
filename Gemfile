@@ -66,10 +66,10 @@ gem 'concurrent-ruby', '1.3.4'
 
 gem 'mini_racer'
 
-group :development, :test do
-  # Rails integration for factory-bot
-  gem "factory_bot_rails"
+# Rails integration for factory-bot
+gem "factory_bot_rails"
 
+group :development, :test do
   # Adds step-by-step debugging and stack navigation capabilities to pry using byebug.
   # supports both syntax - pry and byebug
   gem "pry-byebug"
