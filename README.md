@@ -1,3 +1,11 @@
+
+## Content management platform
+  - Create, edit, and schedule articles for publishing
+  - Articles are versioned and can be restored to any previous version
+  - Supports URL redirection, and scheduled updates
+  - Also handles basic analytics
+
+
 ## Local Development Setup
 
 First clone this repo.
@@ -23,6 +31,3 @@ Start the server by executing following command.
 ```bash
 bundle exec rails server -p 3000
 ```
-
-Visit http://localhost:3000 and login with email `oliver@example.com` and
-password `welcome`.
